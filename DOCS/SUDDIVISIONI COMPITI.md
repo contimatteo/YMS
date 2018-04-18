@@ -37,3 +37,19 @@
 
 
 *nota bene tutto il progetto dovra essere scritto in italiano*
+
+___
+
+# ENRICO
+- [ ] Client side
+- [ ] Datbase
+
+
+
+# MATTEO
+- [ ] Back-end
+
+
+# DARIO
+
+- [ ] API (importazione ed esportazione dei dati)
