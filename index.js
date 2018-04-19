@@ -19,7 +19,8 @@ app.set('port', (process.env.PORT || 8000))
 app.use(express.static(__dirname + '/public'))
 
 app.get('/', function(request, response) {
-  response.send('Ciao Enri come stai?!')
+  //response.send('Quindi funziona')
+  return response.redirect('/controller.js');
 })
 
 app.listen(app.get('port'), function() {
