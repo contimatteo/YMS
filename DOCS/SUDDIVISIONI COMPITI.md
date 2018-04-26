@@ -42,7 +42,10 @@ ___
 
 # ENRICO
 - [ ] Client side
+
 - [ ] Datbase
+
+  ​
 
 
 
@@ -50,6 +53,9 @@ ___
 - [ ] Back-end
 
 
+
+
 # DARIO
 
 - [ ] API (importazione ed esportazione dei dati)
+
