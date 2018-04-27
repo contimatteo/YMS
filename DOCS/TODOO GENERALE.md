@@ -16,7 +16,7 @@
 ### Lista di partenza
 
 - [ ] In un sistema reale tutti i video assumono naturalmente una storia di
-      visualizzazioni sulla base della quale basare la raccomandazione
+    visualizzazioni sulla base della quale basare la raccomandazione
 - [ ] Noi siamo pochi e abbiamo poco tempo, e per dimostrare che il
       sistema funziona dobbiamo creare una situazione fittizia di video
       molto commentati
@@ -31,14 +31,14 @@
       scegliendolo da un apposita voce del menù e mostrare i suggerimenti
       su questi come partenza
       
- 
+
 ### API di popolarità globale
 
 - [ ] Ogni gruppo che consegna dopo DEVE utilizzare i dati di
       popolarità di tutti i gruppi presenti nella lista prima del
       proprio indirizzo
       
-      
+      ​
 ### Recommender Fvitali
 
 - [ ] Serve per permettere ai primi gruppi di avere qualche dato,
@@ -53,6 +53,6 @@
       degli altri recommender (sarà probabilmente una lista
       statica)
       
-      
+  
 - [ ] Solo il play del video (per almeno 15 secondi) caratterizza la
       raccomandazione
