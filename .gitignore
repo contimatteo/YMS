@@ -34,3 +34,5 @@ Makefile.in
 
 
 **/node_modules/*
+
+**/AccessCode.*
