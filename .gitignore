@@ -1,5 +1,4 @@
 # http://www.gnu.org/software/automake
-
 Makefile.in
 /ar-lib
 /mdate-sh
@@ -8,7 +7,6 @@ Makefile.in
 /ylwrap
 
 # http://www.gnu.org/software/autoconf
-
 /autom4te.cache
 /autoscan.log
 /autoscan-*.log
@@ -25,11 +23,9 @@ Makefile.in
 /stamp-h1
 
 # https://www.gnu.org/software/libtool/
-
 /ltmain.sh
 
 # http://www.gnu.org/software/texinfo
-
 /texinfo.tex
 
 
