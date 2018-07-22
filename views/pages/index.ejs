@@ -1,66 +1,434 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <% include ../partials/header.ejs %>
-</head>
+<html lang="en">
 
-<body>
+  <head>
+    <title>Home</title>
+    <% include ../components/header.ejs %>
+  </head>
 
-  <% include ../partials/nav.ejs %>
+  <body id="body" class="body-wrapper boxed-menu">
+    <div class="main-wrapper">
+      <% include ../components/preloader.ejs %>
+        <% include ../components/navbar.ejs %>
+          <!-- BANNER SECTION -->
+          <section class="clearfix homeBanner" style="background-image: url(/assets/img/banner/banner1.jpg);">
+            <div class="container">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="banerInfo">
+                    <h1>Explore and Discover Music</h1>
+                    <p>YMS helps to find out great music video around you</p>
+                    <form class="form-inline" action="listing-sidebar-map-left.html" method="">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">Find</div>
+                          <input type="text" class="form-control" id="findItem" placeholder="What are you looking for?">
+                          <div class="input-group-addon addon-right"></div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">Near</div>
+                          <input type="text" class="form-control" id="nearLocation" placeholder="Location">
+                          <div class="input-group-addon addon-right"><i class="icon-listy icon-target" aria-hidden="true"></i></div>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Search <i class="fa fa-search" aria-hidden="true"></i></button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
 
-<div class="jumbotron text-center">
-  <div class="container">
-    <a href="/" class="lang-logo">
-      <img src="/lang-logo.png">
-    </a>
-    <h1>Getting Started with Node on Heroku</h1>
-    <p>This is a sample Node application deployed to Heroku. It's a reasonably simple app - but a good foundation for understanding how to get the most out of the Heroku platform.</p>
-    <a type="button" class="btn btn-lg btn-default" href="https://devcenter.heroku.com/articles/getting-started-with-nodejs"><span class="glyphicon glyphicon-flash"></span> Getting Started with Node</a>
-    <a type="button" class="btn btn-lg btn-primary" href="https://github.com/heroku/node-js-getting-started"><span class="glyphicon glyphicon-download"></span> Source on GitHub</a>
-  </div>
-</div>
-<div class="container">
-  <div class="alert alert-info text-center" role="alert">
-    To deploy your own copy, and learn the fundamentals of the Heroku platform, head over to the <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs" class="alert-link">Getting Started with Node on Heroku</a> tutorial.
-  </div>
-  <hr>
-  <div class="row">
-    <div class="col-md-6">
-      <h3><span class="glyphicon glyphicon-info-sign"></span> How this sample app works</h3>
-      <ul>
-        <li>This app was deployed to Heroku, either using Git or by using <a href="https://github.com/heroku/node-js-getting-started">Heroku Button</a> on the repository.</li>
+          <!-- INTEREST SECTION -->
+          <section class="clearfix interestArea">
+            <div class="container">
+              <div class="page-header text-center">
+                <h2>What are You Interested in? <small>Explore and connect with great local businesses</small></h2>
+              </div>
+              <div class="row">
+                <div class="col-sm-3 col-xs-12">
+                  <a href="category-grid-full.html" class="interestContent">
+      					<span>
+      						<i class="icon-listy icon-tea-cup-1"></i>
+      						Restaurant
+      					</span>
+      				</a>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                  <a href="category-list-full.html" class="interestContent">
+      					<span>
+      						<i class="icon-listy icon-building"></i>
+      						Hotels
+      					</span>
+      				</a>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                  <a href="category-grid.html" class="interestContent">
+      					<span>
+      						<i class="icon-listy icon-martini"></i>
+      						Nightclubs
+      					</span>
+      				</a>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                  <a href="category-list-left.html" class="interestContent">
+      					<span>
+      						<i class="icon-listy icon-car-1"></i>
+      						Auto Motive
+      					</span>
+      				</a>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                  <a href="category-grid-right.html" class="interestContent">
+      					<span>
+      						<i class="icon-listy icon-castle"></i>
+      						Museums
+      					</span>
+      				</a>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                  <a href="category-list-right.html" class="interestContent">
+      					<span>
+      						<i class="icon-listy icon-television"></i>
+      						Movie Theaters
+      					</span>
+      				</a>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                  <a href="category-grid-full.html" class="interestContent">
+      					<span>
+      						<i class="icon-listy icon-mall-1"></i>
+      						Shopping
+      					</span>
+      				</a>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                  <a href="all-business.html" class="interestContent">
+      					<span>
+      						<i class="icon-listy icon-more"></i>
+      						View All
+      					</span>
+      				</a>
+                </div>
+              </div>
+            </div>
+          </section>
 
-        <li>When Heroku received the source code, it fetched all the dependencies in the <a href="https://github.com/heroku/node-js-getting-started/blob/master/package.json">package.json</a>, creating a deployable slug.</li>
-        <li>The platform then spins up a dyno, a lightweight container that provides an isolated environment in which the slug can be mounted and executed.</li>
-        <li>You can scale your app, manage it, and deploy over <a href="https://addons.heroku.com/">150 add-on services</a>, from the Dashboard or CLI.</li>
-      </ul>
+          <!-- THINGS SECTION -->
+          <section class="clearfix thingsArea">
+            <div class="container">
+              <div class="page-header text-center">
+                <h2>Popular Things Near You <small>This are some of most popular listing</small></h2>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <div id="thubmnailSlider" class="carousel slide thumbnailCarousel">
+
+                    <ol class="carousel-indicators">
+                      <li data-target="#thubmnailSlider" data-slide-to="0" class="active"></li>
+                      <li data-target="#thubmnailSlider" data-slide-to="1"></li>
+                      <li data-target="#thubmnailSlider" data-slide-to="2"></li>
+                      <li data-target="#thubmnailSlider" data-slide-to="3"></li>
+                      <li data-target="#thubmnailSlider" data-slide-to="4"></li>
+                      <li data-target="#thubmnailSlider" data-slide-to="5"></li>
+                      <li data-target="#thubmnailSlider" data-slide-to="6"></li>
+                      <li data-target="#thubmnailSlider" data-slide-to="7"></li>
+                    </ol>
+
+                    <!-- Carousel items -->
+                    <div class="carousel-inner">
+                      <div class="item row active">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                          <div class="thingsBox">
+                            <div class="thingsImage">
+                              <img src="/assets/img/things/things-4.jpg" alt="Image things">
+                              <div class="thingsMask">
+                                <ul class="list-inline rating">
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                </ul>
+                                <a href="listing-details-left.html"><h2>Think Coffee <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
+                                <p>215 Terry Lane, New York</p>
+                              </div>
+                            </div>
+                            <div class="thingsCaption ">
+                              <ul class="list-inline captionItem">
+                                <li><i class="fa fa-heart-o" aria-hidden="true"></i> 8 k</li>
+                                <li><a href="category-list-full.html">Eat & Drink</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="item row">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                          <div class="thingsBox">
+                            <div class="thingsImage">
+                              <img src="/assets/img/things/things-5.jpg" alt="Image things">
+                              <div class="thingsMask">
+                                <ul class="list-inline rating">
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                </ul>
+                                <a href="listing-details-left.html"><h2>Burger House</h2></a>
+                                <p>2726 Shinn Street, New York</p>
+                              </div>
+                            </div>
+                            <div class="thingsCaption ">
+                              <ul class="list-inline captionItem">
+                                <li><i class="fa fa-heart-o" aria-hidden="true"></i> 9.2 k</li>
+                                <li><a href="category-grid-full.html">Eat & Drink</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="item row">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                          <div class="thingsBox">
+                            <div class="thingsImage">
+                              <img src="/assets/img/things/things-8.jpg" alt="Image things">
+                              <div class="thingsMask">
+                                <ul class="list-inline rating">
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                </ul>
+                                <a href="listing-details-left.html"><h2>Hotel Govendor <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
+                                <p>778 Country Street, New York</p>
+                              </div>
+                            </div>
+                            <div class="thingsCaption ">
+                              <ul class="list-inline captionItem">
+                                <li><i class="fa fa-heart-o" aria-hidden="true"></i> 5k</li>
+                                <li><a href="category-grid-full.html">Hotels</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="item row">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                          <div class="thingsBox">
+                            <div class="thingsImage">
+                              <img src="/assets/img/things/things-10.jpg" alt="Image things">
+                              <div class="thingsMask">
+                                <ul class="list-inline rating">
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                </ul>
+                                <a href="listing-details-left.html"><h2>Water Grill</h2></a>
+                                <p>31 Union Square, New York</p>
+                              </div>
+                            </div>
+                            <div class="thingsCaption ">
+                              <ul class="list-inline captionItem">
+                                <li><i class="fa fa-heart-o" aria-hidden="true"></i> 10 k</li>
+                                <li><a href="category-grid.html"> Eat & Drink</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="item row">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                          <div class="thingsBox ">
+                            <div class="thingsImage">
+                              <img src="/assets/img/things/things-11.jpg" alt="Image things">
+                              <div class="thingsMask">
+                                <ul class="list-inline rating">
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                </ul>
+                                <a href="listing-details-left.html"><h2>John F. Kennedy Airport <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
+                                <p>Queens, NY 11430, new York</p>
+                              </div>
+                            </div>
+                            <div class="thingsCaption ">
+                              <ul class="list-inline captionItem">
+                                <li><i class="fa fa-heart-o" aria-hidden="true"></i> 15 k</li>
+                                <li><a href="category-list-full.html">Others</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <a class="left carousel-control" href="#thubmnailSlider" data-slide="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                    <a class="right carousel-control" href="#thubmnailSlider" data-slide="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+          <!-- COUNT UP SECTION -->
+          <section class="clearfix countUpSection">
+            <div class="container">
+              <div class="page-header text-center">
+                <h2>Why Listy?</h2>
+              </div>
+              <div class="row">
+                <div class="col-sm-3 col-xs-12">
+                  <div class="text-center countItem">
+                    <div class="counter">140</div>
+                    <div class="counterInfo bg-color-1">Color Variations</div>
+                  </div>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                  <div class="text-center countItem">
+                    <div class="counter">120</div>
+                    <div class="counterInfo bg-color-2">Layouts</div>
+                  </div>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                  <div class="text-center countItem">
+                    <div class="counter">180</div>
+                    <div class="counterInfo bg-color-3">Inner Pages</div>
+                  </div>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                  <div class="text-center countItem">
+                    <div class="counter">220</div>
+                    <div class="counterInfo bg-color-4">Admin Pages</div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="btnArea text-center">
+                    <a href="#" class="btn btn-primary">Get it now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- WORKS SECTION -->
+          <section class="clearfix worksArea">
+            <div class="container">
+              <div class="page-header text-center">
+                <h2>How it Works? <small>This are some of most popular listing</small></h2>
+              </div>
+              <div class="row">
+                <div class="col-sm-4 col-xs-12">
+                  <div class="thumbnail text-center worksContent">
+                    <img src="/assets/img/works/works-1.png" alt="Image works">
+                    <div class="caption">
+                      <a href="how-it-works.html"><h3>Find what you want</h3></a>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed eiusmod tempor incididunt labore et dolore magna aliqua.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                  <div class="thumbnail text-center worksContent">
+                    <img src="/assets/img/works/works-2.png" alt="Image works">
+                    <div class="caption">
+                      <a href="how-it-works.html"><h3>Review & Plan your day</h3></a>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed eiusmod tempor incididunt labore et dolore magna aliqua.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                  <div class="thumbnail text-center worksContent">
+                    <img src="/assets/img/works/works-3.png" alt="Image works">
+                    <div class="caption">
+                      <a href="how-it-works.html"><h3>Explore Location</h3></a>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed eiusmod tempor incididunt labore et dolore magna aliqua.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="btnArea text-center"><a href="#" class="btn btn-primary">Watch it now <i class="fa fa-play-circle" aria-hidden="true"></i></a></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ARTICLES SECTION-->
+          <section class="clearfix articlesArea">
+            <div class="container">
+              <div class="page-header text-center">
+                <h2>Articles <small>Brouse latest tips from our blog </small></h2>
+              </div>
+              <div class="row">
+                <div class="col-sm-4 col-xs-12">
+                  <div class="thumbnail articleContent">
+                    <a href="blog-details.html"><img src="/assets/img/articles/article-1.jpg" alt="Image articles" class="img-responsive"></a>
+                    <div class="caption">
+                      <h4>Jan 22, 2018 by <a href="#">Jno Deo</a></h4>
+                      <h3><a href="blog-details.html">Lorem ipsum dolor sit amet</a></h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed eiusmod tempor incididunt labore et dolore magna aliqua.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                  <div class="thumbnail articleContent">
+                    <a href="blog-details.html"><img src="/assets/img/articles/article-2.jpg" alt="Image articles" class="img-responsive"></a>
+                    <div class="caption">
+                      <h4>jan 20, 2018 by <a href="#">Adam Smith</a></h4>
+                      <h3><a href="blog-details.html">Ut enim ad minim veniam.</a></h3>
+                      <p>Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                  <div class="thumbnail articleContent">
+                    <a href="blog-details.html"><img src="/assets/img/articles/article-3.jpg" alt="Image articles" class="img-responsive"></a>
+                    <div class="caption">
+                      <h4>Jan 10, 2018 by <a href="#">Kathy Brown</a></h4>
+                      <h3><a href="blog-details.html">velit esse cillum dolore eu fugiat</a></h3>
+                      <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+          <!-- CALL TO ACTION SECTION -->
+          <section class="clearfix callAction">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-10 col-sm-9 col-xs-12">
+                  <div class="callInfo">
+                    <h4><span>Listty</span> is the <span>best way</span> <br>to find great local business</h4>
+                  </div>
+                </div>
+                <div class="col-md-2 col-sm-3 col-xs-12">
+                  <div class="btnArea">
+                    <a href="sign-up.html" class="btn btn-primary btn-block">Get Started</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <% include ../components/footer.ejs %>
     </div>
-    <div class="col-md-6">
-      <h3><span class="glyphicon glyphicon-link"></span> Next Steps</h3>
-      <ul>
-        <li>If you are following the <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">Getting Started</a> guide, then please head back to the tutorial and follow the next steps!</li>
-        <li>If you deployed this app by deploying the Heroku Button, then in a command line shell, run:</li>
-        <ul>
-          <li><code>git clone https://github.com/heroku/node-js-getting-started.git</code> - this will create a local copy of the source code for the app</li>
-          <li><code>cd node-js-getting-started</code> - change directory into the local source code repository</li>
-          <li><code>heroku git:remote -a &lt;your-app-name></code> - associate the Heroku app with the repository</li>
-          <li>You'll now be set up to run the app locally, or <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs#push-local-changes">deploy changes</a> to Heroku</li>
-        </ul>
-      </ul>
-      <h3><span class="glyphicon glyphicon-link"></span> Helpful Links</h3>
-      <ul>
-        <li><a href="https://www.heroku.com/home">Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/">Heroku Dev Center</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">Getting Started with Node on Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/deploying-nodejs">Deploying Node Apps on Heroku</a></li>
-      </ul>
-    </div>
-  </div> <!-- row -->
-   <div class="alert alert-info text-center" role="alert">
-    Please do work through the Getting Started guide, even if you do know how to build such an application.  The guide covers the basics of working with Heroku, and will familiarize you with all the concepts you need in order to build and deploy your own apps.
-  </div>
-</div>
+    <% include ../components/footer-import.ejs %>
+  </body>
 
-
-</body>
 </html>
