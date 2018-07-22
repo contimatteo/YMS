@@ -1,0 +1,228 @@
+/*=== Text color ===*/
+h3 a:hover,
+a,
+.secotionTitle h2 span,
+a.link:hover,
+.processArea p
+.tabCommon.singleTab .tab-pane h4,
+.tabCommon.singleTab .tab-pane .blogCommnets .media-body .btn-link,
+.list-address li a:hover,
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li.active a,
+.navbar-default .navbar-nav > li.active a:hover,
+.navbar-default .navbar-nav > li.open > a,
+.navbar-default .navbar-nav > li.open > a:hover,
+.navbar-default .navbar-nav > li.open > a:focus,
+.navbar-nav li.dropdown.megaDropMenu .dropdown-menu .list-unstyled li a:hover,
+.navbar-nav li.dropdown.singleDrop .dropdown-menu li a:hover,
+.navbarWhite .navbar-default .navbar-nav > li > a:hover,
+.navbarWhite .navbar-default .navbar-nav > li.active > a,
+.navbarWhite .navbar-btn,
+.list-contact li a:hover,
+.useLink ul li a:hover,
+.copyRightText p a:hover,
+.footerWhite .useLink ul li a:hover,
+.footerWhite .copyRightText p a:hover,
+.banerInfo .input-group-addon i.icon-listy,
+.articleContent .caption h4 a,
+.thingsMask h2 i,
+.captionItem li i,
+.captionItem li a,
+.captionItem li a:hover,
+.thingsBox:hover .thingsCaption h2,
+.listCategory li a:hover,
+.figureBody h2 i.fa,
+.figureBody p a:hover,
+.figureBody h3,
+.isotopeSelector article:hover .figureBody p a,
+.categoryItem .list-unstyled li a:hover,
+.servicesIcon i.icon-listy,
+.resultBar .list-inline li a:hover,
+.resultBar .list-inline li.active a,
+.likeCount i.fa,
+.list-tag li a,
+.list-tag li a:hover,
+.gallery-section ul#filters li.active a,
+.gallery-section ul#filters li:hover a,
+.businessLink ul.list-inline li a:hover,
+.signUpFormArea .priceTableTitle p a,
+.formSection label a,
+.formSection p a,
+.priceInfo .priceShorting > li ul li.active > i,
+.priceInfo .priceShorting > li.active > i,
+.sidebarInner .categoryList li a:hover,
+.blogContent .caption h4 a,
+.blogInner .caption h4 a,
+.profileIntro .form-group button.btn-primary,
+.profileUserInfo h5 span,
+.listingsInfo li:last-child h3 i.fa,
+.listingsInfo li:last-child .category,
+.listingsInfo li:last-child p .likeArea i.fa
+.primaryColor,
+.messageCommon.recentMessage .messageInfo small .dayTime,
+.messageCommon.recentMessage .messageTime,
+.panel-card .panel-body .chartInfo h2,
+.sidebarList li span a,
+.user-profile-section .user-contact .list-contact li a:hover
+.page-error-section h1,
+.navbar-default .navbar-btn,
+.navbar-default .navbar-btn:focus,
+.navbar-default .navbar-btn:active,
+.navbar-nav li.dropdown.singleDrop .dropdown-menu li .active,
+.transparent-navbar.navbar-sticky .navbar-btn,
+.page-error-section h1,
+.primaryColor,
+.listingsInfo li:last-child p .likeArea i.fa,
+.marker-verified {
+  color: #8b62ff;
+}
+
+/*=== Color Darken ===*/
+.testimonial-slider .owl-item.active.center .testimonial-box:after {
+  color: #3400c8;
+}
+
+/*=== Color Importang color ===*/
+.searchSelectbox .sbOptions a:hover,
+.dashboard-list-box .list-sort .sort-select .sbHolder .sbOptions li a:hover,
+.contactSelect .sbOptions a:hover {
+  color: #8b62ff !important;
+}
+
+/*=== Background color ===*/
+::-moz-selection {
+  background-color: #8b62ff;
+}
+
+::selection {
+  background-color: #8b62ff;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary.active,
+.btn-primary:active,
+.btn-secondary:focus,
+.btn-secondary.active,
+.btn-secondary:active,
+.btn-primary.active.focus,
+.btn-primary.active:focus,
+.btn-primary.active:hover,
+.btn-primary:active.focus,
+.btn-primary:active:focus,
+.btn-primary:active:hover,
+.open > .dropdown-toggle.btn-primary.focus,
+.open > .dropdown-toggle.btn-primary:focus,
+.open > .dropdown-toggle.btn-primary:hover,
+.backToTop,
+.btn-theme, .btn-theme:focus, .btn-theme.active, .btn-theme:active, .btn-theme:hover,
+.addon-form-style .form-group .btn-default,
+.paginationCommon .pagination li a:hover,
+.paginationCommon .pagination li.active a,
+.paginationCommon .pagination li.active a:focus,
+.paginationCommon .pagination li.active a:hover
+.tabCommon.tabThree .nav-tabs li a:before,
+.tabCommon.singleTab .nav-tabs li a:hover,
+.tabCommon.singleTab .nav-tabs li.active a,
+.modalCommon .modal-header,
+.sticker,
+.pagerArea > .pager li a,
+.panel.loginPanel .panel-heading,
+.count-down .simple_timer .timer-body-block .table-cell .tab-val,
+.navbar-default .navbar-toggle,
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover,
+.cart_btn a span,
+.footerText .input-group-addon,
+.copyRight .socialLink li a:hover,
+.footerWhite .copyRight .socialLink li a:hover,
+.callAction,
+.interestContent:hover,
+.thingsArea .carousel-control:hover,
+.thingsArea .carousel-indicators li.active,
+.filterProtfolio ul.filter > li > a:hover,
+.filterProtfolio ul.filter > li.active > a,
+.label-primary,
+.testimonial-slider .owl-item.active.center .testimonial-box,
+.testimonial-slider .owl-item.active.center .testimonial-box:before,
+.priceBtn .btn-primary:hover, .priceBtn .btn-primary:active:focus, .priceBtn .btn-primary:active:hover,
+.advancedSupport.active .btn-primary,
+.sidebarInner.sidebarCategory .input-group-addon i.fa,
+.blogContent .caption .socialLink li a:hover,
+#blog-carousel-id .carousel-control:hover i.icon-listy,
+.btn-toolbar .btn-default:active, .btn-toolbar .btn-default:hover, .btn-toolbar .btn-default:focus,
+.btn-toolbar .open .btn-default:active, .btn-toolbar .open .btn-default:hover, .btn-toolbar .open .btn-default:focus,
+.panel-card .panel-heading .label.label-primary,
+.itmeName .iconBox,
+.btn-panel.btn-group .btn-primary:hover, .btn-panel.btn-group .btn-primary.active,
+.main-slider .owl-carousel .owl-controls .owl-nav .owl-prev:hover,
+.main-slider .owl-carousel .owl-controls .owl-nav .owl-next:hover,
+.banner-slick-slider .slide .common-inner a.btn,
+.user-profile-section .verified-user,
+.listing__form .btn-submit,
+.advancedSupport.active .priceAmount,
+.comments-media .media-body .btn-primary:hover,
+.user-profile-section .user-profile .user-profile-content .verified-user,
+.transparent-navbar.navbar-default .navbar-toggle .icon-bar,
+.back {
+  background-color: #8b62ff;
+}
+
+.thingsBox:hover .thingsMask,
+.banner-slick-slider .slick-slider .slick-prev.slick-arrow,
+.banner-slick-slider .slick-slider .slick-next.slick-arrow {
+  background-color: rgba(139, 98, 255, 0.5);
+}
+
+/*=== Border color ===*/
+.btn-theme,
+.btn-theme:focus, .btn-theme.active, .btn-theme:active, .btn-theme:hover,
+.paginationCommon .pagination li a:hover,
+.paginationCommon .pagination li.active a, .paginationCommon .pagination li.active a:focus, .paginationCommon .pagination li.active a:hover,
+.tabCommon.singleTab .nav-tabs li a:hover,
+.tabCommon.singleTab .nav-tabs li.active a,
+.navbar-default .navbar-toggle,
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover,
+.navbarWhite .navbar-btn,
+.footerText .form-control:focus,
+.footerText .input-group-addon,
+.copyRight .socialLink li a:hover,
+.footerWhite .copyRight .socialLink li a:hover,
+.interestContent:hover,
+.thingsArea .carousel-control:hover,
+.thingsArea .carousel-indicators li,
+.filterProtfolio ul.filter > li > a:hover,
+.filterProtfolio ul.filter > li.active > a,
+.priceBtn .btn-primary:hover, .priceBtn .btn-primary:active:focus, .priceBtn .btn-primary:active:hover,
+.advancedSupport.active,
+.advancedSupport.active .btn-primary,
+.advancedSupport.active .btn-primary:hover, .advancedSupport.active .btn-primary:active:focus, .advancedSupport.active .btn-primary:active:hover,
+.blogContent .caption .socialLink li a:hover,
+#blog-carousel-id .carousel-control:hover i.icon-listy,
+.profileIntro .form-group button.btn-primary,
+.imageUploader,
+.btn-panel.btn-group .btn-primary:hover, .btn-panel.btn-group .btn-primary.active,
+.main-slider .owl-carousel .owl-controls .owl-nav .owl-prev:hover,
+.main-slider .owl-carousel .owl-controls .owl-nav .owl-next:hover,
+.navbar-default .navbar-btn,
+.navbar-default .navbar-btn:focus,
+.navbar-default .navbar-btn:active,
+.navbar-default .navbar-btn:hover,
+.transparent-navbar.navbar-sticky .navbar-btn {
+  border-color: #8b62ff;
+}
+
+.bg-search-white {
+  border: 2px solid rgba(139, 98, 255, 0.3);
+}
+
+@media (min-width: 768px) {
+  .transparent-navbar.navbar-default .navbar-btn:hover {
+    color: #8b62ff;
+  }
+}
+
+.logo-svg .path-1,
+.navbar.navbar-default.transparent-navbar.navbar-sticky .logo-svg .path-1 {
+  fill: #8b62ff;
+}

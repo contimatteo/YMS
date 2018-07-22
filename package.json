@@ -1,11 +1,21 @@
 {
-  "name": "node-js-getting-started",
-  "version": "0.3.0",
-  "description": "A sample Node.js app using Express 4",
+  "name": "progetto-tw",
+  "version": "1.0.0",
+  "description": "YMS - youtube music spider",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/contimatteo/Progetto-TW.git"
+  },
+  "author": "Conti Matteo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/contimatteo/Progetto-TW/issues"
+  },
+  "homepage": "https://github.com/contimatteo/Progetto-TW#readme",
   "engines": {
     "node": "8.9.1"
   },
-  "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "node test.js"
@@ -13,20 +23,11 @@
   "dependencies": {
     "ejs": "^2.6.1",
     "express": "^4.16.3",
-    "mysql": "^2.16.0"
+    "mysql": "^2.16.0",
+    "uglify-js": "^3.4.5"
   },
   "devDependencies": {
     "request": "^2.81.0",
     "tape": "^4.7.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
-  },
-  "keywords": [
-    "node",
-    "heroku",
-    "express"
-  ],
-  "license": "MIT"
+  }
 }
