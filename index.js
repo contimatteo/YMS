@@ -25,7 +25,7 @@ const database = new mySqlDB();
 ////////////////////////////////////////////////////////////////////////////////
 //                              MIDDLEWARE
 app.use(function(req, res, next) {
-  console.log('Timestamp:', Date.now());
+  // console.log('Timestamp:', Date.now());
   next();
 });
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,11 +42,10 @@ app.get('/', function(request, response) {
 // route for testing db
 app.get('/db', function(request, response) {
   if (database.isConnected()) {
-    var sql = "SELECT * FROM prova";
-    var result = new DBResponse();
-    database.selectQuery(sql, [], result);
-    console.log(result);
-    response.send(result.data);
+    var sql = "SELECT ?? FROM prova";
+    database.selectQuery(sql, ["nome"], function(result) {
+      response.send(result.data);
+    });
   } else {
     response.send(database.connectionStatus);
   }
