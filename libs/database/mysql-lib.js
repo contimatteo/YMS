@@ -17,6 +17,8 @@
 
 // IMPORT SQL LIBS
 var mysql = require('mysql');
+// IMPORT SCHEMA
+const DBResponse = require('../../libs/schema/DBresponse.js');
 
 // MAIN CLASS
 module.exports = class mySqlDB {
@@ -50,19 +52,21 @@ module.exports = class mySqlDB {
     }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  selectQuery(query, bindValues, result) {
+  selectQuery(query, bindValues, nextCallback) {
     // preapare the query
     var sqlQuery = mysql.format(query, bindValues);
     // exec the query
     this.connection.query(sqlQuery, function(error, databaseData, fields) {
+      // thrown errors
       if (error) throw error;
-      Object.assign(result.data, databaseData);
-      console.log('The solution is: ', result.data);
-      result.errors = error;
+      // set result
+      var result = new DBResponse();
       result.lenght = databaseData.length;
-      result.fields = fields;
+      Object.assign(result.data, databaseData);
       Object.assign(result.fields, fields);
-      return true;
+      Object.assign(result.errors, error);
+      // return value
+      nextCallback(result);
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
