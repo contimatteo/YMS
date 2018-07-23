@@ -6,7 +6,7 @@
   ],
   "verbose": true,
   "execMap": {
-    "js": "node --harmony"
+    "js": "node --harmony -r dotenv/config"
   },
   "events": {
     "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
