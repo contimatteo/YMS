@@ -8,6 +8,8 @@ var cors = require('cors');
 require('dotenv').config({
   path: __dirname + '/.env'
 });
+// import body-parser
+var bodyParser = require('body-parser')
 // import mySql lib
 const mySqlDB = require('./libs/database/mysql-lib.js');
 ////////////////////////////////////////////////////////////////////////////////
@@ -20,6 +22,11 @@ var app = express();
 // enable cors (allow all origin)
 // app.use(cors({ origin: 'http://italiancoders.it'}));      // project url
 app.use(cors());
+// setup body-parser
+app.use(bodyParser.json()); // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
+  extended: true
+}));
 // instance mysql Database object
 const database = new mySqlDB();
 ////////////////////////////////////////////////////////////////////////////////
