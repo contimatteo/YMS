@@ -34,3 +34,4 @@ Makefile.in
 **/AccessCode.*
 
 **/*.env
+**/client_secret.json
