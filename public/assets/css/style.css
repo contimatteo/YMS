@@ -221,6 +221,8 @@ h5 {
 .container {
   position: relative;
   width: 100%;
+  /* @matteoconti edits */
+  padding-top: 25px;
 }
 
 @media (min-width: 480px) {
