@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
-var TempPage = require('./scripts/temp/temp.js');
+var TestController = require('./controllers/test/TestController.js');
 var AjaxLib = require('./libs/AjaxLib.js');
-var YoutubeApi = require('./libs/YoutubeApi.js');
+
 ////////////////////////////////////////////////////////////////////////////////
-const tempView = new TempPage();
+const testView = new TestController();
 const ajaxLib = new AjaxLib();
-const youtubeApi = new YoutubeApi();
+
 ////////////////////////////////////////////////////////////////////////////////
 module.exports = function(app) {
   // main route
@@ -15,7 +15,7 @@ module.exports = function(app) {
   });
   // route for testing db
   app.get('/db', function(request, response) {
-    tempView.visualizzoDatiDiProva(response);
+    testView.visualizzoDatiDiProva(response);
   });
   // api testing route
   app.get('/api', function(request, response) {
@@ -24,17 +24,13 @@ module.exports = function(app) {
     });
   });
   // api testing route
-  app.get('/youtube', function(request, response) {
-    youtubeApi.search("Linkin Park", 10, "", function(result) {
-      response.send(result);
-    });
+  app.get('/youtube/', function(request, response) {
+    testView.ricercaVideo(response, "Linkin Park", 10, "");
   });
   // api testing route
   app.get('/youtube/:id', function(request, response) {
     var id = request.params.id;
-    youtubeApi.getById(id, function(result) {
-      response.send(result);
-    });
+    testView.visualizzoVideo(response, id);
   });
 };
 ////////////////////////////////////////////////////////////////////////////////
