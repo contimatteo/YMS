@@ -1,11 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 var mySqlDB = require('../../libs/database/MySql.js');
 var YoutubeApi = require('../../libs/YoutubeApi.js');
-var Ajax = require('../../libs/AjaxRequest.js');
-var Sparql = require('../../libs/Sparql.js');
+var Sparql_Library = require('../../libs/Sparql.js');
 const database = new mySqlDB();
-const youtubeApi = new YoutubeApi();
-const ajaxRequest = new AjaxRequest_Library();
+const youtubeApi = new YoutubeApi()
 const sparqlClient = new Sparql_Library();
 ////////////////////////////////////////////////////////////////////////////////
 

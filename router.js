@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 var TestController = require('./controllers/test/TestController.js');
-var AjaxLib = require('./libs/AjaxLib.js');
+var AjaxRequest = require('./libs/AjaxRequest.js');
 
 ////////////////////////////////////////////////////////////////////////////////
 const testView = new TestController();
-const ajaxLib = new AjaxLib();
+const ajaxRequest = new AjaxRequest();
 
 ////////////////////////////////////////////////////////////////////////////////
 module.exports = function(app) {
@@ -19,7 +19,7 @@ module.exports = function(app) {
   });
   // api testing route
   app.get('/api', function(request, response) {
-    ajaxLib.jsonRequest("https://reqres.in/api/users", "GET", {}, function(result) {
+    ajaxRequest.jsonRequest("https://reqres.in/api/users", "GET", {}, function(result) {
       response.send(result.data);
     });
   });
