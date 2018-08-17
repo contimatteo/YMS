@@ -8,7 +8,7 @@ youtube.setKey(process.env.YOUTUBE_API_KEY);
 // need to take a look
 // optional parameters : https://developers.google.com/youtube/v3/docs/search/list#optional-parameters
 ////////////////////////////////////////////////////////////////////////////////
-module.exports = class YoutubeApi {
+module.exports = class YoutubeApi_Library {
   constructor() {
 
   }

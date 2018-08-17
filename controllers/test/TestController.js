@@ -1,8 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 var mySqlDB = require('../../libs/database/mysql-lib.js');
 var YoutubeApi = require('../../libs/YoutubeApi.js');
+var Ajax = require('../../libs/AjaxRequest.js');
+var Sparql = require('../../libs/Sparql.js');
 const database = new mySqlDB();
 const youtubeApi = new YoutubeApi();
+const ajaxRequest = new AjaxRequest_Library();
+const sparqlClient = new Sparql_Library();
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -10,7 +14,7 @@ module.exports = class TestController {
   constructor() {
     // nothing to do
   }
-
+  //////////////////////////////////////////////////////////////////////////////
   visualizzoDatiDiProva(response) {
     if (database.isConnected()) {
       var sql = "SELECT ?? FROM prova";
@@ -23,24 +27,32 @@ module.exports = class TestController {
       response.send("qualcosa non è andato");
     }
   }
-
+  //////////////////////////////////////////////////////////////////////////////
   visualizzoVideo(response, id) {
-    youtubeApi.getById(id, function(result) {
+    youtubeApi.getById(id, function(results) {
       // response.render('pages/test/video', {
       //   videoId: result.items[0].id
       // });
-      response.send(result.items[0]);
+      response.send(results.items[0]);
     });
   }
-
+  //////////////////////////////////////////////////////////////////////////////
+  sparql(response) {
+    var query = "";
+    sparqlClient.runQuery(query, [], [], function(results) {
+      response.send(results);
+    });
+  }
+  //////////////////////////////////////////////////////////////////////////////
   ricercaVideo(response, searchString, numberResult, optionalFIlter) {
-    youtubeApi.search(searchString, numberResult, optionalFIlter, function(result) {
+    youtubeApi.search(searchString, numberResult, optionalFIlter, function(results) {
       response.render('pages/test/listVIdeo', {
-        data: result.items
+        data: results.items
       });
       // response.render('utilities/viewJson', {
       //   json: JSON.stringify(result.items)
       // });
     });
   }
+  //////////////////////////////////////////////////////////////////////////////
 };

@@ -20,7 +20,7 @@ var request = require('request');
 ////////////////////////////////////////////////////////////////////////////////
 const ApiResponse = require('./schema/ApiResponse.js');
 ////////////////////////////////////////////////////////////////////////////////
-module.exports = class AjaxLib {
+module.exports = class AjaxRequest_Library {
   constructor() {
     // Set the headers
     this.headers = {
