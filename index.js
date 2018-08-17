@@ -30,7 +30,7 @@ app.use(function(req, res, next) {
 ////////////////////////////////////////////////////////////////////////////////
 // set env config
 app.set('view engine', 'ejs');
-app.set('port', (process.env.PORT || 9000));
+app.set('port', (process.env.PORT || 9000 || 8000));
 app.use(express.static(__dirname + '/public'));
 ////////////////////////////////////////////////////////////////////////////////
 // enable lister
