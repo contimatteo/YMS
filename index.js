@@ -21,10 +21,17 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
 ////////////////////////////////////////////////////////////////////////////////
-//                              MIDDLEWARE
+//                              MIDDLEWARE 1
 app.use(function(req, res, next) {
   // console.log('Timestamp:', Date.now());
   console.log("MIDDLEWARE 1 : controllo di sicurezza passatto correttamente");
+  next();
+});
+////////////////////////////////////////////////////////////////////////////////
+//                              MIDDLEWARE 2
+app.use(function(req, res, next) {
+  // console.log('Timestamp:', Date.now());
+  console.log("MIDDLEWARE 2 : controllo di sicurezza passatto correttamente");
   next();
 });
 ////////////////////////////////////////////////////////////////////////////////

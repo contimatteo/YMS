@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-var mySqlDB = require('../../libs/database/mysql-lib.js');
+var mySqlDB = require('../../libs/database/MySql.js');
 var YoutubeApi = require('../../libs/YoutubeApi.js');
 var Ajax = require('../../libs/AjaxRequest.js');
 var Sparql = require('../../libs/Sparql.js');
