@@ -10,11 +10,11 @@ youtube.setKey(process.env.YOUTUBE_API_KEY);
 ////////////////////////////////////////////////////////////////////////////////
 module.exports = class YoutubeApi_Library {
   constructor() {
-
+    this.filters = {type: 'video', videoCategoryId: '10'};
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  search(queryString, numberOfResult, searchParameters, nextCallback) {
-    youtube.search(queryString, numberOfResult, searchParameters, function(error, result) {
+  search(queryString, numberOfResult, nextCallback) {
+    youtube.search(queryString, numberOfResult, this.filters, function (error, result) {
       if (error) {
         console.log(error);
         nextCallback(null);
@@ -25,7 +25,7 @@ module.exports = class YoutubeApi_Library {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   getById(id, nextCallback) {
-    youtube.getById(id, function(error, result) {
+    youtube.getById(id, function (error, result) {
       if (error) {
         console.log(error);
         nextCallback(null);

@@ -25,7 +25,7 @@ module.exports = function(app) {
   });
   // api testing route
   app.get('/youtube', function(request, response) {
-    testView.ricercaVideo(response, "Linkin Park", 10, "");
+    testView.ricercaVideo(response, "Ninja", 10);
   });
   // api testing route
   app.get('/youtube/:id', function(request, response) {
