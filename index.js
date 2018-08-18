@@ -14,7 +14,8 @@ const ApiResponse = require('./libs/schema/ApiResponse.js');
 ////////////////////////////////////////////////////////////////////////////////
 //                        INSTANCE GLOBAL OBJECT
 var app = express();
-// app.use(cors({ origin: 'http://italiancoders.it'}));      // project url
+// project url
+// app.use(cors({ origin: 'http://italiancoders.it'}));      
 app.use(cors());
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
@@ -33,7 +34,7 @@ app.use(function(req, res, next) {
   next();
 });
 ////////////////////////////////////////////////////////////////////////////////
-// set env config
+// set enviroment configuration
 app.set('view engine', 'ejs');
 app.set('port', (process.env.PORT || 9000 || 8000));
 app.use(express.static(__dirname + '/public'));
@@ -41,6 +42,7 @@ app.use(express.static(__dirname + '/public'));
 // enable lister
 app.listen(app.get('port'), function() {
   //console.log("Node app is running at localhost:" + app.get('port'));
+  console.log(" YMS - Youtube Music Spider [1.0.0] ");
 });
 ////////////////////////////////////////////////////////////////////////////////
 // instance custom router module
