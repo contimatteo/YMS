@@ -1,10 +1,8 @@
 
-**/DOCS/*
 **/.DS_Store
 
 **/node_modules/*
 
-**/AccessCode.*
-
 **/*.env
 **/client_secret.json
+**/sftp-config.json
