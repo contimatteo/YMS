@@ -18,8 +18,8 @@
 // IMPORT SQL LIBS
 var mysql = require('mysql');
 // IMPORT SCHEMA
-const DBResponse = require('../../libs/schema/DBResponse.js');
-const ApiResponse = require('../../libs/schema/ApiResponse.js');
+const DBResponse = require('../libs/schema/DBResponse.js');
+const ApiResponse = require('../libs/schema/ApiResponse.js');
 // MAIN CLASS
 module.exports = class mySqlDB {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
