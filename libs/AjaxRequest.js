@@ -49,6 +49,9 @@ module.exports = class AjaxRequest_Library {
         result.data = response.body;
         nextCallback(result);
       }
+      else {
+        nextCallback(null);
+      }
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
