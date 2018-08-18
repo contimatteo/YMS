@@ -18,8 +18,8 @@
 // IMPORT SQL LIBS
 var mysql = require('mysql');
 // IMPORT SCHEMA
-const DBResponse = require('../libs/schema/DBResponse.js');
-const ApiResponse = require('../libs/schema/ApiResponse.js');
+const DBResponse = require('../../libs/schema/DBResponse.js');
+const ApiResponse = require('../../libs/schema/ApiResponse.js');
 // MAIN CLASS
 module.exports = class mySqlDB {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -28,7 +28,8 @@ module.exports = class mySqlDB {
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE
+      database: process.env.DB_DATABASE,
+      port: 3306
     });
     this.connectionStatus = "";
     this.connection.connect();
