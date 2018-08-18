@@ -42,8 +42,8 @@ module.exports = class TestController {
     });
   }
   //////////////////////////////////////////////////////////////////////////////
-  ricercaVideo(response, searchString, numberResult, optionalFIlter) {
-    youtubeApi.search(searchString, numberResult, optionalFIlter, function(results) {
+  ricercaVideo(response, searchString, numberResult) {
+    youtubeApi.search(searchString, numberResult, function(results) {
       response.render('pages/test/listVIdeo', {
         data: results.items
       });

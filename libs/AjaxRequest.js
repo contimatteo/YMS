@@ -25,7 +25,7 @@ module.exports = class AjaxRequest_Library {
     // Set the headers
     this.headers = {
       'User-Agent': 'YMS Agent/0.0.1',
-      'Content-Type': 'application / json'
+      'Content-Type': 'application/json'
     };
     this.options = {};
   }
