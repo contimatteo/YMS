@@ -9,7 +9,7 @@ require('dotenv').config({
 var bodyParser = require('body-parser');
 ////////////////////////////////////////////////////////////////////////////////
 //                            IMPORT SCHEMA
-const DBResponse = require('./libs/schema/DBresponse.js');
+const DBResponse = require('./libs/schema/DBResponse.js');
 const ApiResponse = require('./libs/schema/ApiResponse.js');
 ////////////////////////////////////////////////////////////////////////////////
 //                        INSTANCE GLOBAL OBJECT
