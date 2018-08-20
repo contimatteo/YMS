@@ -1,0 +1,40 @@
+{
+  "name": "progetto-tw",
+  "version": "1.0.0",
+  "description": "YMS - youtube music spider",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/contimatteo/Progetto-TW.git"
+  },
+  "author": "Conti Matteo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/contimatteo/Progetto-TW/issues"
+  },
+  "homepage": "https://github.com/contimatteo/Progetto-TW#readme",
+  "engines": {
+    "node": "8.9.1"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "devserver": "./node_modules/nodemon/bin/nodemon.js index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "jshint": "^2.9.6",
+    "mysql": "^2.16.0",
+    "sparql-client-2": "^0.6.2",
+    "uglify-js": "^3.4.7",
+    "youtube-node": "^1.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3",
+    "request": "^2.88.0",
+    "tape": "^4.7.0"
+  }
+}

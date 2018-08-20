@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <% include ../../components/header.ejs %>
+  </head>
+
+  <body>
+
+    <% include ../../components/navbar.ejs %>
+
+      <div class="container">
+        <h2>Database Results</h2>
+
+        <ul>
+          <% data.forEach(function(record) { %>
+            <li>
+              <%= record.id %> -
+                <%= record.nome %>
+            </li>
+            <% }); %>
+        </ul>
+
+      </div>
+
+  </body>
+
+</html>
