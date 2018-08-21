@@ -28,10 +28,10 @@ module.exports = class TestController {
   //////////////////////////////////////////////////////////////////////////////
   visualizzoVideo(response, id) {
     youtubeApi.getById(id, function(results) {
-      // response.render('pages/test/video', {
-      //   videoId: result.items[0].id
-      // });
-      response.send(results.items[0]);
+      response.render('pages/test/video', {
+        videoId: results.items[0].id
+      });
+      // response.send(results);
     });
   }
   //////////////////////////////////////////////////////////////////////////////
