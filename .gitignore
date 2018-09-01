@@ -6,3 +6,4 @@
 **/*.env
 **/client_secret.json
 **/sftp-config.json
+**/*.sh

@@ -1,10 +1,8 @@
-
 const Sequelize = require('sequelize');
 
-var myORM = require('../../ORM/ORM.js');
+var myORM = require('../Libraries/ORM.js');
 const ORM = new myORM();
 
-const Pippo = require('./Pippo.js');
 
 const Prova = ORM.sequelize.define('prova', {
   id: {
@@ -15,6 +13,8 @@ const Prova = ORM.sequelize.define('prova', {
   nome: {
     type: Sequelize.STRING
   }
+}, {
+  tableName: 'provas'
 });
 
 module.exports = Prova;

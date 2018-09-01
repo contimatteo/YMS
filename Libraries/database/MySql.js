@@ -15,11 +15,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 ////////////////////////////////////////////////////////////////////////////////
-// IMPORT SQL LIBS
+// IMPORT SQL Libraries
 var mysql = require('mysql');
 // IMPORT SCHEMA
-const DBResponse = require('../../libs/schema/DBResponse.js');
-const ApiResponse = require('../../libs/schema/ApiResponse.js');
+const DBResponse = require('../../Libraries/schema/DBResponse.js');
+const ApiResponse = require('../../Libraries/schema/ApiResponse.js');
 // MAIN CLASS
 module.exports = class mySqlDB {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -67,7 +67,7 @@ module.exports = class mySqlDB {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // SELECT methods
-  selectQuery(query, bindValues, nextCallback) {
+  selectQuery(query, bindValues, nextFunction) {
     // preapare the query
     var sqlQuery = mysql.format(query, bindValues);
     // exec the query
@@ -86,12 +86,12 @@ module.exports = class mySqlDB {
       Object.assign(result.fields, fields);
       Object.assign(result.errors, error);
       // return value
-      nextCallback(result);
+      nextFunction(result);
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // INSERT, DELETE, UPDATE method
-  standardQuery(query, bindValues, nextCallback) {
+  standardQuery(query, bindValues, nextFunction) {
     // preapare the query
     var sqlQuery = mysql.format(query, bindValues);
     // exec the query
@@ -106,7 +106,7 @@ module.exports = class mySqlDB {
       Object.assign(result.fields, fields);
       Object.assign(result.errors, error);
       // return value
-      nextCallback(result);
+      nextFunction(result);
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

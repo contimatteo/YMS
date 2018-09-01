@@ -32,7 +32,7 @@ module.exports = class Sparql_Library {
       });
   }
   //////////////////////////////////////////////////////////////////////////////
-  runQuery(query, bindingNames, bindingValues, nextCallback) {
+  runQuery(query, bindingNames, bindingValues, nextFunction) {
     // set the query
     this.client.query(query);
     // prepare the query
@@ -49,9 +49,9 @@ module.exports = class Sparql_Library {
       //   depth: null
       // });
       if (!error) {
-        nextCallback(results);
+        nextFunction(results);
       } else {
-        nextCallback(null);
+        nextFunction(null);
       }
     });
   }

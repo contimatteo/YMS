@@ -17,14 +17,14 @@ module.exports = class myORM {
     });
   }
 
-  isConnected(nextCallback) {
+  isConnected(nextFunction) {
     this.sequelize.authenticate().then(() => {
-      console.log('Connection has been established successfully.');
-      nextCallback(true);
+      //console.log('Connection has been established successfully.');
+      nextFunction(true);
     })
     .catch(err => {
-      console.error('Unable to connect to the database:', err);
-      nextCallback(false);
+      //console.error('Unable to connect to the database:', err);
+      nextFunction(false);
     });
   }
 }
