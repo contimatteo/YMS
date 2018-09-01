@@ -35,5 +35,9 @@ module.exports = function(app) {
   app.get('/sparql', function(request, response) {
     testView.sparql(response);
   });
+  // orm testing route
+  app.get('/orm', function(request, response) {
+    testView.orm(response);
+  });
 };
 ////////////////////////////////////////////////////////////////////////////////
