@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 var mySqlDB = require('../../libs/database/MySql.js');
 var YoutubeApi = require('../../libs/YoutubeApi.js');
 var Sparql_Library = require('../../libs/Sparql.js');
@@ -9,10 +10,12 @@ const sparqlClient = new Sparql_Library();
 
 
 module.exports = class TestController {
+
   constructor() {
     // nothing to do
   }
-  //////////////////////////////////////////////////////////////////////////////
+
+  // run db query exaple
   visualizzoDatiDiProva(response) {
     if (database.isConnected()) {
       var sql = "SELECT ?? FROM prova";
@@ -25,7 +28,8 @@ module.exports = class TestController {
       response.send("qualcosa non è andato");
     }
   }
-  //////////////////////////////////////////////////////////////////////////////
+
+  // show video by id
   visualizzoVideo(response, id) {
     youtubeApi.getById(id, function(results) {
       response.render('pages/test/video', {
@@ -34,14 +38,28 @@ module.exports = class TestController {
       // response.send(results);
     });
   }
-  //////////////////////////////////////////////////////////////////////////////
+
   sparql(response) {
-    var query = "";
+    // var query = "  PREFIX dbo: <http://dbpedia.org/ontology/> " +
+    //             "  PREFIX dbp: <http://dbpedia.org/resource/> " +
+    //             "  PREFIX foaf: <http://xmlns.com/foaf/0.1/> " +
+    //             "  SELECT ?bandname where { " +
+    //             "    ?person foaf:name ?name . " +
+    //             "    ?band dbo:bandMember ?person . " +
+    //             //"    ?band dbo:genre ?genre . " +
+    //             "    ?band foaf:name ?bandname .  " +
+    //             "  } ";
+    var query = " PREFIX dbo: <http://dbpedia.org/ontology/>" +
+                " PREFIX dbr: <http://dbpedia.org/resource/> " +
+                " SELECT ?s WHERE { " +
+                " ?s a dbo:City ; " +
+                " dbo:country dbr:India " +
+                " }";
     sparqlClient.runQuery(query, [], [], function(results) {
       response.send(results);
     });
   }
-  //////////////////////////////////////////////////////////////////////////////
+
   ricercaVideo(response, searchString, numberResult) {
     youtubeApi.search(searchString, numberResult, function(results) {
       response.render('pages/test/listVIdeo', {
@@ -52,5 +70,7 @@ module.exports = class TestController {
       // });
     });
   }
-  //////////////////////////////////////////////////////////////////////////////
+  
 };
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
