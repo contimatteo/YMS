@@ -3,9 +3,14 @@
 var mySqlDB = require('../../libs/database/MySql.js');
 var YoutubeApi = require('../../libs/YoutubeApi.js');
 var Sparql_Library = require('../../libs/Sparql.js');
+
 const database = new mySqlDB();
 const youtubeApi = new YoutubeApi()
 const sparqlClient = new Sparql_Library();
+
+
+const Pippo = require('../../ORM/Models/Pippo.js');
+const Prova = require('../../ORM/Models/Prova.js');
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -39,6 +44,7 @@ module.exports = class TestController {
     });
   }
 
+  // 
   sparql(response) {
     // var query = "  PREFIX dbo: <http://dbpedia.org/ontology/> " +
     //             "  PREFIX dbp: <http://dbpedia.org/resource/> " +
@@ -60,6 +66,7 @@ module.exports = class TestController {
     });
   }
 
+  // 
   ricercaVideo(response, searchString, numberResult) {
     youtubeApi.search(searchString, numberResult, function(results) {
       response.render('pages/test/listVIdeo', {
@@ -69,6 +76,18 @@ module.exports = class TestController {
       //   json: JSON.stringify(result.items)
       // });
     });
+  }
+
+  // ORM
+  orm(response) {
+    Pippo.findAll({
+      include: [{
+        model: Prova,
+        as: 'AliasForProvaRelation'
+      }]
+    }).then(users => {
+        response.send(users);
+      });
   }
   
 };
