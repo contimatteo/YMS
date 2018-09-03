@@ -2,12 +2,13 @@
 <html>
 
   <head>
-    <% include ../../components/header.ejs %>
+    <title>DB page</title>
+    <% include ../../Components/header.ejs %>
   </head>
 
   <body>
 
-    <% include ../../components/navbar.ejs %>
+    <% include ../../Components/navbar.ejs %>
 
       <div class="container">
         <h2>Database Results</h2>
@@ -15,8 +16,7 @@
         <ul>
           <% data.forEach(function(record) { %>
             <li>
-              <%= record.id %> -
-                <%= record.nome %>
+              <%= record.id %> - <%= record.nome %>
             </li>
             <% }); %>
         </ul>

@@ -13,24 +13,24 @@ module.exports = class YoutubeApi_Library {
     this.filters = {type: 'video', videoCategoryId: '10'};
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  search(queryString, numberOfResult, nextCallback) {
+  search(queryString, numberOfResult, nextFunction) {
     youtube.search(queryString, numberOfResult, this.filters, function (error, result) {
       if (error) {
         console.log(error);
-        nextCallback(null);
+        nextFunction(null);
       } else {
-        nextCallback(result);
+        nextFunction(result);
       }
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  getById(id, nextCallback) {
+  getById(id, nextFunction) {
     youtube.getById(id, function (error, result) {
       if (error) {
         console.log(error);
-        nextCallback(null);
+        nextFunction(null);
       } else {
-        nextCallback(result);
+        nextFunction(result);
       }
     });
   }

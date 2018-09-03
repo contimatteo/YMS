@@ -30,7 +30,7 @@ module.exports = class AjaxRequest_Library {
     this.options = {};
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  jsonRequest(url, typeRequest, data, nextCallback) {
+  jsonRequest(url, typeRequest, data, nextFunction) {
     // Configure the request
     this.options = {
       url: url,
@@ -47,10 +47,10 @@ module.exports = class AjaxRequest_Library {
       //Object.assign(result.errors, error);
       if (!error && response.statusCode == 200) {
         result.data = response.body;
-        nextCallback(result);
+        nextFunction(result);
       }
       else {
-        nextCallback(null);
+        nextFunction(null);
       }
     });
   }

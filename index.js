@@ -34,9 +34,9 @@ app.use(function(req, res, next) {
 });
 ////////////////////////////////////////////////////////////////////////////////
 // set enviroment configuration
-app.set('view engine', 'ejs');
 app.set('port', (8000 || process.env.PORT || 9000));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/Static'));
+app.set('view engine', 'ejs');
 ////////////////////////////////////////////////////////////////////////////////
 // enable lister
 app.listen(app.get('port'), function() {

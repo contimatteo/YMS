@@ -32,7 +32,7 @@ module.exports = class Sparql_Library {
       });
   }
   //////////////////////////////////////////////////////////////////////////////
-  runQuery(query, bindingNames, bindingValues, nextCallback) {
+  runQuery(query, bindingNames, bindingValues, nextFunction) {
     // set the query
     this.client.query(query);
     // prepare the query
@@ -40,17 +40,18 @@ module.exports = class Sparql_Library {
       // this.client.bind(bindingNames[i], {
       //   db: 'Vienna'
       // });
-      this.client.bind(bindingNames[i], bindingValues[i]);
+      //console.log("bind " + bindingNames[i] + " --> " + bindingValues[i].dbp);
+      this.client.query(query).bind(bindingNames[i], bindingValues[i]);
     }
     // execute the query
-    this.client.execute(function(error, results) {
+    this.client.query(query).execute(function(error, results) {
       // console.dir(arguments, {
       //   depth: null
       // });
       if (!error) {
-        nextCallback(results);
+        nextFunction(results);
       } else {
-        nextCallback(null);
+        nextFunction(null);
       }
     });
   }

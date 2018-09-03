@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-var TestController = require('./controllers/test/TestController.js');
-var AjaxRequest = require('./libs/AjaxRequest.js');
+var TestController = require('./Controllers/test/TestController.js');
+var AjaxRequest = require('./Libraries/AjaxRequest.js');
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 const testView = new TestController();
@@ -34,6 +34,18 @@ module.exports = function(app) {
   // SPARQL testing route
   app.get('/sparql', function(request, response) {
     testView.sparql(response);
+  });
+  // orm testing route
+  app.get('/orm', function(request, response) {
+    testView.orm(response);
+  });
+  // orm 2 testing route
+  app.get('/orm2', function(request, response) {
+    testView.orm2(response);
+  });
+  // orm 3 testing route
+  app.get('/orm3', function(request, response) {
+    testView.orm3(response);
   });
 };
 ////////////////////////////////////////////////////////////////////////////////
