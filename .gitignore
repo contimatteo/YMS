@@ -1,11 +1,11 @@
 
+# nodejs application
 **/.DS_Store
-
 **/node_modules/*
-
 **/*.env
 **/client_secret.json
 **/sftp-config.json
 **/auto-generate-models.sh
 **/Models/BaseStructure/*
 **/*.sql
+**/*.zip
