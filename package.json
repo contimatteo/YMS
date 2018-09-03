@@ -18,7 +18,8 @@
   },
   "scripts": {
     "start": "node index.js",
-    "devserver": "./node_modules/nodemon/bin/nodemon.js index.js"
+    "devserver": "./node_modules/nodemon/bin/nodemon.js index.js",
+    "generate-models": "sh ./auto-generate-models.sh"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

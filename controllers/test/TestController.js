@@ -3,20 +3,17 @@
 var mySqlDB = require('../../Libraries/database/MySql.js');
 var YoutubeApi = require('../../Libraries/YoutubeApi.js');
 var Sparql_Library = require('../../Libraries/Sparql.js');
-
+////////////////////////////////////////////////////////////////////////////////
 const database = new mySqlDB();
 const youtubeApi = new YoutubeApi()
 const sparqlClient = new Sparql_Library();
-
-
-const Pippo = require('../../Models/Pippo.js');
-const Prova = require('../../Models/Prova.js');
-
-// const Pippo = require('../../ORM/Models/pippos.js')(ORM.sequelize, Sequelize.DataTypes);;
-// const Prova = require('../../ORM/Models/provas.js')(ORM.sequelize, Sequelize.DataTypes);;
 ////////////////////////////////////////////////////////////////////////////////
-
-
+// models
+const Artist = require('../../Models/Artist.js');
+const Band = require('../../Models/Band.js');
+const Channel = require('../../Models/Channel.js');
+const Video = require('../../Models/Video.js');
+////////////////////////////////////////////////////////////////////////////////
 module.exports = class TestController {
 
   constructor() {
@@ -27,7 +24,7 @@ module.exports = class TestController {
   visualizzoDatiDiProva(response) {
     if (database.isConnected()) {
       var sql = "SELECT ?? FROM provas";
-      database.selectQuery(sql, ["nome"], function(results) {
+      database.selectQuery(sql, ["nome"], function (results) {
         response.render('pages/test/db', {
           data: results.data
         });
@@ -39,7 +36,7 @@ module.exports = class TestController {
 
   // show video by id
   visualizzoVideo(response, id) {
-    youtubeApi.getById(id, function(results) {
+    youtubeApi.getById(id, function (results) {
       response.render('pages/test/video', {
         videoId: results.items[0].id
       });
@@ -59,19 +56,19 @@ module.exports = class TestController {
     //             "    ?band foaf:name ?bandname .  " +
     //             "  } ";
     var query = " PREFIX dbo: <http://dbpedia.org/ontology/>" +
-                " PREFIX dbr: <http://dbpedia.org/resource/> " +
-                " SELECT ?s WHERE { " +
-                " ?s a dbo:City ; " +
-                " dbo:country dbr:India " +
-                " }";
-    sparqlClient.runQuery(query, [], [], function(results) {
+      " PREFIX dbr: <http://dbpedia.org/resource/> " +
+      " SELECT ?s WHERE { " +
+      " ?s a dbo:City ; " +
+      " dbo:country dbr:India " +
+      " }";
+    sparqlClient.runQuery(query, [], [], function (results) {
       response.send(results);
     });
   }
 
   // 
   ricercaVideo(response, searchString, numberResult) {
-    youtubeApi.search(searchString, numberResult, function(results) {
+    youtubeApi.search(searchString, numberResult, function (results) {
       response.render('pages/test/listVIdeo', {
         data: results.items
       });
@@ -82,17 +79,51 @@ module.exports = class TestController {
   }
 
   // ORM
-  orm(response) {
-    Pippo.findAll({
+  orm1(response) {
+    // get all bands with relative artists
+    Band.findAll({
       include: [{
-        model: Prova,
-        as: 'AliasForProvaRelation'
+        model: Artist
+      }]
+    })
+    .then(users => {
+      response.send(users);
+    });
+  }
+
+  orm2(response) {
+    // get all artists with relative bands
+    Artist.findAll({
+      include: [{
+        model: Band
       }]
     }).then(users => {
-        response.send(users);
-      });
+      response.send(users);
+    });
   }
-  
+
+  orm3(response) {
+    // get all videos with his single channel
+    Video.findAll({
+      include: [{
+        model: Channel
+      }]
+    }).then(users => {
+      response.send(users);
+    });
+  }
+
+  orm4(response) {
+    // get all channels with all of linked videos
+    Channel.findAll({
+      include: [{
+        model: Video
+      }]
+    }).then(users => {
+      response.send(users);
+    });
+  }
+
 };
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

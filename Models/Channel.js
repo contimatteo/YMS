@@ -6,14 +6,14 @@ const ORM = new myORM();
 const DataTypes = Sequelize.DataTypes;
 ////////////////////////////////////////////////////////////////////////////////
 // import main model
-var FavoriteVideo = require("./BaseStructure/FavoriteVideos.js")(ORM.sequelize, DataTypes);
+var Channel = require("./BaseStructure/Channels.js")(ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // import additional models (for define relations)
-// ...
+var Video = require("./BaseStructure/Videos.js")(ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // define relation
-// ...
+Channel.hasMany(Video, {foreignKey: 'FKChannelId', sourceKey: 'id'});
 ////////////////////////////////////////////////////////////////////////////////
 // export model with structure and relations
-module.exports = FavoriteVideo;
+module.exports = Channel;
 ////////////////////////////////////////////////////////////////////////////////

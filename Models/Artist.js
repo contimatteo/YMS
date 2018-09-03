@@ -6,14 +6,19 @@ const ORM = new myORM();
 const DataTypes = Sequelize.DataTypes;
 ////////////////////////////////////////////////////////////////////////////////
 // import main model
-var FavoriteVideo = require("./BaseStructure/FavoriteVideos.js")(ORM.sequelize, DataTypes);
+var Artist = require("./BaseStructure/Artists.js")(ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // import additional models (for define relations)
-// ...
+var Band = require("./BaseStructure/Bands.js")(ORM.sequelize, DataTypes);
+var ArtistsAndBands = require("./BaseStructure/ArtistsAndBands.js")(ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // define relation
-// ...
+Artist.belongsToMany(Band, {
+  through: ArtistsAndBands,
+  foreignKey: 'FKArtistId',
+  otherKey: 'FKBandId'
+});
 ////////////////////////////////////////////////////////////////////////////////
 // export model with structure and relations
-module.exports = FavoriteVideo;
+module.exports = Artist;
 ////////////////////////////////////////////////////////////////////////////////

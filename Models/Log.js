@@ -6,7 +6,7 @@ const ORM = new myORM();
 const DataTypes = Sequelize.DataTypes;
 ////////////////////////////////////////////////////////////////////////////////
 // import main model
-var FavoriteVideo = require("./BaseStructure/FavoriteVideos.js")(ORM.sequelize, DataTypes);
+var Log = require("./BaseStructure/Logs.js")(ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // import additional models (for define relations)
 // ...
@@ -15,5 +15,5 @@ var FavoriteVideo = require("./BaseStructure/FavoriteVideos.js")(ORM.sequelize, 
 // ...
 ////////////////////////////////////////////////////////////////////////////////
 // export model with structure and relations
-module.exports = FavoriteVideo;
+module.exports = Log;
 ////////////////////////////////////////////////////////////////////////////////

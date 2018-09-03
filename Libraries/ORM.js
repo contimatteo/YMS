@@ -15,16 +15,27 @@ module.exports = class myORM {
       // disable logging; default: console.log
       logging: false
     });
+    // this.sync();
   }
 
   isConnected(nextFunction) {
     this.sequelize.authenticate().then(() => {
-      //console.log('Connection has been established successfully.');
-      nextFunction(true);
-    })
-    .catch(err => {
-      //console.error('Unable to connect to the database:', err);
-      nextFunction(false);
-    });
+        //console.log('Connection has been established successfully.');
+        nextFunction(true);
+      })
+      .catch(err => {
+        //console.error('Unable to connect to the database:', err);
+        nextFunction(false);
+      });
+  }
+
+  sync() {
+    this.sequelize.sync()
+      .then(err => {
+        // console.log('Connection has been established successfully.');
+      })
+      .catch(err => {
+        // console.error('Unable to connect to the database:', err);
+      });
   }
 }

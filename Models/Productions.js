@@ -1,30 +1,19 @@
-/* jshint indent: 2 */
-
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Productions', {
-    id: {
-      type: DataTypes.INTEGER(11).UNSIGNED,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    FKBandId: {
-      type: DataTypes.INTEGER(11).UNSIGNED,
-      allowNull: false,
-      references: {
-        model: 'Bands',
-        key: 'id'
-      }
-    },
-    FKVideoId: {
-      type: DataTypes.INTEGER(11).UNSIGNED,
-      allowNull: false,
-      references: {
-        model: 'Videos',
-        key: 'id'
-      }
-    }
-  }, {
-    tableName: 'Productions'
-  });
-};
+////////////////////////////////////////////////////////////////////////////////
+// import ORM instance and Datatypes
+const Sequelize = require('sequelize');
+var myORM = require('../Libraries/ORM.js');
+const ORM = new myORM();
+const DataTypes = Sequelize.DataTypes;
+////////////////////////////////////////////////////////////////////////////////
+// import main model
+var Productions = require("./BaseStructure/Productions.js")(ORM.sequelize, DataTypes);
+////////////////////////////////////////////////////////////////////////////////
+// import additional models (for define relations)
+// ...
+////////////////////////////////////////////////////////////////////////////////
+// define relation
+// ...
+////////////////////////////////////////////////////////////////////////////////
+// export model with structure and relations
+module.exports = Productions;
+////////////////////////////////////////////////////////////////////////////////

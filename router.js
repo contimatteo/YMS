@@ -39,5 +39,13 @@ module.exports = function(app) {
   app.get('/orm', function(request, response) {
     testView.orm(response);
   });
+  // orm 2 testing route
+  app.get('/orm2', function(request, response) {
+    testView.orm2(response);
+  });
+  // orm 3 testing route
+  app.get('/orm3', function(request, response) {
+    testView.orm3(response);
+  });
 };
 ////////////////////////////////////////////////////////////////////////////////

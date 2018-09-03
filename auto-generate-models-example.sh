@@ -1,1 +1,1 @@
-sequelize-auto -o "<path_of_your_folder>" -d <database> localhost -u <username> -p <port> -x <password> -e <type_of_db (ex: mysql)>
+sequelize-auto -o "./Models/BaseStructure/" -d <database> localhost -u <username> -p <port> -x <password> -e <type_of_db (ex: mysql)>
