@@ -15,7 +15,7 @@ var FavoriteVideos = require("./BaseStructure/FavoriteVideos.js")(ORM.sequelize,
 // define relation
 User.belongsToMany(Video, {
   through: FavoriteVideos,
-  foreignKey: 'FKUserId', 
+  foreignKey: 'FKUserId',
   otherKey: 'FKVideoId'
 });
 ////////////////////////////////////////////////////////////////////////////////

@@ -15,7 +15,7 @@ var ArtistsAndBands = require("./BaseStructure/ArtistsAndBands.js")(ORM.sequeliz
 // define relation
 Band.belongsToMany(Artist, {
   through: ArtistsAndBands,
-  foreignKey: 'FKBandId', 
+  foreignKey: 'FKBandId',
   otherKey: 'FKArtistId'
 });
 ////////////////////////////////////////////////////////////////////////////////

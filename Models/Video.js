@@ -16,7 +16,9 @@ var PlaylistsAndVideos = require("./BaseStructure/PlaylistsAndVideos.js")(ORM.se
 var FavoriteVideos = require("./BaseStructure/FavoriteVideos.js")(ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // define relation
-Video.belongsTo(Channel, {foreignKey: 'FKChannelId'});
+Video.belongsTo(Channel, {
+  foreignKey: 'FKChannelId'
+});
 // define relation
 Video.belongsToMany(Playlist, {
   through: PlaylistsAndVideos,
@@ -26,7 +28,7 @@ Video.belongsToMany(Playlist, {
 // define relation
 Video.belongsToMany(User, {
   through: FavoriteVideos,
-  foreignKey: 'FKVideoId', 
+  foreignKey: 'FKVideoId',
   otherKey: 'FKUserId'
 });
 ////////////////////////////////////////////////////////////////////////////////

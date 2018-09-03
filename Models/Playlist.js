@@ -14,11 +14,13 @@ var Video = require("./BaseStructure/Videos.js")(ORM.sequelize, DataTypes);
 var PlaylistsAndVideos = require("./BaseStructure/PlaylistsAndVideos.js")(ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // define relation
-Playlist.belongsTo(User, {foreignKey: 'FKUserId'});
+Playlist.belongsTo(User, {
+  foreignKey: 'FKUserId'
+});
 // define relation
 Playlist.belongsToMany(Video, {
   through: PlaylistsAndVideos,
-  foreignKey: 'FKPlaylistId', 
+  foreignKey: 'FKPlaylistId',
   otherKey: 'FKVideoId'
 });
 ////////////////////////////////////////////////////////////////////////////////

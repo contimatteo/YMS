@@ -12,7 +12,10 @@ var Channel = require("./BaseStructure/Channels.js")(ORM.sequelize, DataTypes);
 var Video = require("./BaseStructure/Videos.js")(ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // define relation
-Channel.hasMany(Video, {foreignKey: 'FKChannelId', sourceKey: 'id'});
+Channel.hasMany(Video, {
+  foreignKey: 'FKChannelId',
+  sourceKey: 'id'
+});
 ////////////////////////////////////////////////////////////////////////////////
 // export model with structure and relations
 module.exports = Channel;
