@@ -19,7 +19,10 @@
   "scripts": {
     "start": "node index.js",
     "devserver": "./node_modules/nodemon/bin/nodemon.js index.js",
-    "generate-models": "sh ./auto-generate-models.sh"
+    "generate:models": "sh ./auto-generate-models.sh",
+    "generate:migration": "node ./node_modules/sequelize-auto-migrations/bin/makemigration --name",
+    "run:migration": "node ./node_modules/sequelize-auto-migrations/bin/runmigration",
+    "preview:migration": "node ./node_modules/sequelize-auto-migrations/bin/makemigration --preview"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -31,6 +34,7 @@
     "mysql": "^2.16.0",
     "mysql2": "^1.6.1",
     "sequelize": "^4.38.0",
+    "sequelize-auto-migrations": "^1.0.2",
     "sparql-client-2": "^0.6.2",
     "uglify-js": "^3.4.7",
     "youtube-node": "^1.3.2"
