@@ -82,13 +82,13 @@ module.exports = class TestController {
   orm1(response) {
     // get all bands with relative artists
     Band.findAll({
-      include: [{
-        model: Artist
-      }]
-    })
-    .then(users => {
-      response.send(users);
-    });
+        include: [{
+          model: Artist
+        }]
+      })
+      .then(results => {
+        response.send(results);
+      });
   }
 
   orm2(response) {
@@ -97,8 +97,8 @@ module.exports = class TestController {
       include: [{
         model: Band
       }]
-    }).then(users => {
-      response.send(users);
+    }).then(results => {
+      response.send(results);
     });
   }
 
@@ -108,8 +108,8 @@ module.exports = class TestController {
       include: [{
         model: Channel
       }]
-    }).then(users => {
-      response.send(users);
+    }).then(results => {
+      response.send(results);
     });
   }
 
@@ -119,8 +119,8 @@ module.exports = class TestController {
       include: [{
         model: Video
       }]
-    }).then(users => {
-      response.send(users);
+    }).then(results => {
+      response.send(results);
     });
   }
 
