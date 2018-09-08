@@ -5,7 +5,8 @@ module.exports = function(sequelize, DataTypes) {
     id: {
       type: DataTypes.INTEGER(11).UNSIGNED,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -13,10 +14,6 @@ module.exports = function(sequelize, DataTypes) {
     },
     updatedAt: {
       type: DataTypes.DATE,
-      allowNull: true
-    },
-    test: {
-      type: DataTypes.INTEGER(11),
       allowNull: true
     }
   }, {

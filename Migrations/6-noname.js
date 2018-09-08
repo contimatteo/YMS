@@ -5,61 +5,51 @@ var Sequelize = require('sequelize');
 /**
  * Actions summary:
  *
- * changeColumn "id" on table "Logs"
+ * changeColumn "createdAt" on table "Logs"
  * changeColumn "id" on table "Artists"
- * changeColumn "name" on table "Artists"
  * changeColumn "age" on table "Artists"
  * changeColumn "sex" on table "Artists"
  * changeColumn "createdAt" on table "Artists"
  * changeColumn "updatedAt" on table "Artists"
- * changeColumn "id" on table "ArtistsAndBands"
  * changeColumn "id" on table "ArtistsAndBands"
  * changeColumn "FKArtistId" on table "ArtistsAndBands"
  * changeColumn "FKBandId" on table "ArtistsAndBands"
  * changeColumn "createdAt" on table "ArtistsAndBands"
  * changeColumn "updatedAt" on table "ArtistsAndBands"
  * changeColumn "id" on table "Bands"
- * changeColumn "id" on table "Bands"
  * changeColumn "name" on table "Bands"
  * changeColumn "createdAt" on table "Bands"
  * changeColumn "updatedAt" on table "Bands"
  * changeColumn "id" on table "Channels"
- * changeColumn "id" on table "Channels"
  * changeColumn "name" on table "Channels"
  * changeColumn "createdAt" on table "Channels"
  * changeColumn "updatedAt" on table "Channels"
- * changeColumn "id" on table "FavoriteVideos"
  * changeColumn "id" on table "FavoriteVideos"
  * changeColumn "FKVideoId" on table "FavoriteVideos"
  * changeColumn "FKUserId" on table "FavoriteVideos"
  * changeColumn "createdAt" on table "FavoriteVideos"
  * changeColumn "updatedAt" on table "FavoriteVideos"
  * changeColumn "id" on table "Logs"
- * changeColumn "id" on table "Artists"
- * changeColumn "createdAt" on table "Logs"
+ * changeColumn "name" on table "Artists"
  * changeColumn "updatedAt" on table "Logs"
- * changeColumn "id" on table "Playlists"
  * changeColumn "id" on table "Playlists"
  * changeColumn "createdAt" on table "Playlists"
  * changeColumn "updatedAt" on table "Playlists"
  * changeColumn "FKUserId" on table "Playlists"
- * changeColumn "id" on table "PlaylistsAndVideos"
  * changeColumn "id" on table "PlaylistsAndVideos"
  * changeColumn "FKPlaylistId" on table "PlaylistsAndVideos"
  * changeColumn "FKVideoId" on table "PlaylistsAndVideos"
  * changeColumn "createdAt" on table "PlaylistsAndVideos"
  * changeColumn "updatedAt" on table "PlaylistsAndVideos"
  * changeColumn "id" on table "Productions"
- * changeColumn "id" on table "Productions"
  * changeColumn "FKBandId" on table "Productions"
  * changeColumn "FKVideoId" on table "Productions"
  * changeColumn "createdAt" on table "Productions"
  * changeColumn "updatedAt" on table "Productions"
  * changeColumn "id" on table "Users"
- * changeColumn "id" on table "Users"
  * changeColumn "createdAt" on table "Users"
  * changeColumn "updatedAt" on table "Users"
- * changeColumn "id" on table "Videos"
+ * changeColumn "test" on table "Users"
  * changeColumn "id" on table "Videos"
  * changeColumn "title" on table "Videos"
  * changeColumn "description" on table "Videos"
@@ -70,9 +60,9 @@ var Sequelize = require('sequelize');
  **/
 
 var info = {
-    "revision": 4,
-    "name": "test",
-    "created": "2018-09-08T14:58:46.099Z",
+    "revision": 6,
+    "name": "noname",
+    "created": "2018-09-08T15:12:02.856Z",
     "comment": ""
 };
 
@@ -80,34 +70,22 @@ var migrationCommands = [{
         fn: "changeColumn",
         params: [
             "Logs",
-            "id",
+            "createdAt",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
-                "primaryKey": true,
-                "allowNull": false
-            }
-        ]
-    },
-    {
-        fn: "changeColumn",
-        params: [
-            "Artists",
-            "id",
-            {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
-                "primaryKey": true,
-                "allowNull": false
-            }
-        ]
-    },
-    {
-        fn: "changeColumn",
-        params: [
-            "Artists",
-            "name",
-            {
-                "type": Sequelize.STRING(255),
+                "type": DATETIME,
                 "allowNull": true
+            }
+        ]
+    },
+    {
+        fn: "changeColumn",
+        params: [
+            "Artists",
+            "id",
+            {
+                "type": INTEGER(11) UNSIGNED,
+                "primaryKey": true,
+                "allowNull": false
             }
         ]
     },
@@ -117,7 +95,7 @@ var migrationCommands = [{
             "Artists",
             "age",
             {
-                "type": Sequelize.INTEGER(11),
+                "type": INTEGER(11),
                 "allowNull": true
             }
         ]
@@ -128,7 +106,7 @@ var migrationCommands = [{
             "Artists",
             "sex",
             {
-                "type": Sequelize.ENUM('M', 'F'),
+                "type": ENUM('M', 'F'),
                 "allowNull": true
             }
         ]
@@ -139,7 +117,7 @@ var migrationCommands = [{
             "Artists",
             "createdAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -150,7 +128,7 @@ var migrationCommands = [{
             "Artists",
             "updatedAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -161,19 +139,7 @@ var migrationCommands = [{
             "ArtistsAndBands",
             "id",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
-                "primaryKey": true,
-                "allowNull": false
-            }
-        ]
-    },
-    {
-        fn: "changeColumn",
-        params: [
-            "ArtistsAndBands",
-            "id",
-            {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "primaryKey": true,
                 "allowNull": false
             }
@@ -185,7 +151,7 @@ var migrationCommands = [{
             "ArtistsAndBands",
             "FKArtistId",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "references": {
                     "model": "Artists",
                     "key": "id"
@@ -200,7 +166,7 @@ var migrationCommands = [{
             "ArtistsAndBands",
             "FKBandId",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "references": {
                     "model": "Bands",
                     "key": "id"
@@ -215,7 +181,7 @@ var migrationCommands = [{
             "ArtistsAndBands",
             "createdAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -226,7 +192,7 @@ var migrationCommands = [{
             "ArtistsAndBands",
             "updatedAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -237,19 +203,7 @@ var migrationCommands = [{
             "Bands",
             "id",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
-                "primaryKey": true,
-                "allowNull": false
-            }
-        ]
-    },
-    {
-        fn: "changeColumn",
-        params: [
-            "Bands",
-            "id",
-            {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "primaryKey": true,
                 "allowNull": false
             }
@@ -261,7 +215,7 @@ var migrationCommands = [{
             "Bands",
             "name",
             {
-                "type": Sequelize.STRING(255),
+                "type": VARCHAR(255),
                 "defaultValue": "",
                 "allowNull": false
             }
@@ -273,7 +227,7 @@ var migrationCommands = [{
             "Bands",
             "createdAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -284,7 +238,7 @@ var migrationCommands = [{
             "Bands",
             "updatedAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -295,19 +249,7 @@ var migrationCommands = [{
             "Channels",
             "id",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
-                "primaryKey": true,
-                "allowNull": false
-            }
-        ]
-    },
-    {
-        fn: "changeColumn",
-        params: [
-            "Channels",
-            "id",
-            {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "primaryKey": true,
                 "allowNull": false
             }
@@ -319,7 +261,7 @@ var migrationCommands = [{
             "Channels",
             "name",
             {
-                "type": Sequelize.STRING(11),
+                "type": VARCHAR(11),
                 "allowNull": true
             }
         ]
@@ -330,7 +272,7 @@ var migrationCommands = [{
             "Channels",
             "createdAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -341,7 +283,7 @@ var migrationCommands = [{
             "Channels",
             "updatedAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -352,19 +294,7 @@ var migrationCommands = [{
             "FavoriteVideos",
             "id",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
-                "primaryKey": true,
-                "allowNull": false
-            }
-        ]
-    },
-    {
-        fn: "changeColumn",
-        params: [
-            "FavoriteVideos",
-            "id",
-            {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "primaryKey": true,
                 "allowNull": false
             }
@@ -376,7 +306,7 @@ var migrationCommands = [{
             "FavoriteVideos",
             "FKVideoId",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "references": {
                     "model": "Videos",
                     "key": "id"
@@ -391,7 +321,7 @@ var migrationCommands = [{
             "FavoriteVideos",
             "FKUserId",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "references": {
                     "model": "Users",
                     "key": "id"
@@ -406,7 +336,7 @@ var migrationCommands = [{
             "FavoriteVideos",
             "createdAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -417,7 +347,7 @@ var migrationCommands = [{
             "FavoriteVideos",
             "updatedAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -428,7 +358,7 @@ var migrationCommands = [{
             "Logs",
             "id",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "primaryKey": true,
                 "allowNull": false
             }
@@ -438,21 +368,9 @@ var migrationCommands = [{
         fn: "changeColumn",
         params: [
             "Artists",
-            "id",
+            "name",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
-                "primaryKey": true,
-                "allowNull": false
-            }
-        ]
-    },
-    {
-        fn: "changeColumn",
-        params: [
-            "Logs",
-            "createdAt",
-            {
-                "type": Sequelize.DATE,
+                "type": VARCHAR(255),
                 "allowNull": true
             }
         ]
@@ -463,7 +381,7 @@ var migrationCommands = [{
             "Logs",
             "updatedAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -474,19 +392,7 @@ var migrationCommands = [{
             "Playlists",
             "id",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
-                "primaryKey": true,
-                "allowNull": false
-            }
-        ]
-    },
-    {
-        fn: "changeColumn",
-        params: [
-            "Playlists",
-            "id",
-            {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "primaryKey": true,
                 "allowNull": false
             }
@@ -498,7 +404,7 @@ var migrationCommands = [{
             "Playlists",
             "createdAt",
             {
-                "type": Sequelize.INTEGER(11),
+                "type": INTEGER(11),
                 "allowNull": true
             }
         ]
@@ -509,7 +415,7 @@ var migrationCommands = [{
             "Playlists",
             "updatedAt",
             {
-                "type": Sequelize.INTEGER(11),
+                "type": INTEGER(11),
                 "allowNull": true
             }
         ]
@@ -520,7 +426,7 @@ var migrationCommands = [{
             "Playlists",
             "FKUserId",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "references": {
                     "model": "Users",
                     "key": "id"
@@ -535,19 +441,7 @@ var migrationCommands = [{
             "PlaylistsAndVideos",
             "id",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
-                "primaryKey": true,
-                "allowNull": false
-            }
-        ]
-    },
-    {
-        fn: "changeColumn",
-        params: [
-            "PlaylistsAndVideos",
-            "id",
-            {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "primaryKey": true,
                 "allowNull": false
             }
@@ -559,7 +453,7 @@ var migrationCommands = [{
             "PlaylistsAndVideos",
             "FKPlaylistId",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "references": {
                     "model": "Playlists",
                     "key": "id"
@@ -574,7 +468,7 @@ var migrationCommands = [{
             "PlaylistsAndVideos",
             "FKVideoId",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "references": {
                     "model": "Videos",
                     "key": "id"
@@ -589,7 +483,7 @@ var migrationCommands = [{
             "PlaylistsAndVideos",
             "createdAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -600,7 +494,7 @@ var migrationCommands = [{
             "PlaylistsAndVideos",
             "updatedAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -611,19 +505,7 @@ var migrationCommands = [{
             "Productions",
             "id",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
-                "primaryKey": true,
-                "allowNull": false
-            }
-        ]
-    },
-    {
-        fn: "changeColumn",
-        params: [
-            "Productions",
-            "id",
-            {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "primaryKey": true,
                 "allowNull": false
             }
@@ -635,7 +517,7 @@ var migrationCommands = [{
             "Productions",
             "FKBandId",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "references": {
                     "model": "Bands",
                     "key": "id"
@@ -650,7 +532,7 @@ var migrationCommands = [{
             "Productions",
             "FKVideoId",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "references": {
                     "model": "Videos",
                     "key": "id"
@@ -665,7 +547,7 @@ var migrationCommands = [{
             "Productions",
             "createdAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -676,7 +558,7 @@ var migrationCommands = [{
             "Productions",
             "updatedAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -687,19 +569,7 @@ var migrationCommands = [{
             "Users",
             "id",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
-                "primaryKey": true,
-                "allowNull": false
-            }
-        ]
-    },
-    {
-        fn: "changeColumn",
-        params: [
-            "Users",
-            "id",
-            {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "primaryKey": true,
                 "allowNull": false
             }
@@ -711,7 +581,7 @@ var migrationCommands = [{
             "Users",
             "createdAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -722,7 +592,18 @@ var migrationCommands = [{
             "Users",
             "updatedAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
+                "allowNull": true
+            }
+        ]
+    },
+    {
+        fn: "changeColumn",
+        params: [
+            "Users",
+            "test",
+            {
+                "type": INTEGER(11),
                 "allowNull": true
             }
         ]
@@ -733,19 +614,7 @@ var migrationCommands = [{
             "Videos",
             "id",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
-                "primaryKey": true,
-                "allowNull": false
-            }
-        ]
-    },
-    {
-        fn: "changeColumn",
-        params: [
-            "Videos",
-            "id",
-            {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "primaryKey": true,
                 "allowNull": false
             }
@@ -757,7 +626,7 @@ var migrationCommands = [{
             "Videos",
             "title",
             {
-                "type": Sequelize.STRING(11),
+                "type": VARCHAR(11),
                 "allowNull": true
             }
         ]
@@ -768,7 +637,7 @@ var migrationCommands = [{
             "Videos",
             "description",
             {
-                "type": Sequelize.STRING(11),
+                "type": VARCHAR(11),
                 "allowNull": true
             }
         ]
@@ -779,7 +648,7 @@ var migrationCommands = [{
             "Videos",
             "FKChannelId",
             {
-                "type": Sequelize.INTEGER(11).UNSIGNED,
+                "type": INTEGER(11) UNSIGNED,
                 "references": {
                     "model": "Channels",
                     "key": "id"
@@ -794,7 +663,7 @@ var migrationCommands = [{
             "Videos",
             "createdAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
@@ -805,7 +674,7 @@ var migrationCommands = [{
             "Videos",
             "updatedAt",
             {
-                "type": Sequelize.DATE,
+                "type": DATETIME,
                 "allowNull": true
             }
         ]
