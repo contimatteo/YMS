@@ -6,28 +6,27 @@
                 "id": {
                     "allowNull": false,
                     "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "name": {
                     "allowNull": true,
-                    "seqType": "VARCHAR(255)"
+                    "seqType": "Sequelize.STRING(255)"
                 },
                 "age": {
                     "allowNull": true,
-                    "seqType": "INTEGER(11)"
+                    "seqType": "Sequelize.INTEGER(11)"
                 },
                 "sex": {
                     "allowNull": true,
-                    "seqType": "ENUM('M', 'F')"
+                    "seqType": "Sequelize.ENUM('M', 'F')"
                 },
                 "createdAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 },
                 "updatedAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -38,8 +37,7 @@
                 "id": {
                     "allowNull": false,
                     "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "FKArtistId": {
                     "allowNull": false,
@@ -47,7 +45,7 @@
                         "model": "Artists",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "FKBandId": {
                     "allowNull": false,
@@ -55,15 +53,15 @@
                         "model": "Bands",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "createdAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 },
                 "updatedAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -74,23 +72,22 @@
                 "id": {
                     "allowNull": false,
                     "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "name": {
                     "allowNull": false,
                     "defaultValue": {
                         "value": ""
                     },
-                    "seqType": "VARCHAR(255)"
+                    "seqType": "Sequelize.STRING(255)"
                 },
                 "createdAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 },
                 "updatedAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -101,20 +98,19 @@
                 "id": {
                     "allowNull": false,
                     "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "name": {
                     "allowNull": true,
-                    "seqType": "VARCHAR(11)"
+                    "seqType": "Sequelize.STRING(11)"
                 },
                 "createdAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 },
                 "updatedAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -125,8 +121,7 @@
                 "id": {
                     "allowNull": false,
                     "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "FKVideoId": {
                     "allowNull": false,
@@ -134,7 +129,7 @@
                         "model": "Videos",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "FKUserId": {
                     "allowNull": false,
@@ -142,15 +137,15 @@
                         "model": "Users",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "createdAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 },
                 "updatedAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -161,16 +156,15 @@
                 "id": {
                     "allowNull": false,
                     "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "createdAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 },
                 "updatedAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -181,16 +175,15 @@
                 "id": {
                     "allowNull": false,
                     "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "createdAt": {
                     "allowNull": true,
-                    "seqType": "INTEGER(11)"
+                    "seqType": "Sequelize.INTEGER(11)"
                 },
                 "updatedAt": {
                     "allowNull": true,
-                    "seqType": "INTEGER(11)"
+                    "seqType": "Sequelize.INTEGER(11)"
                 },
                 "FKUserId": {
                     "allowNull": true,
@@ -198,7 +191,7 @@
                         "model": "Users",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 }
             },
             "indexes": []
@@ -209,8 +202,7 @@
                 "id": {
                     "allowNull": false,
                     "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "FKPlaylistId": {
                     "allowNull": true,
@@ -218,7 +210,7 @@
                         "model": "Playlists",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "FKVideoId": {
                     "allowNull": true,
@@ -226,15 +218,15 @@
                         "model": "Videos",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "createdAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 },
                 "updatedAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -245,8 +237,7 @@
                 "id": {
                     "allowNull": false,
                     "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "FKBandId": {
                     "allowNull": false,
@@ -254,7 +245,7 @@
                         "model": "Bands",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "FKVideoId": {
                     "allowNull": false,
@@ -262,15 +253,15 @@
                         "model": "Videos",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "createdAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 },
                 "updatedAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -281,16 +272,19 @@
                 "id": {
                     "allowNull": false,
                     "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "createdAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 },
                 "updatedAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
+                },
+                "test": {
+                    "allowNull": true,
+                    "seqType": "Sequelize.INTEGER(11)"
                 }
             },
             "indexes": []
@@ -301,16 +295,15 @@
                 "id": {
                     "allowNull": false,
                     "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "title": {
                     "allowNull": true,
-                    "seqType": "VARCHAR(11)"
+                    "seqType": "Sequelize.STRING(11)"
                 },
                 "description": {
                     "allowNull": true,
-                    "seqType": "VARCHAR(11)"
+                    "seqType": "Sequelize.STRING(11)"
                 },
                 "FKChannelId": {
                     "allowNull": false,
@@ -318,19 +311,19 @@
                         "model": "Channels",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "Sequelize.INTEGER(11).UNSIGNED"
                 },
                 "createdAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 },
                 "updatedAt": {
                     "allowNull": true,
-                    "seqType": "DATETIME"
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
         }
     },
-    "revision": 3
+    "revision": 5
 }
