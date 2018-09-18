@@ -1,21 +1,21 @@
 ////////////////////////////////////////////////////////////////////////////////
 
-var mySqlDB = require('../Libraries/database/MySql.js');
-var YoutubeApi = require('../Libraries/YoutubeApi.js');
-var Sparql_Library = require('../Libraries/Sparql.js');
-var Promise = require('bluebird');
+var mySqlDB         =   require('../Libraries/database/MySql.js');
+var YoutubeApi      =   require('../Libraries/YoutubeApi.js');
+var Sparql_Library  =   require('../Libraries/Sparql.js');
+var Promise         =   require('bluebird');
 
-const database = new mySqlDB();
-const youtubeApi = Promise.promisifyAll(new YoutubeApi());
-const sparqlClient = new Sparql_Library();
+const database      =   new mySqlDB();
+const youtubeApi    =   Promise.promisifyAll(new YoutubeApi());
+const sparqlClient  =   new Sparql_Library();
 
 ////////////////////////////////////////////////////////////////////////////////
 
 // models
-const Artist = require('../Models/Artist.js');
-const Band = require('../Models/Band.js');
-const Channel = require('../Models/Channel.js');
-const Video = require('../Models/Video.js');
+const Artist    =   require('../Models/Artist.js');
+const Band      =   require('../Models/Band.js');
+const Channel   =   require('../Models/Channel.js');
+const Video     =   require('../Models/Video.js');
 
 ////////////////////////////////////////////////////////////////////////////////
 
