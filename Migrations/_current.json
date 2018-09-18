@@ -7,7 +7,7 @@
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "name": {
                     "allowNull": true,
@@ -39,7 +39,7 @@
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "FKArtistId": {
                     "allowNull": false,
@@ -47,7 +47,7 @@
                         "model": "Artists",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "FKBandId": {
                     "allowNull": false,
@@ -55,7 +55,7 @@
                         "model": "Bands",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "createdAt": {
                     "allowNull": true,
@@ -75,7 +75,7 @@
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "name": {
                     "allowNull": false,
@@ -102,7 +102,7 @@
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "name": {
                     "allowNull": true,
@@ -126,7 +126,7 @@
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "FKVideoId": {
                     "allowNull": false,
@@ -134,7 +134,7 @@
                         "model": "Videos",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "FKUserId": {
                     "allowNull": false,
@@ -142,7 +142,7 @@
                         "model": "Users",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "createdAt": {
                     "allowNull": true,
@@ -162,7 +162,7 @@
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "createdAt": {
                     "allowNull": true,
@@ -182,7 +182,7 @@
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "createdAt": {
                     "allowNull": true,
@@ -198,7 +198,7 @@
                         "model": "Users",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 }
             },
             "indexes": []
@@ -210,7 +210,7 @@
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "FKPlaylistId": {
                     "allowNull": true,
@@ -218,7 +218,7 @@
                         "model": "Playlists",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "FKVideoId": {
                     "allowNull": true,
@@ -226,7 +226,7 @@
                         "model": "Videos",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "createdAt": {
                     "allowNull": true,
@@ -246,7 +246,7 @@
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "FKBandId": {
                     "allowNull": false,
@@ -254,7 +254,7 @@
                         "model": "Bands",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "FKVideoId": {
                     "allowNull": false,
@@ -262,7 +262,7 @@
                         "model": "Videos",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "createdAt": {
                     "allowNull": true,
@@ -282,7 +282,7 @@
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "createdAt": {
                     "allowNull": true,
@@ -302,7 +302,7 @@
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "title": {
                     "allowNull": true,
@@ -318,7 +318,7 @@
                         "model": "Channels",
                         "key": "id"
                     },
-                    "seqType": "INTEGER(11) UNSIGNED"
+                    "seqType": "INTEGER(11)"
                 },
                 "createdAt": {
                     "allowNull": true,
@@ -332,5 +332,5 @@
             "indexes": []
         }
     },
-    "revision": 7
+    "revision": 1
 }

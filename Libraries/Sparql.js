@@ -14,13 +14,18 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
+
 ////////////////////////////////////////////////////////////////////////////////
+
 const SparqlClient = require('sparql-client-2');
 const SPARQL = SparqlClient.SPARQL;
 const endpoint = 'http://dbpedia.org/sparql';
 const defaultLimit = 1000;
+
 ////////////////////////////////////////////////////////////////////////////////
+
 module.exports = class Sparql_Library {
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   constructor() {
     this.client = new SparqlClient(endpoint)
       .registerCommon('rdfs', 'xsd', 'fn')
@@ -31,7 +36,7 @@ module.exports = class Sparql_Library {
         dbpedia: 'http://dbpedia.org/property/'
       });
   }
-  //////////////////////////////////////////////////////////////////////////////
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   runQuery(query, bindingNames, bindingValues, nextFunction) {
     // set the query
     this.client.query(query);
@@ -55,7 +60,5 @@ module.exports = class Sparql_Library {
       }
     });
   }
-  //////////////////////////////////////////////////////////////////////////////
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
-
-////////////////////////////////////////////////////////////////////////////////

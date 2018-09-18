@@ -14,12 +14,18 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
+
 ////////////////////////////////////////////////////////////////////////////////
+
 // IMPORT SQL Libraries
 var mysql = require('mysql');
+
 // IMPORT SCHEMA
-const DBResponse = require('../../Libraries/schema/DBResponse.js');
-const ApiResponse = require('../../Libraries/schema/ApiResponse.js');
+const DBResponse = require('../../Libraries/Schemas/DBResponse.js');
+const ApiResponse = require('../../Libraries/Schemas/ApiResponse.js');
+
+////////////////////////////////////////////////////////////////////////////////
+
 // MAIN CLASS
 module.exports = class mySqlDB {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

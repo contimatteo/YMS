@@ -1,29 +1,36 @@
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-var mySqlDB = require('../../Libraries/database/MySql.js');
-var YoutubeApi = require('../../Libraries/YoutubeApi.js');
-var Sparql_Library = require('../../Libraries/Sparql.js');
-////////////////////////////////////////////////////////////////////////////////
-const database = new mySqlDB();
-const youtubeApi = new YoutubeApi()
-const sparqlClient = new Sparql_Library();
-////////////////////////////////////////////////////////////////////////////////
-// models
-const Artist = require('../../Models/Artist.js');
-const Band = require('../../Models/Band.js');
-const Channel = require('../../Models/Channel.js');
-const Video = require('../../Models/Video.js');
-////////////////////////////////////////////////////////////////////////////////
-module.exports = class TestController {
 
+var mySqlDB = require('../Libraries/database/MySql.js');
+var YoutubeApi = require('../Libraries/YoutubeApi.js');
+var Sparql_Library = require('../Libraries/Sparql.js');
+var Promise = require('bluebird');
+
+const database = new mySqlDB();
+const youtubeApi = Promise.promisifyAll(new YoutubeApi());
+const sparqlClient = new Sparql_Library();
+
+////////////////////////////////////////////////////////////////////////////////
+
+// models
+const Artist = require('../Models/Artist.js');
+const Band = require('../Models/Band.js');
+const Channel = require('../Models/Channel.js');
+const Video = require('../Models/Video.js');
+
+////////////////////////////////////////////////////////////////////////////////
+
+// var ApiError = require('../../Libraries/Schemas/ApiError.js');
+
+module.exports = class TestController {
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   constructor() {
     // nothing to do
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // run db query exaple
   visualizzoDatiDiProva(response) {
     if (database.isConnected()) {
-      var sql = "SELECT ?? FROM provas";
+      var sql = "SELECT ?? FROM users";
       database.selectQuery(sql, ["nome"], function (results) {
         response.render('pages/test/db', {
           data: results.data
@@ -33,17 +40,7 @@ module.exports = class TestController {
       response.send("qualcosa non è andato");
     }
   }
-
-  // show video by id
-  visualizzoVideo(response, id) {
-    youtubeApi.getById(id, function (results) {
-      response.render('pages/test/video', {
-        videoId: results.items[0].id
-      });
-      // response.send(results);
-    });
-  }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 
   sparql(response) {
     // var query = "  PREFIX dbo: <http://dbpedia.org/ontology/> " +
@@ -65,22 +62,29 @@ module.exports = class TestController {
       response.send(results);
     });
   }
-
-  // 
-  ricercaVideo(response, searchString, numberResult) {
-    youtubeApi.search(searchString, numberResult, function (results) {
-      response.render('pages/test/listVIdeo', {
-        data: results.items
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // show single video by id
+  visualizzoVideo(response, id) {
+    youtubeApi.getById(id).then(function (results) {
+      response.render('pages/test/video', {
+        videoId: results.items[0].id
       });
-      // response.render('utilities/viewJson', {
-      //   json: JSON.stringify(result.items)
-      // });
+    }).catch(function (error) {
+      response.send(error.reasonPhrase);
     });
   }
-
-  // ORM
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // show list of videos
+  ricercaVideo(response, searchString, numberResult) {
+    youtubeApi.search(searchString, numberResult).then(function (results) {
+      response.render('pages/test/listVideo', {
+        data: results.items
+      });
+    });
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // get all bands with relative artists
   orm1(response) {
-    // get all bands with relative artists
     Band.findAll({
         include: [{
           model: Artist
@@ -90,9 +94,9 @@ module.exports = class TestController {
         response.send(results);
       });
   }
-
-  orm2(response) {
-    // get all artists with relative bands
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // get all artists with relative bands
+  orm2(request, response, next) {
     Artist.findAll({
       include: [{
         model: Band
@@ -101,9 +105,9 @@ module.exports = class TestController {
       response.send(results);
     });
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // get all videos with his single channel
   orm3(response) {
-    // get all videos with his single channel
     Video.findAll({
       include: [{
         model: Channel
@@ -112,9 +116,9 @@ module.exports = class TestController {
       response.send(results);
     });
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // get all channels with all of linked videos
   orm4(response) {
-    // get all channels with all of linked videos
     Channel.findAll({
       include: [{
         model: Video
@@ -123,7 +127,6 @@ module.exports = class TestController {
       response.send(results);
     });
   }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 };
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////

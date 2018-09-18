@@ -3,13 +3,13 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('PlaylistsAndVideos', {
     id: {
-      type: DataTypes.INTEGER(11).UNSIGNED,
+      type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
     FKPlaylistId: {
-      type: DataTypes.INTEGER(11).UNSIGNED,
+      type: DataTypes.INTEGER(11),
       allowNull: true,
       references: {
         model: 'Playlists',
@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     FKVideoId: {
-      type: DataTypes.INTEGER(11).UNSIGNED,
+      type: DataTypes.INTEGER(11),
       allowNull: true,
       references: {
         model: 'Videos',

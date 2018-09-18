@@ -21,8 +21,8 @@ var Sequelize = require('sequelize');
 
 var info = {
     "revision": 1,
-    "name": "initial_migration",
-    "created": "2018-09-06T14:17:40.063Z",
+    "name": "create-structure",
+    "created": "2018-09-08T17:14:52.689Z",
     "comment": ""
 };
 
@@ -32,7 +32,7 @@ var migrationCommands = [{
             "Logs",
             {
                 "id": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
@@ -55,7 +55,7 @@ var migrationCommands = [{
             "Artists",
             {
                 "id": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
@@ -90,7 +90,7 @@ var migrationCommands = [{
             "Bands",
             {
                 "id": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
@@ -118,7 +118,7 @@ var migrationCommands = [{
             "Channels",
             {
                 "id": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
@@ -145,7 +145,7 @@ var migrationCommands = [{
             "Users",
             {
                 "id": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
@@ -168,13 +168,13 @@ var migrationCommands = [{
             "ArtistsAndBands",
             {
                 "id": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "FKArtistId": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "references": {
                         "model": "Artists",
                         "key": "id"
@@ -182,7 +182,7 @@ var migrationCommands = [{
                     "allowNull": false
                 },
                 "FKBandId": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "references": {
                         "model": "Bands",
                         "key": "id"
@@ -207,7 +207,7 @@ var migrationCommands = [{
             "Playlists",
             {
                 "id": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
@@ -221,7 +221,7 @@ var migrationCommands = [{
                     "allowNull": true
                 },
                 "FKUserId": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "references": {
                         "model": "Users",
                         "key": "id"
@@ -238,7 +238,7 @@ var migrationCommands = [{
             "Videos",
             {
                 "id": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
@@ -252,7 +252,7 @@ var migrationCommands = [{
                     "allowNull": true
                 },
                 "FKChannelId": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "references": {
                         "model": "Channels",
                         "key": "id"
@@ -277,13 +277,13 @@ var migrationCommands = [{
             "PlaylistsAndVideos",
             {
                 "id": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "FKPlaylistId": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "references": {
                         "model": "Playlists",
                         "key": "id"
@@ -291,7 +291,7 @@ var migrationCommands = [{
                     "allowNull": true
                 },
                 "FKVideoId": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "references": {
                         "model": "Videos",
                         "key": "id"
@@ -316,13 +316,13 @@ var migrationCommands = [{
             "Productions",
             {
                 "id": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "FKBandId": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "references": {
                         "model": "Bands",
                         "key": "id"
@@ -330,7 +330,7 @@ var migrationCommands = [{
                     "allowNull": false
                 },
                 "FKVideoId": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "references": {
                         "model": "Videos",
                         "key": "id"
@@ -355,13 +355,13 @@ var migrationCommands = [{
             "FavoriteVideos",
             {
                 "id": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "FKVideoId": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "references": {
                         "model": "Videos",
                         "key": "id"
@@ -369,7 +369,7 @@ var migrationCommands = [{
                     "allowNull": false
                 },
                 "FKUserId": {
-                    "type": "INTEGER(11) UNSIGNED",
+                    "type": "INTEGER(11)",
                     "references": {
                         "model": "Users",
                         "key": "id"
