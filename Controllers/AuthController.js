@@ -18,8 +18,22 @@ module.exports = {
     req.session.destroy(function (err) {
       res.redirect('/');
     });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  userLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+      return next();
+    // no logged user
+    res.redirect('/signin');
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  userLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+      return next();
+    // no logged user
+    res.redirect('/signin');
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-}
+};
 
 ////////////////////////////////////////////////////////////////////////////////

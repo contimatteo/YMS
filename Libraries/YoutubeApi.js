@@ -25,14 +25,6 @@ module.exports = class YoutubeApi_Library {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   search(queryString, numberOfResult, callback) {
-    // youtube.search(queryString, numberOfResult, this.filters, function (error, result) {
-    //   if (error) {
-    //     console.log(error);
-    //     callback(null);
-    //   } else {
-    //     callback(result);
-    //   }
-    // });
     return new Promise((resolve, reject) => {
       youtube.search(queryString, numberOfResult, this.filters, function (error, result) {
         if (error)
@@ -51,7 +43,7 @@ module.exports = class YoutubeApi_Library {
         if (result.items.length < 1)
           reject(new CustomError(400, "video not found", ""));
         resolve(result);
-      })
+      });
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

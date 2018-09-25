@@ -23,6 +23,7 @@ var mysql = require('mysql');
 // IMPORT SCHEMA
 const DBResponse = require('../../Libraries/Schemas/DBResponse.js');
 const ApiResponse = require('../../Libraries/Schemas/ApiResponse.js');
+var CustomError = require('../Schemas/CustomError.js');
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -39,8 +40,7 @@ module.exports = class mySqlDB {
         database: process.env.MYSQL_DB_DATABASE,
         port: 3306
       });
-    }
-    else {
+    } else {
       // LOCAL
       this.connection = mysql.createConnection({
         host: process.env.DB_HOST,
@@ -73,26 +73,31 @@ module.exports = class mySqlDB {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // SELECT methods
-  selectQuery(query, bindValues, nextFunction) {
+  selectQuery(query, bindValues) {
     // preapare the query
     var sqlQuery = mysql.format(query, bindValues);
-    // exec the query
-    this.connection.query(sqlQuery, function(error, dbData, fields) {
-      // thrown errors
-      if (error) throw error;
-      // set result
-      var result = new DBResponse();
-      result.isExecuted = true;
-      result.lenght = dbData.length;
-      var resultData = [];
-      for (var index in dbData) {
-        resultData.push(dbData[index]);
-      }
-      Object.assign(result.data, resultData);
-      Object.assign(result.fields, fields);
-      Object.assign(result.errors, error);
-      // return value
-      nextFunction(result);
+    return new Promise((resolve, reject) => {
+      this.connection.query(sqlQuery, function (error, databaseData, fields) {
+        // thrown errors
+        if (error)
+          reject(error);
+        // thrown no data finded
+        if (!databaseData || !databaseData.length || databaseData.length < 0)
+          reject(new CustomError(400, "no data found", ""));
+        // set result
+        var result = new DBResponse();
+        result.isExecuted = true;
+        // result.length = databaseData.length;
+        var resultData = [];
+        for (var index in databaseData) {
+          resultData.push(databaseData[index]);
+        }
+        Object.assign(result.data, resultData);
+        Object.assign(result.fields, fields);
+        Object.assign(result.errors, error);
+        // return value
+        resolve(result);
+      });
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -100,19 +105,25 @@ module.exports = class mySqlDB {
   standardQuery(query, bindValues, nextFunction) {
     // preapare the query
     var sqlQuery = mysql.format(query, bindValues);
-    // exec the query
-    this.connection.query(sqlQuery, function(error, databaseData, fields) {
-      // thrown errors
-      if (error) throw error;
-      // set result
-      var result = new DBResponse();
-      result.lenght = 0;
-      result.isExecuted = true;
-      Object.assign(result.data, {});
-      Object.assign(result.fields, fields);
-      Object.assign(result.errors, error);
-      // return value
-      nextFunction(result);
+    return new Promise((resolve, reject) => {
+      // exec the query
+      this.connection.query(sqlQuery, function (error, databaseData, fields) {
+        // thrown errors
+        if (error)
+          reject(error);
+        // thrown no data finded
+        if (!databaseData || !databaseData.length || databaseData.length < 0)
+          reject(new CustomError(400, "no data found", ""));
+        // set result
+        var result = new DBResponse();
+        result.lenght = 0;
+        result.isExecuted = true;
+        Object.assign(result.data, {});
+        Object.assign(result.fields, fields);
+        Object.assign(result.errors, error);
+        // return value
+        resolve(result);
+      });
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

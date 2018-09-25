@@ -1,5 +1,4 @@
 var AuthController = require('../Controllers/AuthController.js');
-var AuthHelper = require('../Controllers/Helpers/AuthHelper.js');
 
 module.exports = function (app, passport) {
 
@@ -15,10 +14,10 @@ module.exports = function (app, passport) {
   }));
 
 
-  app.get('/dashboard', AuthHelper.userLoggedIn, AuthController.dashboard);
+  app.get('/dashboard', AuthController.userLoggedIn, AuthController.dashboard);
 
 
-  app.get('/logout', AuthHelper.userLoggedIn, AuthController.logout);
+  app.get('/logout', AuthController.userLoggedIn, AuthController.logout);
 
 
   app.post('/signin', passport.authenticate('local-signin', {

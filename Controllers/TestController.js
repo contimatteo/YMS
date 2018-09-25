@@ -1,21 +1,21 @@
 ////////////////////////////////////////////////////////////////////////////////
 
-var mySqlDB         =   require('../Libraries/database/MySql.js');
-var YoutubeApi      =   require('../Libraries/YoutubeApi.js');
-var Sparql_Library  =   require('../Libraries/Sparql.js');
-var Promise         =   require('bluebird');
+var mySqlDB = require('../Libraries/database/MySql.js');
+var YoutubeApi = require('../Libraries/YoutubeApi.js');
+var Sparql_Library = require('../Libraries/Sparql.js');
+var Promise = require('bluebird');
 
-const database      =   new mySqlDB();
-const youtubeApi    =   Promise.promisifyAll(new YoutubeApi());
-const sparqlClient  =   new Sparql_Library();
+const database = new mySqlDB();
+const youtubeApi = Promise.promisifyAll(new YoutubeApi());
+const sparqlClient = new Sparql_Library();
 
 ////////////////////////////////////////////////////////////////////////////////
 
 // models
-const Artist    =   require('../Models/Artist.js');
-const Band      =   require('../Models/Band.js');
-const Channel   =   require('../Models/Channel.js');
-const Video     =   require('../Models/Video.js');
+const Artist = require('../Models/Artist.js');
+const Band = require('../Models/Band.js');
+const Channel = require('../Models/Channel.js');
+const Video = require('../Models/Video.js');
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -30,11 +30,19 @@ module.exports = class TestController {
   // run db query exaple
   visualizzoDatiDiProva(response) {
     if (database.isConnected()) {
-      var sql = "SELECT ?? FROM users";
-      database.selectQuery(sql, ["nome"], function (results) {
+      var sql = ' SELECT email FROM Users ';
+      database.selectQuery(sql, []).then(function (results) {
         response.render('pages/test/db', {
           data: results.data
         });
+      })
+      .catch(function (error) {
+        if(error.reasonPhrase)
+          // my custom error
+          response.send(error.reasonPhrase);
+        else
+          // mysql error
+          response.send(error.sqlMessage);
       });
     } else {
       response.send("qualcosa non è andato");
@@ -52,14 +60,40 @@ module.exports = class TestController {
     //             //"    ?band dbo:genre ?genre . " +
     //             "    ?band foaf:name ?bandname .  " +
     //             "  } ";
-    var query = " PREFIX dbo: <http://dbpedia.org/ontology/>" +
-      " PREFIX dbr: <http://dbpedia.org/resource/> " +
-      " SELECT ?s WHERE { " +
-      " ?s a dbo:City ; " +
-      " dbo:country dbr:India " +
+    // var query = " PREFIX dbo: <http://dbpedia.org/ontology/>" +
+    //   " PREFIX dbr: <http://dbpedia.org/resource/> " +
+    //   " SELECT ?singer ?wife  " +
+    //   " WHERE {  " +
+    //   " ?x dbo:musicalArtist ?singer.  " +
+    //   " ?singer dbo:spouse ?wife.  " +
+    //   " ?wife a dbo:MusicalArtist " +
+    //   " } ";
+    // var query = " PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " + 
+    // " PREFIX dbpedia-owl:<http://dbpedia.org/ontology/> " + 
+    // " PREFIX owl: <http://www.w3.org/2002/07/owl#> " + 
+    // " select (?artist) { " +
+    // "  ?artist a dbo:MusicalArtist; " +
+    // "           rdfs:label ?name_ . " +
+    // " } ";
+    // var query = " PREFIX dbpedia-owl:<http://dbpedia.org/ontology/> " +
+    //   " PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
+    //   " SELECT distinct * WHERE { " +
+    //   " ?album a dbpedia-owl:Album.  " +
+    //   " Filter( ?album=dbpedia:Hybrid_Theory)  " +
+    //   " } ";
+    var query = " PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
+      " PREFIX dbpedia-owl:<http://dbpedia.org/ontology/> " +
+      " PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
+      "SELECT distinct * " +
+      " WHERE { " +
+      " ?album a dbpedia-owl:Album . " +
+      " ?album rdfs:label ?albumName. " +
+      "  ?album dbpedia-owl:artist ?Artist. " +
       " }";
-    sparqlClient.runQuery(query, [], [], function (results) {
+    sparqlClient.runQuery(query, [], []).then(function (results) {
       response.send(results);
+    }).catch(function (error) {
+      response.send(error.reasonPhrase);
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

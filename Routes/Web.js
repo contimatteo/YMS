@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var TestController = require('../Controllers/TestController.js');
 var AjaxRequest = require('../Libraries/AjaxRequest.js');
-var AuthHelper = require('../Controllers/Helpers/AuthHelper.js');
+var AuthController = require('../Controllers/AuthController.js');
 ////////////////////////////////////////////////////////////////////////////////
 const testController = new TestController();
 const ajaxRequest = new AjaxRequest();
@@ -13,7 +13,7 @@ module.exports = function(app, passport) {
     //response.render('pages/index');
   });
   // route for testing db
-  app.get('/db', AuthHelper.userLoggedIn, function(request, response) {
+  app.get('/db', AuthController.userLoggedIn, function(request, response) {
     testController.visualizzoDatiDiProva(response);
   });
   // api testing route
@@ -23,27 +23,27 @@ module.exports = function(app, passport) {
     });
   });
   // api testing route
-  app.get('/youtube', AuthHelper.userLoggedIn, function(request, response) {
+  app.get('/youtube', AuthController.userLoggedIn, function(request, response) {
     testController.ricercaVideo(response, "Ninja", 10);
   });
   // api testing route
-  app.get('/youtube/:id', AuthHelper.userLoggedIn, function(request, response) {
+  app.get('/youtube/:id', AuthController.userLoggedIn, function(request, response) {
     var id = request.params.id;
     testController.visualizzoVideo(response, id);
   });
   // SPARQL testing route
-  app.get('/sparql', AuthHelper.userLoggedIn, function(request, response) {
+  app.get('/sparql', function(request, response) {
     testController.sparql(response);
   });
   // orm 1 testing route
-  app.get('/orm1', AuthHelper.userLoggedIn, function(request, response) {
+  app.get('/orm1', AuthController.userLoggedIn, function(request, response) {
     testController.orm1(response);
   });
   // orm 2 testing route
   // app.get('/orm2', function(request, response) {
   //   testController.orm2(response);
   // });
-  app.get('/orm2', AuthHelper.userLoggedIn, testController.orm2);
+  app.get('/orm2', AuthController.userLoggedIn, testController.orm2);
   // orm 3 testing route
   app.get('/orm3', function(request, response) {
     testController.orm3(response);
