@@ -24,7 +24,7 @@ module.exports = function(app, passport) {
   });
   // api testing route
   app.get('/youtube', AuthController.userLoggedIn, function(request, response) {
-    testController.ricercaVideo(response, "Ninja", 10);
+    testController.ricercaVideo(response, "Linkin Park", 5);
   });
   // api testing route
   app.get('/youtube/:id', AuthController.userLoggedIn, function(request, response) {
@@ -51,6 +51,10 @@ module.exports = function(app, passport) {
   // orm 4 testing route
   app.get('/orm4', function(request, response) {
     testController.orm3(response);
+  });
+  // enri testing views
+  app.get('/enri/view/index', function(request, response) {
+    testController.viewIndex(response);
   });
 };
 ////////////////////////////////////////////////////////////////////////////////

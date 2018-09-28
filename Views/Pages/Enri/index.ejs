@@ -10,10 +10,16 @@
     <div class="main-wrapper">
       <% include ../../Components/preloader.ejs %>
         <% include ../../Components/navbar.ejs %>
-        <div class="container">
+          
+        <ul>
+          <% data.forEach(function(elemento) { %>
+            <li>
+              <%= elemento.nome %> - <%= elemento.cognome %>
+            </li>
+            <% }); %>
+        </ul>
 
-        </div>
-          <% include ../../Components/footer.ejs %>
+        <% include ../../Components/footer.ejs %>
     </div>
     <% include ../../Components/footer-import.ejs %>
   </body>

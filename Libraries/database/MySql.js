@@ -83,7 +83,7 @@ module.exports = class mySqlDB {
           reject(error);
         // thrown no data finded
         if (!databaseData || !databaseData.length || databaseData.length < 0)
-          reject(new CustomError(400, "no data found", ""));
+          reject(new CustomError(400, "no data found", "warning: no fields matched with this query"));
         // set result
         var result = new DBResponse();
         result.isExecuted = true;
@@ -112,7 +112,7 @@ module.exports = class mySqlDB {
         if (error)
           reject(error);
         // thrown no data finded
-        if (!databaseData || !databaseData.length || databaseData.length < 0)
+        if (!databaseData || !databaseData.length || databaseData.length < 1)
           reject(new CustomError(400, "no data found", ""));
         // set result
         var result = new DBResponse();

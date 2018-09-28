@@ -16,6 +16,7 @@ const Artist = require('../Models/Artist.js');
 const Band = require('../Models/Band.js');
 const Channel = require('../Models/Channel.js');
 const Video = require('../Models/Video.js');
+const User = require('../Models/User.js');
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -30,20 +31,27 @@ module.exports = class TestController {
   // run db query exaple
   visualizzoDatiDiProva(response) {
     if (database.isConnected()) {
-      var sql = ' SELECT email FROM Users ';
+      // User.findAll({})
+      //   .then(results => {
+      //     // response.send(results);
+      //     response.render('pages/test/db', {
+      //       data: results
+      //     });
+      //   });
+      var sql = ' SELECT * FROM Users ';
       database.selectQuery(sql, []).then(function (results) {
-        response.render('pages/test/db', {
-          data: results.data
+          response.render('pages/test/db', {
+            data: results.data
+          });
+        })
+        .catch(function (error) {
+          if (error.reasonPhrase)
+            // my custom error
+            response.send(error.reasonPhrase);
+          else
+            // mysql error
+            response.send(error.sqlMessage);
         });
-      })
-      .catch(function (error) {
-        if(error.reasonPhrase)
-          // my custom error
-          response.send(error.reasonPhrase);
-        else
-          // mysql error
-          response.send(error.sqlMessage);
-      });
     } else {
       response.send("qualcosa non è andato");
     }
@@ -99,9 +107,9 @@ module.exports = class TestController {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // show single video by id
   visualizzoVideo(response, id) {
-    youtubeApi.getById(id).then(function (results) {
+    youtubeApi.getVideoById(id).then(function (results) {
       response.render('pages/test/video', {
-        videoId: results.items[0].id
+        video: results.items[0]
       });
     }).catch(function (error) {
       response.send(error.reasonPhrase);
@@ -162,5 +170,15 @@ module.exports = class TestController {
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // view tester for @enricofabbri
+  viewIndex(response) {
+    response.render('pages/enri/index', {
+      data: [
+              {"nome": "Matteo", "cognome": "Conti"},
+              {"nome": "Enrico", "cognome": "Fabbri"},
+              {"nome": "Dario", "cognome": "Campomori"}
+            ]
+    });
+  }
 
 };

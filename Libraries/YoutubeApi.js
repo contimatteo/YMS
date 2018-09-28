@@ -35,7 +35,7 @@ module.exports = class YoutubeApi_Library {
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  getById(id) {
+  getVideoById(id) {
     return new Promise((resolve, reject) => {
       youtube.getById(id, function (error, result) {
         if (error)
