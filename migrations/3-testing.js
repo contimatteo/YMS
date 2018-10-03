@@ -22,7 +22,7 @@ var migrationCommands = [{
         "Bands",
         "artists_number",
         {
-            "type": "INTEGER(11)",
+            "type": INTEGER(11),
             "allowNull": false
         }
     ]

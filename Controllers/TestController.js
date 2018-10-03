@@ -12,11 +12,11 @@ const sparqlClient = new Sparql_Library();
 ////////////////////////////////////////////////////////////////////////////////
 
 // models
-const Artist = require('../Models/Artist.js');
-const Band = require('../Models/Band.js');
-const Channel = require('../Models/Channel.js');
-const Video = require('../Models/Video.js');
-const User = require('../Models/User.js');
+const Artist = require('../models/Artist.js');
+const Band = require('../models/Band.js');
+const Channel = require('../models/Channel.js');
+const Video = require('../models/Video.js');
+const User = require('../models/User.js');
 
 ////////////////////////////////////////////////////////////////////////////////
 

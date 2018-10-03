@@ -16,10 +16,13 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true
     },
-    password: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      defaultValue: ''
+    lastname: {
+      type: DataTypes.STRING(150),
+      allowNull: true
+    },
+    firstname: {
+      type: DataTypes.STRING(150),
+      allowNull: true
     },
     email: {
       type: DataTypes.STRING(150),
@@ -27,13 +30,10 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: '',
       unique: true
     },
-    firstname: {
-      type: DataTypes.STRING(150),
-      allowNull: true
-    },
-    lastname: {
-      type: DataTypes.STRING(150),
-      allowNull: true
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      defaultValue: ''
     }
   }, {
     tableName: 'Users'

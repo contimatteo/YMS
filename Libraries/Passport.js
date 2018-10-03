@@ -4,7 +4,7 @@
 // import required libs
 var bCrypt = require('bcrypt-nodejs');
 // import user model
-var user = require("../Models/User");
+var user = require("../models/User");
 
 ////////////////////////////////////////////////////////////////////////////////
 
