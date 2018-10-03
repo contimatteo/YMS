@@ -20,6 +20,10 @@ module.exports = function(sequelize, DataTypes) {
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: true
+    },
+    artists_number: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false
     }
   }, {
     tableName: 'Bands'

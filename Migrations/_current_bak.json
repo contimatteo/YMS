@@ -291,6 +291,29 @@
                 "updatedAt": {
                     "allowNull": true,
                     "seqType": "DATETIME"
+                },
+                "password": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "seqType": "VARCHAR(255)"
+                },
+                "email": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "unique": true,
+                    "seqType": "VARCHAR(150)"
+                },
+                "firstname": {
+                    "allowNull": true,
+                    "seqType": "VARCHAR(150)"
+                },
+                "lastname": {
+                    "allowNull": true,
+                    "seqType": "VARCHAR(150)"
                 }
             },
             "indexes": []
@@ -332,5 +355,5 @@
             "indexes": []
         }
     },
-    "revision": 1
+    "revision": 2
 }

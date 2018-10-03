@@ -91,6 +91,10 @@
                 "updatedAt": {
                     "allowNull": true,
                     "seqType": "DATETIME"
+                },
+                "artists_number": {
+                    "allowNull": false,
+                    "seqType": "INTEGER(11)"
                 }
             },
             "indexes": []
@@ -355,5 +359,5 @@
             "indexes": []
         }
     },
-    "revision": 2
+    "revision": 3
 }

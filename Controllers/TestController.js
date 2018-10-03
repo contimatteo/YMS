@@ -90,14 +90,15 @@ module.exports = class TestController {
     //   " Filter( ?album=dbpedia:Hybrid_Theory)  " +
     //   " } ";
     var query = " PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
-      " PREFIX dbpedia-owl:<http://dbpedia.org/ontology/> " +
+      " PREFIX dbw:<http://dbpedia.org/ontology/> " +
       " PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
-      "SELECT distinct * " +
+      " SELECT distinct * " +
       " WHERE { " +
-      " ?album a dbpedia-owl:Album . " +
+      " ?album a dbo:Album . " +
       " ?album rdfs:label ?albumName. " +
-      "  ?album dbpedia-owl:artist ?Artist. " +
+      "  ?album dbo:artist ?Artist. " +
       " }";
+
     sparqlClient.runQuery(query, [], []).then(function (results) {
       response.send(results);
     }).catch(function (error) {
