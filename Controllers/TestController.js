@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
-// var mySqlDB = require('../Libraries/database/MySql.js');
+var mySqlDB = require('../Libraries/database/MySql.js');
 var YoutubeApi = require('../Libraries/YoutubeApi.js');
 var Sparql_Library = require('../Libraries/Sparql.js');
 var Promise = require('bluebird');
 
-// const database = new mySqlDB();
+var database = new mySqlDB();
 const youtubeApi = Promise.promisifyAll(new YoutubeApi());
 const sparqlClient = new Sparql_Library();
 
@@ -29,33 +29,33 @@ module.exports = class TestController {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // run db query exaple
-  // visualizzoDatiDiProva(response) {
-  //   if (database.isConnected()) {
-  //     // User.findAll({})
-  //     //   .then(results => {
-  //     //     // response.send(results);
-  //     //     response.render('pages/test/db', {
-  //     //       data: results
-  //     //     });
-  //     //   });
-  //     var sql = ' SELECT * FROM Users ';
-  //     database.selectQuery(sql, []).then(function (results) {
-  //         response.render('pages/test/db', {
-  //           data: results.data
-  //         });
-  //       })
-  //       .catch(function (error) {
-  //         if (error.reasonPhrase)
-  //           // my custom error
-  //           response.send(error.reasonPhrase);
-  //         else
-  //           // mysql error
-  //           response.send(error.sqlMessage);
-  //       });
-  //   } else {
-  //     response.send("qualcosa non è andato");
-  //   }
-  // }
+  visualizzoDatiDiProva(response) {
+    if (database.isConnected()) {
+      // User.findAll({})
+      //   .then(results => {
+      //     // response.send(results);
+      //     response.render('pages/test/db', {
+      //       data: results
+      //     });
+      //   });
+      var sql = ' SELECT * FROM Users ';
+      database.selectQuery(sql, []).then(function (results) {
+          response.render('pages/test/db', {
+            data: results.data
+          });
+        })
+        .catch(function (error) {
+          if (error.reasonPhrase)
+            // my custom error
+            response.send(error.reasonPhrase);
+          else
+            // mysql error
+            response.send(error.sqlMessage);
+        });
+    } else {
+      response.send("qualcosa non è andato");
+    }
+  }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 
   sparql(response) {
