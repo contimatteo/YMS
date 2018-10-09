@@ -6,6 +6,7 @@ var bodyParser  =   require('body-parser');
 var passport    =   require('passport');
 var session     =   require('express-session');
 
+// INSTANCE GLOBAL OBJECT
 var app = express();
 app.use(cors());
 app.use(bodyParser.json()); // to support JSON-encoded bodies
@@ -13,10 +14,11 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
 
-app.use(function(req, res, next) {
-  console.log("MIDDLEWARE 1 : controllo di sicurezza passatto correttamente");
-  next();
-});
+app.use(session({ secret: 'keyboard cat',resave: true, saveUninitialized:true})); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+require('./Libraries/Passport.js')(passport);
+
 
 app.set('port', (8000 || process.env.PORT || 9000));
 app.use(express.static(__dirname + '/public'));
@@ -54,4 +56,4 @@ app.get('/sparql', function(request, response) {
   testView.sparql(response);
 });
 
-app.listen(8000, () => console.log('Example app listening on port 8000'));
+app.listen(8000, () => console.log('Example app listening on port 8000 .'));
