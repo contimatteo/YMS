@@ -5,10 +5,10 @@ var ApiRoutes   =   require('./Routes/Api');
 var WebRoutes   =   require('./Routes/Web');
 var AuthRoutes  =   require('./Routes/Auth');
 var cors        =   require('cors');
-var env         =   require('dotenv').load();
 var bodyParser  =   require('body-parser');
 var passport    =   require('passport');
 var session     =   require('express-session');
+require("dotenv").config();
 
 // INSTANCE GLOBAL OBJECT
 var app = express();

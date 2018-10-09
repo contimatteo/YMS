@@ -24,6 +24,7 @@ var mysql = require('mysql');
 const DBResponse = require('../../Libraries/Schemas/DBResponse.js');
 const ApiResponse = require('../../Libraries/Schemas/ApiResponse.js');
 var CustomError = require('../Schemas/CustomError.js');
+require("dotenv").config();
 
 ////////////////////////////////////////////////////////////////////////////////
 
