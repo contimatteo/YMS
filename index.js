@@ -127,7 +127,8 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 ////////////////////////////////////////////////////////////////////////////////
-
+var TestController = require('./Controllers/TestController.js');
+var AjaxRequest = require('./Libraries/AjaxRequest.js');
 var testView = new TestController();
 var ajaxRequest = new AjaxRequest();
 
