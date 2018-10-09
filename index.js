@@ -1,10 +1,10 @@
 
 var express = require('express');
 var cors = require('cors');
-require('dotenv').config({
-  path: __dirname + '/.env'
-});
-var bodyParser = require('body-parser');
+var env         =   require('dotenv').load();
+var bodyParser  =   require('body-parser');
+var passport    =   require('passport');
+var session     =   require('express-session');
 
 var app = express();
 app.use(cors());
