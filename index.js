@@ -65,38 +65,74 @@
 // app.listen(8000, () => console.log('Example app listening on port 8000.'));
 
 
-var express = require('express');
-var cors = require('cors');
-require('dotenv').config({
-  path: __dirname + '/.env'
-});
-var bodyParser = require('body-parser');
+////////////////////////////////////////////////////////////////////////////////
 
+// IMPORT MODULE
+var express     =   require('express');
+var ApiRoutes   =   require('./Routes/Api');
+var WebRoutes   =   require('./Routes/Web');
+var AuthRoutes  =   require('./Routes/Auth');
+var cors        =   require('cors');
+var env         =   require('dotenv').load();
+var bodyParser  =   require('body-parser');
+var passport    =   require('passport');
+var session     =   require('express-session');
+
+////////////////////////////////////////////////////////////////////////////////
+
+// IMPORT SCHEMA
+// ...
+
+////////////////////////////////////////////////////////////////////////////////
+
+// INSTANCE GLOBAL OBJECT
 var app = express();
+// app.use(cors({ origin: 'http://italiancoders.it'}));   // project url
 app.use(cors());
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
 
+////////////////////////////////////////////////////////////////////////////////
+
+// PASSPORT
+app.use(session({ secret: 'keyboard cat',resave: true, saveUninitialized:true})); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+require('./Libraries/Passport.js')(passport);
+
+////////////////////////////////////////////////////////////////////////////////
+
+// MIDDLEWARE 1
 app.use(function(req, res, next) {
-  console.log("MIDDLEWARE 1 : controllo di sicurezza passatto correttamente");
+  // console.log("MIDDLEWARE 1 : controllo di sicurezza passatto correttamente");
   next();
 });
 
+////////////////////////////////////////////////////////////////////////////////
+
+// MIDDLEWARE 2
+app.use(function(req, res, next) {
+  // console.log("MIDDLEWARE 2 : controllo di sicurezza passatto correttamente");
+  next();
+});
+
+////////////////////////////////////////////////////////////////////////////////
+
+// set enviroment configuration
 app.set('port', (8000 || process.env.PORT || 9000));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/static'));
+app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-var TestController = require('./Controllers/TestController.js');
-var AjaxRequest = require('./Libraries/AjaxRequest.js');
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
+
 var testView = new TestController();
 var ajaxRequest = new AjaxRequest();
 
-app.get('/', (req, res) => res.send('Main index of project [' + __filename +']'));
-app.get('/diri', (req, res) => res.render('/dashboard'));
+app.get('/', (req, res) => res.send('Main index of project ~ ~ ~ ['+  __dirname + '/views' +']'));
+
 // route for testing db
 app.get('/db', function(request, response) {
   testView.visualizzoDatiDiProva(response);
@@ -109,7 +145,8 @@ app.get('/api', function(request, response) {
 });
 // api testing route
 app.get('/youtube', function(request, response) {
-  testView.ricercaVideo(response, "Ninja", 10);
+  // testView.ricercaVideo(response, "Metaliica", 5);
+  response.render('dashboard');
 });
 // api testing route
 app.get('/youtube/:id', function(request, response) {
@@ -121,4 +158,19 @@ app.get('/sparql', function(request, response) {
   testView.sparql(response);
 });
 
-app.listen(8000, () => console.log('Example app listening on port 8000!'));
+////////////////////////////////////////////////////////////////////////////////
+
+// PASSPORT
+require('./Libraries/Passport.js')(passport);
+
+////////////////////////////////////////////////////////////////////////////////
+
+// LISTENER
+app.listen(app.get('port'), function() {
+  console.log("••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••");
+  console.log("••••••••••••••••• YOUTUBE MUSIC SPIDER ["+app.get('port')+"] •••••••••••••••••");
+  console.log("••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••");
+});
+
+////////////////////////////////////////////////////////////////////////////////
+
