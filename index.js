@@ -19,9 +19,10 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 require('./Libraries/Passport.js')(passport);
 
-
+// set enviroment configuration
 app.set('port', (8000 || process.env.PORT || 9000));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/static'));
+app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 var TestController = require('./Controllers/TestController.js');
@@ -44,7 +45,7 @@ app.get('/api', function(request, response) {
 });
 // api testing route
 app.get('/youtube', function(request, response) {
-  testView.ricercaVideo(response, "Ninja", 10);
+  testView.ricercaVideo(response, "Metaliica", 5);
 });
 // api testing route
 app.get('/youtube/:id', function(request, response) {
@@ -55,5 +56,8 @@ app.get('/youtube/:id', function(request, response) {
 app.get('/sparql', function(request, response) {
   testView.sparql(response);
 });
+
+// PASSPORT
+require('./Libraries/Passport.js')(passport);
 
 app.listen(8000, () => console.log('Example app listening on port 8000 .'));
