@@ -11,6 +11,7 @@ var session     =   require('express-session');
 var app = express();
 // app.use(cors({ origin: 'http://italiancoders.it'}));   // project url
 app.use(cors());
+var path = require('path');
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
@@ -25,7 +26,9 @@ require('./Libraries/Passport.js')(passport);
 // set enviroment configuration
 app.set('port', (8000 || process.env.PORT || 9000));
 app.use(express.static(__dirname + '/static'));
-app.set('views', __dirname + '/webapp/views/');
+// app.set('views', __dirname + '/views/');
+//app.set('views', path.join(__dirname, '/views'));
+app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 ////////////////////////////////////////////////////////////////////////////////
 var TestController = require('./Controllers/TestController.js');
