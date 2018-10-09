@@ -45,7 +45,8 @@ app.get('/api', function(request, response) {
 });
 // api testing route
 app.get('/youtube', function(request, response) {
-  testView.ricercaVideo(response, "Metaliica", 5);
+  // testView.ricercaVideo(response, "Metaliica", 5);
+  response.render('dashboard');
 });
 // api testing route
 app.get('/youtube/:id', function(request, response) {

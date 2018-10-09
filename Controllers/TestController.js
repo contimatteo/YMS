@@ -109,7 +109,7 @@ module.exports = class TestController {
   // show single video by id
   visualizzoVideo(response, id) {
     youtubeApi.getVideoById(id).then(function (results) {
-      response.render('dashboard', {
+      response.render('pages/test/video', {
         video: results.items[0]
       });
     }).catch(function (error) {
