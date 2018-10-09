@@ -1,27 +1,3 @@
-// ////////////////////////////////////////////////////////////////////////////////
-
-// // IMPORT MODULE
-// var express     =   require('express');
-// var ApiRoutes   =   require('./Routes/Api');
-// var WebRoutes   =   require('./Routes/Web');
-// var AuthRoutes  =   require('./Routes/Auth');
-// var cors        =   require('cors');
-// var env         =   require('dotenv').load();
-// var bodyParser  =   require('body-parser');
-// var passport    =   require('passport')
-// var session     =   require('express-session')
-
-// ////////////////////////////////////////////////////////////////////////////////
-
-// // IMPORT SCHEMA
-// // ...
-
-// var AuthController = require('./Controllers/AuthController.js');
-
-// ////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////
-
 // IMPORT MODULE
 var express     =   require('express');
 var ApiRoutes   =   require('./Routes/Api');
@@ -30,42 +6,24 @@ var AuthRoutes  =   require('./Routes/Auth');
 var cors        =   require('cors');
 var env         =   require('dotenv').load();
 var bodyParser  =   require('body-parser');
-var passport    =   require('passport');
-var session     =   require('express-session');
+var passport    =   require('passport')
+var session     =   require('express-session')
 
-////////////////////////////////////////////////////////////////////////////////
-
-// IMPORT SCHEMA
-// ...
-
-////////////////////////////////////////////////////////////////////////////////
-
-// INSTANCE GLOBAL OBJECT
 var app = express();
-// app.use(cors({ origin: 'http://italiancoders.it'}));   // project url
 app.use(cors());
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
 
-////////////////////////////////////////////////////////////////////////////////
+app.use(function(req, res, next) {
+  console.log("MIDDLEWARE 1 : controllo di sicurezza passatto correttamente");
+  next();
+});
 
-// PASSPORT
-app.use(session({ secret: 'keyboard cat',resave: true, saveUninitialized:true})); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-require('./Libraries/Passport.js')(passport);
-
-////////////////////////////////////////////////////////////////////////////////
-
-// set enviroment configuration
 app.set('port', (8000 || process.env.PORT || 9000));
-app.use(express.static(__dirname + '/Static'));
-app.set('views', __dirname + '/views');
+app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
-
-////////////////////////////////////////////////////////////////////////////////
 
 var TestController = require('./Controllers/TestController.js');
 var AjaxRequest = require('./Libraries/AjaxRequest.js');
@@ -74,7 +32,7 @@ var AjaxRequest = require('./Libraries/AjaxRequest.js');
 var testView = new TestController();
 var ajaxRequest = new AjaxRequest();
 
-app.get('/', (req, res) => res.send('Main index of project!!'));
+app.get('/', (req, res) => res.send('Main index of project'));
 // route for testing db
 app.get('/db', function(request, response) {
   testView.visualizzoDatiDiProva(response);
@@ -98,6 +56,5 @@ app.get('/youtube/:id', function(request, response) {
 app.get('/sparql', function(request, response) {
   testView.sparql(response);
 });
-
 
 app.listen(8000, () => console.log('Example app listening on port 8000!'));
