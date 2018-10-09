@@ -1,13 +1,10 @@
-// IMPORT MODULE
-var express     =   require('express');
-var ApiRoutes   =   require('./Routes/Api');
-var WebRoutes   =   require('./Routes/Web');
-var AuthRoutes  =   require('./Routes/Auth');
-var cors        =   require('cors');
-var env         =   require('dotenv').load();
-var bodyParser  =   require('body-parser');
-var passport    =   require('passport')
-var session     =   require('express-session')
+
+var express = require('express');
+var cors = require('cors');
+require('dotenv').config({
+  path: __dirname + '/.env'
+});
+var bodyParser = require('body-parser');
 
 var app = express();
 app.use(cors());
@@ -25,8 +22,8 @@ app.set('port', (8000 || process.env.PORT || 9000));
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 
-var TestController = require('./Controllers/TestController.js');
-var AjaxRequest = require('./Libraries/AjaxRequest.js');
+var TestController = require('./controllers/test/TestController.js');
+var AjaxRequest = require('./libs/AjaxRequest.js');
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 var testView = new TestController();
