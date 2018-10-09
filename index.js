@@ -76,7 +76,7 @@ app.set('port', (8000 || process.env.PORT || 9000));
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 
-var TestController = require('./controllers/TestController.js');
+var TestController = require('./Controllers/TestController.js');
 var AjaxRequest = require('./Libraries/AjaxRequest.js');
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
