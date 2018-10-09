@@ -95,30 +95,30 @@ var AjaxRequest = require('./Libraries/AjaxRequest.js');
 var testView = new TestController();
 var ajaxRequest = new AjaxRequest();
 
-app.get('/', (req, res) => res.send('Main index of project [' + __dirname +']'));
+app.get('/', (req, res) => res.send('Main index of project [' + __filename +']'));
 app.get('/diri', (req, res) => res.render('/dashboard'));
-// // route for testing db
-// app.get('/db', function(request, response) {
-//   testView.visualizzoDatiDiProva(response);
-// });
-// // api testing route
-// app.get('/api', function(request, response) {
-//   ajaxRequest.jsonRequest("https://reqres.in/api/users", "GET", {}, function(result) {
-//     response.send(result.data);
-//   });
-// });
-// // api testing route
-// app.get('/youtube', function(request, response) {
-//   testView.ricercaVideo(response, "Ninja", 10);
-// });
-// // api testing route
-// app.get('/youtube/:id', function(request, response) {
-//   var id = request.params.id;
-//   testView.visualizzoVideo(response, id);
-// });
-// // SPARQL testing route
-// app.get('/sparql', function(request, response) {
-//   testView.sparql(response);
-// });
+// route for testing db
+app.get('/db', function(request, response) {
+  testView.visualizzoDatiDiProva(response);
+});
+// api testing route
+app.get('/api', function(request, response) {
+  ajaxRequest.jsonRequest("https://reqres.in/api/users", "GET", {}, function(result) {
+    response.send(result.data);
+  });
+});
+// api testing route
+app.get('/youtube', function(request, response) {
+  testView.ricercaVideo(response, "Ninja", 10);
+});
+// api testing route
+app.get('/youtube/:id', function(request, response) {
+  var id = request.params.id;
+  testView.visualizzoVideo(response, id);
+});
+// SPARQL testing route
+app.get('/sparql', function(request, response) {
+  testView.sparql(response);
+});
 
 app.listen(8000, () => console.log('Example app listening on port 8000!'));
