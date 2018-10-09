@@ -120,7 +120,7 @@ module.exports = class TestController {
   // show list of videos
   ricercaVideo(response, searchString, numberResult) {
     youtubeApi.search(searchString, numberResult).then(function (results) {
-      response.render('pages/test/listVideo', {
+      response.render('pages/test/list-video', {
         data: results.items
       });
     });
