@@ -27,8 +27,7 @@ require('./Libraries/Passport.js')(passport);
 app.set('port', (8000 || process.env.PORT || 9000));
 app.use(express.static(__dirname + '/static'));
 // app.set('views', __dirname + '/views/');
-//app.set('views', path.join(__dirname, '/views'));
-app.set('views', path.join(__dirname, 'views'));
+// app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 ////////////////////////////////////////////////////////////////////////////////
 var TestController = require('./Controllers/TestController.js');
@@ -36,7 +35,9 @@ var AjaxRequest = require('./Libraries/AjaxRequest.js');
 var testView = new TestController();
 var ajaxRequest = new AjaxRequest();
 
-app.get('/', (req, res) => res.send('Main index of project'));
+app.get('/', function(request, response) {
+  res.render('dashboard');
+});
 // route for testing db
 app.get('/db', function(request, response) {
   testView.visualizzoDatiDiProva(response);
