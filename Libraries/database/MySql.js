@@ -32,25 +32,32 @@ require("dotenv").config();
 module.exports = class mySqlDB {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   constructor() {
-    if (process.env.NODE && ~process.env.NODE.indexOf("heroku")) {
-      // TODO: set env var on heroku
-      this.connection = mysql.createConnection({
-        host: process.env.MYSQL_DB_HOST,
-        user: process.env.MYSQL_DB_USER,
-        password: process.env.MYSQL_DB_PASSWORD,
-        database: process.env.MYSQL_DB_DATABASE,
-        port: 3306
-      });
-    } else {
-      // LOCAL
-      this.connection = mysql.createConnection({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_DATABASE,
-        port: 3306
-      });
-    }
+    // if (process.env.NODE && ~process.env.NODE.indexOf("heroku")) {
+    //   // TODO: set env var on heroku
+    //   this.connection = mysql.createConnection({
+    //     host: process.env.MYSQL_DB_HOST,
+    //     user: process.env.MYSQL_DB_USER,
+    //     password: process.env.MYSQL_DB_PASSWORD,
+    //     database: process.env.MYSQL_DB_DATABASE,
+    //     port: 3306
+    //   });
+    // } else {
+    //   // LOCAL
+    //   this.connection = mysql.createConnection({
+    //     host: process.env.DB_HOST,
+    //     user: process.env.DB_USER,
+    //     password: process.env.DB_PASSWORD,
+    //     database: process.env.DB_DATABASE,
+    //     port: 3306
+    //   });
+    // }
+    this.connection = mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      port: 3306
+    });
     this.connectionStatus = "";
     this.connection.connect();
   }
