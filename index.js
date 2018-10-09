@@ -28,7 +28,7 @@ app.set('port', (8000 || process.env.PORT || 9000));
 app.use(express.static(__dirname + '/static'));
 // app.set('views', __dirname + '/views/');
 //app.set('views', path.join(__dirname, '/views'));
-app.set('views', path.join(__dirname, '../views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 ////////////////////////////////////////////////////////////////////////////////
 var TestController = require('./Controllers/TestController.js');
