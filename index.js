@@ -22,7 +22,7 @@ require('./Libraries/Passport.js')(passport);
 // set enviroment configuration
 app.set('port', (8000 || process.env.PORT || 9000));
 app.use(express.static(__dirname + '/static'));
-app.set('views', __dirname + '/views');
+// app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 var TestController = require('./Controllers/TestController.js');
@@ -60,4 +60,4 @@ app.get('/sparql', function(request, response) {
 // PASSPORT
 require('./Libraries/Passport.js')(passport);
 
-app.listen(8000, () => console.log('Example app listening on port 8000 ['+  __dirname +']'));
+app.listen(8000, () => console.log('Example app listening on port 8000 ['+  __dirname + '/views' +']'));
