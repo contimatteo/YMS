@@ -37,9 +37,9 @@ var ajaxRequest = new AjaxRequest();
 
 app.get('/', (req, res) => res.send('Main index of project'));
 // route for testing db
-app.get('/db', function(request, response) {
-  testView.visualizzoDatiDiProva(response);
-});
+// app.get('/db', function(request, response) {
+//   testView.visualizzoDatiDiProva(response);
+// });
 // api testing route
 app.get('/api', function(request, response) {
   ajaxRequest.jsonRequest("https://reqres.in/api/users", "GET", {}, function(result) {

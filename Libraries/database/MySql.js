@@ -67,7 +67,7 @@ module.exports = class mySqlDB {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   disconnect() {
-    this.connection.end();
+    // this.connection.end();
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   isConnected() {
