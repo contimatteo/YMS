@@ -1,9 +1,10 @@
+////////////////////////////////////////////////////////////////////////////////
 
 // IMPORT MODULE
 var express     =   require('express');
-var ApiRoutes   =   require('./Routes/Api');
-var WebRoutes   =   require('./Routes/Web');
-var AuthRoutes  =   require('./Routes/Auth');
+var ApiRoutes   =   require('./routes/Api');
+var WebRoutes   =   require('./routes/Web');
+var AuthRoutes  =   require('./routes/Auth');
 var cors        =   require('cors');
 require('dotenv').config({
   path: __dirname + '/.env'
@@ -34,7 +35,7 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 app.use(session({ secret: 'keyboard cat',resave: true, saveUninitialized:true})); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-require('./Libraries/Passport.js')(passport);
+require('./libraries/Passport.js')(passport);
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -70,7 +71,7 @@ AuthRoutes(app, passport);
 ////////////////////////////////////////////////////////////////////////////////
 
 // PASSPORT
-require('./Libraries/Passport.js')(passport);
+require('./libraries/Passport.js')(passport);
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -82,3 +83,4 @@ app.listen(app.get('port'), function() {
 });
 
 ////////////////////////////////////////////////////////////////////////////////
+

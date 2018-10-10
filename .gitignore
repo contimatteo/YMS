@@ -6,8 +6,7 @@
 **/client_secret.json
 **/sftp-config.json
 **/auto-generate-models.sh
-#**/Models/BaseStructure/*
+#**/models/baseStructure/*
 **/*.sql
 **/*.zip
 **/config/*
-**/Config/*
