@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // import ORM instance and Datatypes
 const Sequelize = require('sequelize');
-var myORM = require('../Libraries/ORM.js');
+var myORM = require('../libraries/ORM.js');
 const ORM = new myORM();
 const DataTypes = Sequelize.DataTypes;
 ////////////////////////////////////////////////////////////////////////////////
 // import main model
-var PlaylistsAndVideos = require("./BaseStructure/PlaylistsAndVideos.js")(ORM.sequelize, DataTypes);
+var PlaylistsAndVideos = require("./baseStructure/PlaylistsAndVideos.js")(ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // import additional models (for define relations)
 // ...

@@ -16,20 +16,27 @@
  */
 
 ////////////////////////////////////////////////////////////////////////////////
+
 var request = require('request');
+
 ////////////////////////////////////////////////////////////////////////////////
-const ApiResponse = require('./schema/ApiResponse.js');
+
+const ApiResponse = require('./schemas/ApiResponse.js');
+
 ////////////////////////////////////////////////////////////////////////////////
+
 module.exports = class AjaxRequest_Library {
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   constructor() {
     // Set the headers
-    this.headers = {
+    this.headers = {  
       'User-Agent': 'YMS Agent/0.0.1',
       'Content-Type': 'application/json'
     };
     this.options = {};
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // ...
   jsonRequest(url, typeRequest, data, nextFunction) {
     // Configure the request
     this.options = {
@@ -55,5 +62,5 @@ module.exports = class AjaxRequest_Library {
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  
 }
-////////////////////////////////////////////////////////////////////////////////

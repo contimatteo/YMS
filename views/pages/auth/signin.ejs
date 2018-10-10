@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Login</title>
+  <% include ../../components/header.ejs %>
+</head>
+
+<body id="body" class="body-wrapper boxed-menu">
+  <div class="main-wrapper">
+    <% include ../../components/preloader.ejs %>
+    <%/* include ../../components/navbar.ejs */%>
+    <div class="container">
+      <!-- LOGIN SECTION -->
+      <section class="clearfix loginSection">
+        <div class="container">
+          <div class="row">
+            <div class="center-block col-md-5 col-sm-6 col-xs-12">
+              <div class="panel panel-default loginPanel">
+                <div class="panel-heading text-center">Members log in</div>
+                <div class="panel-body">
+                  <form class="loginForm" id="signin" name="signin" method="post" action="signin">
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                        <input type="email" name="email" class="form-control" id="email" required>
+                        <p class="help-block">Enter your account email.</p>
+                    </div>
+                    <div class="form-group">
+                      <label for="userPassword">Password</label>
+                      <input type="password" name="password" class="form-control" id="userPassword" required>
+                      <p class="help-block">Enter the password that accompanies your email.</p>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-primary pull-left">Log In</button>
+                      <a href="signup" class="pull-right link">Create an Account</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <% include ../../components/footer.ejs %>
+  </div>
+  <% include ../../components/footer-import.ejs %>
+</body>
+
+</html>

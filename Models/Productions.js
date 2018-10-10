@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // import ORM instance and Datatypes
 const Sequelize = require('sequelize');
-var myORM = require('../Libraries/ORM.js');
+var myORM = require('../libraries/ORM.js');
 const ORM = new myORM();
 const DataTypes = Sequelize.DataTypes;
 ////////////////////////////////////////////////////////////////////////////////
 // import main model
-var Productions = require("./BaseStructure/Productions.js")(ORM.sequelize, DataTypes);
+var Productions = require("./baseStructure/Productions.js")(ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // import additional models (for define relations)
 // ...

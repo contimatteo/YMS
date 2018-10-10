@@ -2,34 +2,34 @@
 <html>
 
   <head>
-    <% include ../../Components/header.ejs %>
+    <% include ../../components/header.ejs %>
   </head>
 
   <body>
 
-    <% include ../../Components/navbar.ejs %>
+    <% include ../../components/navbar.ejs %>
 
       <div class="container">
         <h2>Video List</h2>
-        <% data.forEach(function(record) { %>
+        <% data.forEach(function(videoObject) { %>
           <div class="row">
             <div class="col-lg-8">
-              <%if (record.id.kind == "youtube#video") { %>
-                <iframe id="ytplayer" type="text/html" width="640" height="360" src="http://www.youtube.com/embed/<%= record.id.videoId %>?autoplay=0" frameborder="0" /></iframe>
+              <%if (videoObject.id.kind == "youtube#video") { %>
+                <iframe id="ytplayer" type="text/html" width="640" height="360" src="http://www.youtube.com/embed/<%= videoObject.id.videoId %>?autoplay=0" frameborder="0" /></iframe>
                 <% } %>
-                  <%if (record.id.kind == "youtube#channel") { %>
-                    <img src="<%= record.snippet.thumbnails.default.url %>" />
-                    <br />
-                    <% } %>
+              <%if (videoObject.id.kind == "youtube#channel") { %>
+                <img src="<%= videoObject.snippet.thumbnails.default.url %>" />
+                <br />
+                <% } %>
             </div>
             <div class="col-lg-4">
-              <%if (record.id.kind == "youtube#channel") { %>
+              <%if (videoObject.id.kind == "youtube#channel") { %>
                 <p>questo è un canale</p>
                 <% } %>
-                  <%if (record.id.kind == "youtube#video") { %>
+                  <%if (videoObject.id.kind == "youtube#video") { %>
                     <p>
                       <br /><br /><br /><br />
-                      <%= record.snippet.description %>
+                      <%= videoObject.snippet.description %>
                     </p>
                     <% } %>
             </div>
