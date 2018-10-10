@@ -26,7 +26,7 @@ require('./Libraries/Passport.js')(passport);
 // set enviroment configuration
 app.set('port', (8000 || process.env.PORT || 9000));
 app.use(express.static(__dirname + '/static'));
-// app.set('views', __dirname + '/views/');
+ app.set('views', '/webapp/views');
 // app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 ////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +36,7 @@ var testView = new TestController();
 var ajaxRequest = new AjaxRequest();
 
 app.get('/', function(request, response) {
-  res.render('dashboard');
+  response.render('dashboard');
 });
 // route for testing db
 app.get('/db', function(request, response) {
