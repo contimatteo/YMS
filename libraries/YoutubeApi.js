@@ -7,6 +7,7 @@ var config = require('../config/config.json');
 var youtube = new YouTube();
 
 ////////////////////////////////////////////////////////////////////////////////
+console.log(config.development.youtube_api_key);
 youtube.setKey(config.development.youtube_api_key);
 
 // need to take a look
