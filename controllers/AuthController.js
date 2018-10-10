@@ -3,15 +3,15 @@
 module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   signup(req, res) {
-    res.render('signup');
+    res.render('pages/auth/signup');
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   signin(req, res) {
-    res.render('signin');
+    res.render('pages/auth/signin');
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   dashboard(req, res) {
-    res.render('dashboard');
+    res.render('pages/dashboard');
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   logout(req, res) {
@@ -21,18 +21,17 @@ module.exports = {
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   userLoggedIn(req, res, next) {
+    // save request url
+    req.session.previous_url = req.originalUrl;
+    // check if user is authenticated
     if (req.isAuthenticated())
       return next();
-    // no logged user
-    res.redirect('/signin');
+    else
+      // no logged user
+      res.redirect('/signin');
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  userLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
-      return next();
-    // no logged user
-    res.redirect('/signin');
-  }
+  
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 };
 

@@ -21,7 +21,7 @@ const SparqlClient = require('sparql-client-2');
 const SPARQL = SparqlClient.SPARQL;
 const endpoint = 'http://dbpedia.org/sparql';
 const defaultLimit = 1000;
-var CustomError = require('./Schemas/CustomError.js');
+var CustomError = require('./schemas/CustomError.js');
 
 ////////////////////////////////////////////////////////////////////////////////
 

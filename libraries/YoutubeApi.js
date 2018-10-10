@@ -2,7 +2,7 @@
 
 var Promise = require("bluebird");
 var YouTube = require('youtube-node');
-var CustomError = require('./Schemas/CustomError.js');
+var CustomError = require('./schemas/CustomError.js');
 
 var youtube = new YouTube();
 

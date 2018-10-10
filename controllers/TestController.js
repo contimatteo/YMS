@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
-// var mySqlDB = require('../Libraries/database/MySql.js');
-var YoutubeApi = require('../Libraries/YoutubeApi.js');
-var Sparql_Library = require('../Libraries/Sparql.js');
+// var mySqlDB = require('../libraries/database/MySql.js');
+var YoutubeApi = require('../libraries/YoutubeApi.js');
+var Sparql_Library = require('../libraries/Sparql.js');
 var Promise = require('bluebird');
 
 // var database = new mySqlDB();
@@ -20,7 +20,7 @@ const User = require('../models/User.js');
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// var ApiError = require('../../Libraries/Schemas/ApiError.js');
+// var ApiError = require('../../libraries/schemas/ApiError.js');
 
 module.exports = class TestController {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -30,30 +30,27 @@ module.exports = class TestController {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // run db query exaple
   visualizzoDatiDiProva(response) {
-    User.findAll({})
-      .then(results => {
-        // response.send(results);
-        response.render('pages/test/db', {
-          data: results
+      User.findAll({})
+        .then(results => {
+          // response.send(results);
+          response.render('pages/test/db', {
+            data: results
+          });
         });
-      });
-    //   var sql = ' SELECT * FROM Users ';
-    //   database.selectQuery(sql, []).then(function (results) {
-    //       response.render('pages/test/db', {
-    //         data: results.data
-    //       });
-    //     })
-    //     .catch(function (error) {
-    //       if (error.reasonPhrase)
-    //         // my custom error
-    //         response.send(error.reasonPhrase);
-    //       else
-    //         // mysql error
-    //         response.send(error.sqlMessage);
-    //     });
-    // } else {
-    //   response.send("qualcosa non è andato");
-    // }
+      // var sql = ' SELECT * FROM Users ';
+      // database.selectQuery(sql, []).then(function (results) {
+      //     response.render('pages/test/db', {
+      //       data: results.data
+      //     });
+      //   })
+      //   .catch(function (error) {
+      //     if (error.reasonPhrase)
+      //       // my custom error
+      //       response.send(error.reasonPhrase);
+      //     else
+      //       // mysql error
+      //       response.send(error.sqlMessage);
+      //   });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 
@@ -89,15 +86,14 @@ module.exports = class TestController {
     //   " Filter( ?album=dbpedia:Hybrid_Theory)  " +
     //   " } ";
     var query = " PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
-      " PREFIX dbw:<http://dbpedia.org/ontology/> " +
+      " PREFIX dbpedia-owl:<http://dbpedia.org/ontology/> " +
       " PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
-      " SELECT distinct * " +
+      "SELECT distinct * " +
       " WHERE { " +
-      " ?album a dbo:Album . " +
+      " ?album a dbpedia-owl:Album . " +
       " ?album rdfs:label ?albumName. " +
-      "  ?album dbo:artist ?Artist. " +
+      "  ?album dbpedia-owl:artist ?Artist. " +
       " }";
-
     sparqlClient.runQuery(query, [], []).then(function (results) {
       response.send(results);
     }).catch(function (error) {
@@ -119,7 +115,7 @@ module.exports = class TestController {
   // show list of videos
   ricercaVideo(response, searchString, numberResult) {
     youtubeApi.search(searchString, numberResult).then(function (results) {
-      response.render('pages/test/list-video', {
+      response.render('pages/test/listVideo', {
         data: results.items
       });
     });

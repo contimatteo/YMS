@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
-var TestController = require('../Controllers/TestController.js');
-var AjaxRequest = require('../Libraries/AjaxRequest.js');
-var AuthController = require('../Controllers/AuthController.js');
+var TestController = require('../controllers/TestController.js');
+var AjaxRequest = require('../libraries/AjaxRequest.js');
+var AuthController = require('../controllers/AuthController.js');
 ////////////////////////////////////////////////////////////////////////////////
 const testController = new TestController();
 const ajaxRequest = new AjaxRequest();

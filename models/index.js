@@ -5,15 +5,13 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(path.normalize(__dirname + '/../Config/config.json'))[env];
-console.log(path.normalize(__dirname + '/../config/config.json'));
-
+const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
-var myORM = require('../Libraries/ORM.js');
+var myORM = require('../libraries/ORM.js');
 const ORM = new myORM();
 
 // setting my custom models directory
-const modelsDirectory = __dirname + "/BaseStructure/";
+const modelsDirectory = __dirname + "/baseStructure/";
 
 let sequelize;
 if (config.use_env_variable) {

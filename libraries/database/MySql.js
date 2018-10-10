@@ -17,16 +17,16 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// IMPORT SQL Libraries
+// IMPORT SQL libraries
 require('dotenv').config({
   path: __dirname + '/.env'
 });
 var mysql = require('mysql');
 
 // IMPORT SCHEMA
-var DBResponse = require('../../Libraries/Schemas/DBResponse.js');
-var ApiResponse = require('../../Libraries/Schemas/ApiResponse.js');
-var CustomError = require('../Schemas/CustomError.js');
+const DBResponse = require('../../libraries/schemas/DBResponse.js');
+const ApiResponse = require('../../libraries/schemas/ApiResponse.js');
+var CustomError = require('../schemas/CustomError.js');
 
 ////////////////////////////////////////////////////////////////////////////////
 
