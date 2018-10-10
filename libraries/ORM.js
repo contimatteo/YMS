@@ -1,15 +1,13 @@
 
-require('dotenv').config({
-  path: __dirname + '/.env'
-});
+var config = require('../config/config.json');
 const Sequelize = require('sequelize');
 
 module.exports = class myORM {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   constructor() {
-    console.log("Sequelize host --> " + process.env.DB_HOST);
-    this.sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
-      host: process.env.DB_HOST,
+    console.log(config.development.host);
+    this.sequelize = new Sequelize(config.development.database, config.development.username, config.development.password, {
+      host: config.development.host,
       dialect: 'mysql',
       operatorsAliases: false,
       pool: {
