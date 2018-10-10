@@ -18,6 +18,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // IMPORT SQL Libraries
+require('dotenv').config({
+  path: __dirname + '/.env'
+});
 var mysql = require('mysql');
 
 // IMPORT SCHEMA
