@@ -26,10 +26,10 @@ module.exports = function (app, passport) {
   // }));
 
   app.post('/signin', passport.authenticate('local-signin'), function(req, res) {
-    console.log("ci siamo")
-    // nextUrl = req.session.previous_url || "/";
-    // res.redirect(nextUrl);
-    res.redirect("/");
+    // console.log("ci siamo")
+    nextUrl = req.session.previous_url || "/";
+    res.redirect(nextUrl);
+    // res.redirect("/");
   });
 
 
