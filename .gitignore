@@ -10,3 +10,4 @@
 **/*.sql
 **/*.zip
 **/config/*
+**/Config/*
