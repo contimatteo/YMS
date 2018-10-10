@@ -2,11 +2,12 @@
 var config = require('../config/config.json');
 const Sequelize = require('sequelize');
 
+
 module.exports = class myORM {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   constructor() {
     this.sequelize = new Sequelize(config.development.database, config.development.username, config.development.password, {
-      host: config.development.host,
+         host: config.development.host,
       dialect: 'mysql',
       operatorsAliases: false,
       pool: {

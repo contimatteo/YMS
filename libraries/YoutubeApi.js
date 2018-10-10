@@ -3,14 +3,11 @@
 var Promise = require("bluebird");
 var YouTube = require('youtube-node');
 var CustomError = require('./schemas/CustomError.js');
-require('dotenv').config({
-  path: __dirname + '/.env'
-});
+var config = require('../config/config.json');
 var youtube = new YouTube();
 
 ////////////////////////////////////////////////////////////////////////////////
-console.log(process.env.YOUTUBE_API_KEY);
-youtube.setKey(process.env.YOUTUBE_API_KEY);
+youtube.setKey(config.development.youtube_api_key);
 
 // need to take a look
 // optional parameters : https://developers.google.com/youtube/v3/docs/search/list#optional-parameters

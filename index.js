@@ -6,9 +6,6 @@ var ApiRoutes   =   require('./routes/Api');
 var WebRoutes   =   require('./routes/Web');
 var AuthRoutes  =   require('./routes/Auth');
 var cors        =   require('cors');
-require('dotenv').config({
-  path: __dirname + '/.env'
-});
 var bodyParser  =   require('body-parser');
 var passport    =   require('passport');
 var session     =   require('express-session');
