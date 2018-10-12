@@ -13,7 +13,7 @@ module.exports = function(app, passport) {
     //response.render('pages/index');
   });
   // route for testing db
-  app.get('/db', function(request, response) {
+  app.get('/db', AuthController.userLoggedIn, function(request, response) {
     testController.visualizzoDatiDiProva(response);
   });
   // api testing route
@@ -23,11 +23,11 @@ module.exports = function(app, passport) {
     });
   });
   // api testing route
-  app.get('/youtube', function(request, response) {
-    testController.ricercaVideo(response, "Linkin Park", 1);
+  app.get('/youtube', AuthController.userLoggedIn, function(request, response) {
+    testController.ricercaVideo(response, "Linkin Park", 5);
   });
   // api testing route
-  app.get('/youtube/:id', function(request, response) {
+  app.get('/youtube/:id', AuthController.userLoggedIn, function(request, response) {
     var id = request.params.id;
     testController.visualizzoVideo(response, id);
   });
@@ -36,14 +36,14 @@ module.exports = function(app, passport) {
     testController.sparql(response);
   });
   // orm 1 testing route
-  app.get('/orm1', function(request, response) {
+  app.get('/orm1', AuthController.userLoggedIn, function(request, response) {
     testController.orm1(response);
   });
   // orm 2 testing route
   // app.get('/orm2', function(request, response) {
   //   testController.orm2(response);
   // });
-  app.get('/orm2', testController.orm2);
+  app.get('/orm2', AuthController.userLoggedIn, testController.orm2);
   // orm 3 testing route
   app.get('/orm3', function(request, response) {
     testController.orm3(response);
