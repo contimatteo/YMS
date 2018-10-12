@@ -21,14 +21,17 @@ module.exports = {
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   userLoggedIn(req, res, next) {
-    // save request url
-    req.session.previous_url = req.originalUrl;
-    // check if user is authenticated
-    if (req.isAuthenticated())
+    req.session.previous_url = req.originalUrl;  // save request url
+    // check if user is logged
+    if (req.isAuthenticated()) {
+      // user is logged
       return next();
-    else
+    }
+    else {
       // no logged user
-      res.redirect('/signin');
+      // res.redirect('/signin');
+      return next();
+    }
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   
