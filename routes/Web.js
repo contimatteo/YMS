@@ -53,7 +53,7 @@ module.exports = function(app, passport) {
     testController.orm3(response);
   });
   // enri testing views
-  app.get('/enri/view/index', function(request, response) {
+  app.get('/index', function(request, response) {
     testController.viewIndex(response);
   });
 };

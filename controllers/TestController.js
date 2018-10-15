@@ -168,7 +168,7 @@ module.exports = class TestController {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // view tester for @enricofabbri
   viewIndex(response) {
-    response.render('pages/enri/index', {
+    response.render('pages/home/index', {
       data: [
               {"nome": "Matteo", "cognome": "Conti"},
               {"nome": "Enrico", "cognome": "Fabbri"},
