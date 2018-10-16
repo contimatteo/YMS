@@ -11,7 +11,8 @@ module.exports = function(app, passport) {
   app.get('/', function(request, response) {
     // response.send('Progetto TW');
     // testController.viewIndex(response);
-    response.render('pages/home/home');
+    testController.ricercaVideoHome(response, "Linkin Park", 5);
+    //response.render('pages/home/home');
   });
   // route for testing db
   app.get('/db', AuthController.userLoggedIn, function(request, response) {

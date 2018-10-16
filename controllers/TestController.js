@@ -113,11 +113,20 @@ module.exports = class TestController {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // show list of videos
+  ricercaVideoHome(response, searchString, numberResult) {
+    youtubeApi.search(searchString, numberResult).then(function (results) {
+      response.render('pages/home/home', {
+        data: results.items
+      });  
+    });
+  }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // show list of videos
   ricercaVideo(response, searchString, numberResult) {
     youtubeApi.search(searchString, numberResult).then(function (results) {
       response.render('pages/test/listVideo', {
         data: results.items
-      });
+      });  
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
