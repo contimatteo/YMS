@@ -31,10 +31,16 @@ module.exports = class Sparql_Library {
     this.client = new SparqlClient(endpoint)
       .registerCommon('rdfs', 'xsd', 'fn')
       .register({
-        db: 'http://dbpedia.org/resource/'
+        dbpedia: 'http://dbpedia.org/resource/'
       })
       .register({
-        dbpedia: 'http://dbpedia.org/property/'
+        dbo: 'http://dbpedia.org/ontology/'
+      })
+      .register({
+        dbp: 'http://dbpedia.org/property/'
+      })
+      .register({
+        rdfs: 'http://www.w3.org/2000/01/rdf-schema#'
       });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -53,54 +53,6 @@ module.exports = class TestController {
       //   });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // 
-  sparql(response) {
-    // var query = "  PREFIX dbo: <http://dbpedia.org/ontology/> " +
-    //             "  PREFIX dbp: <http://dbpedia.org/resource/> " +
-    //             "  PREFIX foaf: <http://xmlns.com/foaf/0.1/> " +
-    //             "  SELECT ?bandname where { " +
-    //             "    ?person foaf:name ?name . " +
-    //             "    ?band dbo:bandMember ?person . " +
-    //             //"    ?band dbo:genre ?genre . " +
-    //             "    ?band foaf:name ?bandname .  " +
-    //             "  } ";
-    // var query = " PREFIX dbo: <http://dbpedia.org/ontology/>" +
-    //   " PREFIX dbr: <http://dbpedia.org/resource/> " +
-    //   " SELECT ?singer ?wife  " +
-    //   " WHERE {  " +
-    //   " ?x dbo:musicalArtist ?singer.  " +
-    //   " ?singer dbo:spouse ?wife.  " +
-    //   " ?wife a dbo:MusicalArtist " +
-    //   " } ";
-    // var query = " PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " + 
-    // " PREFIX dbpedia-owl:<http://dbpedia.org/ontology/> " + 
-    // " PREFIX owl: <http://www.w3.org/2002/07/owl#> " + 
-    // " select (?artist) { " +
-    // "  ?artist a dbo:MusicalArtist; " +
-    // "           rdfs:label ?name_ . " +
-    // " } ";
-    // var query = " PREFIX dbpedia-owl:<http://dbpedia.org/ontology/> " +
-    //   " PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
-    //   " SELECT distinct * WHERE { " +
-    //   " ?album a dbpedia-owl:Album.  " +
-    //   " Filter( ?album=dbpedia:Hybrid_Theory)  " +
-    //   " } ";
-    var query = " PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
-      " PREFIX dbpedia-owl:<http://dbpedia.org/ontology/> " +
-      " PREFIX owl: <http://www.w3.org/2002/07/owl#> " +
-      "SELECT distinct * " +
-      " WHERE { " +
-      " ?album a dbpedia-owl:Album . " +
-      " ?album rdfs:label ?albumName. " +
-      "  ?album dbpedia-owl:artist ?Artist. " +
-      " }";
-    sparqlClient.runQuery(query, [], []).then(function (results) {
-      response.send(results);
-    }).catch(function (error) {
-      response.send(error.reasonPhrase);
-    });
-  }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // show single video by id
   visualizzoVideo(response, id) {
     youtubeApi.getVideoById(id).then(function (results) {

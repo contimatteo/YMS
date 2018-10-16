@@ -61,7 +61,7 @@ app.set('view engine', 'ejs');
 ////////////////////////////////////////////////////////////////////////////////
 
 // ROUTES
-// ApiRoutes(app, passport);
+ApiRoutes(app, passport);
 WebRoutes(app, passport);
 AuthRoutes(app, passport);
 
