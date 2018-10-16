@@ -3233,6 +3233,7 @@ a.link:hover {
 
 .transparent-navbar.navbar-default {
   z-index: 99;
+  height:auto;
 }
 
 .transparent-navbar.navbar-default .navbar-btn {
