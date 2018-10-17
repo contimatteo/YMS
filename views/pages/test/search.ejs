@@ -9,40 +9,35 @@
   <body id="body" class="body-wrapper boxed-menu">
     <div class="main-wrapper">
       <% include ../../components/preloader.ejs %>
-        <% include ../../components/navbar-home.ejs %>
-          <!-- BANNER SECTION -->
-          <section class="clearfix homeBanner" style="background-image: url(/assets/img/home-header.jpeg);">
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-12">
-                  <div class="banerInfo">
-                    <h1 style="text-shadow: 5px 3px black;">What's On Your Mind</h1>
-                    <br>
-                    <!--<h4 style="text-shadow: 2.5px 2.5px black; color:white; text-transform: none;">YMS helps to find out great music video around you.</h4>-->
-                    <br>
-                    <form class="form-inline" action="listing-sidebar-map-left.html" method="">
-                      <div class="form-group">
-                        <div class="input-group">
-                          <div class="input-group-addon">Song</div>
-                          <input type="text" class="form-control" id="findItem" placeholder="Which song are you looking for?">
-                          <div class="input-group-addon addon-right"></div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="input-group">
-                          <div class="input-group-addon">Artist</div>
-                          <input type="text" class="form-control" id="nearLocation" placeholder="And the artist ?">
-                          <div class="input-group-addon addon-right"><i class="icon-listy icon-target" aria-hidden="true"></i></div>
-                        </div>
-                      </div>
-                      <button type="submit" class="btn btn-primary">Search <!-- <i class="fa fa-search" aria-hidden="true"></i>--></button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+        <% include ../../components/navbar.ejs %>
 <!-- CATEGORY LIST SECTION -->
+<section class="clearfix homeBanner">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="banerInfo">
+					<form class="form-inline" action="listing-sidebar-map-left.html" method="">
+						<div class="form-group" style="border-style: solid">
+							<div class="input-group">
+								<div class="input-group-addon">Song</div>
+								<input type="text" class="form-control" id="findItem" placeholder="Which song are you looking for?">
+								<div class="input-group-addon addon-right"></div>
+							</div>
+						</div>
+						<div class="form-group" style="border-style: solid">
+							<div class="input-group">
+								<div class="input-group-addon">Artist</div>
+								<input type="text" class="form-control" id="nearLocation" placeholder="And the artist ?">
+								<div class="input-group-addon addon-right"><i class="icon-listy icon-target" aria-hidden="true"></i></div>
+							</div>
+						</div>
+						<button type="submit" class="btn btn-primary">Search <!-- <i class="fa fa-search" aria-hidden="true"></i>--></button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 <section class="clerfix">
 	<div class="container">
 		<div class="row">
