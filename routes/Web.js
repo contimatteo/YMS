@@ -8,9 +8,7 @@ module.exports = function(app, passport) {
   // main route
   app.get('/', function(request, response) {
     // response.send('Progetto TW');
-    // testController.viewIndex(response);
-    testController.ricercaVideoHome(response, "Linkin Park", 5);
-    //response.render('pages/home/home');
+    response.render('pages/home/home');
   });
   // route for testing db
   app.get('/db', AuthController.userLoggedIn, function(request, response) {
@@ -41,6 +39,11 @@ module.exports = function(app, passport) {
   // orm 4 testing route
   app.get('/orm4', function(request, response) {
     testController.orm3(response);
+  });
+  //search page route
+  app.get('/search', function(request, response) {
+    // response.send('Progetto TW');
+    response.render('pages/test/search');
   });
 };
 ////////////////////////////////////////////////////////////////////////////////
