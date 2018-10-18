@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>Home</title>
+    <% include ../../components/header.ejs %>
+  </head>
+
+  <body id="body" class="body-wrapper boxed-menu">
+    <div class="main-wrapper">
+      <% include ../../components/preloader.ejs %>
+        <% include ../../components/navbar.ejs %>
+<!-- CATEGORY LIST SECTION -->
+<section class="clearfix homeBanner">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="banerInfo">
+					<form class="form-inline" action="listing-sidebar-map-left.html" method="">
+						<div class="form-group" style="border-style: solid">
+							<div class="input-group">
+								<div class="input-group-addon">Song</div>
+								<input type="text" class="form-control" id="findItem" placeholder="Which song are you looking for?">
+								<div class="input-group-addon addon-right"></div>
+							</div>
+						</div>
+						<div class="form-group" style="border-style: solid">
+							<div class="input-group">
+								<div class="input-group-addon">Artist</div>
+								<input type="text" class="form-control" id="nearLocation" placeholder="And the artist ?">
+								<div class="input-group-addon addon-right"><i class="icon-listy icon-target" aria-hidden="true"></i></div>
+							</div>
+						</div>
+						<button type="submit" class="btn btn-primary">Search <!-- <i class="fa fa-search" aria-hidden="true"></i>--></button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="clerfix">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-xs-12">
+				<div class="resultBar barSpaceAdjust">
+					<h2>We found <span>7</span> Results for you</h2>
+				</div>
+				<% data.forEach(function(videoObject) { %>
+					<div class="listContent">
+						<div class="row">
+							<div class="col-sm-5 col-xs-12">
+								<div class="categoryImage">
+									<img src="<%= videoObject.snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
+									<span class="label label-primary">Verified</span>
+								</div>
+							</div>
+							<div class="col-sm-7 col-xs-12">
+								<div class="categoryDetails">
+									<ul class="list-inline rating">
+										<li><i class="fa fa-star" aria-hidden="true"></i></li>
+										<li><i class="fa fa-star" aria-hidden="true"></i></li>
+										<li><i class="fa fa-star" aria-hidden="true"></i></li>
+										<li><i class="fa fa-star" aria-hidden="true"></i></li>
+										<li><i class="fa fa-star" aria-hidden="true"></i></li>
+									</ul>
+									<h2><a href="/video/<%= videoObject.id.videoId %>" style="color: #222222"><%= videoObject.snippet.title %></a> <span class="likeCount"><i class="fa fa-heart-o" aria-hidden="true"></i> 10 k</span></h2>
+									<p>215 Terry Lane <span class="placeName"> New York</span></p>
+									<p><%= videoObject.snippet.description %></p>
+									<ul class="list-inline list-tag">
+										<li><a href="category-list-full.html">Eat & Drink</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				<% }); %>
+				<div class="paginationCommon blogPagination categoryPagination">
+					<nav aria-label="Page navigation">
+						<ul class="pagination">
+							<li>
+								<a href="#" aria-label="Previous">
+									<span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+								</a>
+							</li>
+							<li class="active"><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li>
+								<a href="#" aria-label="Next">
+									<span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<!-- FOOTER -->
+<!-- CALL TO ACTION SECTION -->
+<section class="clearfix callAction">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <div class="callInfo">
+                <h4><span>Listty</span> is the <span>best way</span> <br>to find great local business</h4>
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-12">
+              <div class="btnArea">
+                <a href="sign-up.html" class="btn btn-primary btn-block">Get Started</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <% include ../../components/footer.ejs %>
+</div>
+<% include ../../components/footer-import.ejs %>
+</body>
+
+
+</html>
+
