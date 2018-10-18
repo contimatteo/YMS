@@ -18,7 +18,24 @@
       <li class=""><a href="/search">Search</a></li>
       <li class=""><a href="/">Search</a></li>
       <li class=""><a href="/">Search</a></li>
+      <%if (currentUser) { %>
+      <li class="active dropdown singleDrop">
+        <a href="javascript:void(0)" class="dropdown-toggle btn btn-default navbar-btn" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <%= currentUser.firstname %> <%= currentUser.lastname %>
+          <i class="fa fa-angle-down" aria-hidden="true"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li><a href="/user/profile">My Profile</a></li>
+          <li><a href="/logout">Logout</a></li>
+        </ul>
+      </li>
+      <% } %>
     </ul>
   </div>
-  <a class="btn btn-default navbar-btn" href="/signin"><span style="text-transform: none;">Signin</span></a>
+
+  <%if (!currentUser) { %>
+  <a class="btn btn-default navbar-btn" href="/signin">
+    <span style="text-transform: none;">LOGIN</span>
+  </a>
+  <% } %>
 </div>

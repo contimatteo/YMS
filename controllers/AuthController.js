@@ -2,28 +2,29 @@
 
 module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  signup(req, res) {
-    res.render('pages/auth/signup');
+  signup(request, response) {
+    response.render('pages/auth/signup');
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  signin(req, res) {
-    res.render('pages/auth/signin');
+  signin(request, response) {
+    response.render('pages/auth/signin');
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  dashboard(req, res) {
-    res.render('pages/dashboard');
+  dashboard(request, response) {
+    response.render('pages/dashboard');
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  logout(req, res) {
-    req.session.destroy(function (err) {
-      res.redirect('/');
+  logout(request, response) {
+    request.session.destroy(function (err) {
+      response.redirect('/');
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  userLoggedIn(req, res, next) {
-    req.session.previous_url = req.originalUrl;  // save request url
+  userLoggedIn(request, response, next) {
+    // save request url
+    request.session.previous_url = request.originalUrl; 
     // check if user is logged
-    if (req.isAuthenticated()) {
+    if (request.isAuthenticated()) {
       // user is logged
       return next();
     }
@@ -34,7 +35,13 @@ module.exports = {
     }
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  
+  currentUser(request, response, next) {
+    if (request.user) {
+        return request.user;
+    } else {
+        return null;
+    }
+}
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 };
 

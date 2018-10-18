@@ -37,8 +37,13 @@ require('./libraries/Passport.js')(passport);
 ////////////////////////////////////////////////////////////////////////////////
 
 // MIDDLEWARE 1
-app.use(function(req, res, next) {
-  // console.log("MIDDLEWARE 1 : controllo di sicurezza passatto correttamente");
+app.use(function(request, response, next) {
+  if (request.isAuthenticated()) {
+   response.locals.currentUser = request.user;
+  }
+  else {
+    response.locals.currentUser = null;
+  }
   next();
 });
 

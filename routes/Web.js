@@ -18,9 +18,8 @@ module.exports = function (app, passport) {
   });
 
   // search page route
-  app.get('/search', function (request, response) {
-    // response.render('pages/search/search');
-    SearchController.ricercaVideo(response, "Hello cover", 10);
+  app.get('/search', AuthController.userLoggedIn, function (request, response) {
+    SearchController.ricercaVideo(request, response, "Hello cover", 10);
   });
 
   // api testing route
