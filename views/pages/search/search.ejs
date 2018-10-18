@@ -52,7 +52,9 @@
 							<div class="row">
 								<div class="col-sm-4 col-xs-12">
 									<div class="categoryImage">
-										<img src="<%= videoObject.snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
+										<a href="/video/<%= videoObject.id.videoId %>" >
+											<img src="<%= videoObject.snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
+										</a>
 										<!-- <span class="label label-primary">Verified</span> -->
 									</div>
 								</div>
@@ -76,7 +78,7 @@
 											<%= videoObject.snippet.description %>
 										</p>
 										<ul class="list-inline list-tag">
-											<li><a href="category-list-full.html">Eat & Drink</a></li>
+											<li><p>published at: <%= videoObject.snippet.publishedAt%></p></li>
 										</ul>
 									</div>
 								</div>

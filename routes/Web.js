@@ -19,9 +19,9 @@ module.exports = function (app, passport) {
 
   // search page route
   app.get('/search', AuthController.userLoggedIn, function (request, response) {
-    SearchController.ricercaVideo(request, response, "Hello cover", 10);
+    SearchController.ricercaVideo(request, response, "iron sky", 10);
   });
-
+  
   // api testing route
   app.get('/video/:id', AuthController.userLoggedIn, function (request, response) {
     var id = request.params.id;
