@@ -18,7 +18,6 @@ module.exports = class TestController {
       response.render('pages/video/video', {
         video: results.items[0]
       });
-      //response.send(results.items[0]);
     }).catch(function (error) {
       response.send(error);
     });

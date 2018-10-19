@@ -19,7 +19,7 @@ module.exports = function (app, passport) {
 
   // search page route
   app.get('/search', AuthController.userLoggedIn, function (request, response) {
-    VideosController.index(request, response, "kolsch", 5);
+    VideosController.index(request, response, "Kolsch", 5);
   });
   
   // api testing route
