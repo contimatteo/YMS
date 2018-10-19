@@ -39,7 +39,7 @@ module.exports = class YoutubeApi_Library {
       youtube.getById(id, function (error, result) {
         if (error)
           reject(error);
-        if (result.items.length < 1)
+        if (!result || !result.items || result.items.length < 1)
           reject(new CustomError(400, "video not found", ""));
         resolve(result);
       });

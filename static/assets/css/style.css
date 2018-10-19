@@ -6740,6 +6740,7 @@ input[type=radio]:focus,
 }
 
 .sidebarInner .panel {
+  width:auto;
   margin-bottom: 0;
   border: none;
   box-shadow: none;

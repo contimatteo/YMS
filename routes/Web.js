@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
-var SearchControllerClass = require('../controllers/SearchController.js');
+var VideosControllerClass = require('../controllers/VideosController.js');
 var TestControllerClass = require('../controllers/TestController.js');
 var AuthController = require('../controllers/AuthController.js');
 ////////////////////////////////////////////////////////////////////////////////
-const SearchController = new SearchControllerClass();
+const VideosController = new VideosControllerClass();
 const TestController = new TestControllerClass();
 ////////////////////////////////////////////////////////////////////////////////
 module.exports = function (app, passport) {
@@ -19,13 +19,13 @@ module.exports = function (app, passport) {
 
   // search page route
   app.get('/search', AuthController.userLoggedIn, function (request, response) {
-    SearchController.ricercaVideo(request, response, "iron sky", 10);
+    VideosController.index(request, response, "kolsch", 5);
   });
   
   // api testing route
   app.get('/video/:id', AuthController.userLoggedIn, function (request, response) {
     var id = request.params.id;
-    SearchController.visualizzoVideo(response, id);
+    VideosController.show(response, id);
   });
 
   // orm 1 testing route

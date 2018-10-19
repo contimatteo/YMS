@@ -13,19 +13,19 @@ module.exports = class TestController {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // show single video by id
-  visualizzoVideo(response, id) {
+  show(response, id) {
     youtubeApi.getVideoById(id).then(function (results) {
       response.render('pages/video/video', {
         video: results.items[0]
       });
       //response.send(results.items[0]);
     }).catch(function (error) {
-      response.send(error.reasonPhrase);
+      response.send(error);
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // show list of videos
-  ricercaVideo(request, response, searchString, numberResult) {
+  index(request, response, searchString, numberResult) {
     youtubeApi.search(searchString, numberResult).then(function (results) {
       response.render('pages/search/search', {
         data: results.items
