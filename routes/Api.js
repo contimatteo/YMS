@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
-var DBpediaController = require('../controllers/DBpediaController.js');
+var SparqlControllerClass = require('../controllers/SparqlController.js');
 var AjaxRequest = require('../libraries/AjaxRequest.js');
 ////////////////////////////////////////////////////////////////////////////////
-const dbpediaController = new DBpediaController();
+const SparqlController = new SparqlControllerClass();
 const ajaxRequest = new AjaxRequest();
 ////////////////////////////////////////////////////////////////////////////////
 module.exports = function (app, passport) {
@@ -14,7 +14,7 @@ module.exports = function (app, passport) {
   });
   // SPARQL testing route
   app.get('/sparql', function (request, response) {
-    dbpediaController.sparql(response);
+    SparqlController.sparql(response);
   });
 };
 ////////////////////////////////////////////////////////////////////////////////
