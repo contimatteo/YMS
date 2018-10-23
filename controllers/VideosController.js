@@ -38,8 +38,8 @@ module.exports = class TestController {
   // init artists
   initializeArtists(response) {
     // leggere tutti gli artisti nel json
-    var object={};
-    object = VideoHelper.songNameFormatter("Thirty Seconds to Mars", "This is War");
+    var object={link1:"", link2:"", link3:""};
+    VideoHelper.songNameFormatter("Thirty Seconds to Mars", "This is War",object);
     response.send(object);
     // cercare l'url vero di riferimento su dbpedia
     // importare i dati
