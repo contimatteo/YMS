@@ -1,9 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 var AuthController = require('./AuthController.js');
+var VideoHelper = require('./helpers/VideoHelper.js');
 var YoutubeApi = require('../libraries/YoutubeApi.js');
 var Promise = require('bluebird');
 // var database = new mySqlDB();
 const youtubeApi = Promise.promisifyAll(new YoutubeApi());
+
+
 ////////////////////////////////////////////////////////////////////////////////
 
 module.exports = class TestController {
@@ -31,5 +34,16 @@ module.exports = class TestController {
       });
     });
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // init artists
+  initializeArtists(response) {
+    // leggere tutti gli artisti nel json
+    var object={};
+    object = VideoHelper.songNameFormatter("Thirty Seconds to Mars", "This is War");
+    response.send(object);
+    // cercare l'url vero di riferimento su dbpedia
+    // importare i dati
+  }
 }
+
+//per ogni nome che trovo creo un array di oggetti 

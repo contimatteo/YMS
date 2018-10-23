@@ -47,6 +47,11 @@ module.exports = function (app, passport) {
   app.get('/orm4', function (request, response) {
     TestController.orm3(response);
   });
+
+  // orm 4 testing route
+  app.get('/enri', function (request, response) {
+    VideosController.initializeArtists(response);
+  });
 };
 ////////////////////////////////////////////////////////////////////////////////
 
