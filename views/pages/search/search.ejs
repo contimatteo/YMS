@@ -19,7 +19,7 @@
 							<form class="form-inline" action="listing-sidebar-map-left.html" method="">
 								<div class="form-group" style="border: 2px solid #2196f3; border-radius: 4px;">
 									<div class="input-group">
-										<div class="input-group-addon">Song</div>
+										<div class="input-group-addon" style="border-right: 1px solid #2196f3;">Song</div>
 										<input type="text" class="form-control" id="findItem" placeholder="Which song are you looking for?">
 										<div class="input-group-addon addon-right"></div>
 									</div>
@@ -77,9 +77,9 @@
 										<p>
 											<%= videoObject.snippet.description %>
 										</p>
-										<ul class="list-inline list-tag">
-											<li><p>published at: <%= videoObject.snippet.publishedAt%></p></li>
-										</ul>
+										<p>
+											published at: <span class="placeName"><%= videoObject.snippet.publishedAt%></span>
+										</p>
 									</div>
 								</div>
 							</div>

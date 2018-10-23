@@ -59,7 +59,6 @@ module.exports = class Sparql_Library {
     //     nextFunction(null);
     //   }
     // });
-
     return new Promise((resolve, reject) => {
       this.client.query(query);
       // prepare the query
