@@ -19,7 +19,7 @@ module.exports = function (app, passport) {
 
   // search page route
   app.get('/search', AuthController.userLoggedIn, function (request, response) {
-    VideosController.index(request, response, "Kolsch", 5);
+    VideosController.index(request, response, "Nothing Else Matters", 5);
   });
   
   // api testing route
@@ -47,5 +47,14 @@ module.exports = function (app, passport) {
   app.get('/orm4', function (request, response) {
     TestController.orm3(response);
   });
+
+  // orm 4 testing route
+  app.get('/enri', function (request, response) {
+    VideosController.initializeArtists(response);
+  });
 };
 ////////////////////////////////////////////////////////////////////////////////
+
+// /videos/search
+// /videos/suggested
+// select nella ricerca video
