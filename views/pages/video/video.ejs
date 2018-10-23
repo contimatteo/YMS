@@ -32,12 +32,59 @@
                   <p>Mod tempor incididunt labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud
                     exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
                     reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-                  <ul class="list-inline socialLink">
-                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                  </ul>
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="pills-random-tab" data-toggle="pill" href="#pills-random" role="tab" aria-controls="pills-random" aria-selected="true">Random</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab" aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="pills-search-tab" data-toggle="pill" href="#pills-search" role="tab" aria-controls="pills-search" aria-selected="false">Search</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab" aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab" aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
+                      </li>                      <li class="nav-item">
+                        <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab" aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
+                      </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                      <div class="tab-pane fade show active" id="pills-random" role="tabpanel" aria-labelledby="pills-random-tab">
+                        <div class="listContent">
+                          <div class="row">
+                            <div class="col-sm-4 col-xs-12">
+                              <div class="categoryImage">
+                                <a href="/video/<%= video.id.videoId %>" >
+                                  <img src="<%= video.snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
+                                </a>
+                              </div>
+                            </div>
+                            <div class="col-sm-8 col-xs-12">
+                              <div class="categoryDetails">
+                                <h2>
+                                  <a href="/video/<%= video.id.videoId %>" style="color: #222222">
+                                    <%= video.snippet.title %>
+                                  </a> 
+                                  <span class="likeCount"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp; 10k</span>
+                                </h2>
+                                <p>	youtube channel: <span class="placeName"> <%= video.snippet.channelTitle %> </span></p>
+                                <p>
+                                  <%= video.snippet.description %>
+                                </p>
+                                <ul class="list-inline list-tag">
+                                  <li><p>Reccomended by Random Algorithm</p></li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="pills-fvitali" role="tabpanel" aria-labelledby="pills-fvitali-tab">...</div>
+                      <div class="tab-pane fade" id="pills-search" role="tabpanel" aria-labelledby="pills-search-tab">...</div>
+                    </div>
                 </div>
               </div>
             </div>
@@ -73,14 +120,14 @@
             </div>
             <div class="sidebarInner">
               <div class="panel panel-default">
-                <div class="panel-heading">Categories</div>
+                <div class="panel-heading">Visual</div>
                 <div class="panel-body">
                   <ul class="list-unstyle categoryList">
-                    <li><a href="#">Real Estate <span class="pull-right">(3)</span></a></li>
-                    <li><a href="#">Automotive <span class="pull-right">(7)</span></a></li>
-                    <li><a href="#">Healthcare <span class="pull-right">(12)</span></a></li>
-                    <li><a href="#">Restaurent <span class="pull-right">(5)</span></a></li>
-                    <li><a href="#">Business <span class="pull-right">(9)</span></a></li>
+                    <li><a href="#">Local Views <span class="pull-right"><%= video.statistics.viewCount %></span></a></li>
+                    <li><a href="#">Global Views <span class="pull-right"><%= video.statistics.viewCount %></span></a></li>
+                    <li><a href="#">Yuoutube Views <span class="pull-right"><%= video.statistics.viewCount %></span></a></li>
+                    <li><a href="#">Restaurent <span class="pull-right"><%= video.statistics.viewCount %></span></a></li>
+                    <li><a href="#">Business <span class="pull-right"><%= video.statistics.viewCount %></span></a></li>
                   </ul>
                 </div>
               </div>
