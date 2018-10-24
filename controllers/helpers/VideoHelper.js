@@ -30,7 +30,7 @@ module.exports = {
     link3 = prefix + link3 + "(" + artista + "_song)";
     object.link3 = link3;
 
-    return;
+    return(object);
 
   },
   // artists
