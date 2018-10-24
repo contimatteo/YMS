@@ -11,30 +11,46 @@ module.exports = function (app, passport) {
   app.get('/', function (request, response) {
     response.render('pages/home/home');
   });
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // VIDEOS ROUTES
   // search page route
-  app.get('/search', AuthController.userLoggedIn, function (request, response) {
+  app.get('/videos', AuthController.userLoggedIn, function (request, response) {
+    response.send("/videos");
+  });
+  // search page route
+  app.get('/videos/search', AuthController.userLoggedIn, function (request, response) {
     VideosController.index(request, response, "Nothing Else Matters", 5);
   });
-
+  // search page route
+  app.get('/videos/suggestioned', AuthController.userLoggedIn, function (request, response) {
+    response.send("/suggestioned");
+  });
   // api testing route
   app.get('/videos/:id', AuthController.userLoggedIn, function (request, response) {
     var id = request.params.id;
     VideosController.show(response, id);
   });
-  
   // api testing route
   app.get('/videos/:id', AuthController.userLoggedIn, function (request, response) {
     var id = request.params.id;
     VideosController.show(response, id);
   });
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/enri', function (request, response) {
     VideosController.initializeArtists(response);
   });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/user', AuthController.userLoggedIn, function (request, response) {
+   response.send("/user");
+  });
+  app.get('/user/playlist', AuthController.userLoggedIn, function (request, response) {
+    response.send("/user/playlist");
+  });
+  
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
 ////////////////////////////////////////////////////////////////////////////////
-
-// /videos/search
-// /videos/suggested
-// select nella ricerca video
