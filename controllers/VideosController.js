@@ -6,7 +6,6 @@ var Promise = require('bluebird');
 // var database = new mySqlDB();
 const youtubeApi = Promise.promisifyAll(new YoutubeApi());
 
-
 ////////////////////////////////////////////////////////////////////////////////
 
 module.exports = class TestController {
@@ -27,11 +26,21 @@ module.exports = class TestController {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // show list of videos
-  index(request, response, searchString, numberResult) {
-    youtubeApi.search(searchString, numberResult).then(function (results) {
+  index(response, searchString, searchType, pageToken, numberResult) {
+    console.log("[" + pageToken + "]");
+    youtubeApi.search(searchString, numberResult, pageToken).then(function (results) {
+      // response.send(results);
       response.render('pages/search/search', {
-        data: results.items
+        data: results.items,
+        request: {
+          "searchString": searchString,
+          "searchType": searchType,
+          "nextPage": results.nextPageToken,
+          "previousPage": results.prevPageToken
+        }
       });
+    }).catch(function (error) {
+      response.send(error.reasonPhrase);
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -39,9 +48,8 @@ module.exports = class TestController {
   initializeArtists(response) {
     // leggere tutti gli artisti nel json
     var array = [2];
-    for (var i=0; i<2; i++)
-    {
-    array[i]=VideoHelper.songNameFormatter("Thirty Seconds to Mars", "This is War");
+    for (var i = 0; i < 2; i++) {
+      array[i] = VideoHelper.songNameFormatter("Thirty Seconds to Mars", "This is War");
     }
     response.send(array);
     // cercare l'url vero di riferimento su dbpedia
@@ -49,4 +57,4 @@ module.exports = class TestController {
   }
 }
 
-//per ogni nome che trovo creo un array di oggetti 
+//per ogni nome che trovo creo un array di oggetti

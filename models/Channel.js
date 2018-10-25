@@ -1,15 +1,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // import ORM instance and Datatypes
 const Sequelize = require('sequelize');
-var myORM = require('../libraries/ORM.js');
-const ORM = new myORM();
 const DataTypes = Sequelize.DataTypes;
 ////////////////////////////////////////////////////////////////////////////////
 // import main model
-var Channel = require("./baseStructure/Channels.js")(ORM.sequelize, DataTypes);
+var Channel = require("./baseStructure/Channels.js")(global.ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // import additional models (for define relations)
-var Video = require("./baseStructure/Videos.js")(ORM.sequelize, DataTypes);
+var Video = require("./baseStructure/Videos.js")(global.ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // define relation
 Channel.hasMany(Video, {

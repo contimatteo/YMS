@@ -31,7 +31,7 @@ module.exports = class Sparql_Library {
     this.client = new SparqlClient(endpoint)
       .registerCommon('rdfs', 'xsd', 'fn')
       .register({
-        dbpedia: 'http://dbpedia.org/resource/'
+        dbr: 'http://dbpedia.org/resource/'
       })
       .register({
         dbo: 'http://dbpedia.org/ontology/'

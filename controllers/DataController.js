@@ -1,0 +1,19 @@
+////////////////////////////////////////////////////////////////////////////////
+var AuthController = require('./AuthController.js');
+var jsonVitali = require("../json/video.vitalu.json");
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports = class DataController {
+
+  constructor() {
+
+  }
+
+  vitali(request, response) {
+
+  }
+
+};

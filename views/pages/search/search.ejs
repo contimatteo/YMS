@@ -16,19 +16,28 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="banerInfo" style="padding-top:0px;">
-							<form class="form-inline" action="listing-sidebar-map-left.html" method="">
-								<div class="form-group" style="border: 2px solid #2196f3; border-radius: 4px;">
+							<form class="form-inline" action="/videos/search" method="post" id="form">
+								<div class="form-group" style="width:50%; border: 2px solid #2196f3; border-radius: 4px;">
 									<div class="input-group">
 										<div class="input-group-addon" style="border-right: 1px solid #2196f3;">Song</div>
-										<input type="text" class="form-control" id="findItem" placeholder="Which song are you looking for?">
+										<!-- search string -->
+										<%if (request.searchString) { %>
+										<input name="search_string" type="text" class="form-control" id="findItem" placeholder="Which song are you looking for?"
+										 value="<%= request.searchString %>">
+										<% } %>
+										<%if (!request.searchString) { %>
+										<input name="search_string" type="text" class="form-control" id="findItem" placeholder="Which song are you looking for?">
+										<% } %>
 										<div class="input-group-addon addon-right"></div>
 									</div>
 								</div>
-								<div class="form-group" style="border: 2px solid #2196f3; border-radius: 4px;">
-									<div class="input-group">
-										<div class="input-group-addon" style="border-right: 1px solid #2196f3;">Artist</div>
-										<input type="text" class="form-control" id="nearLocation" placeholder="And the artist ?">
-										<div class="input-group-addon addon-right"><i class="icon-listy icon-target" aria-hidden="true"></i></div>
+								<div class="form-group" style="width:20%; border: 2px solid #2196f3; border-radius: 4px;">
+									<div class="searchSelectbox">
+										<select name="search_type" id="guiest_id4" class="select-drop" sb="9254521" style="display: none;">
+											<option value="ArtistiCanzoni">Artisti & Canzoni</option>
+											<option value="Canali">Canali</option>
+											<option value="ID">ID youtube</option>
+										</select>
 									</div>
 								</div>
 								<button type="submit" class="btn btn-primary">Search
@@ -52,7 +61,7 @@
 							<div class="row">
 								<div class="col-sm-4 col-xs-12">
 									<div class="categoryImage">
-										<a href="/video/<%= videoObject.id.videoId %>" >
+										<a href="/videos/<%= videoObject.id.videoId %>">
 											<img src="<%= videoObject.snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
 										</a>
 										<!-- <span class="label label-primary">Verified</span> -->
@@ -70,15 +79,17 @@
 										<h2>
 											<a href="/video/<%= videoObject.id.videoId %>" style="color: #222222">
 												<%= videoObject.snippet.title %>
-											</a> 
+											</a>
 											<span class="likeCount"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp; 10k</span>
 										</h2>
-										<p>	youtube channel: <span class="placeName"> <%= videoObject.snippet.channelTitle %> </span></p>
+										<p> youtube channel: <span class="placeName">
+												<%= videoObject.snippet.channelTitle %> </span></p>
 										<p>
 											<%= videoObject.snippet.description %>
 										</p>
 										<p>
-											published at: <span class="placeName"><%= videoObject.snippet.publishedAt%></span>
+											published at: <span class="placeName">
+												<%= videoObject.snippet.publishedAt%></span>
 										</p>
 									</div>
 								</div>
@@ -89,19 +100,21 @@
 							<nav aria-label="Page navigation">
 								<ul class="pagination">
 									<li>
-										<a href="#" aria-label="Previous">
-											<span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
-										</a>
+										<%if (request.previousPage) { %>
+											<a onclick="goToPage('<%= request.previousPage%>')" aria-label="Previous">
+												<span aria-hidden="true">
+													<i class="fa fa-angle-left" aria-hidden="true"></i>
+												</span>
+											</a>
+											<% } %>
 									</li>
-									<li class="active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
+									&nbsp;	&nbsp;	&nbsp;
 									<li>
-										<a href="#" aria-label="Next">
+										<%if (request.nextPage) { %>
+										<a onclick="goToPage('<%= request.nextPage%>')" aria-label="Next">
 											<span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
 										</a>
+										<% } %>
 									</li>
 								</ul>
 							</nav>
@@ -134,6 +147,16 @@
 	</div>
 	<% include ../../components/footer-import.ejs %>
 </body>
+
+
+
+<script>
+
+function goToPage(pageToken) {
+	$("#form").attr("action", "/videos/search?page="+pageToken);
+	$("#form").submit();
+}
+</script>
 
 
 </html>
