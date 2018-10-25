@@ -36,14 +36,11 @@ module.exports = class TestController {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // init artists
-  initializeArtists(response) {
+  initializeName(response) {
     // leggere tutti gli artisti nel json
-    var array = [2];
-    for (var i=0; i<2; i++)
-    {
-    array[i]=VideoHelper.songNameFormatter("Thirty Seconds to Mars", "This is War");
-    }
-    response.send(array);
+    var formattedObject;
+    formattedObject = VideoHelper.nameFormatter("EMINEM", "Lose yourself");
+    response.send(formattedObject);
     // cercare l'url vero di riferimento su dbpedia
     // importare i dati
   }
