@@ -9,17 +9,9 @@
                     "autoIncrement": true,
                     "seqType": "INTEGER(11)"
                 },
-                "name": {
+                "firstname": {
                     "allowNull": true,
                     "seqType": "VARCHAR(255)"
-                },
-                "age": {
-                    "allowNull": true,
-                    "seqType": "INTEGER(11)"
-                },
-                "sex": {
-                    "allowNull": true,
-                    "seqType": "ENUM('M', 'F')"
                 },
                 "createdAt": {
                     "allowNull": true,
@@ -28,6 +20,15 @@
                 "updatedAt": {
                     "allowNull": true,
                     "seqType": "DATETIME"
+                },
+                "url": {
+                    "allowNull": true,
+                    "unique": true,
+                    "seqType": "VARCHAR(255)"
+                },
+                "lastname": {
+                    "allowNull": true,
+                    "seqType": "VARCHAR(11)"
                 }
             },
             "indexes": []
@@ -92,7 +93,7 @@
                     "allowNull": true,
                     "seqType": "DATETIME"
                 },
-                "artists_number": {
+                "members_number": {
                     "allowNull": false,
                     "seqType": "INTEGER(11)"
                 }
@@ -359,5 +360,5 @@
             "indexes": []
         }
     },
-    "revision": 3
+    "revision": 4
 }
