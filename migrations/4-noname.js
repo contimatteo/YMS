@@ -45,7 +45,7 @@ var migrationCommands = [{
             "Artists",
             "lastname",
             {
-                "type": VARCHAR(11),
+                "type": "VARCHAR(11)",
                 "allowNull": true
             }
         ]
@@ -56,7 +56,7 @@ var migrationCommands = [{
             "Artists",
             "url",
             {
-                "type": VARCHAR(255),
+                "type": "VARCHAR(255)",
                 "unique": true,
                 "allowNull": true
             }
@@ -68,7 +68,7 @@ var migrationCommands = [{
             "Artists",
             "firstname",
             {
-                "type": VARCHAR(255),
+                "type": "VARCHAR(255)",
                 "allowNull": true
             }
         ]
@@ -79,7 +79,7 @@ var migrationCommands = [{
             "Bands",
             "members_number",
             {
-                "type": INTEGER(11),
+                "type": "INTEGER(11)",
                 "allowNull": false
             }
         ]
