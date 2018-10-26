@@ -26,7 +26,6 @@ module.exports = class YoutubeApi_Library {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   search(queryString, numberOfResult, pageToken) {
-    console.log("2. page: " + pageToken);
     this.filters.pageToken = pageToken;
     return new Promise((resolve, reject) => {
       youtube.search(queryString, numberOfResult, this.filters, function (error, result) {

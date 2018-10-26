@@ -21,7 +21,7 @@ module.exports = function (app, passport) {
   });
   // search page route
   app.get('/videos/search', AuthController.userLoggedIn, function (request, response) {
-    // console.log(request.query.page);
+   
     var pageToken=request.query.page;
     VideosController.index(response, "Nothing Else Matters", "", pageToken, defaultVideoNumbers);
   });
@@ -29,7 +29,6 @@ module.exports = function (app, passport) {
     var searchString=request.body.search_string;
     var searchType=request.body.search_type;
     var pageToken=request.query.page;
-    console.log(request.query.page);
     VideosController.index(response, searchString, searchType, pageToken, defaultVideoNumbers);
   });
   // search page route

@@ -27,7 +27,6 @@ module.exports = class TestController {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // show list of videos
   index(response, searchString, searchType, pageToken, numberResult) {
-    console.log("[" + pageToken + "]");
     youtubeApi.search(searchString, numberResult, pageToken).then(function (results) {
       // response.send(results);
       response.render('pages/search/search', {
