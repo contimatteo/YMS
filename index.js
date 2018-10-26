@@ -56,9 +56,11 @@ app.set('view engine', 'ejs');
 var ApiRoutes   =   require('./routes/Api');
 var WebRoutes   =   require('./routes/Web');
 var AuthRoutes  =   require('./routes/Auth');
+var TestsRoutes  =   require('./routes/Tests');
 ApiRoutes(app, passport);
 WebRoutes(app, passport);
 AuthRoutes(app, passport);
+TestsRoutes(app, passport);
 ////////////////////////////////////////////////////////////////////////////////
 // PASSPORT
 require('./libraries/Passport.js')(passport);

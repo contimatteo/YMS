@@ -7,15 +7,15 @@ const sparqlClient = new SparqlLibrary();
 
 // var ApiError = require('../../libraries/schemas/ApiError.js');
 
-module.exports = class TestController {
+module.exports = class SparqlController {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   constructor() {
     // nothing to do
   }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 
   sparql(response) {
-    /////////////////////////////////////////////////////////////////////////////////
+    // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
     // da capire cosa fa
     // var query = " PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
     //   " PREFIX dbpedia-owl:<http://dbpedia.org/ontology/> " +
@@ -26,7 +26,7 @@ module.exports = class TestController {
     //   " ?album rdfs:label ?albumName. " +
     //   "  ?album dbpedia-owl:artist ?Artist. " +
     //   " }";
-    /////////////////////////////////////////////////////////////////////////////////
+    // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
     // 100 album with genre and artist
     // var query = " \
     //   prefix dbpedia:<http://dbpedia.org/> \
@@ -45,7 +45,7 @@ module.exports = class TestController {
     //   GROUP BY ?album \
     //   LIMIT 100 \
     // ";
-    /////////////////////////////////////////////////////////////////////////////////
+    // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
     // 100 music genre
     // prefix dbpedia:<http://dbpedia.org/>
     // prefix dbo:<http://dbpedia.org/ontology/> 
@@ -57,7 +57,60 @@ module.exports = class TestController {
     // }
     // GROUP BY ?genre
     // LIMIT 100
-    /////////////////////////////////////////////////////////////////////////////////
+    // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+    // get all properties of resource (non ho capito se funziona)
+    // prefix dbr:<http://dbpedia.org/resource/>
+    // prefix dbo:<http://dbpedia.org/ontology/> 
+    // prefix dbp:<http://dbpedia.org/property/> 
+    // prefix rdfs:<http://www.w3.org/2000/01/rdf-schema#> 
+    // select distinct ?property ?label {
+    //   { dbr:Green_Day ?property ?o }
+    //   union
+    //   { ?s ?property dbr:Green_Day }
+    
+    //   optional { 
+    //     ?property rdfs:label ?label .
+    //     filter langMatches(lang(?label), 'en')
+    //   }
+    // }
+    // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+    // get all properties of resource (QUESTA FUNZIONA)
+    // prefix dbr:<http://dbpedia.org/resource/>
+    // prefix dbo:<http://dbpedia.org/ontology/> 
+    // prefix dbp:<http://dbpedia.org/property/> 
+    // prefix rdfs:<http://www.w3.org/2000/01/rdf-schema#> 
+    // select distinct ?property ?label{
+    // dbr:Green_Day ?property ?value
+    // optional { 
+    //       ?value rdfs:label ?label .
+    //       filter langMatches(lang(?label), 'en')
+    //     }
+    // }
+    // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+    // get the value of single resource's property (in this case "dbo:genre")
+    // prefix dbr:<http://dbpedia.org/resource/>
+    // prefix dbo:<http://dbpedia.org/ontology/> 
+    // prefix dbp:<http://dbpedia.org/property/> 
+    // prefix rdfs:<http://www.w3.org/2000/01/rdf-schema#> 
+
+    // select distinct  ?value{
+    //  dbr:Green_Day dbo:genre ?value
+    // }
+    // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+    // get all former band members with relative name (label)
+    // prefix dbr:<http://dbpedia.org/resource/>
+    // prefix dbo:<http://dbpedia.org/ontology/> 
+    // prefix dbp:<http://dbpedia.org/property/> 
+    // prefix rdfs:<http://www.w3.org/2000/01/rdf-schema#> 
+
+    // select distinct *{
+    // dbr:Green_Day dbo:formerBandMember ?value1.
+    // optional { 
+    //        ?value1 rdfs:label ?label .
+    //        filter langMatches(lang(?label), 'en')
+    //      }
+    // }
+    // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
     // get 100 artist on rock genre
     var query = " \
       SELECT distinct * \
@@ -71,12 +124,20 @@ module.exports = class TestController {
       GROUP BY ?album  \
       LIMIT 100   \
     ";
-
     sparqlClient.runQuery(query, [], []).then(function (results) {
       response.send(results);
     }).catch(function (error) {
       response.send(error.reasonPhrase);
     });
   }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  getArtistInfo(artist) {
+    // call dbpedia for get artist info
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  getArtistRelatedResources(artist) {
+    // call dbpedia for get artist related data
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 }

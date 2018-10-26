@@ -69,13 +69,6 @@
 								</div>
 								<div class="col-sm-8 col-xs-12">
 									<div class="categoryDetails">
-										<!-- <ul class="list-inline rating">
-											<li><i class="fa fa-star" aria-hidden="true"></i></li>
-											<li><i class="fa fa-star" aria-hidden="true"></i></li>
-											<li><i class="fa fa-star" aria-hidden="true"></i></li>
-											<li><i class="fa fa-star" aria-hidden="true"></i></li>
-											<li><i class="fa fa-star" aria-hidden="true"></i></li>
-										</ul> -->
 										<h2>
 											<a href="/video/<%= videoObject.id.videoId %>" style="color: #222222">
 												<%= videoObject.snippet.title %>
@@ -156,6 +149,7 @@ function goToPage(pageToken) {
 	$("#form").attr("action", "/videos/search?page="+pageToken);
 	$("#form").submit();
 }
+
 </script>
 
 

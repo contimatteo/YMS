@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
-var VideosControllerClass = require('../controllers/VideosController.js');
 var TestControllerClass = require('../controllers/TestController.js');
+var DataControllerClass = require('../controllers/DataController.js');
 var AuthController = require('../controllers/AuthController.js');
 ////////////////////////////////////////////////////////////////////////////////
-const VideosController = new VideosControllerClass();
 const TestController = new TestControllerClass();
+const DataController = new DataControllerClass();
 ////////////////////////////////////////////////////////////////////////////////
 module.exports = function (app, passport) {
 
@@ -34,4 +34,11 @@ module.exports = function (app, passport) {
     TestController.visualizzoDatiDiProva(response);
   });
 
-}
+  // route for testing db
+  app.get('/import/artist/:name', function (request, response) {
+    var name = request.params.name;
+    var result = DataController.createArtist(name);
+    response.send(result);
+  });
+
+};
