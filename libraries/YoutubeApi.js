@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var Promise = require("bluebird");
-var YouTube = require('youtube-node');
+var YouTubeClass = require('youtube-node');
 var CustomError = require('./schemas/CustomError.js');
 var config = require('../config/config.json');
-var youtube = new YouTube();
+var youtube = new YouTubeClass();
 var CustomError = require('./schemas/CustomError.js');
 ////////////////////////////////////////////////////////////////////////////////
 youtube.setKey(config.development.youtube_api_key);
@@ -17,9 +17,9 @@ youtube.setKey(config.development.youtube_api_key);
 module.exports = class YoutubeApi_Library {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   constructor() {
+    this.numberOfResult = 10;
     this.filters = {
       type: 'video',
-      // relatedToVideoId: '1',
       videoCategoryId: '10',
       pageToken: ''
     };
@@ -47,6 +47,18 @@ module.exports = class YoutubeApi_Library {
         if (!result || !result.items || result.items.length < 1)
           reject(new CustomError(400, "video not found", ""));
         resolve(result);
+      });
+    });
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  getVideoRelatedById(id, numberOfResult) {
+    return new Promise((resolve, reject) => {
+      youtube.related(id, numberOfResult, function (error, result) {
+        if (!error) {
+          resolve(result);
+        } else {
+          reject(error);
+        }
       });
     });
   }

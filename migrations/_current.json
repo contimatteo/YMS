@@ -22,7 +22,10 @@
                     "seqType": "DATETIME"
                 },
                 "url": {
-                    "allowNull": true,
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
                     "unique": true,
                     "seqType": "VARCHAR(255)"
                 },
@@ -96,6 +99,14 @@
                 "members_number": {
                     "allowNull": false,
                     "seqType": "INTEGER(11)"
+                },
+                "url": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "unique": true,
+                    "seqType": "VARCHAR(255)"
                 }
             },
             "indexes": []
@@ -360,5 +371,5 @@
             "indexes": []
         }
     },
-    "revision": 4
+    "revision": 5
 }
