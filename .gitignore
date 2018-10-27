@@ -12,3 +12,4 @@
 **/config/
 *.txt
 auto-generate-models-local.sh
+**/auto-generate-models.bat
