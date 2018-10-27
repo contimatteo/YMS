@@ -1,8 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
-var SparqlControllerClass = require('../controllers/SparqlController.js');
+var SparqlController = require('../controllers/SparqlController.js');
 var AjaxRequest = require('../libraries/AjaxRequest.js');
 ////////////////////////////////////////////////////////////////////////////////
-const SparqlController = new SparqlControllerClass();
 const ajaxRequest = new AjaxRequest();
 ////////////////////////////////////////////////////////////////////////////////
 module.exports = function (app, passport) {

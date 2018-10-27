@@ -1,6 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
 var AuthController = require('./AuthController.js');
-var VideoHelper = require('./helpers/VideoHelper.js');
 var YoutubeApi = require('../libraries/YoutubeApi.js');
 var Promise = require('bluebird');
 // var database = new mySqlDB();
@@ -44,15 +43,6 @@ module.exports = class TestController {
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // init artists
-  initializeName(response) {
-    // leggere tutti gli artisti nel json
-    var formattedObject;
-    formattedObject = VideoHelper.nameFormatter("EMINEM", "Lose yourself");
-    response.send(formattedObject);
-    // cercare l'url vero di riferimento su dbpedia
-    // importare i dati
-  }
-}
+};
 
 //per ogni nome che trovo creo un array di oggetti

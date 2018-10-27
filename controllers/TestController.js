@@ -6,6 +6,7 @@ const Band = require('../models/Band.js');
 const Channel = require('../models/Channel.js');
 const Video = require('../models/Video.js');
 const User = require('../models/User.js');
+var DataHelper = require('./helpers/DataHelper.js');
 ////////////////////////////////////////////////////////////////////////////////
 
 // var ApiError = require('../../libraries/schemas/ApiError.js');
@@ -72,5 +73,11 @@ module.exports = class TestController {
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+   // init artists
+   initializeName(response) {
+    var formattedObject = DataHelper.nameFormatter("EMINEM", "Lose yourself");
+    response.send(formattedObject);
+    // cercare l'url vero di riferimento su dbpedia
+    // importare i dati
+  }
 };
