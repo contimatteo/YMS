@@ -11,3 +11,4 @@
 **/*.zip
 **/config/
 *.txt
+**/auto-generate-models.bat
