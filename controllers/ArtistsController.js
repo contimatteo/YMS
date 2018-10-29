@@ -17,6 +17,7 @@ var self = module.exports = {
     var artistNameFormatted = DataHelper.artistNameFormatter(artistName);
     var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
     SparqlController.getArtistInfo(artistNameFormatted).then(function (artistInfo) {
+      console.log(artistInfo);
         var result = artistInfo.results.bindings[0];
         var artistData = {};
         artistData.name = result.name.value;

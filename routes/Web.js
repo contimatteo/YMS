@@ -50,17 +50,17 @@ module.exports = function (app, passport) {
   ////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////// ARTISTS ROUTE /////////////////////////////////
   // search page route
-   app.get('/artist/create/:name', function (req, res) {
+   app.get('/artists/create/:name', function (req, res) {
     var name = req.params.name;
     ArtistsController.create(res, name);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/artist/create/:name/relations/', function (req, res) {
+  app.get('/artists/create/:name/relations/', function (req, res) {
     var name = req.params.name;
     ArtistsController.create(res, name);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/artist/create/:name/relations/artists', function (req, res) {
+  app.get('/artists/create/:name/relations/artists', function (req, res) {
     var name = req.params.name;
     ArtistsController.createRelated(res, name);
   });
