@@ -30,6 +30,18 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       defaultValue: '',
       unique: true
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    type: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    formatted_name: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
   }, {
     tableName: 'Bands'

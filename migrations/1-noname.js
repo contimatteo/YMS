@@ -5,51 +5,28 @@ var Sequelize = require('sequelize');
 /**
  * Actions summary:
  *
- * createTable "Logs", deps: []
  * createTable "Artists", deps: []
  * createTable "Bands", deps: []
  * createTable "Channels", deps: []
+ * createTable "Logs", deps: []
  * createTable "Users", deps: []
  * createTable "ArtistsAndBands", deps: [Artists, Bands]
- * createTable "Playlists", deps: [Users]
  * createTable "Videos", deps: [Channels]
+ * createTable "Playlists", deps: [Users]
+ * createTable "FavoriteVideos", deps: [Videos, Users]
  * createTable "PlaylistsAndVideos", deps: [Playlists, Videos]
  * createTable "Productions", deps: [Bands, Videos]
- * createTable "FavoriteVideos", deps: [Videos, Users]
  *
  **/
 
 var info = {
     "revision": 1,
-    "name": "create-structure",
-    "created": "2018-09-08T17:14:52.689Z",
+    "name": "noname",
+    "created": "2018-10-29T21:04:32.086Z",
     "comment": ""
 };
 
 var migrationCommands = [{
-        fn: "createTable",
-        params: [
-            "Logs",
-            {
-                "id": {
-                    "type": "INTEGER(11)",
-                    "autoIncrement": true,
-                    "primaryKey": true,
-                    "allowNull": false
-                },
-                "createdAt": {
-                    "type": "DATETIME",
-                    "allowNull": true
-                },
-                "updatedAt": {
-                    "type": "DATETIME",
-                    "allowNull": true
-                }
-            },
-            {}
-        ]
-    },
-    {
         fn: "createTable",
         params: [
             "Artists",
@@ -62,15 +39,8 @@ var migrationCommands = [{
                 },
                 "name": {
                     "type": "VARCHAR(255)",
-                    "allowNull": true
-                },
-                "age": {
-                    "type": "INTEGER(11)",
-                    "allowNull": true
-                },
-                "sex": {
-                    "type": "ENUM('M', 'F')",
-                    "allowNull": true
+                    "defaultValue": "",
+                    "allowNull": false
                 },
                 "createdAt": {
                     "type": "DATETIME",
@@ -79,6 +49,25 @@ var migrationCommands = [{
                 "updatedAt": {
                     "type": "DATETIME",
                     "allowNull": true
+                },
+                "url": {
+                    "type": "VARCHAR(255)",
+                    "unique": true,
+                    "defaultValue": "",
+                    "allowNull": false
+                },
+                "description": {
+                    "type": "TEXT",
+                    "allowNull": true
+                },
+                "type": {
+                    "type": "VARCHAR(255)",
+                    "allowNull": true
+                },
+                "formatted_name": {
+                    "type": "VARCHAR(255)",
+                    "defaultValue": "",
+                    "allowNull": false
                 }
             },
             {}
@@ -106,6 +95,28 @@ var migrationCommands = [{
                 },
                 "updatedAt": {
                     "type": "DATETIME",
+                    "allowNull": true
+                },
+                "members_number": {
+                    "type": "INTEGER(11)",
+                    "allowNull": false
+                },
+                "url": {
+                    "type": "VARCHAR(255)",
+                    "unique": true,
+                    "defaultValue": "",
+                    "allowNull": false
+                },
+                "description": {
+                    "type": "TEXT",
+                    "allowNull": true
+                },
+                "type": {
+                    "type": "VARCHAR(255)",
+                    "allowNull": true
+                },
+                "formatted_name": {
+                    "type": "VARCHAR(255)",
                     "allowNull": true
                 }
             },
@@ -142,6 +153,29 @@ var migrationCommands = [{
     {
         fn: "createTable",
         params: [
+            "Logs",
+            {
+                "id": {
+                    "type": "INTEGER(11)",
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "allowNull": false
+                },
+                "createdAt": {
+                    "type": "DATETIME",
+                    "allowNull": true
+                },
+                "updatedAt": {
+                    "type": "DATETIME",
+                    "allowNull": true
+                }
+            },
+            {}
+        ]
+    },
+    {
+        fn: "createTable",
+        params: [
             "Users",
             {
                 "id": {
@@ -156,6 +190,25 @@ var migrationCommands = [{
                 },
                 "updatedAt": {
                     "type": "DATETIME",
+                    "allowNull": true
+                },
+                "password": {
+                    "type": "VARCHAR(255)",
+                    "defaultValue": "",
+                    "allowNull": false
+                },
+                "email": {
+                    "type": "VARCHAR(150)",
+                    "unique": true,
+                    "defaultValue": "",
+                    "allowNull": false
+                },
+                "firstname": {
+                    "type": "VARCHAR(150)",
+                    "allowNull": true
+                },
+                "lastname": {
+                    "type": "VARCHAR(150)",
                     "allowNull": true
                 }
             },
@@ -204,6 +257,57 @@ var migrationCommands = [{
     {
         fn: "createTable",
         params: [
+            "Videos",
+            {
+                "id": {
+                    "type": "INTEGER(11)",
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "allowNull": false
+                },
+                "title": {
+                    "type": "VARCHAR(11)",
+                    "defaultValue": "",
+                    "allowNull": false
+                },
+                "description": {
+                    "type": "TEXT",
+                    "allowNull": true
+                },
+                "FKChannelId": {
+                    "type": "INTEGER(11)",
+                    "references": {
+                        "model": "Channels",
+                        "key": "id"
+                    },
+                    "allowNull": true
+                },
+                "createdAt": {
+                    "type": "DATETIME",
+                    "allowNull": true
+                },
+                "updatedAt": {
+                    "type": "DATETIME",
+                    "allowNull": true
+                },
+                "views": {
+                    "type": "INTEGER(11)",
+                    "defaultValue": "0",
+                    "allowNull": false
+                },
+                "youtube_id": {
+                    "type": "VARCHAR(20)",
+                    "unique": true,
+                    "defaultValue": "",
+                    "allowNull": false
+                }
+            },
+            {}
+        ]
+    },
+    {
+        fn: "createTable",
+        params: [
             "Playlists",
             {
                 "id": {
@@ -235,7 +339,7 @@ var migrationCommands = [{
     {
         fn: "createTable",
         params: [
-            "Videos",
+            "FavoriteVideos",
             {
                 "id": {
                     "type": "INTEGER(11)",
@@ -243,18 +347,18 @@ var migrationCommands = [{
                     "primaryKey": true,
                     "allowNull": false
                 },
-                "title": {
-                    "type": "VARCHAR(11)",
-                    "allowNull": true
-                },
-                "description": {
-                    "type": "VARCHAR(11)",
-                    "allowNull": true
-                },
-                "FKChannelId": {
+                "FKVideoId": {
                     "type": "INTEGER(11)",
                     "references": {
-                        "model": "Channels",
+                        "model": "Videos",
+                        "key": "id"
+                    },
+                    "allowNull": false
+                },
+                "FKUserId": {
+                    "type": "INTEGER(11)",
+                    "references": {
+                        "model": "Users",
                         "key": "id"
                     },
                     "allowNull": false
@@ -333,45 +437,6 @@ var migrationCommands = [{
                     "type": "INTEGER(11)",
                     "references": {
                         "model": "Videos",
-                        "key": "id"
-                    },
-                    "allowNull": false
-                },
-                "createdAt": {
-                    "type": "DATETIME",
-                    "allowNull": true
-                },
-                "updatedAt": {
-                    "type": "DATETIME",
-                    "allowNull": true
-                }
-            },
-            {}
-        ]
-    },
-    {
-        fn: "createTable",
-        params: [
-            "FavoriteVideos",
-            {
-                "id": {
-                    "type": "INTEGER(11)",
-                    "autoIncrement": true,
-                    "primaryKey": true,
-                    "allowNull": false
-                },
-                "FKVideoId": {
-                    "type": "INTEGER(11)",
-                    "references": {
-                        "model": "Videos",
-                        "key": "id"
-                    },
-                    "allowNull": false
-                },
-                "FKUserId": {
-                    "type": "INTEGER(11)",
-                    "references": {
-                        "model": "Users",
                         "key": "id"
                     },
                     "allowNull": false

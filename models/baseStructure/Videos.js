@@ -10,15 +10,16 @@ module.exports = function(sequelize, DataTypes) {
     },
     title: {
       type: DataTypes.STRING(11),
-      allowNull: true
+      allowNull: false,
+      defaultValue: ''
     },
     description: {
-      type: DataTypes.STRING(11),
+      type: DataTypes.TEXT,
       allowNull: true
     },
     FKChannelId: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'Channels',
         key: 'id'
@@ -31,6 +32,17 @@ module.exports = function(sequelize, DataTypes) {
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: true
+    },
+    views: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      defaultValue: '0'
+    },
+    youtube_id: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
+      defaultValue: '',
+      unique: true
     }
   }, {
     tableName: 'Videos'

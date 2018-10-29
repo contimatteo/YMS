@@ -9,8 +9,11 @@
                     "autoIncrement": true,
                     "seqType": "INTEGER(11)"
                 },
-                "firstname": {
-                    "allowNull": true,
+                "name": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
                     "seqType": "VARCHAR(255)"
                 },
                 "createdAt": {
@@ -29,9 +32,20 @@
                     "unique": true,
                     "seqType": "VARCHAR(255)"
                 },
-                "lastname": {
+                "description": {
                     "allowNull": true,
-                    "seqType": "VARCHAR(11)"
+                    "seqType": "TEXT"
+                },
+                "type": {
+                    "allowNull": true,
+                    "seqType": "VARCHAR(255)"
+                },
+                "formatted_name": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "seqType": "VARCHAR(255)"
                 }
             },
             "indexes": []
@@ -106,6 +120,18 @@
                         "value": ""
                     },
                     "unique": true,
+                    "seqType": "VARCHAR(255)"
+                },
+                "description": {
+                    "allowNull": true,
+                    "seqType": "TEXT"
+                },
+                "type": {
+                    "allowNull": true,
+                    "seqType": "VARCHAR(255)"
+                },
+                "formatted_name": {
+                    "allowNull": true,
                     "seqType": "VARCHAR(255)"
                 }
             },
@@ -344,15 +370,18 @@
                     "seqType": "INTEGER(11)"
                 },
                 "title": {
-                    "allowNull": true,
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
                     "seqType": "VARCHAR(11)"
                 },
                 "description": {
                     "allowNull": true,
-                    "seqType": "VARCHAR(11)"
+                    "seqType": "TEXT"
                 },
                 "FKChannelId": {
-                    "allowNull": false,
+                    "allowNull": true,
                     "references": {
                         "model": "Channels",
                         "key": "id"
@@ -366,10 +395,25 @@
                 "updatedAt": {
                     "allowNull": true,
                     "seqType": "DATETIME"
+                },
+                "views": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "seqType": "INTEGER(11)"
+                },
+                "youtube_id": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "unique": true,
+                    "seqType": "VARCHAR(20)"
                 }
             },
             "indexes": []
         }
     },
-    "revision": 5
+    "revision": 1
 }
