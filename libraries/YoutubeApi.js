@@ -46,6 +46,7 @@ module.exports = class YoutubeApi_Library {
           reject(error);
         if (!result || !result.items || result.items.length < 1)
           reject(new CustomError(400, "video not found", ""));
+        // all goes ok
         resolve(result);
       });
     });
