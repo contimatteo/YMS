@@ -53,7 +53,7 @@ module.exports = function (app, passport) {
   ////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////// ARTISTS ROUTE /////////////////////////////////
   // search page route
-  app.get('/artists/create/:name', function (req, res) {
+  app.get('/artists/:name/create', function (req, res) {
     var name = req.params.name;
     ArtistsController.create(res, name).then(function (artistCreated) {
         res.send(artistCreated);
@@ -74,14 +74,14 @@ module.exports = function (app, passport) {
       });
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/artists/create/:name/relations/artists', function (req, res) {
+  app.get('/artists/:name/create/relations/artists', function (req, res) {
     var name = req.params.name;
     ArtistsController.createRelated(res, name);
   });
   ////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////// VIDEOS ROUTE /////////////////////////////////
   // search page route
-  app.get('/videos/create/:title', function (req, res) {
+  app.get('/videos/:title/create', function (req, res) {
     var title = req.params.title;
     VideosController.create(res, title).then(function (videoCreated) {
         res.send(videoCreated);
