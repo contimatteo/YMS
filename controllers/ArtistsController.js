@@ -47,7 +47,7 @@ var self = module.exports = {
         if (artistInfo.results && self._checkArtist(artistInfo.results.bindings[0].type.value)) {
           resolve(artistInfo);
         } else {
-          resolve(new CustomError(400, "bad call", "this function works only for artists and not for bands."));
+          reject(new CustomError(400, "bad call", "this function works only for artists and not for bands."));
         }
       }).catch(function (error) {
         console.log(error);
@@ -77,7 +77,7 @@ var self = module.exports = {
                 reject(error.errors[0].message);
               });
           } else {
-            resolve(new CustomError(400, "bad call", "this function works only for artists and not for bands."));
+            reject(new CustomError(400, "bad call", "this function works only for artists and not for bands."));
           }
         })
         .catch(function (error) {
