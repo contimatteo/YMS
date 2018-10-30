@@ -41,6 +41,20 @@ module.exports = function (app, passport) {
     var id = req.params.id;
     VideosController.show(res, id);
   });
+  app.get('/videos/create/:title', function (req, res) {
+    var title = req.params.title;
+    VideosController.create(res, title).then(function (videoCreated) {
+        res.send(videoCreated);
+      })
+      .catch(function (error) {
+        res.send(error);
+      });
+  });
+  app.get('/videos/:id/viewed/:user', function (req, res) {
+    var id = req.params.id;
+    var userId = req.params.userId;
+    // VideoController.createRelated(res, name);
+  });
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////// USERS ROUTE /////////////////////////////////
   // search page route
@@ -77,18 +91,6 @@ module.exports = function (app, passport) {
   app.get('/artists/create/:name/relations/artists', function (req, res) {
     var name = req.params.name;
     ArtistsController.createRelated(res, name);
-  });
-  ////////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////// VIDEOS ROUTE /////////////////////////////////
-  // search page route
-  app.get('/videos/create/:title', function (req, res) {
-    var title = req.params.title;
-    VideosController.create(res, title).then(function (videoCreated) {
-        res.send(videoCreated);
-      })
-      .catch(function (error) {
-        res.send(error);
-      });
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
