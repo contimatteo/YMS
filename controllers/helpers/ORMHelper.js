@@ -1,6 +1,7 @@
 var Promise = require("bluebird");
 ////////////////////////////////////////////////////////////////////////////////
 var Artist = require("../../models/Artist.js");
+var Video = require("../../models/Video.js");
 ////////////////////////////////////////////////////////////////////////////////
 module.exports = {
 
@@ -17,7 +18,23 @@ module.exports = {
         reject(error);
       });
     });
+  },
+
+  getVideoById(videoId) {
+    return new Promise((resolve, reject) => {
+      Video.findAll({
+        include: [{
+          model: Artist
+        }],
+        where: {
+          youtube_id: videoId
+        }
+      }).then(results => {
+        // 
+        response.send(results);
+      });
+    });
   }
 
-}
+};
 ////////////////////////////////////////////////////////////////////////////////
