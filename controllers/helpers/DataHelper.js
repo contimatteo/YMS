@@ -1,11 +1,20 @@
+module.exports = self;
+var ArtistController = require("../ArtistsController.js");
+var SparqlControllerClass = require('../SparqlController.js');
+var SparqlController = new SparqlControllerClass();
 ////////////////////////////////////////////////////////////////////////////////
-function capitalizeFirstLetter(myString) {
-  return myString.charAt(0).toUpperCase() + myString.slice(1);
-}
+// function capitalizeFirstLetter(myString) {
+//   return myString.charAt(0).toUpperCase() + myString.slice(1);
+// }
 ////////////////////////////////////////////////////////////////////////////////
 var prefix = "http://dbpedia.org/resource/";
-module.exports = {
-  // songs
+
+var self = {
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  capitalizeFirstLetter(myString) {
+    return myString.charAt(0).toUpperCase() + myString.slice(1);
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   nameFormatter(artist, song) {
     var object = {
       link1: "",
@@ -21,11 +30,11 @@ module.exports = {
     var arraySplittedArtist = artist.split(" ");
     // ...
     for (var i = 0; i < arraySplittedSong.length; i++) {
-      arraySplittedSong[i] = capitalizeFirstLetter(arraySplittedSong[i]);
+      arraySplittedSong[i] = this.capitalizeFirstLetter(arraySplittedSong[i]);
     }
     // ...
     for (var i = 0; i < arraySplittedArtist.length; i++) {
-      arraySplittedArtist[i] = capitalizeFirstLetter(arraySplittedArtist[i]);
+      arraySplittedArtist[i] = this.capitalizeFirstLetter(arraySplittedArtist[i]);
     }
     // ...
     var newSong;
@@ -57,27 +66,9 @@ module.exports = {
     // return object with link
     return (object);
   },
-
-  artistNameFormatter(artist) {
-    artist = artist.trim();
-    artist = artist.toLowerCase();
-    var arraySplittedArtist = artist.split(" ");
-    // ...
-    for (var i = 0; i < arraySplittedArtist.length; i++) {
-      arraySplittedArtist[i] = capitalizeFirstLetter(arraySplittedArtist[i]);
-    }
-    // ...
-    var newArtist;
-    for (var i = 0; i < arraySplittedArtist.length; i++) {
-      if (i == 0) {
-        newArtist = arraySplittedArtist[i]; + '_';
-      } else {
-        newArtist = newArtist + '_' + arraySplittedArtist[i];
-      }
-    }
-    return newArtist;
-  }
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+
+module.exports = self;

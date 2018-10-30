@@ -30,8 +30,8 @@ module.exports = class YoutubeApi_Library {
     return new Promise((resolve, reject) => {
       youtube.search(queryString, numberOfResult, this.filters, function (error, result) {
         if (error) {
-          // reject(new Error(error.message));
-          console.log(error);
+          reject(new Error(error.message));
+          // console.log(error);
         }
         // all goes ok
         resolve(result);
