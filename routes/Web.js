@@ -53,7 +53,7 @@ module.exports = function (app, passport) {
   app.get('/videos/:id/viewed/:user', function (req, res) {
     var id = req.params.id;
     var userId = req.params.userId;
-    // VideoController.createRelated(res, name);
+    VideosController.addView(res, userId, id);
   });
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////// USERS ROUTE /////////////////////////////////

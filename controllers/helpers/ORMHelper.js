@@ -30,11 +30,16 @@ module.exports = {
           youtube_id: videoId
         }
       }).then(results => {
-        // 
-        response.send(results);
+        resolve(results); 
+      }).catch((error) => {
+        // aggiungi il video al db
+         reject(error);
       });
     });
   }
+
+
+  // creare la funzione che incrementa le view
 
 };
 ////////////////////////////////////////////////////////////////////////////////

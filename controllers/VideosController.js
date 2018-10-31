@@ -2,6 +2,7 @@
 var AuthController = require('./AuthController.js');
 var ArtistsController = require('./ArtistsController.js');
 var YoutubeApi = require('../libraries/YoutubeApi.js');
+var ORMHelper = require('./helpers/ORMHelper.js');
 var Promise = require('bluebird');
 // var database = new mySqlDB();
 const youtubeApi = Promise.promisifyAll(new YoutubeApi());
@@ -83,7 +84,13 @@ var self = module.exports = {
           reject(error);
         });
     });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  addView(response, userId, videoId){
+   ORMHelper.getVideoById(videoId).then(function(ORMResults){
+    response.send(ORMResults);
+   }); 
   }
+
 };
 
-//per ogni nome che trovo creo un array di oggetti
