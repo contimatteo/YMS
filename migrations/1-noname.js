@@ -22,7 +22,7 @@ var Sequelize = require('sequelize');
 var info = {
     "revision": 1,
     "name": "noname",
-    "created": "2018-10-29T21:04:32.086Z",
+    "created": "2018-10-31T14:03:41.589Z",
     "comment": ""
 };
 
@@ -425,7 +425,7 @@ var migrationCommands = [{
                     "primaryKey": true,
                     "allowNull": false
                 },
-                "FKBandId": {
+                "FKMusicianId": {
                     "type": "INTEGER(11)",
                     "references": {
                         "model": "Bands",

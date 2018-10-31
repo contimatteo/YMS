@@ -290,7 +290,7 @@
                     "autoIncrement": true,
                     "seqType": "INTEGER(11)"
                 },
-                "FKBandId": {
+                "FKMusicianId": {
                     "allowNull": false,
                     "references": {
                         "model": "Bands",
