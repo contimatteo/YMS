@@ -3,6 +3,7 @@ var AuthController = require('./AuthController.js');
 var ArtistsController = require('./ArtistsController.js');
 var YoutubeApi = require('../libraries/YoutubeApi.js');
 var ORMHelper = require('./helpers/ORMHelper.js');
+var Video = require("../models/Video.js");
 var Promise = require('bluebird');
 // var database = new mySqlDB();
 const youtubeApi = Promise.promisifyAll(new YoutubeApi());
@@ -87,8 +88,13 @@ var self = module.exports = {
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   addView(response, userId, videoId){
-   ORMHelper.getVideoById(videoId).then(function(ORMResults){
-    response.send(ORMResults);
+   ORMHelper.getVideoById(videoId).then(function(videoObject){
+     // controllare che la "lunchezza" dell oggetto sia diversa da zero 
+     // aggiungere una view
+    Video.findById(videoObject.id).then(video => {
+      return video.increment('views', {by: 1})
+    })
+    response.send(videoObject);
    }); 
   }
 

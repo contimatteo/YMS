@@ -30,9 +30,8 @@ module.exports = {
           youtube_id: videoId
         }
       }).then(results => {
-        resolve(results); 
+        resolve(results[0]); 
       }).catch((error) => {
-        // aggiungi il video al db
          reject(error);
       });
     });
