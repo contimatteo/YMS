@@ -43,9 +43,7 @@ var self = module.exports = {
           splittedString[index] = splittedString[index].replace(/featuring/g, 'feat.');
           // splittedString[index] = splittedString[index].replace(/feat./g, '^');
           splittedString[index] = splittedString[index].trim();
-          console.log(splittedString[index]);
         });
-        console.log(splittedString);
         // 1° case: "Artist - song"
         // 2° case: "Artist feat. Artist - song"
         // 3° case: "Artist - song feat. Artist"
