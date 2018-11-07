@@ -19,7 +19,6 @@
   "scripts": {
     "start": "node --harmony -r dotenv/config index.js",
     "nodemon": "./node_modules/nodemon/bin/nodemon.js index.js",
-    "generate:models": "sh ./auto-generate-models.sh",
     "generate:migration": "node ./node_modules/sequelize-auto-migrations/bin/makemigration --name",
     "import:migrations": "node ./node_modules/sequelize-auto-migrations/bin/runmigration",
     "preview:migration": "node ./node_modules/sequelize-auto-migrations/bin/makemigration --preview"

@@ -31,14 +31,20 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    type: {
+    dbpedia_type: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    type: {
+      type: DataTypes.ENUM('','artist','band'),
+      allowNull: true,
+      defaultValue: 'artist'
     },
     formatted_name: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      defaultValue: ''
+      defaultValue: '',
+      unique: true
     }
   }, {
     tableName: 'Artists'

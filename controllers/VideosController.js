@@ -55,7 +55,11 @@ var self = module.exports = {
         }
         if ((splittedString[0].indexOf("feat.") > -1)) {
           // 2° case: "Artist feat. Artist - Song"
-          resolve("Artist feat. Artist - Song");
+          objectString.song = splittedString[1];
+          splittedString[0].split("feat.").forEach(artistName => {
+            objectString.artists.push(artistName);
+          });
+          resolve(objectString);
         }
         if ((splittedString[1].indexOf("feat.") > -1)) {
           // 3° case: "Artist - Song feat. Artist" oppure "Song - Artist feat. Artist"
@@ -135,14 +139,14 @@ var self = module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   create(response, youtubeId) {
     return new Promise((resolve, reject) => {
-      self._getVideoInfo(null, youtubeId).then(function (videoObject) {
-          self._findArtistAndSongByString(videoObject.items[0].id, videoObject.items[0].snippet.title).then(function (objectString) {
+      return self._getVideoInfo(null, youtubeId).then(function (videoObject) {
+          return self._findArtistAndSongByString(videoObject.items[0].id, videoObject.items[0].snippet.title).then(function (objectString) {
             var song = objectString.song;
             var artists = objectString.artists;
-            ORMHelper.getVideoById(videoObject.items[0].id).then(function (videoDB) {
+            return ORMHelper.getVideoById(videoObject.items[0].id).then(function (videoDB) {
               if (videoDB.length > 0) {
                 // video exist
-                resolve("Artist - Song");
+                resolve("video già presente");
               } else {
                 // video not exist
                 var video = {
@@ -152,18 +156,19 @@ var self = module.exports = {
                   views: 0,
                   youtube_id: videoObject.items[0].id,
                 }
-                ORMHelper.storeVideo(video).then(function (videoCreated) {
+                return ORMHelper.storeVideo(video).then(function (videoCreated) {
                   var promiseArray = [];
                   artists.forEach(artist => {
                     promiseArray.push(ArtistsController.create(null, artist));
                   });
-                  Promise.all(promiseArray)
+                  return Promise.all(promiseArray)
                     .then(data => {
                       var promiseArray2 = [];
                       data.forEach(artistCreated =>  {
+                        console.log("id artista creato: " + artistCreated.id);
                         promiseArray2.push(ORMHelper.storeVideoAndArtistAssociation(artistCreated.id, videoCreated.id));
                       })
-                      Promise.all(promiseArray).then(data => {
+                      return Promise.all(promiseArray2).then(data => {
                         resolve(data);
                       })
                       .catch(error => {

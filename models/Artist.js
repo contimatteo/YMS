@@ -13,10 +13,11 @@ var Video = require("./baseStructure/Videos.js")(global.ORM.sequelize, DataTypes
 var ArtistsAndBands = require("./baseStructure/ArtistsAndBands.js")(global.ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // define relation
-Artist.belongsToMany(Band, {
+Artist.belongsToMany(Artist, {
   through: ArtistsAndBands,
   foreignKey: 'FKArtistId',
-  otherKey: 'FKBandId'
+  otherKey: 'FKBandId',
+  as: 'Bands'
 });
 
 // define relation

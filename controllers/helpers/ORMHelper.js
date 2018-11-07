@@ -44,11 +44,12 @@ module.exports = {
       FKVideoId: videoId
     };
     return new Promise((resolve, reject) => {
-      var production = Productions.build(videoObject, {
+      var production = Productions.build(association, {
         FKMusicianId: association.artistId,
         FKVideoId: association.videoId
       });
       production.save().then(production => {
+        console.log(production);
         resolve(production);
       }).catch((error) => {
         reject(error);

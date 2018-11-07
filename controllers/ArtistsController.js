@@ -7,13 +7,13 @@ var ORMHelper = require('./helpers/ORMHelper.js');
 var constants = require('./helpers/ConstantsHelper.js');
 var CustomError = require('../libraries/schemas/CustomError.js');
 ////////////////////////////////////////////////////////////////////////////////
-
+var Artist = require("../models/Artist.js");
 
 ////////////////////////////////////////////////////////////////////////////////
 
 var self = module.exports = {
-  _checkArtist(type) {
-    if (type == "http://dbpedia.org/ontology/MusicalArtist")
+  _checkArtist(dbpedia_type) {
+    if (dbpedia_type == "http://dbpedia.org/ontology/MusicalArtist" || dbpedia_type == "http://dbpedia.org/ontology/Band")
       return true;
     else
       return false;
@@ -45,6 +45,8 @@ var self = module.exports = {
       var artistNameFormatted = self._artistNameFormatter(artistName);
       SparqlController.getArtistInfo(artistNameFormatted).then(function (artistInfo) {
         if (artistInfo.results.bindings.length < 1) {
+          console.log("prendo da dbpedia le info per l'artista " + artistNameFormatted);
+          console.log(artistInfo);
           resolve(null);
         } else {
           if (artistInfo.results && self._checkArtist(artistInfo.results.bindings[0].type.value)) {
@@ -60,14 +62,30 @@ var self = module.exports = {
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  getArtistByUrl(artistUrl) {
+    return new Promise((resolve, reject) => {
+      Artist.findAll({
+        where: {
+          url: artistUrl
+        }
+      }).then(results => {
+        console.log("cerco un artista che ha url: " + artistUrl);
+        console.log(results.length);
+        // console.log("Session: %j", results[0].id);
+        resolve(results);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // create artist on db
   create(response, artistName) {
     return new Promise(function (resolve, reject) {
       var artistNameFormatted = self._artistNameFormatter(artistName);
       var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
-      self.getArtistInfo(null, artistNameFormatted).then(function (artistInfo) {
+      self.getArtistInfo(null, artistName).then(function (artistInfo) {
           if (!artistInfo) {
-            console.log(artistNameFormatted + " artista non valido");
             resolve(null);
           }
           if (artistInfo.results && self._checkArtist(artistInfo.results.bindings[0].type.value)) {
@@ -75,15 +93,27 @@ var self = module.exports = {
             var artistData = {};
             artistData.name = result.name.value;
             if (result.hasOwnProperty("description")) artistData.description = result.description.value;
-            artistData.type = result.type.value;
+            artistData.dbpedia_type = result.type.value;
             artistData.url = artistUrl;
             artistData.formatted_name = artistNameFormatted;
-            ORMHelper.storeArtist(artistData).then(function (artistCreated) {
-                resolve(artistCreated);
-              })
-              .catch(function (error) {
-                reject(error.errors[0].message);
-              });
+            self.getArtistByUrl(artistUrl).then(function (artistFinded) {
+              if (artistFinded.length > 0) {
+                // artista founded
+                console.log("artista già presente: " + artistFinded[0].id);
+                resolve(artistFinded[0]);
+              } else {
+                // artist not found
+                console.log("artista non trovato");
+                ORMHelper.storeArtist(artistData).then(function (artistCreated) {
+                    resolve(artistCreated);
+                  })
+                  .catch(function (error) {
+                    reject(error.errors[0].message);
+                  });
+              }
+            }).catch(function (error) {
+              reject(error);
+            });
           } else {
             reject(new CustomError(400, "bad call", "this function works only for artists and not for bands."));
           }
@@ -101,7 +131,7 @@ var self = module.exports = {
         var artistData = {};
         artistData.name = artistObject.name.value;
         if (artistObject.hasOwnProperty("description")) artistData.description = artistObject.description.value;
-        artistData.type = artistObject.type.value;
+        artistData.dbpedia_type = artistObject.type.value;
         artistData.url = artistObject.artistAssociated.value;
         artistData.formatted_name = artistNameFormatted;
         ORMHelper.storeArtist(artistData).then(function (artistCreated) {

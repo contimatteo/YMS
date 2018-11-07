@@ -30,7 +30,7 @@ module.exports = class TestController {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // get all bands with relative artists
   orm1(response) {
-    Band.findAll({
+    Artist.findAll({
         include: [{
           model: Artist
         }]
@@ -44,7 +44,7 @@ module.exports = class TestController {
   orm2(request, response, next) {
     Artist.findAll({
       include: [{
-        model: Band
+        model: Artist
       }]
     }).then(results => {
       response.send(results);
