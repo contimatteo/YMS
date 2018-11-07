@@ -89,12 +89,17 @@ var self = module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   addView(response, userId, videoId){
    ORMHelper.getVideoById(videoId).then(function(videoObject){
-     // controllare che la "lunchezza" dell oggetto sia diversa da zero 
-     // aggiungere una view
+     if (!videoObject)
+     {
+       // aggiungere il video al db
+      response.send('il video non ce')
+     }else
+     {
     Video.findById(videoObject.id).then(video => {
       return video.increment('views', {by: 1})
     })
     response.send(videoObject);
+    }
    }); 
   }
 
