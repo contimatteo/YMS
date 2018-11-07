@@ -12,7 +12,7 @@ const youtubeApi = Promise.promisifyAll(new YoutubeApi());
 
 var self = module.exports = {
 
-  _findArtistAndSongByString(string) {
+  _findArtistAndSongByString(youtubeId, string) {
     return new Promise(function (resolve, reject) {
       var objectString = {
         artists: [],
@@ -49,7 +49,9 @@ var self = module.exports = {
         // 3° case: "Artist - song feat. Artist"
         if ((splittedString[0].indexOf("feat.") < 0) && (splittedString[1].indexOf("feat.") < 0)) {
           // 1° case: "Artist - Song"
-          resolve("Artist - Song");
+          objectString.song = splittedString[1];
+          objectString.artists.push(splittedString[0]);
+          resolve(objectString);
         }
         if ((splittedString[0].indexOf("feat.") > -1)) {
           // 2° case: "Artist feat. Artist - Song"
@@ -83,9 +85,8 @@ var self = module.exports = {
         //   artist = artist.replace(/ *\([^)]*\) */g, "");
         //   artist = artist.trim();
         // });
-      }
-      else {
-       resolve("titolo non valido");
+      } else {
+        resolve("titolo non valido");
       }
     });
   },
@@ -99,6 +100,18 @@ var self = module.exports = {
       // response.send(results.items[0]);
     }).catch(function (error) {
       response.send(error);
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // show single video by id
+  _getVideoInfo(response, id) {
+    return new Promise((resolve, reject) => {
+      youtubeApi.getVideoById(id).then(function (results) {
+        resolve(results);
+        // response.send(results.items[0]);
+      }).catch(function (error) {
+        reject(error);
+      });
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -120,28 +133,61 @@ var self = module.exports = {
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  create(response, title) {
-    self._findArtistAndSongByString(title).then(function (objectString) {
-        var song = objectString.song;
-        var artist = objectString.artist;
-        // console.log(song);
-        // console.log(artist);
-        // var promiseArray = [];
-        // objectString.artists.forEach(artist => {
-        //   promiseArray.push(ArtistsController.create(null, artist));
-        // });
-        // Promise.all(promiseArray)
-        //   .then(data => {
-        //     resolve(data);
-        //   })
-        //   .catch(error => {
-        //     console.log("Second handler", error);
-        //   });
-        response.send(objectString);
-      })
-      .catch(function (error) {
-        response.send(error);
-      });
+  create(response, youtubeId) {
+    return new Promise((resolve, reject) => {
+      self._getVideoInfo(null, youtubeId).then(function (videoObject) {
+          self._findArtistAndSongByString(videoObject.items[0].id, videoObject.items[0].snippet.title).then(function (objectString) {
+            var song = objectString.song;
+            var artists = objectString.artists;
+            ORMHelper.getVideoById(videoObject.items[0].id).then(function (videoDB) {
+              if (videoDB.length > 0) {
+                // video exist
+                resolve("Artist - Song");
+              } else {
+                // video not exist
+                var video = {
+                  title: videoObject.items[0].snippet.title,
+                  description: videoObject.items[0].snippet.description,
+                  FKChannelId: null,
+                  views: 0,
+                  youtube_id: videoObject.items[0].id,
+                }
+                ORMHelper.storeVideo(video).then(function (videoCreated) {
+                  var promiseArray = [];
+                  artists.forEach(artist => {
+                    promiseArray.push(ArtistsController.create(null, artist));
+                  });
+                  Promise.all(promiseArray)
+                    .then(data => {
+                      var promiseArray2 = [];
+                      data.forEach(artistCreated =>  {
+                        promiseArray2.push(ORMHelper.storeVideoAndArtistAssociation(artistCreated.id, videoCreated.id));
+                      })
+                      Promise.all(promiseArray).then(data => {
+                        resolve(data);
+                      })
+                      .catch(error => {
+                        reject(error);
+                      });
+                    })
+                    .catch(error => {
+                      reject(error);
+                    });
+                }).catch(function (error) {
+                  reject(error);
+                });
+              }
+            }).catch(function (error) {
+              reject(error);
+            });
+          }).catch(function (error) {
+            reject(error);
+          });
+        })
+        .catch(function (error) {
+          response.send(error);
+        });
+    });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   addView(response, userId, videoId) {

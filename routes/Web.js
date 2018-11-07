@@ -21,30 +21,40 @@ module.exports = function (app, passport) {
   app.get('/videos', AuthController.userLoggedIn, function (req, res) {
     res.send("/videos");
   });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // search page route
   app.get('/videos/search', AuthController.userLoggedIn, function (req, res) {
     var pageToken = req.query.page;
     VideosController.index(res, "Nothing Else Matters", "", pageToken, defaultVideoNumbers);
   });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.post('/videos/search', AuthController.userLoggedIn, function (req, res) {
     var searchString = req.body.search_string;
     var searchType = req.body.search_type;
     var pageToken = req.query.page;
     VideosController.index(res, searchString, searchType, pageToken, defaultVideoNumbers);
   });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // search page route
   app.get('/videos/suggestioned', AuthController.userLoggedIn, function (req, res) {
     res.send("/suggestioned");
   });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // api testing route
   app.get('/videos/:id', AuthController.userLoggedIn, function (req, res) {
     var id = req.params.id;
     VideosController.show(res, id);
   });
-  app.get('/videos/create/:title', function (req, res) {
-    var title = req.params.title;
-    VideosController.create(res, title);
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/videos/:id/create/:title', function (req, res) {
+    var youtubeId = req.params.id;
+    VideosController.create(res, youtubeId).then(function(results) {
+      res.send(results);
+    }).catch(function(error) {
+      res.send(error);
+    });
   });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/videos/:id/viewed/:user', function (req, res) {
     var id = req.params.id;
     var userId = req.params.userId;
@@ -56,6 +66,7 @@ module.exports = function (app, passport) {
   app.get('/user', AuthController.userLoggedIn, function (req, res) {
     res.send("/user");
   });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/user/playlist', AuthController.userLoggedIn, function (req, res) {
     res.send("/user/playlist");
   });
