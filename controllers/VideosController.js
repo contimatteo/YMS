@@ -18,73 +18,77 @@ var self = module.exports = {
         artists: [],
         song: ""
       };
-      string = string.trim();
-      var splittedString = string.split("-");
-      if (splittedString.length < 1) {
-        splittedString = string.split(":");
+      if ((string.indexOf("-") > -1)) {
+        string = string.trim();
+        var splittedString = string.split("-");
+        if (splittedString.length < 1) {
+          splittedString = string.split(":");
+        }
+        // split song and artist
+        splittedString.forEach(function (element, index) {
+          splittedString[index] = element.trim();
+          splittedString[index] = splittedString[index].replace(/ *\([^)]*\) */g, "");
+          splittedString[index] = splittedString[index].replace(/ *\[[^\]]*\] */g, '');
+          splittedString[index] = splittedString[index].replace(/ *\{[^)]*\} */g, "");
+          splittedString[index] = splittedString[index].replace(/ *\{[^)]*\} */g, "");
+          splittedString[index] = splittedString[index].replace(/Feat./g, 'feat.');
+          splittedString[index] = splittedString[index].replace(/Feat/g, 'feat.');
+          splittedString[index] = splittedString[index].replace(/Featuring./g, 'feat.');
+          splittedString[index] = splittedString[index].replace(/Featuring/g, 'feat.');
+          splittedString[index] = splittedString[index].replace(/Ft./g, 'feat.');
+          splittedString[index] = splittedString[index].replace(/Ft/g, 'feat.');
+          splittedString[index] = splittedString[index].replace(/ft./g, 'feat.');
+          splittedString[index] = splittedString[index].replace(/ft/g, 'feat.');
+          splittedString[index] = splittedString[index].replace(/featuring./g, 'feat.');
+          splittedString[index] = splittedString[index].replace(/featuring/g, 'feat.');
+          // splittedString[index] = splittedString[index].replace(/feat./g, '^');
+          splittedString[index] = splittedString[index].trim();
+          console.log(splittedString[index]);
+        });
+        console.log(splittedString);
+        // 1° case: "Artist - song"
+        // 2° case: "Artist feat. Artist - song"
+        // 3° case: "Artist - song feat. Artist"
+        if ((splittedString[0].indexOf("feat.") < 0) && (splittedString[1].indexOf("feat.") < 0)) {
+          // 1° case: "Artist - Song"
+          resolve("Artist - Song");
+        }
+        if ((splittedString[0].indexOf("feat.") > -1)) {
+          // 2° case: "Artist feat. Artist - Song"
+          resolve("Artist feat. Artist - Song");
+        }
+        if ((splittedString[1].indexOf("feat.") > -1)) {
+          // 3° case: "Artist - Song feat. Artist" oppure "Song - Artist feat. Artist"
+          ArtistsController.getArtistInfo(null, splittedString[0]).then(function (artist) {
+              if (artist != null) {
+                // case finded: "Artist - Song feat. Artist"
+                console.log("Artist - Song feat. Artist");
+                resolve("Artist - Song feat. Artist");
+              } else {
+                // case finded: "Song - Artist feat. Artist"
+                console.log("Song - Artist feat. Artist");
+                resolve("Song - Artist feat. Artist");
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+        // // split various artist
+        // objectString.artists = splittedString[0].split("feat.");
+        // if (objectString.artists.length < 1) {
+        //   objectString.artists = splittedString[0].split("Feat.");
+        // }
+        // // foreach artist finded
+        // objectString.artists.forEach(artist => {
+        //   artist = artist.trim();
+        //   artist = artist.replace(/ *\([^)]*\) */g, "");
+        //   artist = artist.trim();
+        // });
       }
-      // split song and artist
-      splittedString.forEach(function (element, index) {
-        splittedString[index] = element.trim();
-        splittedString[index] = splittedString[index].replace(/ *\([^)]*\) */g, "");
-        splittedString[index] = splittedString[index].replace(/ *\[[^\]]*\] */g, '');
-        splittedString[index] = splittedString[index].replace(/ *\{[^)]*\} */g, "");
-        splittedString[index] = splittedString[index].replace(/ *\{[^)]*\} */g, "");
-        splittedString[index] = splittedString[index].replace(/Feat./g, 'feat.');
-        splittedString[index] = splittedString[index].replace(/Feat/g, 'feat.');
-        splittedString[index] = splittedString[index].replace(/Featuring./g, 'feat.');
-        splittedString[index] = splittedString[index].replace(/Featuring/g, 'feat.');
-        splittedString[index] = splittedString[index].replace(/Ft./g, 'feat.');
-        splittedString[index] = splittedString[index].replace(/Ft/g, 'feat.');
-        splittedString[index] = splittedString[index].replace(/ft./g, 'feat.');
-        splittedString[index] = splittedString[index].replace(/ft/g, 'feat.');
-        splittedString[index] = splittedString[index].replace(/featuring./g, 'feat.');
-        splittedString[index] = splittedString[index].replace(/featuring/g, 'feat.');
-        // splittedString[index] = splittedString[index].replace(/feat./g, '^');
-        splittedString[index] = splittedString[index].trim();
-        console.log(splittedString[index]);
-      });
-      console.log(splittedString);
-      // 1° case: "Artist - song"
-      // 2° case: "Artist feat. Artist - song"
-      // 3° case: "Artist - song feat. Artist"
-      if((splittedString[0].indexOf("feat.") < 0) && (splittedString[1].indexOf("feat.") < 0)) {
-       // 1° case: "Artist - Song"
-       resolve("Artist - Song");
-     }
-      if((splittedString[0].indexOf("feat.") > -1)) {
-         // 2° case: "Artist feat. Artist - Song"
-         resolve("Artist feat. Artist - Song");
+      else {
+       resolve("titolo non valido");
       }
-      if((splittedString[1].indexOf("feat.") > -1)) {
-         // 3° case: "Artist - Song feat. Artist" oppure "Song - Artist feat. Artist"
-         ArtistsController.getArtistInfo(null, splittedString[0]).then(function(artist) {
-          if(artist!=null) {
-            // case finded: "Artist - Song feat. Artist"
-            console.log("Artist - Song feat. Artist");
-            resolve("Artist - Song feat. Artist");
-          }
-          else {
-            // case finded: "Song - Artist feat. Artist"
-            console.log("Song - Artist feat. Artist");
-            resolve("Song - Artist feat. Artist");
-          }
-         })
-         .catch(function(error) {
-          console.log(error);
-         });
-     }
-      // // split various artist
-      // objectString.artists = splittedString[0].split("feat.");
-      // if (objectString.artists.length < 1) {
-      //   objectString.artists = splittedString[0].split("Feat.");
-      // }
-      // // foreach artist finded
-      // objectString.artists.forEach(artist => {
-      //   artist = artist.trim();
-      //   artist = artist.replace(/ *\([^)]*\) */g, "");
-      //   artist = artist.trim();
-      // });
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -142,20 +146,20 @@ var self = module.exports = {
       });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  addView(response, userId, videoId){
-   ORMHelper.getVideoById(videoId).then(function(videoObject){
-     if (!videoObject)
-     {
-       // aggiungere il video al db
-      response.send('il video non ce')
-     }else
-     {
-    Video.findById(videoObject.id).then(video => {
-      return video.increment('views', {by: 1})
-    })
-    response.send(videoObject);
-    }
-   }); 
+  addView(response, userId, videoId) {
+    ORMHelper.getVideoById(videoId).then(function (videoObject) {
+      if (!videoObject) {
+        // aggiungere il video al db
+        response.send('il video non ce')
+      } else {
+        Video.findById(videoObject.id).then(video => {
+          return video.increment('views', {
+            by: 1
+          })
+        })
+        response.send(videoObject);
+      }
+    });
   }
 
 };
