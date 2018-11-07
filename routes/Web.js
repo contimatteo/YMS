@@ -43,12 +43,7 @@ module.exports = function (app, passport) {
   });
   app.get('/videos/create/:title', function (req, res) {
     var title = req.params.title;
-    VideosController.create(res, title).then(function (videoCreated) {
-        res.send(videoCreated);
-      })
-      .catch(function (error) {
-        res.send(error);
-      });
+    VideosController.create(res, title);
   });
   app.get('/videos/:id/viewed/:user', function (req, res) {
     var id = req.params.id;

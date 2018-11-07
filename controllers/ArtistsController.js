@@ -44,10 +44,14 @@ var self = module.exports = {
     return new Promise(function (resolve, reject) {
       var artistNameFormatted = self._artistNameFormatter(artistName);
       SparqlController.getArtistInfo(artistNameFormatted).then(function (artistInfo) {
-        if (artistInfo.results && self._checkArtist(artistInfo.results.bindings[0].type.value)) {
-          resolve(artistInfo);
+        if (artistInfo.results.bindings.length < 1) {
+          resolve(null);
         } else {
-          reject(new CustomError(400, "bad call", "this function works only for artists and not for bands."));
+          if (artistInfo.results && self._checkArtist(artistInfo.results.bindings[0].type.value)) {
+            resolve(artistInfo);
+          } else {
+            reject(new CustomError(400, "bad call", "this function works only for artists and not for bands."));
+          }
         }
       }).catch(function (error) {
         console.log(error);
@@ -62,6 +66,10 @@ var self = module.exports = {
       var artistNameFormatted = self._artistNameFormatter(artistName);
       var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
       self.getArtistInfo(null, artistNameFormatted).then(function (artistInfo) {
+          if (!artistInfo) {
+            console.log(artistNameFormatted + " artista non valido");
+            resolve(null);
+          }
           if (artistInfo.results && self._checkArtist(artistInfo.results.bindings[0].type.value)) {
             var result = artistInfo.results.bindings[0];
             var artistData = {};

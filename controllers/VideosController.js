@@ -11,11 +11,11 @@ const youtubeApi = Promise.promisifyAll(new YoutubeApi());
 ////////////////////////////////////////////////////////////////////////////////
 
 var self = module.exports = {
-  
+
   _findArtistAndSongByString(string) {
     return new Promise(function (resolve, reject) {
       var objectString = {
-        artist: "",
+        artists: [],
         song: ""
       };
       string = string.trim();
@@ -23,24 +23,68 @@ var self = module.exports = {
       if (splittedString.length < 1) {
         splittedString = string.split(":");
       }
-      splittedString.forEach(element => {
-        element = element.trim();
-        element = element.replace(/ *\([^)]*\) */g, "");
-        element = element.replace(/ *\[[^\]]*\] */g, '');
-        element = element.replace(/ *\{[^)]*\} */g, "");
-        element = element.trim();
+      // split song and artist
+      splittedString.forEach(function (element, index) {
+        splittedString[index] = element.trim();
+        splittedString[index] = splittedString[index].replace(/ *\([^)]*\) */g, "");
+        splittedString[index] = splittedString[index].replace(/ *\[[^\]]*\] */g, '');
+        splittedString[index] = splittedString[index].replace(/ *\{[^)]*\} */g, "");
+        splittedString[index] = splittedString[index].replace(/ *\{[^)]*\} */g, "");
+        splittedString[index] = splittedString[index].replace(/Feat./g, 'feat.');
+        splittedString[index] = splittedString[index].replace(/Feat/g, 'feat.');
+        splittedString[index] = splittedString[index].replace(/Featuring./g, 'feat.');
+        splittedString[index] = splittedString[index].replace(/Featuring/g, 'feat.');
+        splittedString[index] = splittedString[index].replace(/Ft./g, 'feat.');
+        splittedString[index] = splittedString[index].replace(/Ft/g, 'feat.');
+        splittedString[index] = splittedString[index].replace(/ft./g, 'feat.');
+        splittedString[index] = splittedString[index].replace(/ft/g, 'feat.');
+        splittedString[index] = splittedString[index].replace(/featuring./g, 'feat.');
+        splittedString[index] = splittedString[index].replace(/featuring/g, 'feat.');
+        // splittedString[index] = splittedString[index].replace(/feat./g, '^');
+        splittedString[index] = splittedString[index].trim();
+        console.log(splittedString[index]);
       });
-      var objectArtist;
-      ArtistsController.getArtistInfo(null, splittedString[0]).then(function (result) {
-          var artistData = result.results.bindings[0];
-          // check if this is artist or not
-          // if is artist ok!!
-          // if is not artist resolve with error: invert artist and song
-          resolve(artistData);
-        })
-        .catch(function (error) {
-          reject(error);
-        });
+      console.log(splittedString);
+      // 1° case: "Artist - song"
+      // 2° case: "Artist feat. Artist - song"
+      // 3° case: "Artist - song feat. Artist"
+      if((splittedString[0].indexOf("feat.") < 0) && (splittedString[1].indexOf("feat.") < 0)) {
+       // 1° case: "Artist - Song"
+       resolve("Artist - Song");
+     }
+      if((splittedString[0].indexOf("feat.") > -1)) {
+         // 2° case: "Artist feat. Artist - Song"
+         resolve("Artist feat. Artist - Song");
+      }
+      if((splittedString[1].indexOf("feat.") > -1)) {
+         // 3° case: "Artist - Song feat. Artist" oppure "Song - Artist feat. Artist"
+         ArtistsController.getArtistInfo(null, splittedString[0]).then(function(artist) {
+          if(artist!=null) {
+            // case finded: "Artist - Song feat. Artist"
+            console.log("Artist - Song feat. Artist");
+            resolve("Artist - Song feat. Artist");
+          }
+          else {
+            // case finded: "Song - Artist feat. Artist"
+            console.log("Song - Artist feat. Artist");
+            resolve("Song - Artist feat. Artist");
+          }
+         })
+         .catch(function(error) {
+          console.log(error);
+         });
+     }
+      // // split various artist
+      // objectString.artists = splittedString[0].split("feat.");
+      // if (objectString.artists.length < 1) {
+      //   objectString.artists = splittedString[0].split("Feat.");
+      // }
+      // // foreach artist finded
+      // objectString.artists.forEach(artist => {
+      //   artist = artist.trim();
+      //   artist = artist.replace(/ *\([^)]*\) */g, "");
+      //   artist = artist.trim();
+      // });
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -75,28 +119,40 @@ var self = module.exports = {
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   create(response, title) {
-    return new Promise(function (resolve, reject) {
-      self._findArtistAndSongByString(title).then(function (objectString) {
-          var song = objectString.song;
-          var artist = objectString.artist;
-          resolve(objectString);
-        })
-        .catch(function (error) {
-          reject(error);
-        });
-    });
+    self._findArtistAndSongByString(title).then(function (objectString) {
+        var song = objectString.song;
+        var artist = objectString.artist;
+        // console.log(song);
+        // console.log(artist);
+        // var promiseArray = [];
+        // objectString.artists.forEach(artist => {
+        //   promiseArray.push(ArtistsController.create(null, artist));
+        // });
+        // Promise.all(promiseArray)
+        //   .then(data => {
+        //     resolve(data);
+        //   })
+        //   .catch(error => {
+        //     console.log("Second handler", error);
+        //   });
+        response.send(objectString);
+      })
+      .catch(function (error) {
+        response.send(error);
+      });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  addView(response, userId, videoId){
-   ORMHelper.getVideoById(videoId).then(function(videoObject){
-     // controllare che la "lunchezza" dell oggetto sia diversa da zero 
-     // aggiungere una view
-    Video.findById(videoObject.id).then(video => {
-      return video.increment('views', {by: 1})
-    })
-    response.send(videoObject);
-   }); 
+  addView(response, userId, videoId) {
+    ORMHelper.getVideoById(videoId).then(function (videoObject) {
+      // controllare che la "lunchezza" dell oggetto sia diversa da zero 
+      // aggiungere una view
+      Video.findById(videoObject.id).then(video => {
+        return video.increment('views', {
+          by: 1
+        })
+      })
+      response.send(videoObject);
+    });
   }
 
 };
-
