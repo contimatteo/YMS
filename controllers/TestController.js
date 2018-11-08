@@ -7,6 +7,7 @@ const Channel = require('../models/Channel.js');
 const Video = require('../models/Video.js');
 const User = require('../models/User.js');
 var DataHelper = require('./helpers/DataHelper.js');
+var AjaxRequest = require ('./libraries/AjaxRequest.js');
 ////////////////////////////////////////////////////////////////////////////////
 
 // var ApiError = require('../../libraries/schemas/ApiError.js');
@@ -73,11 +74,20 @@ module.exports = class TestController {
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   // init artists
+    // init artists
    initializeName(response) {
     var formattedObject = DataHelper.nameFormatter("EMINEM", "Lose yourself");
     response.send(formattedObject);
     // cercare l'url vero di riferimento su dbpedia
     // importare i dati
   }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // fvitali get request
+    fvitaliVideoRequest(response, id){
+      AjaxRequest.jsonRequest('http://site1825.tw.cs.unibo.it/TW/globpop?id=YouTubeID','GET',id,).then (function(vitaliObject){
+
+      response.send(vitaliObject);
+      })
+    }
+
 };
