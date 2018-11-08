@@ -198,10 +198,9 @@ var self = module.exports = {
   addView(response, userId, videoId) {
     ORMHelper.getVideoById(videoId).then(function (videoObject) {
       if (!videoObject) {
-        // aggiungere il video al db
         response.send('il video non ce')
       } else {
-        Video.findById(videoObject.id).then(video => {
+        Video.findById(videoObject[0].id).then(video => {
           return video.increment('views', {
             by: 1
           })
