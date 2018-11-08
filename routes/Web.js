@@ -99,10 +99,5 @@ module.exports = function (app, passport) {
     ArtistsController.createRelated(res, name);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/vitali/:id', function (req, res) {
-    var id = req.params.id;
-    TestController.funzioneDaFare(res, id);
-  });
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
 ////////////////////////////////////////////////////////////////////////////////

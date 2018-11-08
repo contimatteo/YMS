@@ -29,7 +29,7 @@ module.exports = class AjaxRequest_Library {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   constructor() {
     // Set the headers
-    this.headers = {  
+    this.headers = {
       'User-Agent': 'YMS Agent/0.0.1',
       'Content-Type': 'application/json'
     };
@@ -37,30 +37,38 @@ module.exports = class AjaxRequest_Library {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // ...
-  jsonRequest(url, typeRequest, data, nextFunction) {
-    // Configure the request
-    this.options = {
-      url: url,
-      method: typeRequest,
-      headers: this.headers,
-      form: data
-    };
-    var result;
-    // Start the request
-    request(this.options, function(error, response, body) {
-      result = new ApiResponse();
-      result.status_code = response.statusCode;
-      result.reason_phrase = response.statusCode;
-      //Object.assign(result.errors, error);
-      if (!error && response.statusCode == 200) {
-        result.data = response.body;
-        nextFunction(result);
-      }
-      else {
-        nextFunction(null);
-      }
+  jsonRequest(url, typeRequest, data) {
+    return new Promise((resolve, reject) => {
+      // Configure the request
+      this.options = {
+        url: url,
+        method: typeRequest,
+        headers: this.headers,
+        form: data
+      };
+      var result;
+      // Start the request
+      request(this.options, function (error, response, body) {
+        result = new ApiResponse();
+        result.status_code = response.statusCode;
+        result.reason_phrase = response.statusCode;
+        if (!error && response.statusCode == 200) {
+          // all goes ok
+          result.data = response.body;
+          resolve(result);
+        } else {
+          // something went wrong
+          if (error) {
+            // error
+            reject(error);
+          } else {
+            // no error and status code not 200
+            resolve(result);
+          }
+        }
+      });
     });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  
+
 }
