@@ -6,7 +6,8 @@ const Channel = require('../models/Channel.js');
 const Video = require('../models/Video.js');
 const User = require('../models/User.js');
 var DataHelper = require('./helpers/DataHelper.js');
-var AjaxRequest = require('../libraries/AjaxRequest.js');
+var AjaxRequestClass = require('../libraries/AjaxRequest.js');
+var AjaxRequest = new AjaxRequestClass();
 ////////////////////////////////////////////////////////////////////////////////
 
 // var ApiError = require('../../libraries/schemas/ApiError.js');
