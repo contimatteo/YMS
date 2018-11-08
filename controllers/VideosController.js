@@ -75,7 +75,7 @@ var self = module.exports = {
               }
             })
             .catch(function (error) {
-              console.log(error);
+              reject(error);
             });
         }
         // // split various artist
