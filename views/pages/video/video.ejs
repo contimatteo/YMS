@@ -16,72 +16,93 @@
         <div class="row">
           <div class="col-sm-8 col-xs-12">
             <!-- <div class="thumbnail blogContent"> -->
-              <div class="caption">
-                <!-- <h4>Nov 22, 2016 by <a href="#">Admin</a></h4> -->
-                <div class="container">
-                  <h2> <%= video.snippet.title %></h2>
-                  <!-- <iframe id="ytplayer" type="text/html" width="340" height="260" src="http://www.youtube.com/embed/<%= video.id %>?autoplay=0" frameborder="0" /> -->
-                  <iframe id="ytplayer" width="65%" height="400px" src="https://www.youtube-nocookie.com/embed/<%= video.id %>?"
-                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <div class="caption">
+              <!-- <h4>Nov 22, 2016 by <a href="#">Admin</a></h4> -->
+              <div class="container">
+                <h2>
+                  <%= video.snippet.title %>
+                </h2>
+                <!-- <iframe id="ytplayer" type="text/html" width="340" height="260" src="http://www.youtube.com/embed/<%= video.id %>?autoplay=0" frameborder="0" /> -->
+                <iframe id="ytplayer" width="65%" height="400px" src="https://www.youtube-nocookie.com/embed/<%= video.id %>?"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+              </div>
+              <br>
+              <div class="container" style="width:100%;">
+                <div class="panel-group">
+                  <div class="panel panel-primary" style="width:741px">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse1">Descrizione Video</a>
+                      </h4>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <%= video.snippet.description %>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <br>
-                <div class="container" style="width:100%;">
-                  <p>
-                    <%= video.snippet.description %>
-                  </p>
-                  <p>
-                    <a href="/videos/<%= video.id %>/create/<%= video.snippet.title %>">Crea Video sul db</a>
-                  </p>
-                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                      <li class="nav-item">
-                        <a class="nav-link active" id="pills-random-tab" data-toggle="pill" href="#pills-random" role="tab" aria-controls="pills-random" aria-selected="true">Random</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab" aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="pills-search-tab" data-toggle="pill" href="#pills-search" role="tab" aria-controls="pills-search" aria-selected="false">Search</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab" aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab" aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
-                      </li>                      <li class="nav-item">
-                        <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab" aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
-                      </li>
-                    </ul>
-                    <div class="tab-content" id="pills-tabContent">
-                      <div class="tab-pane fade show active" id="pills-random" role="tabpanel" aria-labelledby="pills-random-tab">
-                        <div class="listContent">
-                          <div class="row">
-                            <div class="col-sm-4 col-xs-12">
-                              <div class="categoryImage">
-                                <a href="/videos/<%= video.id %>" >
-                                  <img src="<%= video.snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
-                                </a>
-                              </div>
-                            </div>
-                            <div class="col-sm-8 col-xs-12">
-                              <div class="categoryDetails">
-                                <h3>
-                                  <a href="/videos/<%= video.id %>" style="color: #222222; font-weight:normal">
-                                    <%= video.snippet.title %>
-                                  </a> 
-                                  <span aria-hidden="true"></i></span>
-                                </h3>
-                                <p>	youtube channel: <span class="placeName"> <%= video.snippet.channelTitle %> </span></p>
-                                  <p>Reccomended by Random Algorithm</p>
-                              </div>
-                            </div>
+                <p>
+                  <a href="/videos/<%= video.id %>/create/<%= video.snippet.title %>">Crea Video sul db</a>
+                </p>
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="pills-random-tab" data-toggle="pill" href="#pills-random" role="tab"
+                      aria-controls="pills-random" aria-selected="true">Random</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab"
+                      aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="pills-search-tab" data-toggle="pill" href="#pills-search" role="tab"
+                      aria-controls="pills-search" aria-selected="false">Search</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab"
+                      aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab"
+                      aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab"
+                      aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
+                  </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                  <div class="tab-pane fade show active" id="pills-random" role="tabpanel" aria-labelledby="pills-random-tab">
+                    <div class="listContent">
+                      <div class="row">
+                        <div class="col-sm-4 col-xs-12">
+                          <div class="categoryImage">
+                            <a href="/videos/<%= video.id %>">
+                              <img src="<%= video.snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
+                            </a>
+                          </div>
+                        </div>
+                        <div class="col-sm-8 col-xs-12">
+                          <div class="categoryDetails">
+                            <h3>
+                              <a href="/videos/<%= video.id %>" style="color: #222222; font-weight:normal">
+                                <%= video.snippet.title %>
+                              </a>
+                              <span aria-hidden="true"></i></span>
+                            </h3>
+                            <p> youtube channel: <span class="placeName">
+                                <%= video.snippet.channelTitle %> </span></p>
+                            <p>Reccomended by Random Algorithm</p>
                           </div>
                         </div>
                       </div>
-                      <div class="tab-pane fade" id="pills-fvitali" role="tabpanel" aria-labelledby="pills-fvitali-tab">...</div>
-                      <div class="tab-pane fade" id="pills-search" role="tabpanel" aria-labelledby="pills-search-tab">...</div>
                     </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-fvitali" role="tabpanel" aria-labelledby="pills-fvitali-tab">...</div>
+                  <div class="tab-pane fade" id="pills-search" role="tabpanel" aria-labelledby="pills-search-tab">...</div>
                 </div>
               </div>
+            </div>
             <!-- </div> -->
             <!-- <div class="commentArea">
               <h3>Leave A Comment</h3>
@@ -118,11 +139,16 @@
                 <div class="panel-heading">Visual</div>
                 <div class="panel-body">
                   <ul class="list-unstyle categoryList">
-                    <li><a href="#">Local Views <span class="pull-right"><%= video.statistics.viewCount %></span></a></li>
-                    <li><a href="#">Global Views <span class="pull-right"><%= video.statistics.viewCount %></span></a></li>
-                    <li><a href="#">Yuoutube Views <span class="pull-right"><%= video.statistics.viewCount %></span></a></li>
-                    <li><a href="#">Restaurent <span class="pull-right"><%= video.statistics.viewCount %></span></a></li>
-                    <li><a href="#">Business <span class="pull-right"><%= video.statistics.viewCount %></span></a></li>
+                    <li><a href="#">Local Views <span class="pull-right">
+                          <%= video.statistics.viewCount %></span></a></li>
+                    <li><a href="#">Global Views <span class="pull-right">
+                          <%= video.statistics.viewCount %></span></a></li>
+                    <li><a href="#">Yuoutube Views <span class="pull-right">
+                          <%= video.statistics.viewCount %></span></a></li>
+                    <li><a href="#">Restaurent <span class="pull-right">
+                          <%= video.statistics.viewCount %></span></a></li>
+                    <li><a href="#">Business <span class="pull-right">
+                          <%= video.statistics.viewCount %></span></a></li>
                   </ul>
                 </div>
               </div>
@@ -163,13 +189,12 @@
     <script>
       var request = new XMLHttpRequest();
       request.open('GET', '/videos/<%= video.id.videoId %>/viewed/1');
-      request.onload = function(){
-      };
+      request.onload = function () {};
     </script>
 
-		<% include ../../components/footer.ejs %>
-	</div>
-	<% include ../../components/footer-import.ejs %>
+    <% include ../../components/footer.ejs %>
+  </div>
+  <% include ../../components/footer-import.ejs %>
 </body>
 
 </html>
