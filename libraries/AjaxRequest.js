@@ -25,7 +25,7 @@ const ApiResponse = require('./schemas/ApiResponse.js');
 
 ////////////////////////////////////////////////////////////////////////////////
 
-module.exports = class AjaxRequest_Library {
+var self = module.exports  {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   constructor() {
     // Set the headers
@@ -34,7 +34,7 @@ module.exports = class AjaxRequest_Library {
       'Content-Type': 'application/json'
     };
     this.options = {};
-  }
+  },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // ...
   jsonRequest(url, typeRequest, data) {

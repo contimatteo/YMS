@@ -2,8 +2,9 @@
 var SparqlController = require('../controllers/SparqlController.js');
 var AjaxRequest = require('../libraries/AjaxRequest.js');
 var TestControllerClass = require('../controllers/TestController.js');
+var TestController = new TestControllerClass();
 ////////////////////////////////////////////////////////////////////////////////
-const ajaxRequest = new AjaxRequest();
+
 ////////////////////////////////////////////////////////////////////////////////
 module.exports = function (app, passport) {
   // api testing route
