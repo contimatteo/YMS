@@ -87,7 +87,10 @@ module.exports = class TestController {
     var partialURL = "http://site1825.tw.cs.unibo.it/TW/globpop?id=" 
     var urlVideoVitali = partialURL.concat(id);
     AjaxRequest.jsonRequest(urlVideoVitali, 'GET', {}).then(function (vitaliObject) {
-      response.send(vitaliObject);
+      // response.send(vitaliObject);
+      response.render('pages/vitali/vitali', {
+        data: vitaliObject
+      });
     }).catch((error) => {
       reject(error);
    });

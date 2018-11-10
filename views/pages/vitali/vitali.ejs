@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <% include ../../components/header.ejs %>
+  </head>
+
+  <body>
+
+    <% include ../../components/navbar.ejs %>
+    <iframe id="ytplayer" width="65%" height="400px" src="https://www.youtube-nocookie.com/embed/<%= data.videoID %>?" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+</html>
