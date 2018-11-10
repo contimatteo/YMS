@@ -19,9 +19,11 @@
             <div class="caption">
               <!-- <h4>Nov 22, 2016 by <a href="#">Admin</a></h4> -->
               <div class="container">
-                <h2>
-                  <%= video.snippet.title %>
-                </h2>
+                <div style="margin-right:400px">
+                  <h2>
+                    <%= video.snippet.title %>
+                  </h2>
+                </div>
                 <!-- <iframe id="ytplayer" type="text/html" width="340" height="260" src="http://www.youtube.com/embed/<%= video.id %>?autoplay=0" frameborder="0" /> -->
                 <iframe id="ytplayer" width="65%" height="400px" src="https://www.youtube-nocookie.com/embed/<%= video.id %>?"
                   frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -32,7 +34,7 @@
                   <div class="panel panel-primary" style="width:741px">
                     <div class="panel-heading">
                       <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse1">Descrizione Video</a>
+                        <a data-toggle="collapse" href="#collapse1">Descrizione Video &nbsp <i class="icon-down-arrow-1"></i></a>
                       </h4>
                     </div>
                     <div id="collapse1" class="panel-collapse collapse">
@@ -185,13 +187,6 @@
         </div>
       </div>
     </section>
-
-    <script>
-      var request = new XMLHttpRequest();
-      request.open('GET', '/videos/<%= video.id.videoId %>/viewed/');
-      request.onload = function () {};
-    </script>
-
     <% include ../../components/footer.ejs %>
   </div>
   <% include ../../components/footer-import.ejs %>
