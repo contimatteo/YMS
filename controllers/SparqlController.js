@@ -7,11 +7,7 @@ const sparqlClient = new SparqlLibrary();
 
 // var ApiError = require('../../libraries/schemas/ApiError.js');
 
-module.exports = class SparqlController {
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  constructor() {
-    // nothing to do
-  }
+var self = module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 
   sparql(response) {
@@ -137,7 +133,7 @@ module.exports = class SparqlController {
     }).catch(function (error) {
       response.send(error.reasonPhrase);
     });
-  }
+  },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   getArtistInfo(artistName) {
     // call dbpedia for get artist info
@@ -155,7 +151,7 @@ module.exports = class SparqlController {
       " }  " ;
       // " GROUP BY ?prop ";
     return sparqlClient.runQuery(query, [], []);
-  }
+  },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   getRelatedArtists(artistName) {
     // call dbpedia for get artist info
@@ -174,7 +170,7 @@ module.exports = class SparqlController {
     " }  " ;
     //" GROUP BY ?prop "
     return sparqlClient.runQuery(query, [], []);
-  }
+  },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   getArtistRelatedResources(artistUrl) {
     // call dbpedia for get artist related data

@@ -1,8 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var SparqlController = require('../controllers/SparqlController.js');
 var AjaxRequest = require('../libraries/AjaxRequest.js');
-var TestControllerClass = require('../controllers/TestController.js');
-var TestController = new TestControllerClass();
+var TestController = require('../controllers/TestController.js');
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -19,7 +18,7 @@ module.exports = function (app, passport) {
     SparqlController.sparql(response);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/vitali/:id', function (req, res) {
+  app.get('/recommender/vitali/:id', function (req, res) {
     var id = req.params.id;
     TestController.fvitaliVideoRequest(res, id);
   });

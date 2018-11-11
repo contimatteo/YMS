@@ -3,7 +3,9 @@ var AuthController = require('./AuthController.js');
 var ArtistsController = require('./ArtistsController.js');
 var YoutubeApi = require('../libraries/YoutubeApi.js');
 var ORMHelper = require('./helpers/ORMHelper.js');
+var Artist = require("../models/Artist.js");
 var Video = require("../models/Video.js");
+var Channel = require("../models/Channel.js");
 var Promise = require('bluebird');
 // var database = new mySqlDB();
 const youtubeApi = Promise.promisifyAll(new YoutubeApi());
@@ -44,9 +46,7 @@ var self = module.exports = {
           // splittedString[index] = splittedString[index].replace(/feat./g, '^');
           splittedString[index] = splittedString[index].trim();
         });
-        // 1° case: "Artist - song"
-        // 2° case: "Artist feat. Artist - song"
-        // 3° case: "Artist - song feat. Artist"
+        // find case
         if ((splittedString[0].indexOf("feat.") < 0) && (splittedString[1].indexOf("feat.") < 0)) {
           // 1° case: "Artist - Song"
           objectString.song = splittedString[1];
@@ -63,32 +63,18 @@ var self = module.exports = {
         }
         if ((splittedString[1].indexOf("feat.") > -1)) {
           // 3° case: "Artist - Song feat. Artist" oppure "Song - Artist feat. Artist"
-          ArtistsController.getArtistInfo(null, splittedString[0]).then(function (artist) {
-              if (artist != null) {
-                // case finded: "Artist - Song feat. Artist"
-                console.log("Artist - Song feat. Artist");
-                resolve("Artist - Song feat. Artist");
-              } else {
-                // case finded: "Song - Artist feat. Artist"
-                console.log("Song - Artist feat. Artist");
-                resolve("Song - Artist feat. Artist");
-              }
-            })
-            .catch(function (error) {
-              reject(error);
-            });
+          objectString.artists.push(splittedString[0]);
+          splittedString[1].split("feat.").forEach((artistName, index) => {
+            if (index == 0) {
+              // song
+              objectString.song = artistName;
+            } else {
+              // artists
+              objectString.artists.push(artistName);
+            }
+          });
+          resolve(objectString);
         }
-        // // split various artist
-        // objectString.artists = splittedString[0].split("feat.");
-        // if (objectString.artists.length < 1) {
-        //   objectString.artists = splittedString[0].split("Feat.");
-        // }
-        // // foreach artist finded
-        // objectString.artists.forEach(artist => {
-        //   artist = artist.trim();
-        //   artist = artist.replace(/ *\([^)]*\) */g, "");
-        //   artist = artist.trim();
-        // });
       } else {
         resolve("titolo non valido");
       }
@@ -97,12 +83,13 @@ var self = module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // show single video by id
   show(response, id) {
-    youtubeApi.getVideoById(id).then(function (results) {
+    self.getVideoById(id).then(function (video) {
       response.render('pages/video/video', {
-        video: results.items[0]
+        video: video
       });
       // response.send(results.items[0]);
     }).catch(function (error) {
+      console.log(error);
       response.send(error);
     });
   },
@@ -114,6 +101,7 @@ var self = module.exports = {
         resolve(results);
         // response.send(results.items[0]);
       }).catch(function (error) {
+        console.log(error);
         reject(error);
       });
     });
@@ -133,6 +121,7 @@ var self = module.exports = {
         }
       });
     }).catch(function (error) {
+      console.log(error);
       response.send(error.reasonPhrase);
     });
   },
@@ -143,10 +132,11 @@ var self = module.exports = {
           return self._findArtistAndSongByString(videoObject.items[0].id, videoObject.items[0].snippet.title).then(function (objectString) {
             var song = objectString.song;
             var artists = objectString.artists;
-            return ORMHelper.getVideoById(videoObject.items[0].id).then(function (videoDB) {
-              if (videoDB.length > 0) {
+            console.log(artists);
+            return self.getVideoById(videoObject.items[0].id).then(function (videoDB) {
+              if (videoDB!=null) {
                 // video exist
-                resolve("video già presente");
+                resolve(videoDB);
               } else {
                 // video not exist
                 var video = {
@@ -155,8 +145,9 @@ var self = module.exports = {
                   FKChannelId: null,
                   views: 0,
                   youtube_id: videoObject.items[0].id,
+                  image_url: videoObject.items[0].snippet.thumbnails.medium.url,
                 }
-                return ORMHelper.storeVideo(video).then(function (videoCreated) {
+                return self.storeVideo(video).then(function (videoCreated) {
                   var promiseArray = [];
                   artists.forEach(artist => {
                     promiseArray.push(ArtistsController.create(null, artist));
@@ -164,28 +155,35 @@ var self = module.exports = {
                   return Promise.all(promiseArray)
                     .then(data => {
                       var promiseArray2 = [];
-                      data.forEach(artistCreated =>  {
-                        console.log("id artista creato: " + artistCreated.id);
-                        promiseArray2.push(ORMHelper.storeVideoAndArtistAssociation(artistCreated.id, videoCreated.id));
+                      data.forEach(artistCreated => {
+                        if(artistCreated!=null) {
+                          console.log(artistCreated.id);
+                          promiseArray2.push(ORMHelper.storeVideoAndArtistAssociation(artistCreated.id, videoCreated.id));
+                        }
                       })
                       return Promise.all(promiseArray2).then(data => {
-                        resolve(data);
-                      })
-                      .catch(error => {
-                        reject(error);
-                      });
+                          resolve(videoCreated);
+                        })
+                        .catch(error => {
+                          console.log(error);
+                          reject(error);
+                        });
                     })
                     .catch(error => {
+                      console.log(error);
                       reject(error);
                     });
                 }).catch(function (error) {
+                  console.log(error);
                   reject(error);
                 });
               }
             }).catch(function (error) {
+              console.log(error);
               reject(error);
             });
           }).catch(function (error) {
+            console.log(error);
             reject(error);
           });
         })
@@ -196,11 +194,11 @@ var self = module.exports = {
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   addView(response, userId, videoId) {
-    ORMHelper.getVideoById(videoId).then(function (videoObject) {
+    self.getVideoById(videoId).then(function (videoObject) {
       if (!videoObject) {
         response.send('il video non ce')
       } else {
-        Video.findById(videoObject[0].id).then(video => {
+        Video.findById(videoObject.id).then(video => {
           return video.increment('views', {
             by: 1
           })
@@ -208,6 +206,47 @@ var self = module.exports = {
         response.send(videoObject);
       }
     });
-  }
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  getVideoById(videoId) {
+    return new Promise((resolve, reject) => {
+      Video.findOne({
+        include: [{
+            model: Artist
+          },
+          {
+            model: Channel
+          }
+        ],
+        where: {
+          youtube_id: videoId
+        }
+      }).then(results => {
+        resolve(results);
+      }).catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  storeVideo(videoObject) {
+    return new Promise((resolve, reject) => {
+      var video = Video.build(videoObject, {
+        title: videoObject.title,
+        description: videoObject.description,
+        //FKChannelId: videoObject.channelId,
+        views: videoObject.views,
+        youtube_id: videoObject.youtube_id,
+        image_url: videoObject.image_url
+      });
+      video.save().then(videoCreated => {
+        resolve(videoCreated);
+      }).catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+    });
+  },
 
 };

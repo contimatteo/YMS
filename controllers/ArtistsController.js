@@ -1,7 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-var SparqlControllerClass = require('./SparqlController.js');
+var SparqlController = require('./SparqlController.js');
 var jsonVitali = require("../json/video-vitali.json");
-var SparqlController = new SparqlControllerClass();
 var DataHelper = require('./helpers/DataHelper.js');
 var ORMHelper = require('./helpers/ORMHelper.js');
 var constants = require('./helpers/ConstantsHelper.js');
@@ -45,17 +44,17 @@ var self = module.exports = {
       var artistNameFormatted = self._artistNameFormatter(artistName);
       SparqlController.getArtistInfo(artistNameFormatted).then(function (artistInfo) {
         if (artistInfo.results.bindings.length < 1) {
-          console.log("prendo da dbpedia le info per l'artista " + artistNameFormatted);
-          console.log(artistInfo);
           resolve(null);
         } else {
           if (artistInfo.results && self._checkArtist(artistInfo.results.bindings[0].type.value)) {
             resolve(artistInfo);
           } else {
-            reject(new CustomError(400, "bad call", "this function works only for artists and not for bands."));
+            resolve(null);
+            // reject(new CustomError(400, "bad call", "this function works only for artists and not for bands."));
           }
         }
       }).catch(function (error) {
+        console.log(error);
         reject(error);
       });
     });
@@ -68,9 +67,6 @@ var self = module.exports = {
           url: artistUrl
         }
       }).then(results => {
-        console.log("cerco un artista che ha url: " + artistUrl);
-        console.log(results.length);
-        // console.log("Session: %j", results[0].id);
         resolve(results);
       }).catch((error) => {
         reject(error);
@@ -103,7 +99,7 @@ var self = module.exports = {
               } else {
                 // artist not found
                 console.log("artista non trovato");
-                ORMHelper.storeArtist(artistData).then(function (artistCreated) {
+                self.storeArtist(artistData).then(function (artistCreated) {
                     resolve(artistCreated);
                   })
                   .catch(function (error) {
@@ -133,7 +129,7 @@ var self = module.exports = {
         artistData.dbpedia_type = artistObject.type.value;
         artistData.url = artistObject.artistAssociated.value;
         artistData.formatted_name = artistNameFormatted;
-        ORMHelper.storeArtist(artistData).then(function (artistCreated) {
+        self.storeArtist(artistData).then(function (artistCreated) {
             resolve(artistCreated);
           })
           .catch(function (error) {
@@ -167,6 +163,21 @@ var self = module.exports = {
           response.send(error.reasonPhrase);
         });
     });
-  }
+  },
+  storeArtist(artistData) {
+    return new Promise((resolve, reject) => {
+      var artist = Artist.build(artistData, {
+        firstname: artistData.firstname,
+        lastname: artistData.lastname,
+        url: artistData.url,
+      });
+      artist.save().then(artistCreated => {
+        resolve(artistCreated);
+      }).catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+    });
+  },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };

@@ -1,15 +1,7 @@
-module.exports = self;
-var ArtistController = require("../ArtistsController.js");
-var SparqlControllerClass = require('../SparqlController.js');
-var SparqlController = new SparqlControllerClass();
-////////////////////////////////////////////////////////////////////////////////
-// function capitalizeFirstLetter(myString) {
-//   return myString.charAt(0).toUpperCase() + myString.slice(1);
-// }
 ////////////////////////////////////////////////////////////////////////////////
 var prefix = "http://dbpedia.org/resource/";
 
-var self = {
+module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   capitalizeFirstLetter(myString) {
     return myString.charAt(0).toUpperCase() + myString.slice(1);
@@ -65,10 +57,8 @@ var self = {
     object.link3 = link3;
     // return object with link
     return (object);
-  },
+  }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-
-module.exports = self;

@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 var Promise = require("bluebird");
-var TestControllerClass = require('../controllers/TestController.js');
+var TestController = require('../controllers/TestController.js');
 var AuthController = require('../controllers/AuthController.js');
 ////////////////////////////////////////////////////////////////////////////////
-const TestController = Promise.promisifyAll(new TestControllerClass());
+// const TestController = Promise.promisifyAll(new TestControllerClass());
 ////////////////////////////////////////////////////////////////////////////////
 module.exports = function (app, passport) {
 
@@ -12,10 +12,6 @@ module.exports = function (app, passport) {
     TestController.orm1(response);
   });
 
-  // orm 2 testing route
-  // app.get('/orm2', function(request, response) {
-  //   TestController.orm2(response);
-  // });
   app.get('/orm2', AuthController.userLoggedIn, TestController.orm2);
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // orm 3 testing route

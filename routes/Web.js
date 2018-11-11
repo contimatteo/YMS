@@ -1,10 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 var VideosController = require('../controllers/VideosController.js');
 var ArtistsController = require('../controllers/ArtistsController.js');
-var TestControllerClass = require('../controllers/TestController.js');
 var AuthController = require('../controllers/AuthController.js');
 ////////////////////////////////////////////////////////////////////////////////
-const TestController = new TestControllerClass();
 const defaultVideoNumbers = 10;
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -42,15 +40,23 @@ module.exports = function (app, passport) {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // api testing route
   app.get('/videos/:id', AuthController.userLoggedIn, function (req, res) {
-    var id = req.params.id;
-    VideosController.show(res, id);
+    var youtubeId = req.params.id;
+    VideosController.create(res, youtubeId).then(function (videoObject) {
+      console.log("%j", videoObject);
+      // show video
+      VideosController.show(res, youtubeId);
+    }).catch(function (error) {
+      console.log(error);
+      res.send(error);
+    });
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/videos/:id/create/:title', function (req, res) {
+  // route for testing video creation
+  app.get('/videos/:id/create', function (req, res) {
     var youtubeId = req.params.id;
-    VideosController.create(res, youtubeId).then(function(results) {
+    VideosController.create(res, youtubeId).then(function (results) {
       res.send(results);
-    }).catch(function(error) {
+    }).catch(function (error) {
       res.send(error);
     });
   });
@@ -79,6 +85,7 @@ module.exports = function (app, passport) {
         res.send(artistCreated);
       })
       .catch(function (error) {
+        console.log(error);
         res.send(error);
       });
   });
@@ -90,6 +97,7 @@ module.exports = function (app, passport) {
         res.send(artistData);
       })
       .catch(function (error) {
+        console.log(error);
         res.send(error);
       });
   });

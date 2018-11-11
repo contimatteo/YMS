@@ -10,13 +10,8 @@ var AjaxRequestClass = require('../libraries/AjaxRequest.js');
 var AjaxRequest = new AjaxRequestClass();
 ////////////////////////////////////////////////////////////////////////////////
 
-// var ApiError = require('../../libraries/schemas/ApiError.js');
-
-module.exports = class TestController {
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  constructor() {
-    // nothing to do
-  }
+// module.exports = class TestController {
+var self = module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // run db query exaple
   visualizzoDatiDiProva(response) {
@@ -27,30 +22,31 @@ module.exports = class TestController {
           data: results
         });
       });
-  }
+  },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // get all bands with relative artists
   orm1(response) {
-    Artist.findAll({
-        include: [{
-          model: Artist
-        }]
+    Video.findAll({
+        include: [
+          {model: Artist},
+          {model: Channel}
+        ]
       })
       .then(results => {
         response.send(results);
       });
-  }
+  },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // get all artists with relative bands
   orm2(request, response, next) {
     Artist.findAll({
       include: [{
-        model: Artist
+        model: Video
       }]
     }).then(results => {
       response.send(results);
     });
-  }
+  },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // get all videos with his single channel
   orm3(response) {
@@ -61,7 +57,7 @@ module.exports = class TestController {
     }).then(results => {
       response.send(results);
     });
-  }
+  },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // get all channels with all of linked videos
   orm4(response) {
@@ -72,7 +68,7 @@ module.exports = class TestController {
     }).then(results => {
       response.send(results);
     });
-  }
+  },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // init artists
   initializeName(response) {
@@ -80,7 +76,7 @@ module.exports = class TestController {
     response.send(formattedObject);
     // cercare l'url vero di riferimento su dbpedia
     // importare i dati
-  }
+  },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // fvitali get request
   fvitaliVideoRequest(response, id) {

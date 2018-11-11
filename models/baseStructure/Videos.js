@@ -43,6 +43,10 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       defaultValue: '',
       unique: true
+    },
+    image_url: {
+      type: DataTypes.TEXT,
+      allowNull: false
     }
   }, {
     tableName: 'Videos'
