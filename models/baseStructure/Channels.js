@@ -19,6 +19,11 @@ module.exports = function(sequelize, DataTypes) {
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: true
+    },
+    youtube_id: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      unique: true
     }
   }, {
     tableName: 'Channels'

@@ -2,6 +2,7 @@
 var Promise = require("bluebird");
 var TestController = require('../controllers/TestController.js');
 var AuthController = require('../controllers/AuthController.js');
+var ChannelsController = require('../controllers/ChannelsController.js');
 ////////////////////////////////////////////////////////////////////////////////
 // const TestController = Promise.promisifyAll(new TestControllerClass());
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,6 +32,15 @@ module.exports = function (app, passport) {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/enri', function (request, response) {
     TestController.initializeName(response);
+  });
+
+  app.get('/channels/:id', function (request, response) {
+    var youtubeId = request.params.id;
+    ChannelsController.findOrCreateChannel(youtubeId, "matteo").then(function(result) {
+      response.send(result);
+    }).catch(function(error) {
+      response.send(error);
+    });
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
