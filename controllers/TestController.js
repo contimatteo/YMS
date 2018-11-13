@@ -80,7 +80,7 @@ var self = module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // fvitali get request
   fvitaliVideoRequest(response, id) {
-    var partialURL = "http://site1825.tw.cs.unibo.it/TW/globpop?id=" 
+    var partialURL = "http://site1825.tw.cs.unibo.it/TW/globpop?id="
     var urlVideoVitali = partialURL.concat(id);
     AjaxRequest.jsonRequest(urlVideoVitali, 'GET', {}).then(function (vitaliObject) {
       // response.send(vitaliObject);
@@ -90,5 +90,31 @@ var self = module.exports = {
     }).catch((error) => {
       reject(error);
    });
-  }
+ },
+localView(response){
+      return new Promise((resolve, reject) => {
+   Video.findAll({
+     order:[
+       ['views','DESC']
+       ],
+     limit:10
+   }).then(function(videoTrovati){
+     resolve(videoTrovati)
+   }).catch(function(error){
+     reject(error);
+   })
+});
+},
+random(response){
+  return new Promise((resolve, reject ) =>{
+    Video.findAll({
+      order:'random()',
+      limit:10
+    }).then(function(videoRandom){
+      resolve(videoRandom)
+    }).catch(function(error){
+      reject(error);
+    })
+  });
+},
 };

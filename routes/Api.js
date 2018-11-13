@@ -23,5 +23,12 @@ module.exports = function (app, passport) {
     TestController.fvitaliVideoRequest(res, id);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/recommender/localView', function (request, response){
+    TestController.localView(response).then(function(result){
+      response.send(result);
+    }).catch(function(error){
+      response.send(error);
+    });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
 ////////////////////////////////////////////////////////////////////////////////
