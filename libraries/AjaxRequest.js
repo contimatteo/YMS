@@ -55,7 +55,7 @@ module.exports = class AjaxRequest {
         if (!error && response.statusCode == 200) {
           // all goes ok
           result.data = response.body;
-          resolve(result);
+          resolve(JSON.parse(response.body));
         } else {
           // something went wrong
           if (error) {

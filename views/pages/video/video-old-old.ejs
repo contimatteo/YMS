@@ -21,14 +21,15 @@
               <div class="container">
                 <div style="margin-right:400px">
                   <h2>
-                    <%= video.title %>
+                    <%= video.snippet.title %>
                   </h2>
                 </div>
-                <iframe id="ytplayer" width="65%" height="400px" src="https://www.youtube-nocookie.com/embed/<%= video.youtube_id %>?autoplay=1"
+                <!-- <iframe id="ytplayer" type="text/html" width="340" height="260" src="http://www.youtube.com/embed/<%= video.id %>?autoplay=0" frameborder="0" /> -->
+                <iframe id="ytplayer" width="65%" height="400px" src="https://www.youtube-nocookie.com/embed/<%= video.id %>?"
                   frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
               </div>
               <br>
-              <!-- <div class="container" style="width:100%; padding-top: 0px">
+              <div class="container" style="width:100%; padding-top: 0px">
                 <div class="panel-group">
                   <div class="panel panel-primary" style="width:741px">
                     <div class="panel-heading">
@@ -38,53 +39,14 @@
                     </div>
                     <div id="collapse1" class="panel-collapse collapse">
                       <div class="panel-body">
-                        <%= video.description %>
+                        <%= video.snippet.description %>
                       </div>
                     </div>
                   </div>
-                </div> -->
-              <div class="container" style="width:100%; padding-top: 0px">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab"
-                      aria-controls="description" aria-selected="true">Descrizione</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="artists-tab" data-toggle="tab" href="#artists" role="tab" aria-controls="artists"
-                      aria-selected="false">Artisti</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="channel-tab" data-toggle="tab" href="#channel" role="tab" aria-controls="channel"
-                      aria-selected="false">Canale</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info"
-                      aria-selected="false">Ulteriori Informazioni</a>
-                  </li>
-                </ul>
-                <br>
-                <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
-                    <%= video.description %>
-                  </div>
-                  <div class="tab-pane fade" id="artists" role="tabpanel" aria-labelledby="artists-tab">
-                    <% video.Artists.forEach(function(artist) { %>
-                      <div> Artista: <b> <%= artist.name %></b></div>
-                    <% }); %>
-                  </div>
-                  <div class="tab-pane fade" id="channel" role="tabpanel" aria-labelledby="channel-tab">
-                      <div> Canale: <b> <%= video.Channel.name %></b></div>
-                  </div>
-                  <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
-                    <%= video.description %>
-                  </div>
                 </div>
-                <br>
-                <br>
-                <!-- <p><a href="/videos/<%= video.id %>/create">Crea Video sul db</a></p> -->
-                <h3>Video Consigliati</h3>
-                <h6>Seleziona un algoritmo per scoprire i migliori video da noi trovati.</h6>
-                <br>
+                <p>
+                  <a href="/videos/<%= video.id %>/create">Crea Video sul db</a>
+                </p>
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                   <li class="nav-item">
                     <a class="nav-link active" id="pills-random-tab" data-toggle="pill" href="#pills-random" role="tab"
@@ -114,68 +76,109 @@
                 <div class="tab-content" id="pills-tabContent">
                   <div class="tab-pane fade show active" id="pills-random" role="tabpanel" aria-labelledby="pills-random-tab">
                     <div class="listContent">
-                      <% for(var i=0; i < 10; i++) { %>
                       <div class="row">
                         <div class="col-sm-4 col-xs-12">
                           <div class="categoryImage">
                             <a href="/videos/<%= video.id %>">
-                              <img src="<%= video.image_url %>" alt="Image category" class="img-responsive img-rounded">
+                              <img src="<%= video.snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
                             </a>
                           </div>
                         </div>
                         <div class="col-sm-8 col-xs-12">
                           <div class="categoryDetails" style="padding-top: 12.5px">
-                            <h4>
+                            <h3>
                               <a href="/videos/<%= video.id %>" style="color: #222222; font-weight:600">
-                                <%= video.title %>
+                                <%= video.snippet.title %>
                               </a>
                               <span aria-hidden="true"></i></span>
-                            </h4>
-                            <p>
-                              youtube channel: <span class="placeName">
-                                <%= video.channelTitle %> </span>
-                              <br>
-                              Reccomended by Random Algorithm
-                            </p>
+                            </h3>
+                            <p> youtube channel: <span class="placeName">
+                                <%= video.snippet.channelTitle %> </span></p>
+                            <p>Reccomended by Random Algorithm</p>
                           </div>
                         </div>
                       </div>
-                      <hr>
-                      <% } %>
                     </div>
                   </div>
-                  <div class="tab-pane fade" id="pills-fvitali" role="tabpanel" aria-labelledby="pills-fvitali-tab"><% recommenderVitali.recommended.forEach(function(vitali) { %>
-                    <div>
-                      <%= vitali %>
-                    </div>
-                    <% }); %></div>
+                  <div class="tab-pane fade" id="pills-fvitali" role="tabpanel" aria-labelledby="pills-fvitali-tab">...</div>
                   <div class="tab-pane fade" id="pills-search" role="tabpanel" aria-labelledby="pills-search-tab">...</div>
                 </div>
               </div>
             </div>
+            <!-- </div> -->
+            <!-- <div class="commentArea">
+              <h3>Leave A Comment</h3>
+              <form action="#" class="deafultForm">
+                <div class="row">
+                  <div class="form-group col-xs-12">
+                    <label for="messageBox" class="control-label">Message</label>
+                    <textarea class="form-control" rows="3"></textarea>
+                  </div>
+                  <div class="form-group col-sm-6 col-xs-12">
+                    <label for="userName" class="control-label">Name</label>
+                    <input type="text" class="form-control" id="userName">
+                  </div>
+                  <div class="form-group col-sm-6 col-xs-12">
+                    <label for="userEmail" class="control-label">Email</label>
+                    <input type="email" class="form-control" id="userEmail">
+                  </div>
+                  <div class="form-group col-xs-12">
+                    <button type="submit" class="btn btn-primary">Get Started</button>
+                  </div>
+                </div>
+              </form>
+            </div> -->
           </div>
           <div class="col-sm-4 col-xs-12">
-            <!-- <div class="sidebarInner" style="margin:25px auto;">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search..." aria-describedby="basic-addon2">
-              <a href="#" class="input-group-addon" id="basic-addon2"><i class="icon-listy icon-search-2"></i></a>
+            <div class="sidebarInner" style="margin:25px auto;">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search..." aria-describedby="basic-addon2">
+                <a href="#" class="input-group-addon" id="basic-addon2"><i class="icon-listy icon-search-2"></i></a>
+              </div>
             </div>
-          </div> -->
-            <div class="sidebarInner" style="margin:75px auto;">
+            <div class="sidebarInner">
               <div class="panel panel-default">
                 <div class="panel-heading">Visual</div>
                 <div class="panel-body">
                   <ul class="list-unstyle categoryList">
                     <li><a href="#">Local Views <span class="pull-right">
-                          <%= video.views %></span></a></li>
+                          <%= video.statistics.viewCount %></span></a></li>
                     <li><a href="#">Global Views <span class="pull-right">
-                          <%= video.views %></span></a></li>
+                          <%= video.statistics.viewCount %></span></a></li>
                     <li><a href="#">Yuoutube Views <span class="pull-right">
-                          <%= video.views %></span></a></li>
+                          <%= video.statistics.viewCount %></span></a></li>
                     <li><a href="#">Restaurent <span class="pull-right">
-                          <%= video.views %></span></a></li>
+                          <%= video.statistics.viewCount %></span></a></li>
                     <li><a href="#">Business <span class="pull-right">
-                          <%= video.views %></span></a></li>
+                          <%= video.statistics.viewCount %></span></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="sidebarInner">
+              <div class="panel panel-default">
+                <div class="panel-heading">Recent Posts</div>
+                <div class="panel-body">
+                  <ul class="list-unstyle categoryList">
+                    <li><a href="#">Curabitur scelerisque lacus sit amet.</a></li>
+                    <li><a href="#">Morbi pretium ipsum ac massa sollicitu.</a></li>
+                    <li><a href="#">Etiam eget augue et lorem sagittis.</a></li>
+                    <li><a href="#">Sed mollis tincidunt massa vel egestas.</a></li>
+                    <li><a href="#">Aliquam semper dolor nec metus alique.</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="sidebarInner">
+              <div class="panel panel-default">
+                <div class="panel-heading">Archives</div>
+                <div class="panel-body">
+                  <ul class="list-unstyle categoryList">
+                    <li><a href="#">Jan 2016</a></li>
+                    <li><a href="#">Feb 2016</a></li>
+                    <li><a href="#">Mar 2016</a></li>
+                    <li><a href="#">April 2016</a></li>
+                    <li><a href="#">May 2016</a></li>
                   </ul>
                 </div>
               </div>
