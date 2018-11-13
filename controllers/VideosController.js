@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-var AuthController = require('./AuthController.js');
+var ChannelsController = require('./ChannelsController.js');
 var ArtistsController = require('./ArtistsController.js');
 var YoutubeApi = require('../libraries/YoutubeApi.js');
 var ORMHelper = require('./helpers/ORMHelper.js');
@@ -132,17 +132,17 @@ var self = module.exports = {
           return self._findArtistAndSongByString(videoObject.items[0].id, videoObject.items[0].snippet.title).then(function (objectString) {
             var song = objectString.song;
             var artists = objectString.artists;
-            console.log(artists);
             return self.getVideoById(videoObject.items[0].id).then(function (videoDB) {
               if (videoDB!=null) {
                 // video exist
                 resolve(videoDB);
               } else {
+                ChannelsController.findOrCreateChannel(videoObject.items[0].snippet.channelId, videoObject.items[0].snippet.channelTitle).then(function(channelCreated) {
                 // video not exist
                 var video = {
                   title: videoObject.items[0].snippet.title,
                   description: videoObject.items[0].snippet.description,
-                  FKChannelId: null,
+                  FKChannelId: channelCreated.id,
                   views: 0,
                   youtube_id: videoObject.items[0].id,
                   image_url: videoObject.items[0].snippet.thumbnails.medium.url,
@@ -157,7 +157,6 @@ var self = module.exports = {
                       var promiseArray2 = [];
                       data.forEach(artistCreated => {
                         if(artistCreated!=null) {
-                          console.log(artistCreated.id);
                           promiseArray2.push(ORMHelper.storeVideoAndArtistAssociation(artistCreated.id, videoCreated.id));
                         }
                       })
@@ -177,6 +176,10 @@ var self = module.exports = {
                   console.log(error);
                   reject(error);
                 });
+              }).catch(function (error) {
+                console.log(error);
+                reject(error);
+              });
               }
             }).catch(function (error) {
               console.log(error);
