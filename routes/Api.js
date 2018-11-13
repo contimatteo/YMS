@@ -20,7 +20,7 @@ module.exports = function (app, passport) {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/recommender/vitali/:id', function (req, res) {
     var id = req.params.id;
-    TestController.fvitaliVideoRequest(res, id);
+    RecommenderController.vitali(res, id);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };

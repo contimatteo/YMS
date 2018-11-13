@@ -78,17 +78,5 @@ var self = module.exports = {
     // importare i dati
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // fvitali get request
-  fvitaliVideoRequest(response, id) {
-    var partialURL = "http://site1825.tw.cs.unibo.it/TW/globpop?id=" 
-    var urlVideoVitali = partialURL.concat(id);
-    AjaxRequest.jsonRequest(urlVideoVitali, 'GET', {}).then(function (vitaliObject) {
-      console.log(vitaliObject);
-      response.render('pages/vitali/vitali', {
-        risultati: JSON.parse(vitaliObject.data)
-      });
-    }).catch((error) => {
-      reject(error);
-   });
-  }
+  
 };
