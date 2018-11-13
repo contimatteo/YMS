@@ -215,12 +215,9 @@ var self = module.exports = {
   getVideoById(videoId) {
     return new Promise((resolve, reject) => {
       Video.findOne({
-        include: [{
-            model: Artist
-          },
-          {
-            model: Channel
-          }
+        include: [
+          { model: Artist },
+          { model: Channel }
         ],
         where: {
           youtube_id: videoId
