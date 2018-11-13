@@ -8,8 +8,8 @@
   <body>
 
     <% include ../../components/navbar.ejs %>
-    <% risultati.recommended.forEach(function(videoObject) { %>
-    <iframe id="ytplayer" width="65%" height="400px" src="https://www.youtube-nocookie.com/embed/<%= videoObject.videoID %>?" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <% data.forEach(function(videoObject) { %>
+    <iframe id="ytplayer" width="35%" height="200px" src="https://www.youtube-nocookie.com/embed/<%= videoObject.videoID %>?" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     <% }); %>
 
 </html>
