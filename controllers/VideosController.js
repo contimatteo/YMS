@@ -6,6 +6,7 @@ var ORMHelper = require('./helpers/ORMHelper.js');
 var Artist = require("../models/Artist.js");
 var Video = require("../models/Video.js");
 var Channel = require("../models/Channel.js");
+var vitaliListaObject = require ("../json/video-vitali.json")
 var Promise = require('bluebird');
 // var database = new mySqlDB();
 const youtubeApi = Promise.promisifyAll(new YoutubeApi());
@@ -251,5 +252,12 @@ var self = module.exports = {
       });
     });
   },
+
+  showListaDiPartenza(response){
+    response.send(vitaliListaObject);
+    // response.render('pages/vitali/vitali', {
+    //   data : vitaliListaObject
+    // });
+  }
 
 };

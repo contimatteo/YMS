@@ -107,5 +107,9 @@ module.exports = function (app, passport) {
     ArtistsController.createRelated(res, name);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/vitali/', function (req, res) {
+    VideosController.showListaDiPartenza(res);
+  });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
 ////////////////////////////////////////////////////////////////////////////////

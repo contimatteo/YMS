@@ -84,9 +84,9 @@ var self = module.exports = {
     var urlVideoVitali = partialURL.concat(id);
     AjaxRequest.jsonRequest(urlVideoVitali, 'GET', {}).then(function (vitaliObject) {
       console.log(vitaliObject);
-      response.render('pages/vitali/vitali', {
-        risultati: JSON.parse(vitaliObject.data)
-      });
+      // response.render('pages/vitali/vitali', {
+      //   risultati: JSON.parse(vitaliObject.data)
+      // });
     }).catch((error) => {
       reject(error);
    });
