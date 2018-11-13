@@ -29,5 +29,12 @@ module.exports = function (app, passport) {
     });
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/recommender/localView', function (request, response){
+    TestController.localView(response).then(function(result){
+      response.send(result);
+    }).catch(function(error){
+      response.send(error);
+    });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
 ////////////////////////////////////////////////////////////////////////////////

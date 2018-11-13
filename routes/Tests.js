@@ -43,4 +43,14 @@ module.exports = function (app, passport) {
     });
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-};
+app.get('/recommender/random', function (request, response){
+  TestController.random(response).then(function(result){
+    response.send(result);
+  }).catch(function(error){
+    response.send(error);
+  });
+});
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    app.get('/localView', function (request, response){
+});
+}
