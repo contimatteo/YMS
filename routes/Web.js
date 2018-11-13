@@ -38,12 +38,10 @@ module.exports = function (app, passport) {
     res.send("/suggestioned");
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // api testing route
+  // show single video
   app.get('/videos/:id', AuthController.userLoggedIn, function (req, res) {
     var youtubeId = req.params.id;
     VideosController.create(res, youtubeId).then(function (videoObject) {
-      console.log("%j", videoObject);
-      // show video
       VideosController.show(res, youtubeId);
     }).catch(function (error) {
       console.log(error);
@@ -57,6 +55,7 @@ module.exports = function (app, passport) {
     VideosController.create(res, youtubeId).then(function (results) {
       res.send(results);
     }).catch(function (error) {
+      console.log(error);
       res.send(error);
     });
   });
@@ -105,6 +104,10 @@ module.exports = function (app, passport) {
   app.get('/artists/:name/create/relations/artists', function (req, res) {
     var name = req.params.name;
     ArtistsController.createRelated(res, name);
+  });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/vitali/', function (req, res) {
+    VideosController.showListaDiPartenza(res);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
