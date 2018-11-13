@@ -83,9 +83,9 @@ var self = module.exports = {
     var partialURL = "http://site1825.tw.cs.unibo.it/TW/globpop?id=" 
     var urlVideoVitali = partialURL.concat(id);
     AjaxRequest.jsonRequest(urlVideoVitali, 'GET', {}).then(function (vitaliObject) {
-      // response.send(vitaliObject);
+      console.log(vitaliObject);
       response.render('pages/vitali/vitali', {
-        data: vitaliObject
+        risultati: JSON.parse(vitaliObject.data)
       });
     }).catch((error) => {
       reject(error);
