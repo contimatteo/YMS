@@ -50,10 +50,34 @@ var self = module.exports = {
         });
         // find case
         if ((splittedString[0].indexOf("feat.") < 0) && (splittedString[1].indexOf("feat.") < 0)) {
-          // 1° case: "Artist - Song"
-          objectString.song = splittedString[1];
-          objectString.artists.push(splittedString[0]);
-          resolve(objectString);
+          return ArtistsController.getArtistInfo(null, splittedString[0]).then(function (artistObject) {
+            if (artistObject == null) {
+              return ArtistsController.getArtistInfo(null, splittedString[1]).then(function (artistObject2) {
+                if (artistObject2 != null) {
+                  // 1° case: "Song - Artist"
+                  objectString.song = splittedString[0];
+                  objectString.artists.push(splittedString[1]);
+                  resolve(objectString);
+                }
+                else {
+                  // no artist finded
+                  // default case: "Artist - Song"
+                  objectString.song = splittedString[1];
+                  objectString.artists.push(splittedString[0]);
+                  resolve(objectString);
+                }
+              }).catch(function (error) {
+                  reject(error);
+              });
+            } else {
+              // 1° case: "Artist - Song"
+              objectString.song = splittedString[1];
+              objectString.artists.push(splittedString[0]);
+              resolve(objectString);
+            }
+          }).catch(function (error) {
+            reject(error);
+          });
         }
         if ((splittedString[0].indexOf("feat.") > -1)) {
           // 2° case: "Artist feat. Artist - Song"
@@ -94,7 +118,6 @@ var self = module.exports = {
       // get all recommender
       Promise.all(recommender)
         .then(recommenderData => {
-          console.log("%j", recommenderData[0]);
           response.render('pages/video/video', {
             video: video,
             recommenderVitali: recommenderData[0]

@@ -98,7 +98,6 @@ var self = module.exports = {
                 resolve(artistFinded[0]);
               } else {
                 // artist not found
-                console.log("artista non trovato");
                 self.storeArtist(artistData).then(function (artistCreated) {
                     resolve(artistCreated);
                   })
