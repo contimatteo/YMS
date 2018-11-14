@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 var SparqlController = require('../controllers/SparqlController.js');
+var RecommenderController = require('../controllers/RecommenderController.js');
 var AjaxRequest = require('../libraries/AjaxRequest.js');
 var TestController = require('../controllers/TestController.js');
 ////////////////////////////////////////////////////////////////////////////////
@@ -20,7 +21,12 @@ module.exports = function (app, passport) {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/recommender/vitali/:id', function (req, res) {
     var id = req.params.id;
-    RecommenderController.vitali(res, id);
+    RecommenderController.vitali(id).then(function(result) {
+      res.send(result);
+    })
+    .catch(function(error) {
+      res.send(error);
+    });
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/recommender/localView', function (request, response){
@@ -31,4 +37,6 @@ module.exports = function (app, passport) {
     });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 });
-}////////////////////////////////////////////////////////////////////////////////
+
+};
+////////////////////////////////////////////////////////////////////////////////

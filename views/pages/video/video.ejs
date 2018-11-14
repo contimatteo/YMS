@@ -24,25 +24,13 @@
                     <%= video.title %>
                   </h2>
                 </div>
-                <iframe id="ytplayer" width="65%" height="400px" src="https://www.youtube-nocookie.com/embed/<%= video.youtube_id %>?autoplay=1"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <!-- <iframe id="ytplayer" width="65%" height="400px" src="https://www.youtube-nocookie.com/embed/<%= video.youtube_id %>?autoplay=1&enablejsapi"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
+                  <div class="module module-home-video">
+                      <div id="video"></div>
+                  </div>
               </div>
               <br>
-              <!-- <div class="container" style="width:100%; padding-top: 0px">
-                <div class="panel-group">
-                  <div class="panel panel-primary" style="width:741px">
-                    <div class="panel-heading">
-                      <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse1">Descrizione Video &nbsp <i class="icon-down-arrow-1"></i></a>
-                      </h4>
-                    </div>
-                    <div id="collapse1" class="panel-collapse collapse">
-                      <div class="panel-body">
-                        <%= video.description %>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
               <div class="container" style="width:100%; padding-top: 0px">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item">
@@ -69,11 +57,13 @@
                   </div>
                   <div class="tab-pane fade" id="artists" role="tabpanel" aria-labelledby="artists-tab">
                     <% video.Artists.forEach(function(artist) { %>
-                      <div> Artista: <b> <%= artist.name %></b></div>
+                    <div> Artista: <b>
+                        <%= artist.name %></b></div>
                     <% }); %>
                   </div>
                   <div class="tab-pane fade" id="channel" role="tabpanel" aria-labelledby="channel-tab">
-                      <div> Canale: <b> <%= video.Channel.name %></b></div>
+                    <div> Canale: <b>
+                        <%= video.Channel.name %></b></div>
                   </div>
                   <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
                     <%= video.description %>
@@ -85,55 +75,48 @@
                 <h3>Video Consigliati</h3>
                 <h6>Seleziona un algoritmo per scoprire i migliori video da noi trovati.</h6>
                 <br>
-                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <ul class="nav nav-tabs" id="myTab2" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" id="pills-random-tab" data-toggle="pill" href="#pills-random" role="tab"
-                      aria-controls="pills-random" aria-selected="true">Random</a>
+                    <a class="nav-link" id="vitali-tab" data-toggle="tab" href="#vitali" role="tab" aria-controls="vitali"
+                      aria-selected="true">Vitali</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab"
-                      aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
+                    <a class="nav-link" id="random-tab" data-toggle="tab" href="#random" role="tab" aria-controls="random"
+                      aria-selected="false">Random</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="pills-search-tab" data-toggle="pill" href="#pills-search" role="tab"
-                      aria-controls="pills-search" aria-selected="false">Search</a>
+                    <a class="nav-link" id="channel-tab" data-toggle="tab" href="#channel" role="tab" aria-controls="channel"
+                      aria-selected="false">Canale</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab"
-                      aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab"
-                      aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-fvitali-tab" data-toggle="pill" href="#pills-fvitali" role="tab"
-                      aria-controls="pills-fvitali" aria-selected="false">Fvitali</a>
+                    <a class="nav-link" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info"
+                      aria-selected="false">Ulteriori Informazioni</a>
                   </li>
                 </ul>
-                <div class="tab-content" id="pills-tabContent">
-                  <div class="tab-pane fade show active" id="pills-random" role="tabpanel" aria-labelledby="pills-random-tab">
-                    <div class="listContent">
-                      <% for(var i=0; i < 10; i++) { %>
+                <br>
+                <div class="tab-content" id="myTabContent">
+                  <div class="tab-pane fade" id="vitali" role="tabpanel" aria-labelledby="vitali-tab">
+                    <% recommenderVitali.forEach(function(vitaliVideoObject) { %>
+                      <%if (vitaliVideoObject!=null) { %>
+                    <div>
                       <div class="row">
                         <div class="col-sm-4 col-xs-12">
                           <div class="categoryImage">
-                            <a href="/videos/<%= video.id %>">
-                              <img src="<%= video.image_url %>" alt="Image category" class="img-responsive img-rounded">
+                            <a href="/videos/<%= vitaliVideoObject[0].id %>">
+                              <img src="<%= vitaliVideoObject[0].snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
                             </a>
                           </div>
                         </div>
                         <div class="col-sm-8 col-xs-12">
                           <div class="categoryDetails" style="padding-top: 12.5px">
                             <h4>
-                              <a href="/videos/<%= video.id %>" style="color: #222222; font-weight:600">
-                                <%= video.title %>
+                              <a href="/videos/<%= vitaliVideoObject[0].id %>" style="color: #222222; font-weight:600">
+                                <%= vitaliVideoObject[0].snippet.title %>
                               </a>
                               <span aria-hidden="true"></i></span>
                             </h4>
                             <p>
-                              youtube channel: <span class="placeName">
-                                <%= video.channelTitle %> </span>
+                              youtube channel: <span class="placeName"><%= vitaliVideoObject[0].snippet.channelTitle %> </span>
                               <br>
                               Reccomended by Random Algorithm
                             </p>
@@ -141,11 +124,12 @@
                         </div>
                       </div>
                       <hr>
-                      <% } %>
                     </div>
+                    <% } %>
+                    <% }); %>
                   </div>
-                  <div class="tab-pane fade" id="pills-fvitali" role="tabpanel" aria-labelledby="pills-fvitali-tab">...</div>
-                  <div class="tab-pane fade" id="pills-search" role="tabpanel" aria-labelledby="pills-search-tab">...</div>
+                  <div class="tab-pane fade" id="random" role="tabpanel" aria-labelledby="random-tab">
+                  </div>
                 </div>
               </div>
             </div>
@@ -184,5 +168,46 @@
   </div>
   <% include ../../components/footer-import.ejs %>
 </body>
+
+<script>
+  <%if(currentUser) { %>
+  function addViewToThisVideo() {
+    $.ajax({
+      type: "GET",
+      url: "/videos/<%= video.youtube_id %>/viewed/<%= currentUser.id %>",
+      cache: false,
+      success: function (html) {
+        console.log("views aggiunta");
+      }
+    });
+  }
+  setTimeout(addViewToThisVideo, 10000);
+  <% }; %>
+</script>
+
+<script>
+  var player, playing = false;
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('video', {
+      height: '360',
+      width: '640',
+      videoId: '<%= video.youtube_id %>',
+      events: {
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerStateChange(event) {
+    // alert('hi');
+    console.log("qualcosa è successo");
+    if (!playing) {
+      // alert('hi');
+      console.log("video partito");
+      playing = true;
+    }
+  }
+</script>
 
 </html>
