@@ -51,6 +51,7 @@ app.get('/recommender/random', function (request, response){
   });
 });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    app.get('/localView', function (request, response){
+    app.get('/aboutUs', function (req, res) {
+      res.render('pages/aboutUs/aboutUs')
 });
 }
