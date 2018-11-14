@@ -272,9 +272,13 @@ var self = module.exports = {
       });
     });
   },
-
-  showListaDiPartenza(response) {
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  showSuggestionedVideos(response) {
     response.send(vitaliListaObject);
+    // 1. creare un array con tutti gli id di vitali ["id1", "id2", ...]
+    // 2. sequelize find all where : id: [...]
+    // 3. renderizzi la view (prendere quella di ricerca) dove hai i campi del db
+
     // response.render('pages/vitali/vitali', {
     //   data : vitaliListaObject
     // });
