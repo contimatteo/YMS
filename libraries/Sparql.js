@@ -70,7 +70,9 @@ module.exports = class Sparql_Library {
         if (!error) {
           resolve(results);
         } else {
-            reject(error);
+          console.log("%j", error);
+          resolve(null);
+          // reject(error);
         }
       });
     });

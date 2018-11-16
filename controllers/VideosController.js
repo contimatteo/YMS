@@ -54,6 +54,7 @@ var self = module.exports = {
             if (artistObject == null) {
               return ArtistsController.getArtistInfo(null, splittedString[1]).then(function (artistObject2) {
                 if (artistObject2 != null) {
+                  console.log("si questo è il caso");
                   // 1° case: "Song - Artist"
                   objectString.song = splittedString[0];
                   objectString.artists.push(splittedString[1]);

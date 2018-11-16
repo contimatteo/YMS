@@ -7,7 +7,8 @@ var constants = require('./helpers/ConstantsHelper.js');
 var CustomError = require('../libraries/schemas/CustomError.js');
 ////////////////////////////////////////////////////////////////////////////////
 var Artist = require("../models/Artist.js");
-
+var ArtistsRelated = require("../models/ArtistsRelated.js");
+var ArtistsAndBands = require("../models/ArtistsAndBands.js");
 ////////////////////////////////////////////////////////////////////////////////
 
 var self = module.exports = {
@@ -42,8 +43,9 @@ var self = module.exports = {
   getArtistInfo(response, artistName) {
     return new Promise(function (resolve, reject) {
       var artistNameFormatted = self._artistNameFormatter(artistName);
+      console.log(artistNameFormatted);
       SparqlController.getArtistInfo(artistNameFormatted).then(function (artistInfo) {
-        if (artistInfo.results.bindings.length < 1) {
+        if (artistInfo==null || artistInfo.results.bindings.length < 1) {
           resolve(null);
         } else {
           if (artistInfo.results && self._checkArtist(artistInfo.results.bindings[0].type.value)) {
@@ -54,7 +56,7 @@ var self = module.exports = {
           }
         }
       }).catch(function (error) {
-        console.log(error);
+        // console.log("%j", error);
         reject(error);
       });
     });
@@ -91,15 +93,27 @@ var self = module.exports = {
             artistData.dbpedia_type = result.type.value;
             artistData.url = artistUrl;
             artistData.formatted_name = artistNameFormatted;
+            // artist type
+            if (result.type.value == "http://dbpedia.org/ontology/Band") artistData.type = "band";
+            else artistData.type = "artist";
+            // try to find artist on db
+            console.log("url: " + artistUrl);
             self.getArtistByUrl(artistUrl).then(function (artistFinded) {
               if (artistFinded.length > 0) {
                 // artista founded
-                console.log("artista già presente: " + artistFinded[0].id);
+                console.log("artista già presente");
                 resolve(artistFinded[0]);
               } else {
+                console.log("artista non presente");
                 // artist not found
                 self.storeArtist(artistData).then(function (artistCreated) {
                     resolve(artistCreated);
+                    // if this artist is a band start creating all band's member
+                    if (artistCreated.type == "band") {
+                      self.createBandMember(null, artistCreated.id, artistCreated.name);
+                    }
+                    // create related artists
+                    self.createRelatedArtists(null, artistCreated.id, artistCreated.name);
                   })
                   .catch(function (error) {
                     reject(error.errors[0].message);
@@ -118,8 +132,27 @@ var self = module.exports = {
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  _storeArtistsRelatedtAssociation(artist1Id, artist2Id) {
+    var association = {
+      FKArtist1Id: artist1Id,
+      FKArtist2Id: artist2Id
+    };
+    return new Promise((resolve, reject) => {
+      var production = ArtistsRelated.build(association, {
+        FKArtist1Id: association.FKArtist1Id,
+        FKArtist2Id: association.FKArtist2Id
+      });
+      production.save().then(production => {
+        resolve(production);
+      }).catch((error) => {
+        // console.log("%j", error);
+        reject(error);
+      });
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // private function for creating artist on db
-  _createRelatedArtist(response, artistObject) {
+  _storeRelatedArtist(response, startArtistId, artistObject) {
     var artistNameFormatted = self._artistNameFormatter(artistObject.name.value);
     return new Promise(function (resolve, reject) {
         var artistData = {};
@@ -128,19 +161,23 @@ var self = module.exports = {
         artistData.dbpedia_type = artistObject.type.value;
         artistData.url = artistObject.artistAssociated.value;
         artistData.formatted_name = artistNameFormatted;
+        if (artistObject.type.value == "http://dbpedia.org/ontology/Band") artistData.type = "band";
+        else artistData.type = "artist";
         self.storeArtist(artistData).then(function (artistCreated) {
-            resolve(artistCreated);
+            self._storeArtistsRelatedtAssociation(startArtistId, artistCreated.id).then(function (results) {
+              resolve(artistCreated);
+            }).catch(function (error) {
+              // console.log("%j", error);
+              resolve(null);
+            });
           })
           .catch(function (error) {
             reject(error);
           });
       })
-      .catch(function (error) {
-        response.send(error);
-      });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  createRelated(response, artistName) {
+  createRelatedArtists(response, startArtistId, artistName) {
     return new Promise(function (resolve, reject) {
       var artistNameFormatted = self._artistNameFormatter(artistName);
       var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
@@ -148,7 +185,7 @@ var self = module.exports = {
           var results = artistsInfo.results.bindings;
           var promises = [];
           results.forEach(artist => {
-            promises.push(self._createRelatedArtist(response, artist));
+            promises.push(self._storeRelatedArtist(response, startArtistId, artist));
           });
           Promise.all(promises)
             .then(function (data) {
@@ -159,10 +196,80 @@ var self = module.exports = {
             });
         })
         .catch(function (error) {
-          response.send(error.reasonPhrase);
+          resolve(null);
         });
     });
   },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  createBandMember(response, artistId, artistName) {
+    return new Promise(function (resolve, reject) {
+      var artistNameFormatted = self._artistNameFormatter(artistName);
+      var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
+      return SparqlController.getBandMemeber(artistNameFormatted).then(function (membersList) {
+          var results = membersList.results.bindings;
+          var promises = [];
+          results.forEach(bandMember => {
+            promises.push(self._createRelatedBandMember(response, artistId, bandMember));
+          });
+          Promise.all(promises)
+            .then(function (data) {
+              resolve(data);
+            })
+            .catch(function (error) {
+              reject(error);
+            });
+        })
+        .catch(function (error) {
+          // console.log("%j", error);
+          resolve(null);
+        });
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  _createRelatedBandMember(response, artistId, bandMemeberObject) {
+    return new Promise(function (resolve, reject) {
+      var artistNameFormatted = self._artistNameFormatter(bandMemeberObject.name.value);
+      var artistData = {};
+      artistData.name = bandMemeberObject.name.value;
+      if (bandMemeberObject.hasOwnProperty("description")) artistData.description = bandMemeberObject.description.value;
+      artistData.dbpedia_type = bandMemeberObject.type.value;
+      artistData.url = bandMemeberObject.artistAssociated.value;
+      artistData.formatted_name = artistNameFormatted;
+      if (bandMemeberObject.type.value == "http://dbpedia.org/ontology/Band") artistData.type = "band";
+      else artistData.type = "artist";
+      return self.storeArtist(artistData).then(function (bandMemberCreated) {
+          self._storeArtistsRelatedtBandMemberAssociation(artistId, bandMemberCreated.id).then(function (results) {
+            resolve(bandMemberCreated);
+          }).catch(function (error) {
+            // console.log("%j", error);
+            resolve(null);
+          });
+        })
+        .catch(function (error) {
+          reject(error);
+        });
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  _storeArtistsRelatedtBandMemberAssociation(artistId, bandMemeberId) {
+    var association = {
+      FKArtistId: bandMemeberId, 
+      FKBandId: artistId
+    };
+    return new Promise((resolve, reject) => {
+      var assoc = ArtistsAndBands.build(association, {
+        FKArtistId: association.FKArtistId,
+        FKBandId: association.FKBandId
+      });
+      assoc.save().then(assoc => {
+        resolve(assoc);
+      }).catch((error) => {
+      // console.log("%j", error);
+        reject(error);
+      });
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   storeArtist(artistData) {
     return new Promise((resolve, reject) => {
       var artist = Artist.build(artistData, {
@@ -173,8 +280,8 @@ var self = module.exports = {
       artist.save().then(artistCreated => {
         resolve(artistCreated);
       }).catch((error) => {
-        console.log(error);
-        reject(error);
+        // console.log("%j", error);
+        // reject(error);
       });
     });
   },

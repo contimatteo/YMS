@@ -11,6 +11,7 @@ var Productions = require("./baseStructure/Productions.js")(global.ORM.sequelize
 var Band = require("./baseStructure/Bands.js")(global.ORM.sequelize, DataTypes);
 var Video = require("./baseStructure/Videos.js")(global.ORM.sequelize, DataTypes);
 var ArtistsAndBands = require("./baseStructure/ArtistsAndBands.js")(global.ORM.sequelize, DataTypes);
+var ArtistsRelated = require("./baseStructure/Artistsrelated.js")(global.ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // define relation
 Artist.belongsToMany(Artist, {
@@ -18,6 +19,14 @@ Artist.belongsToMany(Artist, {
   foreignKey: 'FKArtistId',
   otherKey: 'FKBandId',
   as: 'Bands'
+});
+
+// define relation
+Artist.belongsToMany(ArtistsRelated, {
+  through: ArtistsAndBands,
+  foreignKey: 'FKArtist1Id',
+  otherKey: 'FKArtist2Id',
+  as: 'ArtistsRelated'
 });
 
 // define relation
