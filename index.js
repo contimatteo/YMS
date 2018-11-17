@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 }));
 ////////////////////////////////////////////////////////////////////////////////
 // PASSPORT
-app.use(session({ secret: 'keyboard cat',resave: true, saveUninitialized:true})); // session secret
+app.use(session({ secret: 'yms-youtube-music-spider', resave: true, saveUninitialized:true})); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 require('./libraries/Passport.js')(passport);
@@ -32,10 +32,10 @@ require('./libraries/Passport.js')(passport);
 // MIDDLEWARE 1
 app.use(function (request, response, next) {
   if (request.isAuthenticated()) {
-   response.locals.currentUser = request.user;
+   response.locals.AuthenticatedUser = request.user;
   }
   else {
-    response.locals.currentUser = null;
+    response.locals.AuthenticatedUser = null;
   }
   next();
 });

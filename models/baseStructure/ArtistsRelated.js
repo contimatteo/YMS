@@ -23,6 +23,14 @@ module.exports = function(sequelize, DataTypes) {
         model: 'Artists',
         key: 'id'
       }
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true
     }
   }, {
     tableName: 'ArtistsRelated'

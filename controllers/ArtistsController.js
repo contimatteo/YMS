@@ -43,7 +43,6 @@ var self = module.exports = {
   getArtistInfo(response, artistName) {
     return new Promise(function (resolve, reject) {
       var artistNameFormatted = self._artistNameFormatter(artistName);
-      console.log(artistNameFormatted);
       SparqlController.getArtistInfo(artistNameFormatted).then(function (artistInfo) {
         if (artistInfo==null || artistInfo.results.bindings.length < 1) {
           resolve(null);
@@ -56,17 +55,17 @@ var self = module.exports = {
           }
         }
       }).catch(function (error) {
-        // console.log("%j", error);
+        console.log("%j", error);
         reject(error);
       });
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  getArtistByUrl(artistUrl) {
+  getArtistByFormattedName(artistFormattedName) {
     return new Promise((resolve, reject) => {
       Artist.findAll({
         where: {
-          url: artistUrl
+          formatted_name: artistFormattedName
         }
       }).then(results => {
         resolve(results);
@@ -97,14 +96,14 @@ var self = module.exports = {
             if (result.type.value == "http://dbpedia.org/ontology/Band") artistData.type = "band";
             else artistData.type = "artist";
             // try to find artist on db
-            console.log("url: " + artistUrl);
-            self.getArtistByUrl(artistUrl).then(function (artistFinded) {
+            // artistUrl = constants.sparql.dbr + artistData.formatted_name;
+            self.getArtistByFormattedName(artistData.formatted_name).then(function (artistFinded) {
               if (artistFinded.length > 0) {
                 // artista founded
-                console.log("artista già presente");
+                // console.log("artista già presente");
                 resolve(artistFinded[0]);
               } else {
-                console.log("artista non presente");
+                // console.log("artista non presente");
                 // artist not found
                 self.storeArtist(artistData).then(function (artistCreated) {
                     resolve(artistCreated);
@@ -167,7 +166,7 @@ var self = module.exports = {
             self._storeArtistsRelatedtAssociation(startArtistId, artistCreated.id).then(function (results) {
               resolve(artistCreated);
             }).catch(function (error) {
-              // console.log("%j", error);
+              console.log("%j", error);
               resolve(null);
             });
           })
@@ -241,7 +240,7 @@ var self = module.exports = {
           self._storeArtistsRelatedtBandMemberAssociation(artistId, bandMemberCreated.id).then(function (results) {
             resolve(bandMemberCreated);
           }).catch(function (error) {
-            // console.log("%j", error);
+            console.log("%j", error);
             resolve(null);
           });
         })
@@ -264,7 +263,7 @@ var self = module.exports = {
       assoc.save().then(assoc => {
         resolve(assoc);
       }).catch((error) => {
-      // console.log("%j", error);
+      console.log("%j", error);
         reject(error);
       });
     });
@@ -280,7 +279,7 @@ var self = module.exports = {
       artist.save().then(artistCreated => {
         resolve(artistCreated);
       }).catch((error) => {
-        // console.log("%j", error);
+        console.log("%j", error);
         // reject(error);
       });
     });

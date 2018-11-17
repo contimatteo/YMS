@@ -11,7 +11,7 @@
     <% include ../../components/preloader.ejs %>
     <% include ../../components/navbar.ejs %>
     <!-- BLOG DETAILS -->
-    <section class="clearfix blogDetials" style="padding-top:30px;">
+    <section class="clearfix blogDetials" style="padding-top:0px;">
       <div class="container">
         <div class="row">
           <div class="col-sm-8 col-xs-12">
@@ -26,14 +26,14 @@
                 </div>
                 <!-- <iframe id="ytplayer" width="65%" height="400px" src="https://www.youtube-nocookie.com/embed/<%= video.youtube_id %>?autoplay=1&enablejsapi"
                   frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
-                  <div class="module module-home-video">
-                      <div id="video"></div>
-                  </div>
+                <div class="module module-home-video">
+                  <div id="video"></div>
+                </div>
               </div>
               <br>
               <div class="container" style="width:100%; padding-top: 0px">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
-                  <li class="nav-item">
+                  <li class="nav-item active">
                     <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab"
                       aria-controls="description" aria-selected="true">Descrizione</a>
                   </li>
@@ -52,7 +52,7 @@
                 </ul>
                 <br>
                 <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
+                  <div class="tab-pane fade active in" id="description" role="tabpanel" aria-labelledby="description-tab">
                     <%= video.description %>
                   </div>
                   <div class="tab-pane fade" id="artists" role="tabpanel" aria-labelledby="artists-tab">
@@ -85,51 +85,19 @@
                       aria-selected="false">Random</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="channel-tab" data-toggle="tab" href="#channel" role="tab" aria-controls="channel"
-                      aria-selected="false">Canale</a>
+                    <a class="nav-link" id="history-relations-tab" data-toggle="tab" href="#history-relations" role="tab"
+                      aria-controls="history-relations" aria-selected="false">History Relations</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info"
-                      aria-selected="false">Ulteriori Informazioni</a>
+                    <a class="nav-link" id="recommender2-tab" data-toggle="tab" href="#recommender2" role="tab"
+                      aria-controls="recommender2" aria-selected="false">Ulteriori Informazioni</a>
                   </li>
                 </ul>
                 <br>
                 <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade" id="vitali" role="tabpanel" aria-labelledby="vitali-tab">
-                    <% recommenderVitali.forEach(function(vitaliVideoObject) { %>
-                      <%if (vitaliVideoObject!=null) { %>
-                    <div>
-                      <div class="row">
-                        <div class="col-sm-4 col-xs-12">
-                          <div class="categoryImage">
-                            <a href="/videos/<%= vitaliVideoObject[0].id %>">
-                              <img src="<%= vitaliVideoObject[0].snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
-                            </a>
-                          </div>
-                        </div>
-                        <div class="col-sm-8 col-xs-12">
-                          <div class="categoryDetails" style="padding-top: 12.5px">
-                            <h4>
-                              <a href="/videos/<%= vitaliVideoObject[0].id %>" style="color: #222222; font-weight:600">
-                                <%= vitaliVideoObject[0].snippet.title %>
-                              </a>
-                              <span aria-hidden="true"></i></span>
-                            </h4>
-                            <p>
-                              youtube channel: <span class="placeName"><%= vitaliVideoObject[0].snippet.channelTitle %> </span>
-                              <br>
-                              Reccomended by Random Algorithm
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <hr>
-                    </div>
-                    <% } %>
-                    <% }); %>
-                  </div>
-                  <div class="tab-pane fade" id="random" role="tabpanel" aria-labelledby="random-tab">
-                  </div>
+                  <div class="tab-pane fade" id="vitali" role="tabpanel" aria-labelledby="vitali-tab"></div>
+                  <div class="tab-pane fade" id="random" role="tabpanel" aria-labelledby="random-tab"></div>
+                  <div class="tab-pane fade" id="history-relations" role="tabpanel" aria-labelledby="history-relations-tab"></div>
                 </div>
               </div>
             </div>
@@ -143,19 +111,15 @@
           </div> -->
             <div class="sidebarInner" style="margin:75px auto;">
               <div class="panel panel-default">
-                <div class="panel-heading">Visual</div>
+                <div class="panel-heading"><h3>COMMENTI</h3></div>
                 <div class="panel-body">
                   <ul class="list-unstyle categoryList">
-                    <li><a href="#">Local Views <span class="pull-right">
-                          <%= video.views %></span></a></li>
-                    <li><a href="#">Global Views <span class="pull-right">
-                          <%= video.views %></span></a></li>
-                    <li><a href="#">Yuoutube Views <span class="pull-right">
-                          <%= video.views %></span></a></li>
-                    <li><a href="#">Restaurent <span class="pull-right">
-                          <%= video.views %></span></a></li>
-                    <li><a href="#">Business <span class="pull-right">
-                          <%= video.views %></span></a></li>
+                  <% comments.comments.forEach(function(comment) { %>
+                      <li style="word-wrap: break-word;">
+                        <b><%= comment.author %></b>: <br> <%= comment.text %>
+                      </li>
+                      <hr>
+                    <% }); %>
                   </ul>
                 </div>
               </div>
@@ -167,22 +131,23 @@
     <% include ../../components/footer.ejs %>
   </div>
   <% include ../../components/footer-import.ejs %>
+  <script src="/js-libraries/videoGraphic.js"></script>
+  <script src="/js-libraries/videoGraphic.js"></script>
 </body>
 
 <script>
-  <%if(currentUser) { %>
-  function addViewToThisVideo() {
+   function addViewToThisVideo() {
     $.ajax({
       type: "GET",
-      url: "/videos/<%= video.youtube_id %>/viewed/<%= currentUser.id %>",
+      url: "/videos/<%= video.youtube_id %>/viewed/-1",
       cache: false,
       success: function (html) {
         console.log("views aggiunta");
+        // alert("view aggiunta")
       }
     });
   }
-  setTimeout(addViewToThisVideo, 10000);
-  <% }; %>
+  setTimeout(addViewToThisVideo, 15000);
 </script>
 
 <script>
@@ -190,8 +155,8 @@
 
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('video', {
-      height: '360',
-      width: '640',
+      height: '420',
+      width: '65%',
       videoId: '<%= video.youtube_id %>',
       events: {
         'onStateChange': onPlayerStateChange
@@ -208,6 +173,39 @@
       playing = true;
     }
   }
+</script>
+
+
+<script>
+  $(document).ready(function ($) {
+    // vitali recommender
+    $.ajax({
+      type: "GET",
+      url: "/recommender/vitali/<%= video.id %>",
+      cache: false,
+      success: function (videoList) {
+        $(videoList).each((index, vitaliVideoObject) => {
+          createVideoElement("#vitali", vitaliVideoObject[0].id, vitaliVideoObject[0].snippet.thumbnails.medium.url, vitaliVideoObject[0].snippet.title, vitaliVideoObject[0].snippet.channelTitle,"Vitali");
+        })
+      }
+    });
+
+    // views history recommender
+    <%if(AuthenticatedUser) { %>
+    $.ajax({
+      type: "GET",
+      url: "/recommender/viewsHistory/<%=AuthenticatedUser.id%>/<%= video.id %>",
+      cache: false,
+      success: function (videoList) {
+        console.log(videoList);
+        $(videoList).each((index, videoObject) => {
+          createVideoElement("#history-relations", videoObject.id, videoObject.image_url, videoObject.title, videoObject.Channel.name, "Views History Relations");
+        })
+      }
+    });
+    <% }; %>
+
+  });
 </script>
 
 </html>

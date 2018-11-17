@@ -35,9 +35,9 @@ module.exports = {
     }
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  currentUser(request, response, next) {
-    if (request.user) {
-        return request.user;
+  currentUser(req, res) {
+    if (req && req.user) {
+        return req.user;
     } else {
         return null;
     }

@@ -7048,7 +7048,7 @@ input[type=radio]:focus,
 
 @media (min-width: 1200px) {
   .blogDetials .sidebarInner {
-    width: 320px;
+    /* width: 320px; */
     float: right;
   }
 }

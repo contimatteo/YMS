@@ -19,7 +19,7 @@ module.exports = {
       production.save().then(production => {
         resolve(production);
       }).catch((error) => {
-        console.log(error);
+        console.log("%j", error);
         reject(error);
       });
     });

@@ -8,34 +8,13 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    startFKVideoId: {
+    FKVideoId: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'Videos',
-        key: 'id'
-      }
-    },
-    endFKVideoId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'Videos',
-        key: 'id'
-      }
+      allowNull: false
     },
     FKUserId: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'Users',
-        key: 'id'
-      }
-    },
-    views: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      defaultValue: '0'
+      allowNull: false
     },
     createdAt: {
       type: DataTypes.DATE,
