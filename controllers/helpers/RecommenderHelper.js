@@ -16,21 +16,37 @@ self = module.exports = {
     });
   },
 
-  viewsHistoryCounter(videosHistory, currentVideoId) {
+  localRelativePopularityCounter(videosHistory, currentVideoId) {
     // array for returnig videos history recommendation
     var videoList = []
-    for (var index = 0; index < (videosHistory.length - 2); index++) {
-      currentView = videosHistory[index];
-      if (currentView.FKVideoId == currentVideoId) {
-        nextView = videosHistory[index + 1];
-        nextNextView = videosHistory[index + 2];
-        if (currentView.FKVideoId == nextNextView.FKVideoId && currentView.FKVideoId != nextView.FKVideoId) {
-          self.createVideoRelation(videoList, nextView.FKVideoId);
+    for (var index = 0; index < (videosHistory.length - 1); index++) {
+      video1 = videosHistory[index];
+      if (video1.FKVideoId == currentVideoId) {
+        // video2 = videosHistory[index+1];
+        // // video3 = videosHistory[index + 2];
+        // if (/*video1.FKVideoId == video3.FKVideoId && */ video1.FKVideoId != video2.FKVideoId) {
+        //   self.createVideoRelation(videoList, video2.FKVideoId);
+        // }
+        video2 = videosHistory[index+1];
+        // from A goes to B with complete view
+        if (video1.complete==1 && video1.FKVideoId!=video2.FKVideoId && video2.complete==1) {
+          self.createVideoRelation(videoList, video2.FKVideoId);
+        }
+        if((index+2)<=videosHistory.length - 1) {
+          video3 = videosHistory[index + 2];
+          video4 = videosHistory[index + 3];
+          // from B goes to A with partial view and from A goes to B with complete view
+          if(video2.complete==1 && video2.FKVideoId!=video3.FKVideoId && video3.complete==0 && video3.FKVideoId==video1.FKVideoId && video4.complete==1 && video1.FKVideoId!=video4.FKVideoId) {
+            self.createVideoRelation(videoList, video4.FKVideoId);
+            index++;
+            index++;
+          }
         }
       }
     }
     // order results by view
     videoList = self._orderVideoHistoryFoundedByViews(videoList);
+    console.log("%j", videoList);
     return videoList;
   },
 

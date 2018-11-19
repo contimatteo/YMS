@@ -10,11 +10,19 @@ module.exports = function(sequelize, DataTypes) {
     },
     FKVideoId: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'Videos',
+        key: 'id'
+      }
     },
     FKUserId: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -23,6 +31,11 @@ module.exports = function(sequelize, DataTypes) {
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: true
+    },
+    complete: {
+      type: DataTypes.INTEGER(1),
+      allowNull: false,
+      defaultValue: '0'
     }
   }, {
     tableName: 'ViewsHistory'

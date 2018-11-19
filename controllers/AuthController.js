@@ -3,20 +3,20 @@
 module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   signup(request, response) {
-    response.render('pages/auth/signup');
+    return response.render('pages/auth/signup');
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   signin(request, response) {
-    response.render('pages/auth/signin');
+    return response.render('pages/auth/signin');
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   dashboard(request, response) {
-    response.render('pages/dashboard');
+    return response.render('pages/dashboard');
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   logout(request, response) {
     request.session.destroy(function (err) {
-      response.redirect('/');
+      return response.redirect('/');
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 

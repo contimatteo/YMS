@@ -71,54 +71,83 @@
                 </div>
                 <br>
                 <br>
-                <!-- <p><a href="/videos/<%= video.id %>/create">Crea Video sul db</a></p> -->
                 <h3>Video Consigliati</h3>
                 <h6>Seleziona un algoritmo per scoprire i migliori video da noi trovati.</h6>
                 <br>
-                <ul class="nav nav-tabs" id="myTab2" role="tablist">
+                <ul class="nav nav-pills mb-3 " id="pills-tab" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link" id="vitali-tab" data-toggle="tab" href="#vitali" role="tab" aria-controls="vitali"
-                      aria-selected="true">Vitali</a>
+                    <a class="nav-link" id="recommender-recent-tab" data-toggle="pill" href="#recommender-recent" role="tab"
+                      aria-controls="recommender-recent" aria-selected="false">Recent</a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" id="recommender-vitali-tab" data-toggle="pill" href="#recommender-vitali" role="tab"
+                      aria-controls="recommender-vitali" aria-selected="false">Vitali</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="random-tab" data-toggle="tab" href="#random" role="tab" aria-controls="random"
-                      aria-selected="false">Random</a>
+                    <a class="nav-link" id="recommender-random-tab" data-toggle="pill" href="#recommender-random" role="tab"
+                      aria-controls="recommender-random" aria-selected="false">Random</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="history-relations-tab" data-toggle="tab" href="#history-relations" role="tab"
-                      aria-controls="history-relations" aria-selected="false">History Relations</a>
+                    <a class="nav-link" id="recommender-related-tab" data-toggle="pill" href="#recommender-related"
+                      role="tab" aria-controls="recommender-related" aria-selected="false">Related</a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="recommender2-tab" data-toggle="tab" href="#recommender2" role="tab"
-                      aria-controls="recommender2" aria-selected="false">Ulteriori Informazioni</a>
+                  <li class="dropdown singleDrop">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                      aria-expanded="false">Popularity <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-left" style="margin-top: -2px;">
+                      <li><a class="nav-link" id="recommender-local-relative-popularity-tab" data-toggle="pill" href="#recommender-local-relative-popularity" role="tab" aria-controls="recommender-local-relative-popularity" aria-selected="false">Local Relative</a></li>
+                      <li><a class="nav-link" id="recommender-local-assolute-popularity-tab" data-toggle="pill" href="#recommender-local-assolute-popularity" role="tab" aria-controls="recommender-local-assolute-popularity" aria-selected="false">Local Assolute</a></li>
+                      <li><a class="nav-link" id="recommender-global-relative-popularity-tab" data-toggle="pill" href="#recommender-global-relative-popularity" role="tab" aria-controls="recommender-global-relative-popularity" aria-selected="false">Global Relative</a></li>
+                      <li><a class="nav-link" id="recommender-global-assolute-popularity-tab" data-toggle="pill" href="#recommender-global-assolute-popularity" role="tab" aria-controls="recommender-global-assolute-popularity" aria-selected="false">Global Assolute</a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown singleDrop">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                      aria-expanded="false">Similarity <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-left" style="margin-top: -2px;">
+                      <li><a class="nav-link" id="recommender-artists-similarity-tab" data-toggle="pill" href="#recommender-artists-similarity"
+                          role="tab" aria-controls="recommender-artists-similarity" aria-selected="false">Artists</a></li>
+                      <li><a class="nav-link" id="recommender-genres-similarity-tab" data-toggle="pill" href="#recommender-genres-similarity"
+                          role="tab" aria-controls="recommender-genres-similarity" aria-selected="false">Genres</a></li>
+                      <li><a class="nav-link" id="recommender-band-members-similarity-tab" data-toggle="pill" href="#recommender-band-members-similarity"
+                          role="tab" aria-controls="recommender-band-members-similarity" aria-selected="false">Band
+                          Members</a></li>
+                    </ul>
                   </li>
                 </ul>
+                </nav>
                 <br>
-                <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade" id="vitali" role="tabpanel" aria-labelledby="vitali-tab"></div>
-                  <div class="tab-pane fade" id="random" role="tabpanel" aria-labelledby="random-tab"></div>
-                  <div class="tab-pane fade" id="history-relations" role="tabpanel" aria-labelledby="history-relations-tab"></div>
+                <div class="tab-content" id="pills-tabContent">
+                  <div class="tab-pane fade" id="recommender-recent" role="tabpanel" aria-labelledby="recommender-recent-tab">Carico i Risultati ...</div>
+                  <div class="tab-pane fade active in" id="recommender-vitali" role="tabpanel" aria-labelledby="recommender-vitali-tab">Carico i Risultati ...</div>
+                  <div class="tab-pane fade" id="recommender-random-popularity" role="tabpanel" aria-labelledby="recommender-random-popularity-tab">Carico i Risultati ...</div>
+                  <div class="tab-pane fade" id="recommender-related-popularity" role="tabpanel" aria-labelledby="recommender-related-popularity-tab">Carico i Risultati ...</div>
+                  <div class="tab-pane fade" id="recommender-local-relative-popularity" role="tabpanel" aria-labelledby="recommender-local-relative-popularity-tab">Carico i Risultati ...</div>
+                  <div class="tab-pane fade" id="recommender-local-assolute-popularity" role="tabpanel" aria-labelledby="recommender-local-assolute-popularity-tab">Carico i Risultati ...</div>
+                  <div class="tab-pane fade" id="recommender-global-relative-popularity" role="tabpanel" aria-labelledby="recommender-global-relative-popularity-tab">Carico i Risultati ...</div>
+                  <div class="tab-pane fade" id="recommender-global-assolute-popularity" role="tabpanel" aria-labelledby="recommender-global-assolute-popularity-tab">Carico i Risultati ...</div>
+                  <div class="tab-pane fade" id="recommender-artists-similarity" role="tabpanel" aria-labelledby="recommender-artists-similarity-tab">Carico i Risultati ...</div>
+                  <div class="tab-pane fade" id="recommender-genres-similarity" role="tabpanel" aria-labelledby="recommender-genres-similarity-tab">Carico i Risultati ...</div>
+                  <div class="tab-pane fade" id="recommender-band-members-similarity" role="tabpanel" aria-labelledby="recommender-band-members-similarity-tab">Carico i Risultati ...</div>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-sm-4 col-xs-12">
-            <!-- <div class="sidebarInner" style="margin:25px auto;">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search..." aria-describedby="basic-addon2">
-              <a href="#" class="input-group-addon" id="basic-addon2"><i class="icon-listy icon-search-2"></i></a>
-            </div>
-          </div> -->
             <div class="sidebarInner" style="margin:75px auto;">
               <div class="panel panel-default">
-                <div class="panel-heading"><h3>COMMENTI</h3></div>
+                <div class="panel-heading">
+                  <h3>COMMENTI</h3>
+                </div>
                 <div class="panel-body">
                   <ul class="list-unstyle categoryList">
-                  <% comments.comments.forEach(function(comment) { %>
-                      <li style="word-wrap: break-word;">
-                        <b><%= comment.author %></b>: <br> <%= comment.text %>
-                      </li>
-                      <hr>
+                    <% comments.comments.forEach(function(comment) { %>
+                    <li style="word-wrap: break-word;">
+                      <b>
+                        <%= comment.author %></b>: <br>
+                      <%= comment.text %>
+                    </li>
+                    <hr>
                     <% }); %>
                   </ul>
                 </div>
@@ -136,18 +165,23 @@
 </body>
 
 <script>
-   function addViewToThisVideo() {
+  <%if(AuthenticatedUser) { %>
+
+  function addViewToThisVideo() {
     $.ajax({
       type: "GET",
-      url: "/videos/<%= video.youtube_id %>/viewed/-1",
+      url: "/videos/<%= video.youtube_id %>/viewed/<%=AuthenticatedUser.id%>",
       cache: false,
       success: function (html) {
         console.log("views aggiunta");
-        // alert("view aggiunta")
+      },
+      error: function (error) {
+        console.log(error);
       }
     });
   }
   setTimeout(addViewToThisVideo, 15000);
+  <% }; %>
 </script>
 
 <script>
@@ -184,26 +218,35 @@
       url: "/recommender/vitali/<%= video.id %>",
       cache: false,
       success: function (videoList) {
+        $("#recommender-vitali").text("");
         $(videoList).each((index, vitaliVideoObject) => {
-          createVideoElement("#vitali", vitaliVideoObject[0].id, vitaliVideoObject[0].snippet.thumbnails.medium.url, vitaliVideoObject[0].snippet.title, vitaliVideoObject[0].snippet.channelTitle,"Vitali");
+          if (vitaliVideoObject != null)
+            createVideoElement("#recommender-vitali", vitaliVideoObject[0].id, vitaliVideoObject[0].snippet.thumbnails.medium.url, vitaliVideoObject[0].snippet.title, vitaliVideoObject[0].snippet.channelTitle, "Vitali");
         })
       }
     });
 
     // views history recommender
     <%if(AuthenticatedUser) { %>
+    $("#recommender-local-relative-popularity").text("");
     $.ajax({
       type: "GET",
-      url: "/recommender/viewsHistory/<%=AuthenticatedUser.id%>/<%= video.id %>",
+      url: "/recommender/popularity/local/relative/<%=AuthenticatedUser.id%>/<%= video.id %>",
       cache: false,
       success: function (videoList) {
         console.log(videoList);
         $(videoList).each((index, videoObject) => {
-          createVideoElement("#history-relations", videoObject.id, videoObject.image_url, videoObject.title, videoObject.Channel.name, "Views History Relations");
+          console.log(videoList)
+          createVideoElement("#recommender-local-relative-popularity", videoObject.youtube_id, videoObject.image_url, videoObject.title, videoObject.Channel.name, "Local Relative Popularity");
         })
+      },
+      error: function (error) {
+        console.log(error)
       }
     });
-    <% }; %>
+    <% } else{ %>
+    $("#recommender-local-relative-popularity").text("Sezione disponibile solo effettuando il login")
+    <% } %>
 
   });
 </script>

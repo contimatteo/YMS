@@ -41,14 +41,13 @@ module.exports = function (app, passport) {
   // show single video
   app.get('/videos/:id', AuthController.userLoggedIn, function (req, res) {
     var youtubeId = req.params.id;
-    var shouldAssociate = req.query.associate;
     // create and render video page
     VideosController.create(res, youtubeId).then(function (videoObject) {
       VideosController.show(res, youtubeId);
       // save video history
       var currentUser = AuthController.currentUser(req, res);
       if(currentUser) 
-        VideosController.storeUserAndVideoHistoryAssociation(currentUser.id, videoObject.id);
+        VideosController.storeUserAndVideoHistoryPartialAssociation(currentUser.id, videoObject.id);
     }).catch(function (error) {
       console.log("%j", error);
       res.send(error);

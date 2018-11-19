@@ -23,16 +23,16 @@ module.exports = {
           })
           .catch(error => {
             console.log("%j", error);
-            reject(error);
+            resolve(null);
           });
       }).catch((error) => {
         console.log("%j", error);
-        reject(error);
+        resolve(null);
       });
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  viewsHistory(response, userId, videoId) {
+  localRelativePopularity(response, userId, videoId) {
     return new Promise((resolve, reject) => {
       ViewsHistory.findAll({
         where: {
@@ -43,7 +43,7 @@ module.exports = {
         ]
       }).then(results => {
         var promises = [];
-        var videoFounded = RecommenderHelper.viewsHistoryCounter(results, videoId);
+        var videoFounded = RecommenderHelper.localRelativePopularityCounter(results, videoId);
         videoFounded.forEach(video => {
           promises.push(VideosController.getVideoById(video.videoId));
         });
@@ -56,6 +56,7 @@ module.exports = {
             reject(error);
           });
       }).catch((error) => {
+        console.log("%j", error);
         reject(error);
       });
     });
@@ -64,7 +65,19 @@ module.exports = {
   random(response) {
     Video.findAll({
       order: 'random()',
-      limit: 10
+      limit: 25
+    }).then(function (videoRandom) {
+      response.send(videoRandom)
+    }).catch(function (error) {
+      console.log("%j", error);
+      response.send(error);
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  recent(response) {
+    Video.findAll({
+      order: 'random()',
+      limit: 25
     }).then(function (videoRandom) {
       response.send(videoRandom)
     }).catch(function (error) {

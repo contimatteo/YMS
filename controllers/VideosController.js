@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 var ChannelsController = require('./ChannelsController.js');
+var AuthController = require('./AuthController.js');
 var ArtistsController = require('./ArtistsController.js');
 var RecommenderController = require('./RecommenderController.js');
 var YoutubeApi = require('../libraries/YoutubeApi.js');
@@ -112,15 +113,15 @@ var self = module.exports = {
   // show single video by id
   show(response, id) {
     self.getVideoByYoutubeId(id).then(function (video) {
-    youtubeApi.getCommentByVideoId(video.youtube_id).then(function (commentList) {
-      response.render('pages/video/video', {
-        video: video,
-        comments: commentList
+      youtubeApi.getCommentByVideoId(video.youtube_id).then(function (commentList) {
+        response.render('pages/video/video', {
+          video: video,
+          comments: commentList
+        });
+      }).catch(function (error) {
+        console.log("%j", error);
+        // response.send(error);
       });
-    }).catch(function (error) {
-      console.log("%j", error);
-      // response.send(error);
-    });
     }).catch(function (error) {
       console.log("%j", error);
       // response.send(error);
@@ -234,6 +235,8 @@ var self = module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   addView(response, userId, videoId) {
     self.getVideoByYoutubeId(videoId).then(function (videoObject) {
+      // save video history
+      self.storeUserAndVideoHistoryCompleteAssociation(userId, videoObject.id);
       if (!videoObject) {
         response.send('il video non ce');
       } else {
@@ -332,19 +335,66 @@ var self = module.exports = {
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  storeUserAndVideoHistoryAssociation(userId, videoId) {
+  storeUserAndVideoHistoryPartialAssociation(userId, videoId) {
     // self.getVideoByYoutubeId(youtubeId).then(function(video) {
-      var association = {
-        FKUserId: userId, 
-        FKVideoId: videoId
-      };
-      var viewsHistoryObject = ViewsHistory.build(association, {
-        FKUserId: association.FKUserId,
-        FKVideoId: association.FKVideoId
+    var association = {
+      FKUserId: userId,
+      FKVideoId: videoId,
+      complete: 0
+    };
+    var viewsHistoryObject = ViewsHistory.build(association, {
+      FKUserId: association.FKUserId,
+      FKVideoId: association.FKVideoId
+    });
+    viewsHistoryObject.save().then(viewHistoryCreated => {})
+      .catch((error) => {
+        console.log("%j", error);
       });
-      viewsHistoryObject.save().then(viewHistoryCreated => {})
-      .catch((error) => { console.log("%j", error); });
     // })
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  storeUserAndVideoHistoryCompleteAssociation(userId, videoId) {
+    var association = {
+      FKUserId: userId,
+      FKVideoId: videoId,
+      complete: 1
+    };
+    ViewsHistory.findAll({
+      limit: 1,
+      where: {
+        FKUserId: userId
+      },
+      order: [
+        ['createdAt', 'DESC']
+      ]
+    }).then(function (entries) {
+      if (entries[0].FKVideoId != association.FKVideoId) {
+        var viewsHistoryObject = ViewsHistory.build(association, {
+          FKUserId: association.FKUserId,
+          FKVideoId: association.FKVideoId
+        });
+        viewsHistoryObject.save().then(viewHistoryCreated => {})
+          .catch((error) => {
+            console.log("%j", error);
+          });
+      } else {
+        // the last video's id created match with this id
+        if (entries[0].complete == 0) {
+          // this video is the last watched but not for almost 15 sec
+          ViewsHistory.update({
+            complete: 1 // Set Attribute values 
+          }, {
+            where: {
+              id: entries[0].id
+            }
+          })
+          .then(function () {})
+          .error(function (error) {
+            console.log(error);
+          });
+        }
+      }
+    });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
