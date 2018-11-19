@@ -17,11 +17,11 @@
       <li class=""><a href="/videos/search">Suggestioned</a></li>
       <li class=""><a href="/videos/search">Playlists</a></li>
       <li class=""><a href="/vitali">Vitali</a></li>
-      <li class=""><a href="/aboutUs">Our Team</a></li>
-      <%if (currentUser) { %>
+      <li class=""><a href="/videos/search">Our Team</a></li>
+      <%if (AuthenticatedUser) { %>
       <li class="active dropdown singleDrop" style="width:auto;">
         <a href="javascript:void(0)" class="dropdown-toggle btn btn-default navbar-btn" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding:8px; margin-left: 20px; width:100%;">
-          <%= currentUser.firstname %>
+          <%= AuthenticatedUser.firstname %>
           <i class="fa fa-angle-down" aria-hidden="true"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-right" style="left: -80px; margin-top: 2px;">
@@ -32,7 +32,7 @@
       <% } %>
     </ul>
   </div>
-  <%if (!currentUser) { %>
+  <%if (!AuthenticatedUser) { %>
   <a class="btn btn-default navbar-btn" href="/signin">
     <span style="text-transform: none;">LOGIN</span>
   </a>

@@ -23,7 +23,7 @@ module.exports = function (app, passport) {
   // search page route
   app.get('/videos/search', AuthController.userLoggedIn, function (req, res) {
     var pageToken = req.query.page;
-    VideosController.index(res, "Nothing Else Matters", "", pageToken, defaultVideoNumbers);
+    VideosController.index(res, "Eminem", "", pageToken, defaultVideoNumbers);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.post('/videos/search', AuthController.userLoggedIn, function (req, res) {
@@ -41,28 +41,34 @@ module.exports = function (app, passport) {
   // show single video
   app.get('/videos/:id', AuthController.userLoggedIn, function (req, res) {
     var youtubeId = req.params.id;
+    var shouldAssociate = req.query.associate;
+    // create and render video page
     VideosController.create(res, youtubeId).then(function (videoObject) {
       VideosController.show(res, youtubeId);
+      // save video history
+      var currentUser = AuthController.currentUser(req, res);
+      if(currentUser) 
+        VideosController.storeUserAndVideoHistoryAssociation(currentUser.id, videoObject.id);
     }).catch(function (error) {
-      console.log(error);
+      console.log("%j", error);
       res.send(error);
     });
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // route for testing video creation
-  app.get('/videos/:id/create', function (req, res) {
-    var youtubeId = req.params.id;
-    VideosController.create(res, youtubeId).then(function (results) {
-      res.send(results);
-    }).catch(function (error) {
-      console.log(error);
-      res.send(error);
-    });
-  });
+  // app.get('/videos/:id/create', function (req, res) {
+  //   var youtubeId = req.params.id;
+  //   VideosController.create(res, youtubeId).then(function (results) {
+  //     res.send(results);
+  //   }).catch(function (error) {
+  //     console.log(error);
+  //     res.send(error);
+  //   });
+  // });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/videos/:id/viewed/:user', function (req, res) {
     var id = req.params.id;
-    var userId = req.params.userId;
+    var userId = req.params.user;
     VideosController.addView(res, userId, id);
   });
   ////////////////////////////////////////////////////////////////////////////////
@@ -78,28 +84,28 @@ module.exports = function (app, passport) {
   ////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////// ARTISTS ROUTE /////////////////////////////////
   // search page route
-  app.get('/artists/:name/create', function (req, res) {
-    var name = req.params.name;
-    ArtistsController.create(res, name).then(function (artistCreated) {
-        res.send(artistCreated);
-      })
-      .catch(function (error) {
-        console.log(error);
-        res.send(error);
-      });
-  });
+  // app.get('/artists/:name/create', function (req, res) {
+  //   var name = req.params.name;
+  //   ArtistsController.create(res, name).then(function (artistCreated) {
+  //       res.send(artistCreated);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //       res.send(error);
+  //     });
+  // });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // get artist info
-  app.get('/artists/:name', function (req, res) {
-    var name = req.params.name;
-    ArtistsController.getArtistInfo(res, name).then(function (artistData) {
-        res.send(artistData);
-      })
-      .catch(function (error) {
-        console.log(error);
-        res.send(error);
-      });
-  });
+  // app.get('/artists/:name', function (req, res) {
+  //   var name = req.params.name;
+  //   ArtistsController.getArtistInfo(res, name).then(function (artistData) {
+  //       res.send(artistData);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //       res.send(error);
+  //     });
+  // });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/artists/:name/create/relations/artists', function (req, res) {
     var name = req.params.name;

@@ -36,22 +36,14 @@ module.exports = function (app, passport) {
 
   app.get('/channels/:id', function (request, response) {
     var youtubeId = request.params.id;
-    ChannelsController.findOrCreateChannel(youtubeId, "matteo").then(function(result) {
+    ChannelsController.findOrCreateChannel(youtubeId, "matteo").then(function (result) {
       response.send(result);
-    }).catch(function(error) {
+    }).catch(function (error) {
       response.send(error);
     });
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-app.get('/recommender/random', function (request, response){
-  TestController.random(response).then(function(result){
-    response.send(result);
-  }).catch(function(error){
-    response.send(error);
+  app.get('/aboutUs', function (req, res) {
+    res.render('pages/aboutUs/aboutUs')
   });
-});
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    app.get('/aboutUs', function (req, res) {
-      res.render('pages/aboutUs/aboutUs')
-});
 }

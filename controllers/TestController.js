@@ -27,9 +27,12 @@ var self = module.exports = {
   // get all bands with relative artists
   orm1(response) {
     Video.findAll({
-        include: [
-          {model: Artist},
-          {model: Channel}
+        include: [{
+            model: Artist
+          },
+          {
+            model: Channel
+          }
         ]
       })
       .then(results => {
@@ -78,30 +81,20 @@ var self = module.exports = {
     // importare i dati
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-localView(response){
-      return new Promise((resolve, reject) => {
-   Video.findAll({
-     order:[
-       ['views','DESC']
-       ],
-     limit:10
-   }).then(function(videoTrovati){
-     resolve(videoTrovati)
-   }).catch(function(error){
-     reject(error);
-   })
-});
-},
-random(response){
-  return new Promise((resolve, reject ) =>{
-    Video.findAll({
-      order:'random()',
-      limit:10
-    }).then(function(videoRandom){
-      resolve(videoRandom)
-    }).catch(function(error){
-      reject(error);
-    })
-  });
-},
+  localView(response) {
+    return new Promise((resolve, reject) => {
+      Video.findAll({
+        order: [
+          ['views', 'DESC']
+        ],
+        limit: 10
+      }).then(function (videoTrovati) {
+        resolve(videoTrovati)
+      }).catch(function (error) {
+        console.log("%j", error);
+        reject(error);
+      })
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };

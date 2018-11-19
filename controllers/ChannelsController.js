@@ -25,8 +25,6 @@ var self = module.exports = {
           name: channelObject.name
         }
       }).spread( function(channelCreated, created){
-        if (created) console.log("canale creato");
-        else console.log("canale trovato");
         resolve(channelCreated);
       });
     });

@@ -5,6 +5,7 @@ var RecommenderController = require('./RecommenderController.js');
 var YoutubeApi = require('../libraries/YoutubeApi.js');
 var ORMHelper = require('./helpers/ORMHelper.js');
 var Artist = require("../models/Artist.js");
+var ViewsHistory = require("../models/ViewsHistory.js");
 var Video = require("../models/Video.js");
 var Channel = require("../models/Channel.js");
 var vitaliListaObject = require("../json/video-vitali.json")
@@ -58,8 +59,7 @@ var self = module.exports = {
                   objectString.song = splittedString[0];
                   objectString.artists.push(splittedString[1]);
                   resolve(objectString);
-                }
-                else {
+                } else {
                   // no artist finded
                   // default case: "Artist - Song"
                   objectString.song = splittedString[1];
@@ -67,7 +67,8 @@ var self = module.exports = {
                   resolve(objectString);
                 }
               }).catch(function (error) {
-                  reject(error);
+                console.log("%j", error);
+                reject(error);
               });
             } else {
               // 1° case: "Artist - Song"
@@ -76,6 +77,7 @@ var self = module.exports = {
               resolve(objectString);
             }
           }).catch(function (error) {
+            console.log("%j", error);
             reject(error);
           });
         }
@@ -109,29 +111,19 @@ var self = module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // show single video by id
   show(response, id) {
-    self.getVideoById(id).then(function (video) {
-      var recommender = [];
-      // import vitali recommender
-      recommender.push(RecommenderController.vitali(id));
-      // import random recommender
-      // recommender.push(RecommenderController.random(id));
-      // get all recommender
-      Promise.all(recommender)
-        .then(recommenderData => {
-          response.render('pages/video/video', {
-            video: video,
-            recommenderVitali: recommenderData[0]
-            // recommenderRandom: data[1]
-          });
-        })
-        .catch(error => {
-          console.log(error);
-          reject(error);
-        });
-      // response.send(results.items[0]);
+    self.getVideoByYoutubeId(id).then(function (video) {
+    youtubeApi.getCommentByVideoId(video.youtube_id).then(function (commentList) {
+      response.render('pages/video/video', {
+        video: video,
+        comments: commentList
+      });
     }).catch(function (error) {
-      console.log(error);
-      response.send(error);
+      console.log("%j", error);
+      // response.send(error);
+    });
+    }).catch(function (error) {
+      console.log("%j", error);
+      // response.send(error);
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -142,7 +134,7 @@ var self = module.exports = {
         resolve(results.items);
         // response.send(results.items[0]);
       }).catch(function (error) {
-        console.log(error);
+        console.log("%j", error);
         resolve(null);
       });
     });
@@ -162,7 +154,7 @@ var self = module.exports = {
         }
       });
     }).catch(function (error) {
-      console.log(error);
+      console.log("%j", error);
       response.send(error.reasonPhrase);
     });
   },
@@ -173,7 +165,7 @@ var self = module.exports = {
           return self._findArtistAndSongByString(videoObject[0].id, videoObject[0].snippet.title).then(function (objectString) {
             var song = objectString.song;
             var artists = objectString.artists;
-            return self.getVideoById(videoObject[0].id).then(function (videoDB) {
+            return self.getVideoByYoutubeId(videoObject[0].id).then(function (videoDB) {
               if (videoDB != null) {
                 // video exist
                 resolve(videoDB);
@@ -207,40 +199,41 @@ var self = module.exports = {
                             resolve(videoCreated);
                           })
                           .catch(error => {
-                            console.log(error);
+                            console.log("%j", error);
                             reject(error);
                           });
                       })
                       .catch(error => {
-                        console.log(error);
+                        console.log("%j", error);
                         reject(error);
                       });
                   }).catch(function (error) {
-                    console.log(error);
+                    console.log("%j", error);
                     reject(error);
                   });
                 }).catch(function (error) {
-                  console.log(error);
+                  console.log("%j", error);
                   reject(error);
                 });
               }
             }).catch(function (error) {
-              console.log(error);
+              console.log("%j", error);
               reject(error);
             });
           }).catch(function (error) {
-            console.log(error);
+            console.log("%j", error);
             reject(error);
           });
         })
         .catch(function (error) {
-          response.send(error);
+          console.log("%j", error);
+          reject(error);
         });
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   addView(response, userId, videoId) {
-    self.getVideoById(videoId).then(function (videoObject) {
+    self.getVideoByYoutubeId(videoId).then(function (videoObject) {
       if (!videoObject) {
         response.send('il video non ce');
       } else {
@@ -249,13 +242,14 @@ var self = module.exports = {
         }).then(function (results) {
           response.send(results);
         }).catch(function (error) {
+          console.log("%j", error);
           reject(error);
         });
       }
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  getVideoById(videoId) {
+  getVideoByYoutubeId(videoId) {
     return new Promise((resolve, reject) => {
       Video.findOne({
         include: [{
@@ -271,7 +265,29 @@ var self = module.exports = {
       }).then(results => {
         resolve(results);
       }).catch((error) => {
-        console.log(error);
+        console.log("%j", error);
+        reject(error);
+      });
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  getVideoById(videoId) {
+    return new Promise((resolve, reject) => {
+      Video.findOne({
+        include: [{
+            model: Artist
+          },
+          {
+            model: Channel
+          }
+        ],
+        where: {
+          id: videoId
+        }
+      }).then(results => {
+        resolve(results);
+      }).catch((error) => {
+        console.log("%j", error);
         reject(error);
       });
     });
@@ -290,21 +306,46 @@ var self = module.exports = {
       video.save().then(videoCreated => {
         resolve(videoCreated);
       }).catch((error) => {
-        console.log(error);
+        console.log("%j", error);
         reject(error);
       });
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   showSuggestionedVideos(response) {
-    response.send(vitaliListaObject);
-    // 1. creare un array con tutti gli id di vitali ["id1", "id2", ...]
-    // 2. sequelize find all where : id: [...]
-    // 3. renderizzi la view (prendere quella di ricerca) dove hai i campi del db
-
-    // response.render('pages/vitali/vitali', {
-    //   data : vitaliListaObject
-    // });
+    return new Promise((resolve, reject) => {
+      var promises = [];
+      vitaliListaObject.forEach(video => {
+        promises.push(self._getVideoInfo(null, video.videoID));
+      });
+      Promise.all(promises)
+        .then(videosData => {
+          // response.render('pages/vitali/vitali', {
+          //   data : vitaliListaObject
+          // });
+          response.send(videosData);
+        })
+        .catch(error => {
+          console.log("%j", error);
+          resolve(null);
+        });
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  storeUserAndVideoHistoryAssociation(userId, videoId) {
+    // self.getVideoByYoutubeId(youtubeId).then(function(video) {
+      var association = {
+        FKUserId: userId, 
+        FKVideoId: videoId
+      };
+      var viewsHistoryObject = ViewsHistory.build(association, {
+        FKUserId: association.FKUserId,
+        FKVideoId: association.FKVideoId
+      });
+      viewsHistoryObject.save().then(viewHistoryCreated => {})
+      .catch((error) => { console.log("%j", error); });
+    // })
   }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 };
