@@ -18,7 +18,7 @@ module.exports = function (app, passport) {
       });
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/recommender/localView', function (req, res) {
+  app.get('/recommender/popularity/local/absolute', function (req, res) {
     TestController.localView(res).then(function (result) {
       res.send(result);
     }).catch(function (error) {

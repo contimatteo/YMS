@@ -8,6 +8,7 @@ var ORMHelper = require('./helpers/ORMHelper.js');
 var Artist = require("../models/Artist.js");
 var ViewsHistory = require("../models/ViewsHistory.js");
 var Video = require("../models/Video.js");
+var User = require("../models/User.js");
 var Channel = require("../models/Channel.js");
 var vitaliListaObject = require("../json/video-vitali.json")
 var Promise = require('bluebird');
@@ -260,6 +261,9 @@ var self = module.exports = {
           },
           {
             model: Channel
+          },
+          {
+            model: User
           }
         ],
         where: {
@@ -382,7 +386,7 @@ var self = module.exports = {
         if (entries[0].complete == 0) {
           // this video is the last watched but not for almost 15 sec
           ViewsHistory.update({
-            complete: 1 // Set Attribute values 
+            complete: 1 // Set Attribute values
           }, {
             where: {
               id: entries[0].id
