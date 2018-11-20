@@ -76,12 +76,15 @@ module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   recent(response,userId) {
     return new Promise((resolve, reject)=> {
-      ViewsHistory.findAll({ 
+      ViewsHistory.findOne({ 
         where: {
           FKUserId: userId
         },
-        order: [['updatedAt', 'DESC']],
-        limit: 15 
+        include : Video,
+        where:{
+          order: [['updatedAt', 'DESC']],
+          limit: 15 
+        }
       }).then(function (videoRecent) {
         resolve (videoRecent);
       }).catch(function (error) {
