@@ -76,15 +76,16 @@ module.exports = {
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   recent(response) {
-    Video.findAll({ 
-      limit: 15, 
-      order: [['updatedAt', 'DESC']] 
-    }).then(function (videoRecent) {
-      response.send(videoRecent)
-    }).catch(function (error) {
-      console.log("%j", error);
-      response.send(error);
-    });
+    return new Promise((resolve, reject)=> {
+      Video.findAll({ 
+        limit: 15, 
+        order: [['updatedAt', 'DESC']] 
+      }).then(function (videoRecent) {
+        resolve (videoRecent);
+      }).catch(function (error) {
+        reject(error);
+      });
+    })
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
