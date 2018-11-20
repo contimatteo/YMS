@@ -37,7 +37,7 @@ module.exports = function (app, passport) {
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/recommender/random', function (req, res) {
-    RecommenderController.random(res).then(function (result) {
+    RecommenderController.random(null).then(function (result) {
       res.send(result);
     }).catch(function (error) {
       res.send(error);

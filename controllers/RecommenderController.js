@@ -8,6 +8,7 @@ var ViewsHistory = require("../models/ViewsHistory.js");
 var User = require("../models/User.js");
 var Video = require("../models/Video.js");
 var Channel = require("../models/Channel.js");
+const Sequelize = require('sequelize');
 ////////////////////////////////////////////////////////////////////////////////
 
 // module.exports = class TestController {
@@ -67,14 +68,16 @@ module.exports = {
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   random(response) {
-    Video.findAll({
-      order: 'random()',
-      limit: 25
-    }).then(function (videoRandom) {
-      response.send(videoRandom)
-    }).catch(function (error) {
-      console.log("%j", error);
-      response.send(error);
+    return new Promise((resolve, reject) => {
+      Video.findAll({
+        order: Sequelize.literal('rand()'), 
+        limit: 5
+      }).then(function (videoRandom) {
+        resolve(videoRandom);
+      }).catch(function (error) {
+        console.log("%j", error);
+        reject(error);
+      });
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
