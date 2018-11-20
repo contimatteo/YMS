@@ -45,11 +45,12 @@ module.exports = function (app, passport) {
   });
 
   app.get('/recommender/recent', function (req, res) {
-    RecommenderController.recent(res).then(function (result) {
-      res.send(result);
-    }).catch(function (error) {
-      res.send(error);
-    });
+    RecommenderController.recent(res)
+    // .then(function (result) {
+    //   res.send(result);
+    // }).catch(function (error) {
+    //   res.send(error);
+    // });
   });
 
 };
