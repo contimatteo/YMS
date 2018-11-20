@@ -4,7 +4,6 @@ var VideosController = require('./VideosController.js');
 var AjaxRequestClass = require('../libraries/AjaxRequest.js');
 var AjaxRequest = new AjaxRequestClass();
 var ViewsHistory = require("../models/ViewsHistory.js");
-var Video = require("../models/Video.js");
 ////////////////////////////////////////////////////////////////////////////////
 
 // module.exports = class TestController {
@@ -75,11 +74,14 @@ module.exports = {
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  recent(response) {
+  recent(response,userId) {
     return new Promise((resolve, reject)=> {
-      Video.findAll({ 
-        limit: 15, 
-        order: [['updatedAt', 'DESC']] 
+      ViewsHistory.findAll({ 
+        where: {
+          FKUserId: userId
+        },
+        order: [['updatedAt', 'DESC']],
+        limit: 15 
       }).then(function (videoRecent) {
         resolve (videoRecent);
       }).catch(function (error) {
