@@ -226,7 +226,7 @@
       }
     });
 
-    // views history recommender
+    // local relative popularity recommender
     <%if(AuthenticatedUser) { %>
     $("#recommender-local-relative-popularity").text("");
     $.ajax({
@@ -234,9 +234,7 @@
       url: "/recommender/popularity/local/relative/<%=AuthenticatedUser.id%>/<%= video.id %>",
       cache: false,
       success: function (videoList) {
-        console.log(videoList);
         $(videoList).each((index, videoObject) => {
-          console.log(videoList)
           createVideoElement("#recommender-local-relative-popularity", videoObject.youtube_id, videoObject.image_url, videoObject.title, videoObject.Channel.name, "Local Relative Popularity");
         })
       },
@@ -246,6 +244,27 @@
     });
     <% } else{ %>
     $("#recommender-local-relative-popularity").text("Sezione disponibile solo effettuando il login")
+    <% } %>
+
+    // recent recommender
+    <%if(AuthenticatedUser) { %>
+    $("#recommender-recent").text("");
+    $.ajax({
+      type: "GET",
+      url: "/recommender/recent/<%=AuthenticatedUser.id%>",
+      cache: false,
+      success: function (videoList) {
+        console.log(videoList);
+        $(videoList).each((index, videoObject) => {
+          createVideoElement("#recommender-recent", videoObject.youtube_id, videoObject.image_url, videoObject.title, videoObject.Channel.name, "Local Relative Popularity");
+        })
+      },
+      error: function (error) {
+        console.log(error)
+      }
+    });
+    <% } else{ %>
+    $("#recommender-recent").text("Sezione disponibile solo effettuando il login")
     <% } %>
 
   });

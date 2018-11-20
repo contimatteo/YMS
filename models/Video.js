@@ -13,6 +13,7 @@ var Channel = require("./baseStructure/Channels.js")(global.ORM.sequelize, DataT
 var Playlist = require("./baseStructure/Playlists.js")(global.ORM.sequelize, DataTypes);
 var PlaylistsAndVideos = require("./baseStructure/PlaylistsAndVideos.js")(global.ORM.sequelize, DataTypes);
 var FavoriteVideos = require("./baseStructure/FavoriteVideos.js")(global.ORM.sequelize, DataTypes);
+var ViewsHistory = require("./baseStructure/ViewsHistory.js")(global.ORM.sequelize, DataTypes);
 var Productions = require("./baseStructure/Productions.js")(global.ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // define relation
@@ -27,7 +28,7 @@ Video.belongsToMany(Playlist, {
 });
 // define relation
 Video.belongsToMany(User, {
-  through: FavoriteVideos,
+  through: ViewsHistory,
   foreignKey: 'FKVideoId',
   otherKey: 'FKUserId'
 });
