@@ -75,15 +75,15 @@ module.exports = {
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   recent(response) {
-    Video.findAll({
-      order: 'random()',
-      limit: 25
-    }).then(function (videoRandom) {
-      response.send(videoRandom)
-    }).catch(function (error) {
-      console.log("%j", error);
-      response.send(error);
-    });
+    // Video.findAll({
+    //   order: 'random()',
+    //   limit: 25
+    // }).then(function (videoRandom) {
+    //   response.send(videoRandom)
+    // }).catch(function (error) {
+    //   console.log("%j", error);
+    //   response.send(error);
+    // });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
