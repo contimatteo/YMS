@@ -3,7 +3,11 @@ var RecommenderHelper = require('./helpers/RecommenderHelper.js');
 var VideosController = require('./VideosController.js');
 var AjaxRequestClass = require('../libraries/AjaxRequest.js');
 var AjaxRequest = new AjaxRequestClass();
+
 var ViewsHistory = require("../models/ViewsHistory.js");
+var User = require("../models/User.js");
+var Video = require("../models/Video.js");
+var Channel = require("../models/Channel.js");
 ////////////////////////////////////////////////////////////////////////////////
 
 // module.exports = class TestController {
@@ -74,16 +78,41 @@ module.exports = {
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  recent(response) {
-    Video.findAll({
-      order: 'random()',
-      limit: 25
-    }).then(function (videoRandom) {
-      response.send(videoRandom)
-    }).catch(function (error) {
-      console.log("%j", error);
-      response.send(error);
-    });
+  recent(response, userId) {
+    return new Promise((resolve, reject) => {
+      // ViewsHistory.findAll({ 
+      //   where: {
+      //     FKUserId: userId
+      //   },
+      //   order: [['updatedAt', 'DESC']],
+      //   limit: 15 
+      // }).then(function (videoRecent) {
+      //   resolve (videoRecent);
+      // }).catch(function (error) {
+      //   reject(error);
+      // });
+      Video.findAll({
+        include: [{
+            model: User,
+            where: {
+              id: userId
+            }
+          },
+          {
+            model: Channel
+          }
+        ],
+        limit: 15,
+        order: [
+          ['updatedAt', 'DESC']
+        ],
+        group: ['youtube_id']
+      }).then(function (videoRecent) {
+        resolve(videoRecent);
+      }).catch(function (error) {
+        reject(error);
+      });
+    })
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };

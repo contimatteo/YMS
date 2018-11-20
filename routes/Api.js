@@ -44,8 +44,9 @@ module.exports = function (app, passport) {
     });
   });
 
-  app.get('/recommender/recent', function (req, res) {
-    RecommenderController.recent(res).then(function (result) {
+  app.get('/recommender/recent/:user', function (req, res) {
+    var userId = req.params.user;
+    RecommenderController.recent(res,userId).then(function (result) {
       res.send(result);
     }).catch(function (error) {
       res.send(error);
