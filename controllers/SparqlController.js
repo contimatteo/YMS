@@ -172,30 +172,11 @@ var self = module.exports = {
     return sparqlClient.runQuery(query, [], []);
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  getBandMemeber(artistName) {
+  getBandMember(artistName) {
     // call dbpedia for get artist info
     var query = " " +
     " select distinct * { " +
     "     dbr:" + artistName + " dbo:bandMember ?artistAssociated.  " +
-    " ?artistAssociated  rdfs:label ?name.  " +
-    " ?artistAssociated rdf:type ?type. " +
-    // "   optional {  " +
-    // "     ?artistAssociated dct:description ?description.  " +
-    // "     ?description rdfs:label ?description .  " +
-    // "     filter langMatches(lang(?description), 'en')  " +
-    // "  }  " +
-    "  filter langMatches(lang(?name), 'en')  " +
-    "  filter ( ?type IN (dbo:MusicalArtist, dbo:MusicalBand) )  " +
-    " }  " ;
-    //" GROUP BY ?prop "
-    return sparqlClient.runQuery(query, [], []);
-  },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  getBandMember(bandName) {
-    // call dbpedia for get artist info
-    var query = " " +
-    " select distinct * { " +
-    " ?artistAssociated dbo:associatedBand dbr:" + artistName + ". " +
     " ?artistAssociated  rdfs:label ?name.  " +
     " ?artistAssociated rdf:type ?type. " +
     // "   optional {  " +

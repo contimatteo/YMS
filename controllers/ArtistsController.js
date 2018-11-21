@@ -204,7 +204,7 @@ var self = module.exports = {
     return new Promise(function (resolve, reject) {
       var artistNameFormatted = self._artistNameFormatter(artistName);
       var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
-      return SparqlController.getBandMemeber(artistNameFormatted).then(function (membersList) {
+      return SparqlController.getBandMember(artistNameFormatted).then(function (membersList) {
           var results = membersList.results.bindings;
           var promises = [];
           results.forEach(bandMember => {
