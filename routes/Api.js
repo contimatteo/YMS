@@ -19,7 +19,7 @@ module.exports = function (app, passport) {
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/recommender/popularity/local/absolute', function (req, res) {
-    TestController.localView(res).then(function (result) {
+    RecommenderController.localAbsolutePopularity(res).then(function (result) {
       res.send(result);
     }).catch(function (error) {
       res.send(error);

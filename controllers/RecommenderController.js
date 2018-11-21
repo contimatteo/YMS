@@ -45,7 +45,8 @@ module.exports = {
         },
         order: [
           ['id', 'ASC']
-        ]
+        ],
+        limit: 20
       }).then(results => {
         var promises = [];
         var videoFounded = RecommenderHelper.localRelativePopularityCounter(results, videoId);
@@ -70,8 +71,13 @@ module.exports = {
   random(response) {
     return new Promise((resolve, reject) => {
       Video.findAll({
+        include: [
+        {
+          model: Channel
+        }
+      ],
         order: Sequelize.literal('rand()'), 
-        limit: 5
+        limit: 20
       }).then(function (videoRandom) {
         resolve(videoRandom);
       }).catch(function (error) {
@@ -83,17 +89,6 @@ module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   recent(response, userId) {
     return new Promise((resolve, reject) => {
-      // ViewsHistory.findAll({ 
-      //   where: {
-      //     FKUserId: userId
-      //   },
-      //   order: [['updatedAt', 'DESC']],
-      //   limit: 15 
-      // }).then(function (videoRecent) {
-      //   resolve (videoRecent);
-      // }).catch(function (error) {
-      //   reject(error);
-      // });
       Video.findAll({
         include: [{
             model: User,
@@ -105,7 +100,7 @@ module.exports = {
             model: Channel
           }
         ],
-        limit: 15,
+        limit: 20,
         order: [
           ['updatedAt', 'DESC']
         ],
@@ -116,6 +111,27 @@ module.exports = {
         reject(error);
       });
     })
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  localAbsolutePopularity(response) {
+    return new Promise((resolve, reject) => {
+      Video.findAll({
+        include: [
+          {
+            model: Channel
+          }
+        ],
+        order: [
+          ['views', 'DESC']
+        ],
+        limit: 20
+      }).then(function (videoFound) {
+        resolve(videoFound)
+      }).catch(function (error) {
+        console.log("%j", error);
+        reject(error);
+      })
+    });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };

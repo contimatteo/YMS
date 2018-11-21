@@ -1,15 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
-<body>
-<div class="images">
-  <img src="/assets/img/images/god.jpg" alt="" align='left' width="420px" height="410px">
-  <img src="/assets/img/images/merda.jpg" alt="" align='center' width="420px" height="410px">
-  <img src="/assets/img/images/pizza.jpg" alt="" align='right'width="420px" height="410px">
-</div>
-<div class="text">
-  <p style:'align=left'>Matteo Aka God </p>
-  <p style:'align=middle'>Enrico Aka La merda</p>
-  <p style:'align=right'>Diri Aka porta pizze</p>
-</div>
+<html>
 
+<head>
+  <title>About Us</title>
+  <% include ../../components/header.ejs %>
+</head>
+
+<body id="body" class="body-wrapper boxed-menu">
+  <div class="main-wrapper">
+    <% include ../../components/preloader.ejs %>
+    <% include ../../components/navbar.ejs %>
+
+    <section class="user-profile-section bg-light">
+      <div class="container">
+        <div class="user-profile">
+          <div class="row">
+            <div class="col-xs-12 col-sm-4">
+              <div class="user-img">
+                <img src="/assets/img/images/god.jpg" alt="User Image">
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-8">
+              <div class="user-profile-content">
+                <h3 class="user-name">Matteo Conti</h3>
+                <span class="designation">God</span>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste necessitatibus eum, libero tempora consequuntur explicabo saepe aut sapiente iusto ipsum.</p>
+                <ul class="user-contact-details">
+                  <li><i class="fa fa-phone" aria-hidden="true"></i>[88] 657 524 332</li>
+                  <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="#">info@listy.com</a></li>
+                </ul>
+                <div class="verified-user"><i class="fa fa-user-o" aria-hidden="true"></i> veryfied account</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="user-profile">
+          <div class="row">
+            <div class="col-xs-12 col-sm-4">
+              <div class="user-img">
+                <img src="/assets/img/images/pizza.jpg" alt="User Image">
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-8">
+              <div class="user-profile-content">
+                <h3 class="user-name">Dario Campomori</h3>
+                <span class="designation">Porta Pizze</span>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste necessitatibus eum, libero tempora consequuntur explicabo saepe aut sapiente iusto ipsum.</p>
+                <ul class="user-contact-details">
+                  <li><i class="fa fa-phone" aria-hidden="true"></i>[88] 657 524 332</li>
+                  <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="#">info@listy.com</a></li>
+                </ul>
+                <div class="verified-user"><i class="fa fa-user-o" aria-hidden="true"></i> veryfied account</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="user-profile">
+          <div class="row">
+            <div class="col-xs-12 col-sm-4">
+              <div class="user-img">
+                <img src="/assets/img/images/merda.jpg" alt="User Image">
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-8">
+              <div class="user-profile-content">
+                <h3 class="user-name">Enrico Fabbri</h3>
+                <span class="designation">Merda</span>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste necessitatibus eum, libero tempora consequuntur explicabo saepe aut sapiente iusto ipsum.</p>
+                <ul class="user-contact-details">
+                  <li><i class="fa fa-phone" aria-hidden="true"></i>[88] 657 524 332</li>
+                  <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="#">info@listy.com</a></li>
+                </ul>
+                <div class="verified-user"><i class="fa fa-user-o" aria-hidden="true"></i> veryfied account</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <% include ../../components/footer.ejs %>
+	</div>
+	<% include ../../components/footer-import.ejs %>
 </body>

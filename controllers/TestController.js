@@ -81,21 +81,5 @@ var self = module.exports = {
     // importare i dati
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  localView(response) {
-    return new Promise((resolve, reject) => {
-      Video.findAll({
-        order: [
-          ['views', 'DESC']
-        ],
-        limit: 10
-      }).then(function (videoTrovati) {
-        resolve(videoTrovati)
-      }).catch(function (error) {
-        console.log("%j", error);
-        reject(error);
-      })
-    });
-  },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 };

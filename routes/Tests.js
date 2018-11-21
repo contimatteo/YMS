@@ -46,9 +46,6 @@ module.exports = function (app, passport) {
     });
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/aboutUs', function (req, res) {
-    res.render('pages/aboutUs/aboutUs')
-  });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/globpop', function(req, res){
     var id = req.query.id       //mi prende l id del video, che mi passa chi vuole il json
