@@ -3,37 +3,41 @@
 
   <head>
     <title>Home</title>
-    <% include ../components/header.ejs %>
+    <% include ../../components/header.ejs %>
   </head>
 
   <body id="body" class="body-wrapper boxed-menu">
     <div class="main-wrapper">
-      <% include ../components/preloader.ejs %>
-        <% include ../components/navbar.ejs %>
+      <% include ../../components/preloader.ejs %>
+        <% include ../../components/navbar-home.ejs %>
           <!-- BANNER SECTION -->
-          <section class="clearfix homeBanner" style="background-image: url(/assets/img/banner/banner1.jpg);">
+          <section class="clearfix homeBanner" style="background-image: url(/assets/img/home-header.jpeg);">
             <div class="container">
               <div class="row">
                 <div class="col-xs-12">
                   <div class="banerInfo">
-                    <h1>Explore and Discover Music</h1>
-                    <p>YMS helps to find out great music video around you.</p>
-                    <form class="form-inline" action="listing-sidebar-map-left.html" method="">
-                      <div class="form-group">
+                    <h1 style="text-shadow: 5px 3px black; font-size:40px;">Explore and Discover Music</h1>
+                    <br>
+                    <!--<h4 style="text-shadow: 2.5px 2.5px black; color:white; text-transform: none;">YMS helps to find out great music video around you.</h4>-->
+                    <br>
+                    <form class="form-inline" action="/videos/search" method="post">
+                      <div class="form-group" style="width:50%">
                         <div class="input-group">
-                          <div class="input-group-addon">Find</div>
-                          <input type="text" class="form-control" id="findItem" placeholder="What are you looking for?">
+                          <div class="input-group-addon">Song</div>
+                          <input type="text" class="form-control" id="findItem" name="search_string" placeholder="Which song are you looking for?">
                           <div class="input-group-addon addon-right"></div>
                         </div>
                       </div>
-                      <div class="form-group">
-                        <div class="input-group">
-                          <div class="input-group-addon">Near</div>
-                          <input type="text" class="form-control" id="nearLocation" placeholder="Location">
-                          <div class="input-group-addon addon-right"><i class="icon-listy icon-target" aria-hidden="true"></i></div>
+                      <div class="form-group" style="width:20%">
+                        <div class="searchSelectbox">
+                          <select name="search_type" id="guiest_id4" class="select-drop" sb="9254521" style="display: none;">
+                            <option value="ArtistiCanzoni">Artisti & Canzoni</option>
+                            <option value="Canali">Canali</option>
+                            <option value="ID">ID youtube</option>
+                          </select>
                         </div>
                       </div>
-                      <button type="submit" class="btn btn-primary">Search <i class="fa fa-search" aria-hidden="true"></i></button>
+                      <button type="submit" class="btn btn-primary">Search <!-- <i class="fa fa-search" aria-hidden="true"></i>--></button>
                     </form>
                   </div>
                 </div>
@@ -45,70 +49,71 @@
           <section class="clearfix interestArea">
             <div class="container">
               <div class="page-header text-center">
-                <h2>What are You Interested in? <small>Explore and connect with great local businesses</small></h2>
+                <h2>What is your favourite genre?</h2>
+                <h2><small style="text-transform: none;">explore all our categories and enjoy the music</small></h2>
               </div>
               <div class="row">
                 <div class="col-sm-3 col-xs-12">
                   <a href="category-grid-full.html" class="interestContent">
       					<span>
-      						<i class="icon-listy icon-tea-cup-1"></i>
-      						Restaurant
+      						<i class="icon-listy icon-light-bolt"></i>
+      						Rock
       					</span>
       				</a>
                 </div>
                 <div class="col-sm-3 col-xs-12">
                   <a href="category-list-full.html" class="interestContent">
       					<span>
-      						<i class="icon-listy icon-building"></i>
-      						Hotels
+      						<i class="icon-listy icon-saturn"></i>
+      						Electronic
       					</span>
       				</a>
                 </div>
                 <div class="col-sm-3 col-xs-12">
                   <a href="category-grid.html" class="interestContent">
       					<span>
-      						<i class="icon-listy icon-martini"></i>
-      						Nightclubs
+      						<i class="icon-listy icon-rocket-ship"></i>
+      						Reggae
       					</span>
       				</a>
                 </div>
                 <div class="col-sm-3 col-xs-12">
                   <a href="category-list-left.html" class="interestContent">
       					<span>
-      						<i class="icon-listy icon-car-1"></i>
-      						Auto Motive
+      						<i class="icon-listy icon-martini"></i>
+      						Indie
       					</span>
       				</a>
                 </div>
                 <div class="col-sm-3 col-xs-12">
                   <a href="category-grid-right.html" class="interestContent">
       					<span>
-      						<i class="icon-listy icon-castle"></i>
-      						Museums
+      						<i class="icon-listy icon-microphone-2"></i>
+      						Rap
       					</span>
       				</a>
                 </div>
                 <div class="col-sm-3 col-xs-12">
                   <a href="category-list-right.html" class="interestContent">
       					<span>
-      						<i class="icon-listy icon-television"></i>
-      						Movie Theaters
+      						<i class="icon-listy icon-speaker"></i>
+      						Hip Hop
       					</span>
       				</a>
                 </div>
                 <div class="col-sm-3 col-xs-12">
                   <a href="category-grid-full.html" class="interestContent">
       					<span>
-      						<i class="icon-listy icon-mall-1"></i>
-      						Shopping
+      						<i class="icon-listy icon-armchair"></i>
+      						Classic
       					</span>
       				</a>
                 </div>
                 <div class="col-sm-3 col-xs-12">
                   <a href="all-business.html" class="interestContent">
       					<span>
-      						<i class="icon-listy icon-more"></i>
-      						View All
+      						<i class="icon-listy icon-lollipop-1"></i>
+      						  R & B
       					</span>
       				</a>
                 </div>
@@ -120,7 +125,8 @@
           <section class="clearfix thingsArea">
             <div class="container">
               <div class="page-header text-center">
-                <h2>Popular Things Near You <small>This are some of most popular listing</small></h2>
+                <h2>Hot Songs</h2>
+                <h2><small style="text-transform: none;">this are some of most popular songs</small></h2>
               </div>
               <div class="row">
                 <div class="col-xs-12">
@@ -128,7 +134,7 @@
 
                     <ol class="carousel-indicators">
                       <li data-target="#thubmnailSlider" data-slide-to="0" class="active"></li>
-                      <li data-target="#thubmnailSlider" data-slide-to="1"></li>
+                      <!--<li data-target="#thubmnailSlider" data-slide-to="1"></li>-->
                       <li data-target="#thubmnailSlider" data-slide-to="2"></li>
                       <li data-target="#thubmnailSlider" data-slide-to="3"></li>
                       <li data-target="#thubmnailSlider" data-slide-to="4"></li>
@@ -143,7 +149,7 @@
                         <div class="col-md-4 col-sm-6 col-xs-12">
                           <div class="thingsBox">
                             <div class="thingsImage">
-                              <img src="/assets/img/things/things-4.jpg" alt="Image things">
+                              <img src="/assets/img/things/things-11.jpg" alt="Image things"> 
                               <div class="thingsMask">
                                 <ul class="list-inline rating">
                                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -152,14 +158,14 @@
                                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                 </ul>
-                                <a href="listing-details-left.html"><h2>Think Coffee <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
-                                <p>215 Terry Lane, New York</p>
+                                <a href="listing-details-left.html"><h2>Hotel Govendor <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
+                                <p>778 Country Street, New York</p>
                               </div>
-                            </div>
+                              </div>
                             <div class="thingsCaption ">
                               <ul class="list-inline captionItem">
                                 <li><i class="fa fa-heart-o" aria-hidden="true"></i> 8 k</li>
-                                <li><a href="category-list-full.html">Eat & Drink</a></li>
+                                <li><a href="category-list-full.html">Music</a></li>
                               </ul>
                             </div>
                           </div>
@@ -170,23 +176,23 @@
                         <div class="col-md-4 col-sm-6 col-xs-12">
                           <div class="thingsBox">
                             <div class="thingsImage">
-                              <img src="/assets/img/things/things-5.jpg" alt="Image things">
-                              <div class="thingsMask">
-                                <ul class="list-inline rating">
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                                </ul>
-                                <a href="listing-details-left.html"><h2>Burger House</h2></a>
-                                <p>2726 Shinn Street, New York</p>
-                              </div>
+                            <img src="/assets/img/things/things-11.jpg" alt="Image things">
+                            <div class="thingsMask">
+                              <ul class="list-inline rating">
+                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                              </ul>
+                              <a href="listing-details-left.html"><h2>Hotel Govendor <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
+                              <p>778 Country Street, New York</p>
+                            </div>
                             </div>
                             <div class="thingsCaption ">
                               <ul class="list-inline captionItem">
                                 <li><i class="fa fa-heart-o" aria-hidden="true"></i> 9.2 k</li>
-                                <li><a href="category-grid-full.html">Eat & Drink</a></li>
+                                <li><a href="category-grid-full.html">Music</a></li>
                               </ul>
                             </div>
                           </div>
@@ -197,7 +203,7 @@
                         <div class="col-md-4 col-sm-6 col-xs-12">
                           <div class="thingsBox">
                             <div class="thingsImage">
-                              <img src="/assets/img/things/things-8.jpg" alt="Image things">
+                              <img src="/assets/img/things/things-11.jpg" alt="Image things">
                               <div class="thingsMask">
                                 <ul class="list-inline rating">
                                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -213,7 +219,7 @@
                             <div class="thingsCaption ">
                               <ul class="list-inline captionItem">
                                 <li><i class="fa fa-heart-o" aria-hidden="true"></i> 5k</li>
-                                <li><a href="category-grid-full.html">Hotels</a></li>
+                                <li><a href="category-grid-full.html">Music</a></li>
                               </ul>
                             </div>
                           </div>
@@ -224,7 +230,7 @@
                         <div class="col-md-4 col-sm-6 col-xs-12">
                           <div class="thingsBox">
                             <div class="thingsImage">
-                              <img src="/assets/img/things/things-10.jpg" alt="Image things">
+                              <img src="/assets/img/things/things-11.jpg" alt="Image things">
                               <div class="thingsMask">
                                 <ul class="list-inline rating">
                                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -233,14 +239,14 @@
                                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                 </ul>
-                                <a href="listing-details-left.html"><h2>Water Grill</h2></a>
-                                <p>31 Union Square, New York</p>
+                                <a href="listing-details-left.html"><h2>Hotel Govendor <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
+                                <p>778 Country Street, New York</p>
                               </div>
                             </div>
                             <div class="thingsCaption ">
                               <ul class="list-inline captionItem">
                                 <li><i class="fa fa-heart-o" aria-hidden="true"></i> 10 k</li>
-                                <li><a href="category-grid.html"> Eat & Drink</a></li>
+                                <li><a href="category-grid.html">Music</a></li>
                               </ul>
                             </div>
                           </div>
@@ -259,14 +265,14 @@
                                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                   <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                 </ul>
-                                <a href="listing-details-left.html"><h2>John F. Kennedy Airport <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
-                                <p>Queens, NY 11430, new York</p>
+                                <a href="listing-details-left.html"><h2>Hotel Govendor <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
+                                <p>778 Country Street, New York</p>
                               </div>
                             </div>
                             <div class="thingsCaption ">
                               <ul class="list-inline captionItem">
                                 <li><i class="fa fa-heart-o" aria-hidden="true"></i> 15 k</li>
-                                <li><a href="category-list-full.html">Others</a></li>
+                                <li><a href="category-list-full.html">Music</a></li>
                               </ul>
                             </div>
                           </div>
@@ -407,28 +413,9 @@
               </div>
             </div>
           </section>
-
-
-          <!-- CALL TO ACTION SECTION -->
-          <section class="clearfix callAction">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-10 col-sm-9 col-xs-12">
-                  <div class="callInfo">
-                    <h4><span>Listty</span> is the <span>best way</span> <br>to find great local business</h4>
-                  </div>
-                </div>
-                <div class="col-md-2 col-sm-3 col-xs-12">
-                  <div class="btnArea">
-                    <a href="sign-up.html" class="btn btn-primary btn-block">Get Started</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <% include ../components/footer.ejs %>
+          <% include ../../components/footer.ejs %>
     </div>
-    <% include ../components/footer-import.ejs %>
+    <% include ../../components/footer-import.ejs %>
   </body>
 
 </html>

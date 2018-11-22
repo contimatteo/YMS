@@ -2,36 +2,46 @@
 
 module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  signup(req, res) {
-    res.render('pages/auth/signup');
+  signup(request, response) {
+    return response.render('pages/auth/signup');
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  signin(req, res) {
-    res.render('pages/auth/signin');
+  signin(request, response) {
+    return response.render('pages/auth/signin');
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  dashboard(req, res) {
-    res.render('pages/dashboard');
+  dashboard(request, response) {
+    return response.render('pages/dashboard');
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  logout(req, res) {
-    req.session.destroy(function (err) {
-      res.redirect('/');
+  logout(request, response) {
+    request.session.destroy(function (err) {
+      return response.redirect('/');
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  userLoggedIn(req, res, next) {
+  userLoggedIn(request, response, next) {
     // save request url
-    req.session.previous_url = req.originalUrl;
-    // check if user is authenticated
-    if (req.isAuthenticated())
+    request.session.previous_url = request.originalUrl; 
+    // check if user is logged
+    if (request.isAuthenticated()) {
+      // user is logged
       return next();
-    else
+    }
+    else {
       // no logged user
-      res.redirect('/signin');
+      // res.redirect('/signin');
+      return next();
+    }
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  
+  currentUser(req, res) {
+    if (req && req.user) {
+        return req.user;
+    } else {
+        return null;
+    }
+}
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 };
 

@@ -193,10 +193,14 @@
 	font-size: 12px;
 	padding: 11px 17px;
 	text-transform: uppercase;
+	border:1.5pt solid transparent;
 }
 .searchSelectbox .sbOptions a:hover{
     color: #2196f3 !important;
-    background-color: #dedede;
+		/* background-color: #dedede; */
+		background-color: white;
+		border:1.5pt solid #2196f3;
+		font-weight: 500;
 }
 /* SEARCH SELECT BOX 2 */
 .searchSelectboxes{

@@ -1,22 +1,20 @@
 ////////////////////////////////////////////////////////////////////////////////
-
 // IMPORT MODULE
 var express     =   require('express');
-var ApiRoutes   =   require('./routes/Api');
-var WebRoutes   =   require('./routes/Web');
-var AuthRoutes  =   require('./routes/Auth');
+var middleware  =   express.Router();
 var cors        =   require('cors');
 var bodyParser  =   require('body-parser');
 var passport    =   require('passport');
 var session     =   require('express-session');
-
 ////////////////////////////////////////////////////////////////////////////////
-
+// 
+var ORMClass = require('./libraries/ORM.js');
+global.ORM = new ORMClass();
+////////////////////////////////////////////////////////////////////////////////
 // IMPORT SCHEMA
 // ...
 
 ////////////////////////////////////////////////////////////////////////////////
-
 // INSTANCE GLOBAL OBJECT
 var app = express();
 // app.use(cors({ origin: 'http://italiancoders.it'}));   // project url
@@ -35,15 +33,24 @@ app.use(passport.session()); // persistent login sessions
 require('./libraries/Passport.js')(passport);
 
 ////////////////////////////////////////////////////////////////////////////////
-
+// PASSPORT
+app.use(session({ secret: 'yms-youtube-music-spider', resave: true, saveUninitialized:true})); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+require('./libraries/Passport.js')(passport);
+////////////////////////////////////////////////////////////////////////////////
 // MIDDLEWARE 1
-app.use(function(req, res, next) {
-  // console.log("MIDDLEWARE 1 : controllo di sicurezza passatto correttamente");
+app.use(function (request, response, next) {
+  if (request.isAuthenticated()) {
+   response.locals.AuthenticatedUser = request.user;
+  }
+  else {
+    response.locals.AuthenticatedUser = null;
+  }
   next();
 });
 
 ////////////////////////////////////////////////////////////////////////////////
-
 // MIDDLEWARE 2
 app.use(function(req, res, next) {
   // console.log("MIDDLEWARE 2 : controllo di sicurezza passatto correttamente");
@@ -71,7 +78,19 @@ AuthRoutes(app, passport);
 require('./libraries/Passport.js')(passport);
 
 ////////////////////////////////////////////////////////////////////////////////
-
+// ROUTES
+var ApiRoutes   =   require('./routes/Api');
+var WebRoutes   =   require('./routes/Web');
+var AuthRoutes  =   require('./routes/Auth');
+var TestsRoutes  =   require('./routes/Tests');
+ApiRoutes(app, passport);
+WebRoutes(app, passport);
+AuthRoutes(app, passport);
+TestsRoutes(app, passport);
+////////////////////////////////////////////////////////////////////////////////
+// PASSPORT
+require('./libraries/Passport.js')(passport);
+////////////////////////////////////////////////////////////////////////////////
 // LISTENER
 app.listen(app.get('port'), function() {
   console.log("••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••");

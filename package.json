@@ -19,9 +19,8 @@
   "scripts": {
     "start": "node --harmony -r dotenv/config index.js",
     "nodemon": "./node_modules/nodemon/bin/nodemon.js index.js",
-    "generate:models": "sh ./auto-generate-models.sh",
     "generate:migration": "node ./node_modules/sequelize-auto-migrations/bin/makemigration --name",
-    "import:migration": "node ./node_modules/sequelize-auto-migrations/bin/runmigration",
+    "import:migrations": "node ./node_modules/sequelize-auto-migrations/bin/runmigration",
     "preview:migration": "node ./node_modules/sequelize-auto-migrations/bin/makemigration --preview"
   },
   "dependencies": {
@@ -31,24 +30,26 @@
     "cors": "^2.8.4",
     "dotenv": "^6.1.0",
     "ejs": "^2.6.1",
-    "express": "^4.16.3",
+    "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
     "jshint": "^2.9.6",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.1",
+    "node-youtube": "^0.2.4",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "sequelize": "^4.39.0",
+    "sequelize": "^4.41.0",
     "sequelize-auto": "^0.4.29",
     "sequelize-auto-migrations": "^1.0.2",
-    "sparql-client-2": "^0.6.2",
+    "sparql-client-2": "^0.6.3",
     "uglify-js": "^3.4.9",
+    "youtube-comment-api": "^3.0.2",
     "youtube-node": "^1.3.2"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4",
+    "nodemon": "^1.18.6",
     "request": "^2.88.0",
     "tape": "^4.7.0"
   }

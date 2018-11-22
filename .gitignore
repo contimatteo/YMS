@@ -1,12 +1,15 @@
 
 # nodejs application
 **/.DS_Store
-**/node_modules/*
+**/node_modules/
 **/*.env
 **/client_secret.json
 **/sftp-config.json
 **/auto-generate-models.sh
-#**/models/baseStructure/*
+#**/models/BaseStructure/*
 **/*.sql
 **/*.zip
-**/config/*
+**/config/
+*.txt
+auto-generate-models-local.sh
+**/auto-generate-models.bat

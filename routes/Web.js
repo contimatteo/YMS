@@ -1,60 +1,123 @@
 ////////////////////////////////////////////////////////////////////////////////
-var TestController = require('../controllers/TestController.js');
-var AjaxRequest = require('../libraries/AjaxRequest.js');
+var VideosController = require('../controllers/VideosController.js');
+var ArtistsController = require('../controllers/ArtistsController.js');
 var AuthController = require('../controllers/AuthController.js');
 ////////////////////////////////////////////////////////////////////////////////
-const testController = new TestController();
-const ajaxRequest = new AjaxRequest();
+const defaultVideoNumbers = 10;
 ////////////////////////////////////////////////////////////////////////////////
-module.exports = function(app, passport) {
-  // main route
-  app.get('/', function(request, response) {
-    response.send('Progetto TW');
-    //response.render('pages/index');
+
+module.exports = function (app, passport) {
+  ////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////// MAIN ROUTE //////////////////////////////////
+  // search page route
+  app.get('/', function (req, res) {
+    res.render('pages/home/home');
   });
-  // route for testing db
-  app.get('/db', AuthController.userLoggedIn, function(request, response) {
-    testController.visualizzoDatiDiProva(response);
+  ////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////// VIDEOS ROUTE /////////////////////////////////
+  // search page route
+  app.get('/videos', AuthController.userLoggedIn, function (req, res) {
+    res.send("/videos");
   });
-  // api testing route
-  app.get('/api', function(request, response) {
-    ajaxRequest.jsonRequest("https://reqres.in/api/users", "GET", {}, function(result) {
-      response.send(result.data);
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // search page route
+  app.get('/videos/search', AuthController.userLoggedIn, function (req, res) {
+    var pageToken = req.query.page;
+    VideosController.index(res, "Eminem", "", pageToken, defaultVideoNumbers);
+  });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.post('/videos/search', AuthController.userLoggedIn, function (req, res) {
+    var searchString = req.body.search_string;
+    var searchType = req.body.search_type;
+    var pageToken = req.query.page;
+    VideosController.index(res, searchString, searchType, pageToken, defaultVideoNumbers);
+  });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // search page route
+  app.get('/videos/suggestioned', AuthController.userLoggedIn, function (req, res) {
+    res.send("/suggestioned");
+  });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // show single video
+  app.get('/videos/:id', AuthController.userLoggedIn, function (req, res) {
+    var youtubeId = req.params.id;
+    // create and render video page
+    VideosController.create(res, youtubeId).then(function (videoObject) {
+      VideosController.show(res, youtubeId);
+      // save video history
+      var currentUser = AuthController.currentUser(req, res);
+      if(currentUser) 
+        VideosController.storeUserAndVideoHistoryPartialAssociation(currentUser.id, videoObject.id);
+    }).catch(function (error) {
+      console.log("%j", error);
+      res.send(error);
     });
   });
-  // api testing route
-  app.get('/youtube', AuthController.userLoggedIn, function(request, response) {
-    testController.ricercaVideo(response, "Linkin Park", 5);
-  });
-  // api testing route
-  app.get('/youtube/:id', AuthController.userLoggedIn, function(request, response) {
-    var id = request.params.id;
-    testController.visualizzoVideo(response, id);
-  });
-  // SPARQL testing route
-  app.get('/sparql', function(request, response) {
-    testController.sparql(response);
-  });
-  // orm 1 testing route
-  app.get('/orm1', AuthController.userLoggedIn, function(request, response) {
-    testController.orm1(response);
-  });
-  // orm 2 testing route
-  // app.get('/orm2', function(request, response) {
-  //   testController.orm2(response);
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // route for testing video creation
+  // app.get('/videos/:id/create', function (req, res) {
+  //   var youtubeId = req.params.id;
+  //   VideosController.create(res, youtubeId).then(function (results) {
+  //     res.send(results);
+  //   }).catch(function (error) {
+  //     console.log(error);
+  //     res.send(error);
+  //   });
   // });
-  app.get('/orm2', AuthController.userLoggedIn, testController.orm2);
-  // orm 3 testing route
-  app.get('/orm3', function(request, response) {
-    testController.orm3(response);
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/videos/:id/viewed/:user', function (req, res) {
+    var id = req.params.id;
+    var userId = req.params.user;
+    VideosController.addView(res, userId, id);
   });
-  // orm 4 testing route
-  app.get('/orm4', function(request, response) {
-    testController.orm3(response);
+  ////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////// USERS ROUTE /////////////////////////////////
+  // search page route
+  app.get('/user', AuthController.userLoggedIn, function (req, res) {
+    res.send("/user");
   });
-  // enri testing views
-  app.get('/enri/view/index', function(request, response) {
-    testController.viewIndex(response);
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/user/playlist', AuthController.userLoggedIn, function (req, res) {
+    res.send("/user/playlist");
   });
+  ////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////// ARTISTS ROUTE /////////////////////////////////
+  // search page route
+  // app.get('/artists/:name/create', function (req, res) {
+  //   var name = req.params.name;
+  //   ArtistsController.create(res, name).then(function (artistCreated) {
+  //       res.send(artistCreated);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //       res.send(error);
+  //     });
+  // });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // get artist info
+  // app.get('/artists/:name', function (req, res) {
+  //   var name = req.params.name;
+  //   ArtistsController.getArtistInfo(res, name).then(function (artistData) {
+  //       res.send(artistData);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //       res.send(error);
+  //     });
+  // });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/artists/:name/create/relations/artists', function (req, res) {
+    var name = req.params.name;
+    ArtistsController.createRelated(res, name);
+  });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/suggestioned', function (req, res) {
+    VideosController.showSuggestionedVideos(res);
+  });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/aboutUs', function (req, res) {
+    res.render('pages/aboutUs/aboutUs')
+  });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
 ////////////////////////////////////////////////////////////////////////////////

@@ -3233,6 +3233,7 @@ a.link:hover {
 
 .transparent-navbar.navbar-default {
   z-index: 99;
+  height:auto;
 }
 
 .transparent-navbar.navbar-default .navbar-btn {
@@ -3459,7 +3460,7 @@ footer {
 }
 
 .footerInfo {
-  padding: 96px 0 60px 0;
+  padding: 45px 0 45px 0;
 }
 
 @media (min-width: 768px) {
@@ -6739,6 +6740,7 @@ input[type=radio]:focus,
 }
 
 .sidebarInner .panel {
+  width:auto;
   margin-bottom: 0;
   border: none;
   box-shadow: none;
@@ -7046,7 +7048,7 @@ input[type=radio]:focus,
 
 @media (min-width: 1200px) {
   .blogDetials .sidebarInner {
-    width: 320px;
+    /* width: 320px; */
     float: right;
   }
 }

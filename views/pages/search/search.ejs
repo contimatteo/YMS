@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Home</title>
+	<% include ../../components/header.ejs %>
+</head>
+
+<body id="body" class="body-wrapper boxed-menu">
+	<div class="main-wrapper">
+		<% include ../../components/preloader.ejs %>
+		<% include ../../components/navbar.ejs %>
+		<!-- CATEGORY LIST SECTION -->
+		<section class="clearfix" style="padding: 40px 0;">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="banerInfo" style="padding-top:0px;">
+							<form class="form-inline" action="/videos/search" method="post" id="form">
+								<div class="form-group" style="width:50%; border: 2px solid #2196f3; border-radius: 4px;">
+									<div class="input-group">
+										<div class="input-group-addon" style="border-right: 1px solid #2196f3;">Song</div>
+										<!-- search string -->
+										<%if (request.searchString) { %>
+										<input name="search_string" type="text" class="form-control" id="findItem" placeholder="Which song are you looking for?"
+										 value="<%= request.searchString %>">
+										<% } %>
+										<%if (!request.searchString) { %>
+										<input name="search_string" type="text" class="form-control" id="findItem" placeholder="Which song are you looking for?">
+										<% } %>
+										<div class="input-group-addon addon-right"></div>
+									</div>
+								</div>
+								<div class="form-group" style="width:20%; border: 2px solid #2196f3; border-radius: 4px;">
+									<div class="searchSelectbox">
+										<select name="search_type" id="guiest_id4" class="select-drop" sb="9254521" style="display: none;">
+											<option value="ArtistiCanzoni">Artisti & Canzoni</option>
+											<option value="Canali">Canali</option>
+											<option value="ID">ID youtube</option>
+										</select>
+									</div>
+								</div>
+								<button type="submit" class="btn btn-primary">Search
+									<!-- <i class="fa fa-search" aria-hidden="true"></i>--></button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="clerfix" style="padding: 20px 0;">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 col-xs-12">
+						<div class="resultBar barSpaceAdjust">
+							<h2>We found <span>
+									<%= data.length %></span> Results for you</h2>
+						</div>
+						<% data.forEach(function(videoObject) { %>
+						<div class="listContent">
+							<div class="row">
+								<div class="col-sm-4 col-xs-12">
+									<div class="categoryImage">
+										<a href="/videos/<%= videoObject.id.videoId %>">
+											<img src="<%= videoObject.snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
+										</a>
+										<!-- <span class="label label-primary">Verified</span> -->
+									</div>
+								</div>
+								<div class="col-sm-8 col-xs-12">
+									<div class="categoryDetails">
+										<h2>
+											<a href="/videos/<%= videoObject.id.videoId %>" style="color: #222222">
+												<%= videoObject.snippet.title %>
+											</a>
+											<span class="likeCount"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp; 10k</span>
+										</h2>
+										<p> youtube channel: <span class="placeName">
+												<%= videoObject.snippet.channelTitle %> </span></p>
+										<p>
+											<%= videoObject.snippet.description %>
+										</p>
+										<p>
+											published at: <span class="placeName">
+												<%= videoObject.snippet.publishedAt%></span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<% }); %>
+						<div class="paginationCommon blogPagination categoryPagination" style="margin-top: 15px; margin-bottom: 30px;">
+							<div class="row">
+								<div class="col-lg-6">
+									<nav aria-label="Page navigation" style="text-align:left;">
+										<ul class="pagination">
+											<li>
+												<%if (request.previousPage) { %>
+												<a onclick="goToPage('<%= request.previousPage%>')" aria-label="Previous" style="width: 125px; cursor:pointer;">
+													<span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp; Previous</span>
+												</a>
+												<% } %>
+											</li>
+										</ul>
+									</nav>
+								</div>
+								<div class="col-lg-6">
+									<nav aria-label="Page navigation" style="text-align:right;">
+										<ul class="pagination">
+											&nbsp; &nbsp; &nbsp;
+											<li>
+												<%if (request.nextPage) { %>
+												<a onclick="goToPage('<%= request.nextPage%>')" aria-label="Next" style="width: 95px; cursor:pointer;">
+													<span aria-hidden="true">Next &nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></span>
+												</a>
+												<% } %>
+											</li>
+										</ul>
+									</nav>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<% include ../../components/footer.ejs %>
+	</div>
+	<% include ../../components/footer-import.ejs %>
+</body>
+
+
+
+<script>
+	function goToPage(pageToken) {
+		$("#form").attr("action", "/videos/search?page=" + pageToken);
+		$("#form").submit();
+	}
+</script>
+
+
+</html>
