@@ -10,19 +10,21 @@ var Sequelize = require('sequelize');
  * createTable "Channels", deps: []
  * createTable "Logs", deps: []
  * createTable "Users", deps: []
- * createTable "ArtistsAndBands", deps: [Artists, Bands]
+ * createTable "ArtistsAndBands", deps: [Artists, Artists]
+ * createTable "ArtistsRelated", deps: [Artists, Artists]
  * createTable "Videos", deps: [Channels]
  * createTable "Playlists", deps: [Users]
  * createTable "FavoriteVideos", deps: [Videos, Users]
  * createTable "PlaylistsAndVideos", deps: [Playlists, Videos]
- * createTable "Productions", deps: [Bands, Videos]
+ * createTable "Productions", deps: [Artists, Videos]
+ * createTable "ViewsHistory", deps: [Videos, Users]
  *
  **/
 
 var info = {
     "revision": 1,
-    "name": "noname",
-    "created": "2018-10-31T14:03:41.589Z",
+    "name": "firstRelease",
+    "created": "2018-11-22T08:56:33.878Z",
     "comment": ""
 };
 
@@ -32,40 +34,46 @@ var migrationCommands = [{
             "Artists",
             {
                 "id": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "name": {
-                    "type": "VARCHAR(255)",
+                    "type": VARCHAR(255),
                     "defaultValue": "",
                     "allowNull": false
                 },
                 "createdAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 },
                 "updatedAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 },
                 "url": {
-                    "type": "VARCHAR(255)",
+                    "type": VARCHAR(255),
                     "unique": true,
                     "defaultValue": "",
                     "allowNull": false
                 },
                 "description": {
-                    "type": "TEXT",
+                    "type": TEXT,
+                    "allowNull": true
+                },
+                "dbpedia_type": {
+                    "type": VARCHAR(255),
                     "allowNull": true
                 },
                 "type": {
-                    "type": "VARCHAR(255)",
+                    "type": ENUM('', 'artist', 'band'),
+                    "defaultValue": "artist",
                     "allowNull": true
                 },
                 "formatted_name": {
-                    "type": "VARCHAR(255)",
+                    "type": VARCHAR(255),
+                    "unique": true,
                     "defaultValue": "",
                     "allowNull": false
                 }
@@ -79,44 +87,44 @@ var migrationCommands = [{
             "Bands",
             {
                 "id": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "name": {
-                    "type": "VARCHAR(255)",
+                    "type": VARCHAR(255),
                     "defaultValue": "",
                     "allowNull": false
                 },
                 "createdAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 },
                 "updatedAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 },
                 "members_number": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "allowNull": false
                 },
                 "url": {
-                    "type": "VARCHAR(255)",
+                    "type": VARCHAR(255),
                     "unique": true,
                     "defaultValue": "",
                     "allowNull": false
                 },
                 "description": {
-                    "type": "TEXT",
+                    "type": TEXT,
                     "allowNull": true
                 },
                 "type": {
-                    "type": "VARCHAR(255)",
+                    "type": VARCHAR(255),
                     "allowNull": true
                 },
                 "formatted_name": {
-                    "type": "VARCHAR(255)",
+                    "type": VARCHAR(255),
                     "allowNull": true
                 }
             },
@@ -129,22 +137,27 @@ var migrationCommands = [{
             "Channels",
             {
                 "id": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "name": {
-                    "type": "VARCHAR(11)",
+                    "type": VARCHAR(255),
                     "allowNull": true
                 },
                 "createdAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 },
                 "updatedAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
+                },
+                "youtube_id": {
+                    "type": VARCHAR(255),
+                    "unique": true,
+                    "allowNull": false
                 }
             },
             {}
@@ -156,17 +169,17 @@ var migrationCommands = [{
             "Logs",
             {
                 "id": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "createdAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 },
                 "updatedAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 }
             },
@@ -179,36 +192,36 @@ var migrationCommands = [{
             "Users",
             {
                 "id": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "createdAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 },
                 "updatedAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 },
                 "password": {
-                    "type": "VARCHAR(255)",
+                    "type": VARCHAR(255),
                     "defaultValue": "",
                     "allowNull": false
                 },
                 "email": {
-                    "type": "VARCHAR(150)",
+                    "type": VARCHAR(150),
                     "unique": true,
                     "defaultValue": "",
                     "allowNull": false
                 },
                 "firstname": {
-                    "type": "VARCHAR(150)",
+                    "type": VARCHAR(150),
                     "allowNull": true
                 },
                 "lastname": {
-                    "type": "VARCHAR(150)",
+                    "type": VARCHAR(150),
                     "allowNull": true
                 }
             },
@@ -221,13 +234,13 @@ var migrationCommands = [{
             "ArtistsAndBands",
             {
                 "id": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "FKArtistId": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "references": {
                         "model": "Artists",
                         "key": "id"
@@ -235,19 +248,58 @@ var migrationCommands = [{
                     "allowNull": false
                 },
                 "FKBandId": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "references": {
-                        "model": "Bands",
+                        "model": "Artists",
                         "key": "id"
                     },
                     "allowNull": false
                 },
                 "createdAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 },
                 "updatedAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
+                    "allowNull": true
+                }
+            },
+            {}
+        ]
+    },
+    {
+        fn: "createTable",
+        params: [
+            "ArtistsRelated",
+            {
+                "id": {
+                    "type": INTEGER(11) UNSIGNED,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "allowNull": false
+                },
+                "FKArtist1Id": {
+                    "type": INTEGER(11),
+                    "references": {
+                        "model": "Artists",
+                        "key": "id"
+                    },
+                    "allowNull": false
+                },
+                "FKArtist2Id": {
+                    "type": INTEGER(11),
+                    "references": {
+                        "model": "Artists",
+                        "key": "id"
+                    },
+                    "allowNull": false
+                },
+                "createdAt": {
+                    "type": DATETIME,
+                    "allowNull": true
+                },
+                "updatedAt": {
+                    "type": DATETIME,
                     "allowNull": true
                 }
             },
@@ -260,22 +312,22 @@ var migrationCommands = [{
             "Videos",
             {
                 "id": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "title": {
-                    "type": "VARCHAR(11)",
+                    "type": VARCHAR(255),
                     "defaultValue": "",
                     "allowNull": false
                 },
                 "description": {
-                    "type": "TEXT",
+                    "type": TEXT,
                     "allowNull": true
                 },
                 "FKChannelId": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "references": {
                         "model": "Channels",
                         "key": "id"
@@ -283,22 +335,26 @@ var migrationCommands = [{
                     "allowNull": true
                 },
                 "createdAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 },
                 "updatedAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 },
                 "views": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "defaultValue": "0",
                     "allowNull": false
                 },
                 "youtube_id": {
-                    "type": "VARCHAR(20)",
+                    "type": VARCHAR(20),
                     "unique": true,
                     "defaultValue": "",
+                    "allowNull": false
+                },
+                "image_url": {
+                    "type": TEXT,
                     "allowNull": false
                 }
             },
@@ -311,21 +367,21 @@ var migrationCommands = [{
             "Playlists",
             {
                 "id": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "createdAt": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "allowNull": true
                 },
                 "updatedAt": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "allowNull": true
                 },
                 "FKUserId": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "references": {
                         "model": "Users",
                         "key": "id"
@@ -342,13 +398,13 @@ var migrationCommands = [{
             "FavoriteVideos",
             {
                 "id": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "FKVideoId": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "references": {
                         "model": "Videos",
                         "key": "id"
@@ -356,7 +412,7 @@ var migrationCommands = [{
                     "allowNull": false
                 },
                 "FKUserId": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "references": {
                         "model": "Users",
                         "key": "id"
@@ -364,11 +420,11 @@ var migrationCommands = [{
                     "allowNull": false
                 },
                 "createdAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 },
                 "updatedAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 }
             },
@@ -381,13 +437,13 @@ var migrationCommands = [{
             "PlaylistsAndVideos",
             {
                 "id": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "FKPlaylistId": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "references": {
                         "model": "Playlists",
                         "key": "id"
@@ -395,7 +451,7 @@ var migrationCommands = [{
                     "allowNull": true
                 },
                 "FKVideoId": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "references": {
                         "model": "Videos",
                         "key": "id"
@@ -403,11 +459,11 @@ var migrationCommands = [{
                     "allowNull": true
                 },
                 "createdAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 },
                 "updatedAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 }
             },
@@ -420,21 +476,21 @@ var migrationCommands = [{
             "Productions",
             {
                 "id": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
                 },
                 "FKMusicianId": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "references": {
-                        "model": "Bands",
+                        "model": "Artists",
                         "key": "id"
                     },
                     "allowNull": false
                 },
                 "FKVideoId": {
-                    "type": "INTEGER(11)",
+                    "type": INTEGER(11),
                     "references": {
                         "model": "Videos",
                         "key": "id"
@@ -442,12 +498,56 @@ var migrationCommands = [{
                     "allowNull": false
                 },
                 "createdAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
                 },
                 "updatedAt": {
-                    "type": "DATETIME",
+                    "type": DATETIME,
                     "allowNull": true
+                }
+            },
+            {}
+        ]
+    },
+    {
+        fn: "createTable",
+        params: [
+            "ViewsHistory",
+            {
+                "id": {
+                    "type": INTEGER(11) UNSIGNED,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "allowNull": false
+                },
+                "FKVideoId": {
+                    "type": INTEGER(11),
+                    "references": {
+                        "model": "Videos",
+                        "key": "id"
+                    },
+                    "allowNull": false
+                },
+                "FKUserId": {
+                    "type": INTEGER(11),
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "allowNull": false
+                },
+                "createdAt": {
+                    "type": DATETIME,
+                    "allowNull": true
+                },
+                "updatedAt": {
+                    "type": DATETIME,
+                    "allowNull": true
+                },
+                "complete": {
+                    "type": INTEGER(1),
+                    "defaultValue": "0",
+                    "allowNull": false
                 }
             },
             {}
