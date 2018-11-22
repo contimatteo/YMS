@@ -29,7 +29,7 @@ module.exports = class AjaxRequest {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   constructor() {
     // Set the headers
-    this.headers = {
+    this.headers = {  
       'User-Agent': 'YMS Agent/0.0.1',
       'Content-Type': 'application/json'
     };
