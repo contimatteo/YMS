@@ -11,7 +11,7 @@ var Productions = require("./baseStructure/Productions.js")(global.ORM.sequelize
 var Band = require("./baseStructure/Bands.js")(global.ORM.sequelize, DataTypes);
 var Video = require("./baseStructure/Videos.js")(global.ORM.sequelize, DataTypes);
 var ArtistsAndBands = require("./baseStructure/ArtistsAndBands.js")(global.ORM.sequelize, DataTypes);
-var ArtistsRelated = require("./baseStructure/Artistsrelated.js")(global.ORM.sequelize, DataTypes);
+var ArtistsRelated = require("./baseStructure/ArtistsRelated.js")(global.ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // define relation
 Artist.belongsToMany(Artist, {
