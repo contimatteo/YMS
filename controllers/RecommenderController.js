@@ -139,7 +139,6 @@ module.exports = {
   related(response, id) {
     return new Promise((resolve, reject) => {
       youtubeRelated.getVideoRelatedById(id, 20).then(function (results) {
-        console.log("%j", results);
         resolve(results);
       }).catch(function (error) {
         console.log("%j", error);
