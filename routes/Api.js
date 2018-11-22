@@ -43,10 +43,19 @@ module.exports = function (app, passport) {
       res.send(error);
     });
   });
-
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/recommender/recent/:user', function (req, res) {
     var userId = req.params.user;
     RecommenderController.recent(res,userId).then(function (result) {
+      res.send(result);
+    }).catch(function (error) {
+      res.send(error);
+    });
+  });
+   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+   app.get('/recommender/related/:id', function (req, res) {
+    var id = req.params.id;
+    RecommenderController.related(res,id).then(function (result) {
       res.send(result);
     }).catch(function (error) {
       res.send(error);

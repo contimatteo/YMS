@@ -2,6 +2,8 @@
 var RecommenderHelper = require('./helpers/RecommenderHelper.js');
 var VideosController = require('./VideosController.js');
 var AjaxRequestClass = require('../libraries/AjaxRequest.js');
+var youtubeRelatedd = require('../libraries/YoutubeApi.js');
+var youtubeRelated = new youtubeRelatedd();
 var AjaxRequest = new AjaxRequestClass();
 
 var ViewsHistory = require("../models/ViewsHistory.js");
@@ -134,6 +136,17 @@ module.exports = {
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  related(response, id) {
+    return new Promise((resolve, reject) => {
+      youtubeRelated.getVideoRelatedById(id, 20).then(function (results) {
+        console.log("%j", results);
+        resolve(results);
+      }).catch(function (error) {
+        console.log("%j", error);
+        reject(error);
+      });
+    });
+  },
 };
 
 var VideosController = require('./VideosController.js');
