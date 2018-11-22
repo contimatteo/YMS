@@ -46,7 +46,6 @@ self = module.exports = {
     }
     // order results by view
     videoList = self._orderVideoHistoryFoundedByViews(videoList);
-    console.log("%j", videoList);
     return videoList;
   },
 

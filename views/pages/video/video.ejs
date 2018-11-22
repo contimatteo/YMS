@@ -337,16 +337,14 @@
       url: "/recommender/related/<%= video.youtube_id %>",
       cache: false,
       success: function (videoList) {
-        console.log("ppppp");
-        console.log(videoList);
         $("#recommender-related").text("");
-        $(videoList).each((index, relatedObject) => {
+        $(videoList.items).each((index, relatedObject) => {
+          console.log(relatedObject);
           if (relatedObject != null)
-            createVideoElement("#related", relatedObject.id.videoId, relatedObject.snippet.thumbnails.medium.url, relatedObject.snippet.title, relatedObject.snippet.channelTitle, "Related");
+            createVideoElement("#recommender-related", relatedObject.id.videoId, relatedObject.snippet.thumbnails.medium.url, relatedObject.snippet.title, relatedObject.snippet.channelTitle, "Related");
         })
       },
       error: function (error) {
-        console.log("ppppp");
         console.log(error)
       }
     });
