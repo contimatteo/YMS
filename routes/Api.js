@@ -26,10 +26,10 @@ module.exports = function (app, passport) {
     });
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/recommender/popularity/local/relative/:user/:video', function (req, res) {
+  app.get('/recommender/popularity/local/relative/:video', function (req, res) {
     var videoId = req.params.video;
-    var userId = req.params.user;
-    RecommenderController.localRelativePopularity(res, userId, videoId).then(function (result) {
+    // var userId = req.params.user;
+    RecommenderController.localRelativePopularity(res, videoId).then(function (result) {
       res.send(result);
     }).catch(function (error) {
       res.send(error);
@@ -56,6 +56,15 @@ module.exports = function (app, passport) {
    app.get('/recommender/related/:id', function (req, res) {
     var id = req.params.id;
     RecommenderController.related(res,id).then(function (result) {
+      res.send(result);
+    }).catch(function (error) {
+      res.send(error);
+    });
+  });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/recommender/popularity/global/relative/:video', function (req, res) {
+    var videoId = req.params.video;
+    RecommenderController.globalRelativePopularity(res, videoId).then(function (result) {
       res.send(result);
     }).catch(function (error) {
       res.send(error);

@@ -29,7 +29,7 @@ function createVideoElement(containerId, videoId, videoImageUrl, videoTitle, cha
     " <p> " +
     " youtube channel: <span class='placeName'>" + channelTitle + "</span> " +
     " <br> " +
-    " Reccomended by Random Algorithm " +
+    " Reccomended by <span class='placeName'>" + recommender + "</span> " +
     " </p> " +
     " </div> " +
     " </div> " +

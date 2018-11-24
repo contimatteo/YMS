@@ -11,10 +11,11 @@ var User = require("../models/User.js");
 var Video = require("../models/Video.js");
 var Channel = require("../models/Channel.js");
 const Sequelize = require('sequelize');
+
+const otherGroupsLinks = require('../json/otherGroupsLinks.json');
 ////////////////////////////////////////////////////////////////////////////////
 
-// module.exports = class TestController {
-module.exports = {
+var self = module.exports = {
   // fvitali get request
   vitali(id) {
     return new Promise((resolve, reject) => {
@@ -39,12 +40,13 @@ module.exports = {
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  localRelativePopularity(response, userId, videoId) {
+  localRelativePopularity(response, videoId) {
     return new Promise((resolve, reject) => {
       ViewsHistory.findAll({
-        where: {
-          FKUserId: userId
-        },
+        // INFO: no filters on user id
+        // where: {
+        //   FKUserId: userId   
+        // },
         order: [
           ['id', 'ASC']
         ],
@@ -73,12 +75,10 @@ module.exports = {
   random(response) {
     return new Promise((resolve, reject) => {
       Video.findAll({
-        include: [
-        {
+        include: [{
           model: Channel
-        }
-      ],
-        order: Sequelize.literal('rand()'), 
+        }],
+        order: Sequelize.literal('rand()'),
         limit: 20
       }).then(function (videoRandom) {
         resolve(videoRandom);
@@ -118,11 +118,9 @@ module.exports = {
   localAbsolutePopularity(response) {
     return new Promise((resolve, reject) => {
       Video.findAll({
-        include: [
-          {
-            model: Channel
-          }
-        ],
+        include: [{
+          model: Channel
+        }],
         order: [
           ['views', 'DESC']
         ],
@@ -140,6 +138,47 @@ module.exports = {
     return new Promise((resolve, reject) => {
       youtubeRelated.getVideoRelatedById(id, 20).then(function (results) {
         resolve(results);
+      }).catch(function (error) {
+        console.log("%j", error);
+        reject(error);
+      });
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  globalRelativePopularity(response, videoId) {
+    return new Promise((resolve, reject) => {
+      self.localRelativePopularity(null, videoId).then(function (videosFounded) {
+        VideosController.getVideoById(videoId).then(function (videoObject) {
+            var promises = [];
+            otherGroupsLinks.urls.forEach((url, index) => {
+              promises.push(AjaxRequest.jsonRequest(url + videoObject.youtube_id, 'GET', {}));
+            });
+            Promise.all(promises)
+              .then(function (groupsVideos) {
+                var promises2 = [];
+                var videoResults = RecommenderHelper.globalRelativePopularity(videosFounded, groupsVideos);
+                // foreach video calculated
+                videoResults.forEach(video => {
+                  promises2.push(VideosController._getVideoInfo(null, video.id));
+                });
+                Promise.all(promises2)
+                  .then(videosData => {
+                    resolve(videosData);
+                  })
+                  .catch(error => {
+                    console.log("%j", error);
+                    reject(error);
+                  });
+              })
+              .catch(function (error) {
+                console.log("%j", error);
+                resolve(null);
+              });
+          })
+          .catch(function (error) {
+            console.log("%j", error);
+            reject(error);
+          });
       }).catch(function (error) {
         console.log("%j", error);
         reject(error);
