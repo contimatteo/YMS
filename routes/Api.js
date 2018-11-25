@@ -64,12 +64,22 @@ module.exports = function (app, passport) {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/recommender/popularity/global/relative/:video', function (req, res) {
     var videoId = req.params.video;
-    RecommenderController.globalRelativePopularity(res, videoId).then(function (result) {
+    RecommenderController.globalRelativePopularity(videoId).then(function (result) {
       res.send(result);
     }).catch(function (error) {
       res.send(error);
     });
   });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/recommender/popularity/global/absolute/:video', function (req, res) {
+    var videoId = req.params.video;
+    RecommenderController.globalAbsolutePopularity(videoId).then(function (result) {
+      res.send(result);
+    }).catch(function (error) {
+      res.send(error);
+    });
+  });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 };
 ////////////////////////////////////////////////////////////////////////////////

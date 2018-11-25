@@ -145,7 +145,48 @@ var self = module.exports = {
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  globalRelativePopularity(response, videoId) {
+  globalAbsolutePopularity(videoId) {
+    return new Promise((resolve, reject) => {
+      self.localAbsolutePopularity(null).then(function (videosFounded) {
+        VideosController.getVideoById(videoId).then(function (videoObject) {
+            var promises = [];
+            otherGroupsLinks.urls.forEach((url, index) => {
+              promises.push(AjaxRequest.jsonRequest(url + videoObject.youtube_id, 'GET', {}));
+            });
+            Promise.all(promises)
+              .then(function (groupsVideos) {
+                var promises2 = [];
+                var videoResults = RecommenderHelper.globalAbsolutePopularity(videosFounded, groupsVideos);
+                // foreach video calculated
+                videoResults.forEach(video => {
+                  promises2.push(VideosController._getVideoInfo(null, video.id));
+                });
+                Promise.all(promises2)
+                  .then(videosData => {
+                    resolve(videosData);
+                  })
+                  .catch(error => {
+                    console.log("%j", error);
+                    reject(error);
+                  });
+              })
+              .catch(function (error) {
+                console.log("%j", error);
+                resolve(null);
+              });
+          })
+          .catch(function (error) {
+            console.log("%j", error);
+            reject(error);
+          });
+      }).catch(function (error) {
+        console.log("%j", error);
+        reject(error);
+      });
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  globalRelativePopularity(videoId) {
     return new Promise((resolve, reject) => {
       self.localRelativePopularity(null, videoId).then(function (videosFounded) {
         VideosController.getVideoById(videoId).then(function (videoObject) {

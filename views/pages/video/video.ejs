@@ -126,28 +126,17 @@
                 </nav>
                 <br>
                 <div class="tab-content" id="pills-tabContent">
-                  <div class="tab-pane fade" id="recommender-recent" role="tabpanel" aria-labelledby="recommender-recent-tab">Carico
-                    i Risultati ...</div>
-                  <div class="tab-pane fade active in" id="recommender-vitali" role="tabpanel" aria-labelledby="recommender-vitali-tab">Carico
-                    i Risultati ...</div>
-                  <div class="tab-pane fade" id="recommender-random" role="tabpanel" aria-labelledby="recommender-random-tab">Carico
-                    i Risultati ...</div>
-                  <div class="tab-pane fade" id="recommender-related" role="tabpanel" aria-labelledby="recommender-related-tab">Carico
-                    i Risultati ...</div>
-                  <div class="tab-pane fade" id="recommender-local-relative-popularity" role="tabpanel" aria-labelledby="recommender-local-relative-popularity-tab">Carico
-                    i Risultati ...</div>
-                  <div class="tab-pane fade" id="recommender-local-absolute-popularity" role="tabpanel" aria-labelledby="recommender-local-absolute-popularity-tab">Carico
-                    i Risultati ...</div>
-                  <div class="tab-pane fade" id="recommender-global-relative-popularity" role="tabpanel"
-                    aria-labelledby="recommender-global-relative-popularity-tab">Carico i Risultati ...</div>
-                  <div class="tab-pane fade" id="recommender-global-absolute-popularity" role="tabpanel"
-                    aria-labelledby="recommender-global-absolute-popularity-tab">Carico i Risultati ...</div>
-                  <div class="tab-pane fade" id="recommender-artists-similarity" role="tabpanel" aria-labelledby="recommender-artists-similarity-tab">Carico
-                    i Risultati ...</div>
-                  <div class="tab-pane fade" id="recommender-genres-similarity" role="tabpanel" aria-labelledby="recommender-genres-similarity-tab">Carico
-                    i Risultati ...</div>
-                  <div class="tab-pane fade" id="recommender-band-members-similarity" role="tabpanel" aria-labelledby="recommender-band-members-similarity-tab">Carico
-                    i Risultati ...</div>
+                  <div class="tab-pane fade" id="recommender-recent" role="tabpanel" aria-labelledby="recommender-recent-tab">Loading ...</div>
+                  <div class="tab-pane fade active in" id="recommender-vitali" role="tabpanel" aria-labelledby="recommender-vitali-tab">Loading ...</div>
+                  <div class="tab-pane fade" id="recommender-random" role="tabpanel" aria-labelledby="recommender-random-tab">Loading ...</div>
+                  <div class="tab-pane fade" id="recommender-related" role="tabpanel" aria-labelledby="recommender-related-tab">Loading ...</div>
+                  <div class="tab-pane fade" id="recommender-local-relative-popularity" role="tabpanel" aria-labelledby="recommender-local-relative-popularity-tab">Loading ...</div>
+                  <div class="tab-pane fade" id="recommender-local-absolute-popularity" role="tabpanel" aria-labelledby="recommender-local-absolute-popularity-tab">Loading ...</div>
+                  <div class="tab-pane fade" id="recommender-global-relative-popularity" role="tabpanel" aria-labelledby="recommender-global-relative-popularity-tab">Loading ...</div>
+                  <div class="tab-pane fade" id="recommender-global-absolute-popularity" role="tabpanel" aria-labelledby="recommender-global-absolute-popularity-tab">Loading ...</div>
+                  <div class="tab-pane fade" id="recommender-artists-similarity" role="tabpanel" aria-labelledby="recommender-artists-similarity-tab">Loading ...</div>
+                  <div class="tab-pane fade" id="recommender-genres-similarity" role="tabpanel" aria-labelledby="recommender-genres-similarity-tab">Loading ...</div>
+                  <div class="tab-pane fade" id="recommender-band-members-similarity" role="tabpanel" aria-labelledby="recommender-band-members-similarity-tab">Loading ...</div>
                 </div>
               </div>
             </div>
@@ -231,12 +220,14 @@
 
 <script>
   $(document).ready(function ($) {
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // vitali recommender
     $.ajax({
       type: "GET",
       url: "/recommender/vitali/<%= video.id %>",
       cache: false,
       success: function (videoList) {
+        console.log("Algoritmo di Vitali caricato correttamente");
         $("#recommender-vitali").text("");
         $(videoList).each((index, vitaliVideoObject) => {
           if (vitaliVideoObject != null)
@@ -249,14 +240,53 @@
         console.log(error)
       }
     });
-
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // global absolute popularity recommender
+    $.ajax({
+      type: "GET",
+      url: "/recommender/popularity/global/absolute/<%= video.id %>",
+      cache: false,
+      success: function (videoList) {
+        $("#recommender-global-absolute-popularity").text("");
+        console.log("Algoritmo di Popolarità Globale Assoluta caricato correttamente");
+        $(videoList).each((index, videoObject) => {
+          createVideoElement("#recommender-global-absolute-popularity", videoObject[0].id,
+            videoObject[0].snippet.thumbnails.medium.url, videoObject[0].snippet.title, videoObject[0].snippet.channelTitle,
+            "Global Absolute Popularity");
+        })
+      },
+      error: function (error) {
+        console.log(error)
+      }
+    });
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // global relative popularity recommender
+    $.ajax({
+      type: "GET",
+      url: "/recommender/popularity/global/relative/<%= video.id %>",
+      cache: false,
+      success: function (videoList) {
+        console.log("Algoritmo di Popolarità Globale Relativa caricato correttamente");
+        $("#recommender-global-relative-popularity").text("");
+        $(videoList).each((index, videoObject) => {
+          createVideoElement("#recommender-global-relative-popularity", videoObject[0].id,
+            videoObject[0].snippet.thumbnails.medium.url, videoObject[0].snippet.title, videoObject[0].snippet.channelTitle,
+            "Global Relative Popularity");
+        })
+      },
+      error: function (error) {
+        console.log(error)
+      }
+    });
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // local relative popularity recommender
-    $("#recommender-local-relative-popularity").text("");
     $.ajax({
       type: "GET",
       url: "/recommender/popularity/local/relative/<%= video.id %>",
       cache: false,
       success: function (videoList) {
+        console.log("Algoritmo di Popolarità Locale Relativa caricato correttamente");
+        $("#recommender-local-relative-popularity").text("");
         $(videoList).each((index, videoObject) => {
           createVideoElement("#recommender-local-relative-popularity", videoObject.youtube_id,
             videoObject.image_url, videoObject.title, videoObject.Channel.name,
@@ -267,16 +297,16 @@
         console.log(error)
       }
     });
-
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // recent recommender
     <%if(AuthenticatedUser) { %>
-    $("#recommender-recent").text("");
     $.ajax({
       type: "GET",
       url: "/recommender/recent/<%=AuthenticatedUser.id%>",
       cache: false,
       success: function (videoList) {
-        // console.log(videoList);
+        console.log("Algoritmo Video Recenti caricato correttamente");
+        $("#recommender-recent").text("");
         $(videoList).each((index, videoObject) => {
           createVideoElement("#recommender-recent", videoObject.youtube_id, videoObject.image_url,
             videoObject.title, videoObject.Channel.name, "Recent");
@@ -289,15 +319,15 @@
     <% } else{ %>
     $("#recommender-recent").text("Sezione disponibile solo effettuando il login")
     <% } %>
-
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // random recommender
-    $("#recommender-random").text("");
     $.ajax({
       type: "GET",
       url: "/recommender/random/",
       cache: false,
       success: function (videoList) {
-        // console.log(videoList);
+        console.log("Algoritmo Random caricato correttamente");
+        $("#recommender-random").text("");
         $(videoList).each((index, videoObject) => {
           createVideoElement("#recommender-random", videoObject.youtube_id, videoObject.image_url,
             videoObject.title, videoObject.Channel.name, "Random");
@@ -307,14 +337,15 @@
         console.log(error)
       }
     });
-
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // local absolute popularity recommender
-    $("#recommender-local-absolute-popularity").text("");
     $.ajax({
       type: "GET",
       url: "/recommender/popularity/local/absolute",
       cache: false,
       success: function (videoList) {
+        console.log("Algoritmo di Popolarità Locale Assoluta caricato correttamente");
+        $("#recommender-local-absolute-popularity").text("");
         $(videoList).each((index, videoObject) => {
           createVideoElement("#recommender-local-absolute-popularity", videoObject.youtube_id,
             videoObject.image_url, videoObject.title, videoObject.Channel.name,
@@ -325,13 +356,14 @@
         console.log(error)
       }
     });
-
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // related recommender
     $.ajax({
       type: "GET",
       url: "/recommender/related/<%= video.youtube_id %>",
       cache: false,
       success: function (videoList) {
+        console.log("Algoritmo Related Youtube caricato correttamente");
         $("#recommender-related").text("");
         $(videoList.items).each((index, relatedObject) => {
           if (relatedObject != null)
@@ -342,26 +374,7 @@
         console.log(error)
       }
     });
-
-    // global relative popularity recommender
-    $("#recommender-global-relative-popularity").text("");
-    $.ajax({
-      type: "GET",
-      url: "/recommender/popularity/global/relative/<%= video.id %>",
-      cache: false,
-      success: function (videoList) {
-        console.log(videoList);
-        $(videoList).each((index, videoObject) => {
-          createVideoElement("#recommender-global-relative-popularity", videoObject[0].id,
-            videoObject[0].snippet.thumbnails.medium.url, videoObject[0].snippet.title, videoObject[0].snippet.channelTitle,
-            "Global Relative Popularity");
-        })
-      },
-      error: function (error) {
-        console.log(error)
-      }
-    });
-
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
   });

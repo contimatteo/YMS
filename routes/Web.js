@@ -55,15 +55,15 @@ module.exports = function (app, passport) {
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // route for testing video creation
-  // app.get('/videos/:id/create', function (req, res) {
-  //   var youtubeId = req.params.id;
-  //   VideosController.create(res, youtubeId).then(function (results) {
-  //     res.send(results);
-  //   }).catch(function (error) {
-  //     console.log(error);
-  //     res.send(error);
-  //   });
-  // });
+  app.get('/videos/:id/create', function (req, res) {
+    var youtubeId = req.params.id;
+    VideosController.create(res, youtubeId).then(function (results) {
+      res.send(results);
+    }).catch(function (error) {
+      console.log(error);
+      res.send(error);
+    });
+  });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/videos/:id/viewed/:user', function (req, res) {
     var id = req.params.id;
