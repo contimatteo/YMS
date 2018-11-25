@@ -22,11 +22,11 @@ Artist.belongsToMany(Artist, {
 });
 
 // define relation
-Artist.belongsToMany(ArtistsRelated, {
-  through: ArtistsAndBands,
+Artist.belongsToMany(Artist, {
+  through: ArtistsRelated,
   foreignKey: 'FKArtist1Id',
   otherKey: 'FKArtist2Id',
-  as: 'ArtistsRelated'
+  as: 'Related'
 });
 
 // define relation

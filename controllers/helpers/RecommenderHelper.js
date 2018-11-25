@@ -1,5 +1,6 @@
 // ////////////////////////////////////////////////////////////////////////////////
-const recommenderNumber = 20;
+var constants = require('./ConstantsHelper.js');
+const recommenderNumber = constants.recommenderVideosNumber;
 
 var self = module.exports = {
 
@@ -127,10 +128,10 @@ var self = module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   globalRelativePopularity(myVideosFounded, groupsVideos) {
     var videoList = [];
-    var hit=0;
+    var hit = 0;
     // foreach group's json
     groupsVideos.forEach((singleJsonResponse, index) => {
-      hit=0;
+      hit = 0;
       if (self._validateGroupJson(singleJsonResponse)) {
         // this json is valid
         singleJsonResponse.recommended.forEach((video, index) => {
@@ -154,7 +155,7 @@ var self = module.exports = {
         });
       }
     });
-    hit=0;
+    hit = 0;
     // foreach recommended by my local relative algorithm
     myVideosFounded.forEach((myVideo, index) => {
       hit++;
@@ -207,8 +208,8 @@ var self = module.exports = {
             // set new date as last selected 
             viewObject.lastWatched = lastWatched;
           }
-          if(viewObject.hit > hit) {
-             // set new hit as current
+          if (viewObject.hit > hit) {
+            // set new hit as current
             viewObject.hit = hit;
           }
         } catch (error) {
@@ -229,6 +230,42 @@ var self = module.exports = {
     } else trovato = false;
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  artistSimilarity(artistsFounded) {
+    var numberOfArtists = 0;
+    var artistsRelatedNames = [];
+    // count artist related numbers
+    artistsFounded.forEach(function (artistObject, index) {
+      numberOfArtists += artistObject.Related.length;
+      // foreach related artist
+      artistObject.Related.forEach(function (artist, index) {
+        //   console.log(artist.name)
+        artistsRelatedNames.push(artist.name);
+      });
+    });
+    // limit max number of videos
+    var numVideosForEachArtist = 0;
+    var remainder = 0;
+    if (numberOfArtists > constants.recommenderVideosNumber) {
+      numberOfArtists = constants.recommenderVideosNumber;
+      numVideosForEachArtist = 1;
+      remainder = 0;
+    } else {
+      numVideosForEachArtist = Math.floor(constants.recommenderVideosNumber / numberOfArtists);
+      remainder = constants.recommenderVideosNumber - (numberOfArtists * numVideosForEachArtist);
+    }
+    var artistVideoNums = [];
+    for (var i = 0; i < numberOfArtists; i++) {
+      var currentNumberOfVideos = 0;
+      if (remainder > 0) {
+        currentNumberOfVideos = numVideosForEachArtist + 1;
+        remainder -= 1;
+      } else
+        currentNumberOfVideos = numVideosForEachArtist;
+      // set current related artist videos number
+      artistVideoNums.push(currentNumberOfVideos);
+    };
+    return {artistsNames: artistsRelatedNames, artistsVideosNumbers: artistVideoNums};
+  },
 };
 
 // ////////////////////////////////////////////////////////////////////////////////

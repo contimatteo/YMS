@@ -14,6 +14,7 @@ module.exports = function (app, passport) {
         res.send(result);
       })
       .catch(function (error) {
+        res.status(400);
         res.send(error);
       });
   });
@@ -22,6 +23,7 @@ module.exports = function (app, passport) {
     RecommenderController.localAbsolutePopularity(res).then(function (result) {
       res.send(result);
     }).catch(function (error) {
+      res.status(400);
       res.send(error);
     });
   });
@@ -32,6 +34,7 @@ module.exports = function (app, passport) {
     RecommenderController.localRelativePopularity(res, videoId).then(function (result) {
       res.send(result);
     }).catch(function (error) {
+      res.status(400);
       res.send(error);
     });
   });
@@ -40,6 +43,7 @@ module.exports = function (app, passport) {
     RecommenderController.random(null).then(function (result) {
       res.send(result);
     }).catch(function (error) {
+      res.status(400);
       res.send(error);
     });
   });
@@ -49,6 +53,7 @@ module.exports = function (app, passport) {
     RecommenderController.recent(res,userId).then(function (result) {
       res.send(result);
     }).catch(function (error) {
+      res.status(400);
       res.send(error);
     });
   });
@@ -58,6 +63,7 @@ module.exports = function (app, passport) {
     RecommenderController.related(res,id).then(function (result) {
       res.send(result);
     }).catch(function (error) {
+      res.status(400);
       res.send(error);
     });
   });
@@ -67,6 +73,7 @@ module.exports = function (app, passport) {
     RecommenderController.globalRelativePopularity(videoId).then(function (result) {
       res.send(result);
     }).catch(function (error) {
+      res.status(400);
       res.send(error);
     });
   });
@@ -76,6 +83,17 @@ module.exports = function (app, passport) {
     RecommenderController.globalAbsolutePopularity(videoId).then(function (result) {
       res.send(result);
     }).catch(function (error) {
+      res.status(400);
+      res.send(error);
+    });
+  });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/recommender/similarity/artist/:video', function (req, res) {
+    var videoId = req.params.video;
+    RecommenderController.artistSimilarity(res, videoId).then(function (result) {
+      res.send(result);
+    }).catch(function (error) {
+      res.status(400);
       res.send(error);
     });
   });

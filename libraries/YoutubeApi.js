@@ -33,7 +33,6 @@ module.exports = class YoutubeApi_Library {
         if (error) {
           console.log("%j", error);
           reject(new Error(error.message));
-          // console.log(error);
         }
         // all goes ok
         resolve(result);

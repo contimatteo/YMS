@@ -285,4 +285,22 @@ var self = module.exports = {
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  getRelatedArtistsById(artistId){
+    return new Promise((resolve, reject) => {
+      Artist.findOne({
+        include: [{
+          model: Artist,
+          as: 'Related'
+        }],
+        where: {
+          id: artistId
+        }
+      }).then(results => {
+        resolve(results);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
