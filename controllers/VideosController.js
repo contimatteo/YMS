@@ -332,7 +332,7 @@ var self = module.exports = {
           // });
           //resolve(videosData);
           //response.send(videosData);
-          response.render('pages/vitali/vitali', {
+          response.render('pages/video/suggestioned', {
             data: videosData
         });
       })

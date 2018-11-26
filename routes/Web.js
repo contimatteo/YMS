@@ -115,8 +115,8 @@ module.exports = function (app, passport) {
     VideosController.showSuggestionedVideos(res);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/aboutUs', function (req, res) {
-    res.render('pages/aboutUs/aboutUs')
+  app.get('/about-us', function (req, res) {
+    res.render('pages/about/about-us')
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
