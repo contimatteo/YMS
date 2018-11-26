@@ -2,45 +2,49 @@
 <html>
 
 <head>
+  <title>Home</title>
   <% include ../../components/header.ejs %>
 </head>
 
 <body id="body" class="body-wrapper boxed-menu">
   <div class="main-wrapper">
+    <% include ../../components/preloader.ejs %>
     <% include ../../components/navbar.ejs %>
-    <div class="container">
-      <% var cont=-1; %>
-      <% data.forEach(function(videoObject) { %>
-      <% if (videoObject != null) { %>
+    <!-- CATEGORY LIST SECTION -->
+    <section class="clearfix" style="padding: 40px 0;">
+      <div class="container">
+        <% var cont=-1; %>
+        <% data.forEach(function(videoObject) { %>
+        <% if (videoObject != null) { %>
         <% cont++; %>
-      <% if (cont%2==0) { %>
-      <div class="listContent">
-        <div class="row">
-          <div class="col-sm-3 col-xs-12">
-            <div class="categoryImage">
-              <a href="/videos/<%= videoObject[0].id %>">
-                <img src="<%= videoObject[0].snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
-              </a>
-            </div>
-          </div>
-          <div class="col-sm-3 col-xs-12">
-            <div class="categoryDetails">
-              <br>
-              <h3>
-                <a href="/videos/<%= videoObject[0].id %>" style="color: #222222">
-                  <%= videoObject[0].snippet.title %>
+        <% if (cont%2==0) { %>
+        <div class="listContent">
+          <div class="row">
+            <div class="col-sm-3 col-xs-12">
+              <div class="categoryImage">
+                <a href="/videos/<%= videoObject[0].id %>">
+                  <img src="<%= videoObject[0].snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
                 </a>
-              </h3>
-              <p> youtube channel: <span class="placeName">
-                  <%= videoObject[0].snippet.channelTitle %> </span></p>
-              <!-- <p>
+              </div>
+            </div>
+            <div class="col-sm-3 col-xs-12">
+              <div class="categoryDetails">
+                <br>
+                <h3>
+                  <a href="/videos/<%= videoObject[0].id %>" style="color: #222222">
+                    <%= videoObject[0].snippet.title %>
+                  </a>
+                </h3>
+                <p> youtube channel: <span class="placeName">
+                    <%= videoObject[0].snippet.channelTitle %> </span></p>
+                <!-- <p>
                 published at: <span class="placeName">
                   <%= videoObject[0].snippet.publishedAt%></span>
               </p> -->
+              </div>
             </div>
-          </div>
-          <% } %>
-          <% if (cont%2!=0) { %>
+            <% } %>
+            <% if (cont%2!=0) { %>
             <div class="col-sm-3 col-xs-12">
               <div class="categoryImage">
                 <a href="/videos/<%= videoObject[0].id %>">
@@ -64,12 +68,18 @@
                 </p> -->
               </div>
             </div>
+          </div>
         </div>
+        <% } %>
+        <% } %>
+        <% }); %>
       </div>
-      <% } %>
-      <% } %>
-      <% }); %>
-    </div>
+    </section>
+
+    <% include ../../components/footer.ejs %>
   </div>
+  <% include ../../components/footer-import.ejs %>
+</body>
+
 
 </html>
