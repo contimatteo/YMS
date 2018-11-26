@@ -52,21 +52,21 @@
                 </a>
               </div>
             </div>
-          </div>
-          <div class="col-sm-3 col-xs-12">
-            <div class="categoryDetails">
-              <br>
-              <h3>
-                <a href="/videos/<%= videoObject[0].id %>" style="color: #222222">
-                  <%= videoObject[0].snippet.title %>
-                </a>
-              </h3>
-              <p> youtube channel: <span class="placeName">
-                  <%= videoObject[0].snippet.channelTitle %> </span></p>
-              <!-- <p>
+            <div class="col-sm-3 col-xs-12">
+              <div class="categoryDetails">
+                <br>
+                <h3>
+                  <a href="/videos/<%= videoObject[0].id %>" style="color: #222222">
+                    <%= videoObject[0].snippet.title %>
+                  </a>
+                </h3>
+                <p> youtube channel: <span class="placeName">
+                    <%= videoObject[0].snippet.channelTitle %> </span></p>
+                <!-- <p>
                   published at: <span class="placeName">
                     <%= videoObject[0].snippet.publishedAt%></span>
                 </p> -->
+              </div>
             </div>
           </div>
         </div>
@@ -75,7 +75,6 @@
         <% }); %>
       </div>
     </section>
-
     <% include ../../components/footer.ejs %>
   </div>
   <% include ../../components/footer-import.ejs %>
