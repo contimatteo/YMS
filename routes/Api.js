@@ -98,6 +98,15 @@ module.exports = function (app, passport) {
     });
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/recommender/similarity/bandMembers/:video', function (req, res) {
+    var videoId = req.params.video;
+    RecommenderController.bandMembersSimilarity(res, videoId).then(function (result) {
+      res.send(result);
+    }).catch(function (error) {
+      res.status(400);
+      res.send(error);
+    });
+  });
 
 };
 ////////////////////////////////////////////////////////////////////////////////

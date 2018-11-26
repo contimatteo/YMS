@@ -24,8 +24,6 @@
                     <%= video.title %>
                   </h2>
                 </div>
-                <!-- <iframe id="ytplayer" width="65%" height="400px" src="https://www.youtube-nocookie.com/embed/<%= video.youtube_id %>?autoplay=1&enablejsapi"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
                 <div class="module module-home-video">
                   <div id="video"></div>
                 </div>
@@ -392,7 +390,25 @@
         console.log(error)
       }
     });
-
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // band members similarity recommender
+    $.ajax({
+      type: "GET",
+      url: "/recommender/similarity/bandMembers/<%= video.id %>",
+      cache: false,
+      success: function (videoList) {
+        console.log("Algoritmo Band Members Similarity caricato correttamente");
+        $("#recommender-band-members-similarity").text("");
+        $(videoList).each((index, relatedObject) => {
+          if (relatedObject != null)
+            createVideoElement("#recommender-band-members-similarity", relatedObject.id.videoId, relatedObject.snippet.thumbnails.medium.url, relatedObject.snippet.title, relatedObject.snippet.channelTitle, "Band Members Similarity");
+        })
+      },
+      error: function (error) {
+        console.log(error)
+      }
+    });
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   });
 </script>

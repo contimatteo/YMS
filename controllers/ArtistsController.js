@@ -301,6 +301,24 @@ var self = module.exports = {
         reject(error);
       });
     });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  getBandsMembersById(artistId){
+    return new Promise((resolve, reject) => {
+      Artist.findOne({
+        include: [{
+          model: Artist,
+          as: 'BandMembers'
+        }],
+        where: {
+          id: artistId
+        }
+      }).then(results => {
+        resolve(results);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };

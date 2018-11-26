@@ -266,6 +266,44 @@ var self = module.exports = {
     };
     return {artistsNames: artistsRelatedNames, artistsVideosNumbers: artistVideoNums};
   },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  bandMembersSimilarity(artistsFounded) {
+    var numberOfArtists = 0;
+    var artistsRelatedNames = [];
+    // count artist related numbers
+    artistsFounded.forEach(function (artistObject, index) {
+      numberOfArtists += artistObject.BandMembers.length;
+      // foreach related artist
+      artistObject.BandMembers.forEach(function (artist, index) {
+        //   console.log(artist.name)
+        artistsRelatedNames.push(artist.name);
+      });
+    });
+    // limit max number of videos
+    var numVideosForEachArtist = 0;
+    var remainder = 0;
+    if (numberOfArtists > constants.recommenderVideosNumber) {
+      numberOfArtists = constants.recommenderVideosNumber;
+      numVideosForEachArtist = 1;
+      remainder = 0;
+    } else {
+      numVideosForEachArtist = Math.floor(constants.recommenderVideosNumber / numberOfArtists);
+      remainder = constants.recommenderVideosNumber - (numberOfArtists * numVideosForEachArtist);
+    }
+    var artistVideoNums = [];
+    for (var i = 0; i < numberOfArtists; i++) {
+      var currentNumberOfVideos = 0;
+      if (remainder > 0) {
+        currentNumberOfVideos = numVideosForEachArtist + 1;
+        remainder -= 1;
+      } else
+        currentNumberOfVideos = numVideosForEachArtist;
+      // set current related artist videos number
+      artistVideoNums.push(currentNumberOfVideos);
+    };
+    return {artistsNames: artistsRelatedNames, artistsVideosNumbers: artistVideoNums};
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
 
 // ////////////////////////////////////////////////////////////////////////////////

@@ -16,9 +16,9 @@ var ArtistsRelated = require("./baseStructure/ArtistsRelated.js")(global.ORM.seq
 // define relation
 Artist.belongsToMany(Artist, {
   through: ArtistsAndBands,
-  foreignKey: 'FKArtistId',
-  otherKey: 'FKBandId',
-  as: 'Bands'
+  foreignKey: 'FKBandId', 
+  otherKey: 'FKArtistId',
+  as: 'BandMembers'
 });
 
 // define relation

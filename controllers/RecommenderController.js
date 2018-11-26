@@ -249,7 +249,7 @@ var self = module.exports = {
               }
               Promise.all(promises2)
                 .then(videosData => {
-                  var finalVideosResults=[];
+                  var finalVideosResults = [];
                   videosData.forEach(function (videosObject, index) {
                     videosObject.items.forEach(function (singleVideoObject, index) {
                       // console.log("%j", singleVideoObject.id.videoId)
@@ -281,27 +281,65 @@ var self = module.exports = {
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // bandSimilarity(res, videoId) {
-  //   return new Promise((resolve, reject) => {
-  //     VideosController.getVideoById(videoId).then(function (videoFounded) {
-  //       if (videoFounded != null) { 
-  //         var artistId = [];
-  //         videoFounded.Artists.forEach(function(artist, index) {
-  //           if(artist.type=="band") {
-  //             console.log(artist.name + " --> " + artist.type);
-  //             artistId.push(artist.id);
-  //           }
-  //         });
-  //         resolve (videoFounded);
-  //       } else {
-  //         // no artist founded for this video
-  //         reject({"status": "error", "message": "no artists founded for this video"});
-  //       }
-  //     }).catch(function (error) {
-
-  //     })
-  //   });
-  // },
+  bandMembersSimilarity(res, videoId) {
+    return new Promise((resolve, reject) => {
+      VideosController.getVideoById(videoId).then(function (videoFounded) {
+        if (videoFounded != null) {
+          var promises = [];
+          videoFounded.Artists.forEach(function (artist, index) {
+            if (artist.type == "band") {
+              promises.push(ArtistsController.getBandsMembersById(artist.id));
+            }
+            else {
+              reject({
+                "status": "error",
+                "message": "this artist isn't a band"
+              });
+            }
+          });
+          Promise.all(promises)
+            .then(artistsFounded => {
+              var calculateArtistsAndVideosNumbers = RecommenderHelper.bandMembersSimilarity(artistsFounded);
+              var artistsRelatedNames = calculateArtistsAndVideosNumbers.artistsNames;
+              var artistsVideosNumbers = calculateArtistsAndVideosNumbers.artistsVideosNumbers;
+              var promises2 = [];
+              for (var i = 0; i < artistsRelatedNames.length; i++) {
+                // search video for this artist
+                promises2.push(youtubeApi.search(artistsRelatedNames[i], artistsVideosNumbers[i], null));
+              }
+              Promise.all(promises2)
+                .then(videosData => {
+                  var finalVideosResults=[];
+                  videosData.forEach(function (videosObject, index) {
+                    videosObject.items.forEach(function (singleVideoObject, index) {
+                      // console.log("%j", singleVideoObject.id.videoId)
+                      finalVideosResults.push(singleVideoObject);
+                    });
+                  });
+                  resolve(finalVideosResults);
+                })
+                .catch(error => {
+                  console.log("%j", error);
+                  reject(error);
+                });
+            })
+            .catch(error => {
+              console.log("%j", error);
+              reject(error);
+            });
+        } else {
+          // no artist founded for this video
+          reject({
+            "status": "error",
+            "message": "no artists founded for this video"
+          });
+        }
+      }).catch(function (error) {
+        console.log("%j", error);
+        reject(error);
+      });
+    });
+  },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
 
