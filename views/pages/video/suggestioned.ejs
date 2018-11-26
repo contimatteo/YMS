@@ -7,6 +7,7 @@
 
 <body id="body" class="body-wrapper boxed-menu">
   <div class="main-wrapper">
+    <% include ../../components/preloader.ejs %>
     <% include ../../components/navbar.ejs %>
     <div class="container">
       <% data.forEach(function(videoObject, index) { %>
@@ -40,28 +41,28 @@
           <% } %>
           <% if (index%2!=0) { %>
           <div class="col-sm-3 col-xs-12">
-              <div class="categoryImage">
-                <a href="/videos/<%= videoObject[0].id %>">
-                  <img src="<%= videoObject[0].snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
-                </a>
-              </div>
+            <div class="categoryImage">
+              <a href="/videos/<%= videoObject[0].id %>">
+                <img src="<%= videoObject[0].snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
+              </a>
             </div>
-            <div class="col-sm-3 col-xs-12">
-              <div class="categoryDetails">
-                <br>
-                <h3>
-                  <a href="/videos/<%= videoObject[0].id %>" style="color: #222222">
-                    <%= videoObject[0].snippet.title %>
-                  </a>
-                </h3>
-                <p> youtube channel: <span class="placeName">
-                    <%= videoObject[0].snippet.channelTitle %> </span></p>
-                <!-- <p>
+          </div>
+          <div class="col-sm-3 col-xs-12">
+            <div class="categoryDetails">
+              <br>
+              <h3>
+                <a href="/videos/<%= videoObject[0].id %>" style="color: #222222">
+                  <%= videoObject[0].snippet.title %>
+                </a>
+              </h3>
+              <p> youtube channel: <span class="placeName">
+                  <%= videoObject[0].snippet.channelTitle %> </span></p>
+              <!-- <p>
                   published at: <span class="placeName">
                     <%= videoObject[0].snippet.publishedAt%></span>
                 </p> -->
-              </div>
             </div>
+          </div>
         </div>
       </div>
       <% } %>
@@ -69,6 +70,9 @@
       <% } %>
       <% }); %>
     </div>
+    <% include ../../components/footer.ejs %>
   </div>
+  <% include ../../components/footer-import.ejs %>
+</body>
 
 </html>
