@@ -9,9 +9,11 @@
   <div class="main-wrapper">
     <% include ../../components/navbar.ejs %>
     <div class="container">
-      <% data.forEach(function(videoObject, index) { %>
+      <% var cont=-1; %>
+      <% data.forEach(function(videoObject) { %>
       <% if (videoObject != null) { %>
-      <% if (index%2==0) { %>
+        <% cont++; %>
+      <% if (cont%2==0) { %>
       <div class="listContent">
         <div class="row">
           <div class="col-sm-3 col-xs-12">
@@ -38,8 +40,8 @@
             </div>
           </div>
           <% } %>
-          <% if (index%2!=0) { %>
-          <div class="col-sm-3 col-xs-12">
+          <% if (cont%2!=0) { %>
+            <div class="col-sm-3 col-xs-12">
               <div class="categoryImage">
                 <a href="/videos/<%= videoObject[0].id %>">
                   <img src="<%= videoObject[0].snippet.thumbnails.medium.url %>" alt="Image category" class="img-responsive img-rounded">
@@ -65,7 +67,6 @@
         </div>
       </div>
       <% } %>
-
       <% } %>
       <% }); %>
     </div>
