@@ -330,8 +330,12 @@ var self = module.exports = {
           // response.render('pages/vitali/vitali', {
           //   data : vitaliListaObject
           // });
-          response.send(videosData);
-        })
+          //resolve(videosData);
+          //response.send(videosData);
+          response.render('pages/vitali/vitali', {
+            data: videosData
+        });
+      })
         .catch(error => {
           console.log("%j", error);
           resolve(null);
