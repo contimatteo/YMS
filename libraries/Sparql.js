@@ -40,6 +40,9 @@ module.exports = class Sparql_Library {
         dbp: 'http://dbpedia.org/property/'
       })
       .register({
+        dbpage: 'http://dbpedia.org/page/'
+      })
+      .register({
         rdfs: 'http://www.w3.org/2000/01/rdf-schema#'
       });
   }
