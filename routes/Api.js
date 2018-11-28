@@ -106,6 +106,16 @@ module.exports = function (app, passport) {
       res.send(error);
     });
   });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/recommender/similarity/genre/:video', AuthController.userLoggedIn, function (req, res) {
+    var videoId = req.params.video;
+    RecommenderController.genreSimilarity(null, videoId).then(function (result) {
+      res.send(result);
+    }).catch(function (error) {
+      res.status(400);
+      res.send(error);
+    });
+  });
 
 };
 ////////////////////////////////////////////////////////////////////////////////

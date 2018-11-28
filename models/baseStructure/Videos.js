@@ -47,6 +47,22 @@ module.exports = function(sequelize, DataTypes) {
     image_url: {
       type: DataTypes.TEXT,
       allowNull: false
+    },
+    song_name: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    FKGenreId: {
+      type: DataTypes.INTEGER(11).UNSIGNED,
+      allowNull: true,
+      references: {
+        model: 'Genres',
+        key: 'id'
+      }
+    },
+    dbpedia_abstract: {
+      type: DataTypes.TEXT,
+      allowNull: true
     }
   }, {
     tableName: 'Videos'

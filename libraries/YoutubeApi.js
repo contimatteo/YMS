@@ -31,7 +31,7 @@ module.exports = class YoutubeApi_Library {
     return new Promise((resolve, reject) => {
       youtube.search(queryString, numberOfResult, this.filters, function (error, result) {
         if (error) {
-          console.log("%j", error);
+          // console.log("%j", error);
           reject(new Error(error.message));
         }
         // all goes ok
@@ -44,7 +44,7 @@ module.exports = class YoutubeApi_Library {
     return new Promise((resolve, reject) => {
       youtube.getById(id, function (error, result) {
         if (error) {
-          console.log("%j", error);
+          // console.log("%j", error);
           reject(error);
         } else {
           if (!result || !result.items || result.items.length < 1)
@@ -62,7 +62,7 @@ module.exports = class YoutubeApi_Library {
         if (!error) {
           resolve(result);
         } else {
-          console.log("%j", error);
+          // console.log("%j", error);
           reject(error);
         }
       });
@@ -76,7 +76,7 @@ module.exports = class YoutubeApi_Library {
           resolve(commentList);
         })
         .catch(error => {
-          console.log("%j", error);
+          // console.log("%j", error);
           reject(error);
         });
     });

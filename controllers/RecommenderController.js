@@ -11,6 +11,7 @@ var ViewsHistory = require("../models/ViewsHistory.js");
 var User = require("../models/User.js");
 var Video = require("../models/Video.js");
 var Channel = require("../models/Channel.js");
+var Genre = require("../models/Genre.js");
 const Sequelize = require('sequelize');
 
 const otherGroupsLinks = require('../json/otherGroupsLinks.json');
@@ -32,11 +33,11 @@ var self = module.exports = {
             resolve(videosData);
           })
           .catch(error => {
-            console.log("%j", error);
+            // console.log("%j", error);
             resolve(null);
           });
       }).catch((error) => {
-        console.log("%j", error);
+        // console.log("%j", error);
         resolve(null);
       });
     });
@@ -64,11 +65,11 @@ var self = module.exports = {
             resolve(videosData);
           })
           .catch(error => {
-            console.log("%j", error);
+            // console.log("%j", error);
             reject(error);
           });
       }).catch((error) => {
-        console.log("%j", error);
+        // console.log("%j", error);
         reject(error);
       });
     });
@@ -85,7 +86,7 @@ var self = module.exports = {
       }).then(function (videoRandom) {
         resolve(videoRandom);
       }).catch(function (error) {
-        console.log("%j", error);
+        // console.log("%j", error);
         reject(error);
       });
     });
@@ -130,7 +131,7 @@ var self = module.exports = {
       }).then(function (videoFound) {
         resolve(videoFound)
       }).catch(function (error) {
-        console.log("%j", error);
+        // console.log("%j", error);
         reject(error);
       })
     });
@@ -141,7 +142,7 @@ var self = module.exports = {
       youtubeRelated.getVideoRelatedById(id, constants.recommenderVideosNumber).then(function (results) {
         resolve(results);
       }).catch(function (error) {
-        console.log("%j", error);
+        // console.log("%j", error);
         reject(error);
       });
     });
@@ -168,21 +169,21 @@ var self = module.exports = {
                     resolve(videosData);
                   })
                   .catch(error => {
-                    console.log("%j", error);
+                    // console.log("%j", error);
                     reject(error);
                   });
               })
               .catch(function (error) {
-                console.log("%j", error);
+                // console.log("%j", error);
                 resolve(null);
               });
           })
           .catch(function (error) {
-            console.log("%j", error);
+            // console.log("%j", error);
             reject(error);
           });
       }).catch(function (error) {
-        console.log("%j", error);
+        // console.log("%j", error);
         reject(error);
       });
     });
@@ -209,21 +210,21 @@ var self = module.exports = {
                     resolve(videosData);
                   })
                   .catch(error => {
-                    console.log("%j", error);
+                    // console.log("%j", error);
                     reject(error);
                   });
               })
               .catch(function (error) {
-                console.log("%j", error);
+                // console.log("%j", error);
                 resolve(null);
               });
           })
           .catch(function (error) {
-            console.log("%j", error);
+            // console.log("%j", error);
             reject(error);
           });
       }).catch(function (error) {
-        console.log("%j", error);
+        // console.log("%j", error);
         reject(error);
       });
     });
@@ -259,12 +260,12 @@ var self = module.exports = {
                   resolve(finalVideosResults);
                 })
                 .catch(error => {
-                  console.log("%j", error);
+                  // console.log("%j", error);
                   reject(error);
                 });
             })
             .catch(error => {
-              console.log("%j", error);
+              // console.log("%j", error);
               reject(error);
             });
         } else {
@@ -275,7 +276,7 @@ var self = module.exports = {
           });
         }
       }).catch(function (error) {
-        console.log("%j", error);
+        // console.log("%j", error);
         reject(error);
       });
     });
@@ -289,8 +290,7 @@ var self = module.exports = {
           videoFounded.Artists.forEach(function (artist, index) {
             if (artist.type == "band") {
               promises.push(ArtistsController.getBandsMembersById(artist.id));
-            }
-            else {
+            } else {
               reject({
                 "status": "error",
                 "message": "this artist isn't a band"
@@ -309,7 +309,7 @@ var self = module.exports = {
               }
               Promise.all(promises2)
                 .then(videosData => {
-                  var finalVideosResults=[];
+                  var finalVideosResults = [];
                   videosData.forEach(function (videosObject, index) {
                     videosObject.items.forEach(function (singleVideoObject, index) {
                       // console.log("%j", singleVideoObject.id.videoId)
@@ -319,12 +319,12 @@ var self = module.exports = {
                   resolve(finalVideosResults);
                 })
                 .catch(error => {
-                  console.log("%j", error);
+                  // console.log("%j", error);
                   reject(error);
                 });
             })
             .catch(error => {
-              console.log("%j", error);
+              // console.log("%j", error);
               reject(error);
             });
         } else {
@@ -335,7 +335,35 @@ var self = module.exports = {
           });
         }
       }).catch(function (error) {
-        console.log("%j", error);
+        // console.log("%j", error);
+        reject(error);
+      });
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  genreSimilarity(response, videoId) {
+    return new Promise((resolve, reject) => {
+      VideosController.getVideoById(videoId).then(function (videoFounded) {
+        Video.findAll({
+          include: [{
+              model: Channel
+            },
+            {
+              model: Genre,
+              where: {
+                id: videoFounded.Genre.id
+              }
+            }
+          ],
+          order: Sequelize.literal('rand()'),
+          limit: constants.recommenderVideosNumber
+        }).then(function (videosWithThisGenre) {
+          resolve(videosWithThisGenre);
+        }).catch(function (error) {
+          // console.log("%j", error);
+          reject(error);
+        });
+      }).catch(function (error) {
         reject(error);
       });
     });

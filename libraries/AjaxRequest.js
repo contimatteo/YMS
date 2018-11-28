@@ -49,23 +49,28 @@ module.exports = class AjaxRequest {
       var result;
       // Start the request
       request(this.options, function (error, response, body) {
-        result = new ApiResponse();
-        result.status_code = response.statusCode;
-        result.reason_phrase = response.statusCode;
-        if (!error && response.statusCode == 200) {
-          // all goes ok
-          result.data = response.body;
-          resolve(JSON.parse(response.body));
-        } else {
-          // something went wrong
-          if (error) {
-            // error
-            console.log("%j", error);
-            reject(error);
+        if (!error) {
+          result = new ApiResponse();
+          result.status_code = response.statusCode;
+          result.reason_phrase = response.statusCode;
+          if (response.statusCode == 200) {
+            // all goes ok
+            result.data = response.body;
+            resolve(JSON.parse(response.body));
           } else {
-            // no error and status code not 200
-            resolve(result);
+            // something went wrong
+            if (error) {
+              // error
+              // console.log("%j", error);
+              reject(error);
+            } else {
+              // no error and status code not 200
+              resolve(result);
+            }
           }
+        }
+        else {
+          resolve(null)
         }
       });
     });

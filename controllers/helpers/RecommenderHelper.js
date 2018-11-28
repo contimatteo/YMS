@@ -149,7 +149,6 @@ var self = module.exports = {
             }
             views = video.timesWatched;
             lastWatched = video.lastSelected;
-            // if(index==0 || index==1 || index==2) console.log(id);
             self.createGlobalVideoRelationHitmap(videoList, id, views, lastWatched, hit);
           }
         });

@@ -12,29 +12,34 @@ var JsonAPI = require('../libraries/schemas/JsonAPI.js')
 module.exports = function (app, passport) {
 
   // orm 1 testing route
-  app.get('/orm1', AuthController.userLoggedIn, function (request, response) {
-    TestController.orm1(response);
+  app.get('/orm1', AuthController.userLoggedIn, function (req, res) {
+    TestController.orm1(res);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/orm2', AuthController.userLoggedIn, TestController.orm2);
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // orm 3 testing route
-  app.get('/orm3', function (request, response) {
-    TestController.orm3(response);
+  app.get('/orm3', function (req, res) {
+    TestController.orm3(res);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // orm 4 testing route
-  app.get('/orm4', function (request, response) {
-    TestController.orm3(response);
+  app.get('/orm4', function (req, res) {
+    TestController.orm3(res);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // route for testing db
-  app.get('/db', AuthController.userLoggedIn, function (request, response) {
-    TestController.visualizzoDatiDiProva(response);
+  app.get('/db', AuthController.userLoggedIn, function (req, res) {
+    TestController.visualizzoDatiDiProva(res);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/song', function (request, response) {
-    TestController.songSparql(response);
+  app.get('/song/:id', function (req, res) {
+    var id = req.params.id;
+    TestController.getSongDbpediaInfo(id).then(function(results) {
+      res.send(results);
+    }).catch(function(error) {
+      res.send(error);
+    });
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/globpop', function (req, res) {

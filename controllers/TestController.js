@@ -9,6 +9,8 @@ var DataHelper = require('./helpers/DataHelper.js');
 var AjaxRequestClass = require('../libraries/AjaxRequest.js');
 var AjaxRequest = new AjaxRequestClass();
 var SparqlController = require('./SparqlController.js');
+var VideosController = require('./VideosController.js');
+var GenresController = require('./GenresController.js');
 ////////////////////////////////////////////////////////////////////////////////
 
 // module.exports = class TestController {
@@ -82,14 +84,6 @@ var self = module.exports = {
     // importare i dati
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // init artists
-  songSparql(response) {
-    var object = DataHelper.nameFormatter("Eminem", "not afraid");
-    console.log(object);
-    SparqlController.getAllSongInfo("Not_Afraid").then(function(results) {
-      response.send(results);
-    }).catch(function(error) {
-      response.send(error);
-    });
-  },
+  
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };

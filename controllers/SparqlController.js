@@ -191,18 +191,18 @@ var self = module.exports = {
     return sparqlClient.runQuery(query, [], []);
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  getAllSongInfo(songFormattedName) {
+  getSongInfo(songFormattedName) {
     var query = " " +
       " select distinct * { " +
-      // " dbr:"+songFormattedName+" ?property ?value. " + 
       " dbr:"+songFormattedName+" rdf:type ?type. " +
       " dbr:"+songFormattedName+" dbo:abstract ?abstract.  " +
-      " dbr:"+songFormattedName+" dbo:genre ?genre.  " +
+      " dbr:"+songFormattedName+" dbo:genre ?genreUrl.  " +
+      " ?genreUrl rdfs:label ?genre.  " +
       "   optional {  " +
-      "     dbr:"+songFormattedName+" rdfs:label ?label. " +
+      "     dbr:"+songFormattedName+" rdfs:label ?songTitle. " +
       "     filter langMatches(lang(?label), 'en')  " +
-      "  }  " +
-      "     filter langMatches(lang(?abstract), 'en')  " +
+      "   }  " +
+      " filter langMatches(lang(?abstract), 'en')  " +
       " filter ( ?type IN (dbo:Single) )  " +
       " }  ";
     return sparqlClient.runQuery(query, [], []);

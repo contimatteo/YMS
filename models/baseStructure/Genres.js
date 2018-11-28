@@ -1,9 +1,9 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Logs', {
+  return sequelize.define('Genres', {
     id: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.INTEGER(11).UNSIGNED,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
@@ -15,8 +15,19 @@ module.exports = function(sequelize, DataTypes) {
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: true
+    },
+    name: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      defaultValue: ''
+    },
+    url: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      defaultValue: '',
+      unique: true
     }
   }, {
-    tableName: 'Logs'
+    tableName: 'Genres'
   });
 };

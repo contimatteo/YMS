@@ -1,15 +1,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 var ChannelsController = require('./ChannelsController.js');
-var AuthController = require('./AuthController.js');
+var GenresController = require('./GenresController.js');
 var ArtistsController = require('./ArtistsController.js');
-var RecommenderController = require('./RecommenderController.js');
+var SparqlController = require('./SparqlController.js');
 var YoutubeApi = require('../libraries/YoutubeApi.js');
 var ORMHelper = require('./helpers/ORMHelper.js');
+var DataHelper = require('./helpers/DataHelper.js');
 var Artist = require("../models/Artist.js");
 var ViewsHistory = require("../models/ViewsHistory.js");
 var Video = require("../models/Video.js");
 var User = require("../models/User.js");
 var Channel = require("../models/Channel.js");
+var Genre = require("../models/Genre.js");
 var vitaliListaObject = require("../json/video-vitali.json")
 var Promise = require('bluebird');
 // var database = new mySqlDB();
@@ -19,7 +21,7 @@ const youtubeApi = Promise.promisifyAll(new YoutubeApi());
 
 var self = module.exports = {
 
-  _findArtistAndSongByString(youtubeId, string) {
+  _findArtistAndSongByString(string) {
     return new Promise(function (resolve, reject) {
       var objectString = {
         artists: [],
@@ -69,7 +71,7 @@ var self = module.exports = {
                   resolve(objectString);
                 }
               }).catch(function (error) {
-                console.log("%j", error);
+                // console.log("%j", error);
                 reject(error);
               });
             } else {
@@ -79,7 +81,7 @@ var self = module.exports = {
               resolve(objectString);
             }
           }).catch(function (error) {
-            console.log("%j", error);
+            // console.log("%j", error);
             reject(error);
           });
         }
@@ -120,11 +122,11 @@ var self = module.exports = {
           comments: commentList
         });
       }).catch(function (error) {
-        console.log("%j", error);
+        // console.log("%j", error);
         // response.send(error);
       });
     }).catch(function (error) {
-      console.log("%j", error);
+      // console.log("%j", error);
       // response.send(error);
     });
   },
@@ -136,7 +138,7 @@ var self = module.exports = {
         resolve(results.items);
         // response.send(results.items[0]);
       }).catch(function (error) {
-        console.log("%j", error);
+        // console.log("%j", error);
         resolve(null);
       });
     });
@@ -156,7 +158,7 @@ var self = module.exports = {
         }
       });
     }).catch(function (error) {
-      console.log("%j", error);
+      // console.log("%j", error);
       response.send(error.reasonPhrase);
     });
   },
@@ -164,8 +166,11 @@ var self = module.exports = {
   create(response, youtubeId) {
     return new Promise((resolve, reject) => {
       return self._getVideoInfo(null, youtubeId).then(function (videoObject) {
-          return self._findArtistAndSongByString(videoObject[0].id, videoObject[0].snippet.title).then(function (objectString) {
+          return self._findArtistAndSongByString(videoObject[0].snippet.title).then(function (objectString) {
             var song = objectString.song;
+            // delete some bad remnant from song title parsing 
+            song = song.split('(')[0];
+            song = song.split('feat.')[0];
             var artists = objectString.artists;
             return self.getVideoByYoutubeId(videoObject[0].id).then(function (videoDB) {
               if (videoDB != null) {
@@ -181,6 +186,7 @@ var self = module.exports = {
                     views: 0,
                     youtube_id: videoObject[0].id,
                     image_url: videoObject[0].snippet.thumbnails.medium.url,
+                    song_name: song
                   }
                   return self.storeVideo(video).then(function (videoCreated) {
                     var promiseArray = [];
@@ -198,37 +204,49 @@ var self = module.exports = {
                           }
                         })
                         return Promise.all(promiseArray2).then(data => {
+                            // get dpedia info about this song
+                            self.getSongDbpediaInfo(videoCreated.id).then(songInfo => {
+                              // info founded
+                              // create video genre
+                              GenresController.findOrCreateGenre(songInfo.genre.value, songInfo.genreUrl.value).then(function (genreObject) {
+                                // update video with abstract finded and genre reference
+                                self.updateVideoWithGenreAndDbpediaInfo(videoCreated.id, genreObject.id, songInfo);
+                              }).catch(function (error) {
+                                // console.log("%j", error)
+                              });
+                            }).catch(error => {});
+                            // return video created
                             resolve(videoCreated);
                           })
                           .catch(error => {
-                            console.log("%j", error);
+                            // console.log("%j", error);
                             reject(error);
                           });
                       })
                       .catch(error => {
-                        console.log("%j", error);
+                        // console.log("%j", error);
                         reject(error);
                       });
                   }).catch(function (error) {
-                    console.log("%j", error);
+                    // console.log("%j", error);
                     reject(error);
                   });
                 }).catch(function (error) {
-                  console.log("%j", error);
+                  // console.log("%j", error);
                   reject(error);
                 });
               }
             }).catch(function (error) {
-              console.log("%j", error);
+              // console.log("%j", error);
               reject(error);
             });
           }).catch(function (error) {
-            console.log("%j", error);
+            // console.log("%j", error);
             reject(error);
           });
         })
         .catch(function (error) {
-          console.log("%j", error);
+          // console.log("%j", error);
           reject(error);
         });
     });
@@ -246,7 +264,7 @@ var self = module.exports = {
         }).then(function (results) {
           response.send(results);
         }).catch(function (error) {
-          console.log("%j", error);
+          // console.log("%j", error);
           reject(error);
         });
       }
@@ -272,7 +290,7 @@ var self = module.exports = {
       }).then(results => {
         resolve(results);
       }).catch((error) => {
-        console.log("%j", error);
+        // console.log("%j", error);
         reject(error);
       });
     });
@@ -286,6 +304,9 @@ var self = module.exports = {
           },
           {
             model: Channel
+          },
+          {
+            model: Genre
           }
         ],
         where: {
@@ -294,7 +315,7 @@ var self = module.exports = {
       }).then(results => {
         resolve(results);
       }).catch((error) => {
-        console.log("%j", error);
+        // console.log("%j", error);
         reject(error);
       });
     });
@@ -308,12 +329,13 @@ var self = module.exports = {
         //FKChannelId: videoObject.channelId,
         views: videoObject.views,
         youtube_id: videoObject.youtube_id,
-        image_url: videoObject.image_url
+        image_url: videoObject.image_url,
+        song_name: videoObject.song_name
       });
       video.save().then(videoCreated => {
         resolve(videoCreated);
       }).catch((error) => {
-        console.log("%j", error);
+        // console.log("%j", error);
         reject(error);
       });
     });
@@ -334,10 +356,10 @@ var self = module.exports = {
           //response.send(videosData);
           response.render('pages/video/suggestioned', {
             data: videosData
-        });
-      })
+          });
+        })
         .catch(error => {
-          console.log("%j", error);
+          // console.log("%j", error);
           resolve(null);
         });
     });
@@ -356,9 +378,42 @@ var self = module.exports = {
     });
     viewsHistoryObject.save().then(viewHistoryCreated => {})
       .catch((error) => {
-        console.log("%j", error);
+        // console.log("%j", error);
       });
     // })
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  getSongDbpediaInfo(id) {
+    return new Promise((resolve, reject) => {
+      var promises = [];
+      self.getVideoById(id).then(function (videoObject) {
+        var objectLink;
+        videoObject.Artists.forEach((artistObject, index) => {
+          objectLink = DataHelper.nameFormatter(artistObject.name, videoObject.song_name);
+          promises.push(SparqlController.getSongInfo(objectLink.link1));
+          promises.push(SparqlController.getSongInfo(objectLink.link2));
+          promises.push(SparqlController.getSongInfo(objectLink.link3));
+        });
+        Promise.all(promises).then(data => {
+            var songInfo = null;
+            var trovato = false;
+            data.forEach((songInfoResults, index) => {
+              if (!trovato && songInfoResults != null && songInfoResults.results != null && songInfoResults.results.bindings.length > 0) {
+                songInfo = songInfoResults.results.bindings[0];
+                trovato = true;
+              }
+            });
+            resolve(songInfo);
+          })
+          .catch(error => {
+            // console.log("405 %j", error);
+            resolve(null);
+          });
+      }).catch(function (error) {
+        // console.log("\n 409: " + error + " \n")
+        reject(error);
+      });
+    });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   storeUserAndVideoHistoryCompleteAssociation(userId, videoId) {
@@ -383,27 +438,42 @@ var self = module.exports = {
         });
         viewsHistoryObject.save().then(viewHistoryCreated => {})
           .catch((error) => {
-            console.log("%j", error);
+            // console.log("%j", error);
           });
       } else {
         // the last video's id created match with this id
         if (entries[0].complete == 0) {
           // this video is the last watched but not for almost 15 sec
           ViewsHistory.update({
-            complete: 1 // Set Attribute values
-          }, {
-            where: {
-              id: entries[0].id
-            }
-          })
-          .then(function () {})
-          .error(function (error) {
-            console.log(error);
-          });
+              complete: 1 // Set Attribute values
+            }, {
+              where: {
+                id: entries[0].id
+              }
+            })
+            .then(function () {})
+            .error(function (error) {
+              // console.log(error);
+            });
         }
       }
     });
-  }
+  },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  updateVideoWithGenreAndDbpediaInfo(videoId, genreId, songInfo) {
+    console.log("---- video: " + videoId + " ------ genere id " + genreId);
+    Video.update({
+      dbpedia_abstract: songInfo.abstract.value,
+      FKGenreId: genreId
+    }, {
+      where: {
+        id: videoId
+      }
+    }).success(function (results) {
+     // all goes ok
+    }).error(function (err) {
+      // something went wrong
+    });
+  }
 
 };

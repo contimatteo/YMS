@@ -55,7 +55,7 @@ var self = module.exports = {
           }
         }
       }).catch(function (error) {
-        console.log("%j", error);
+        // console.log("%j", error);
         reject(error);
       });
     });
@@ -166,7 +166,7 @@ var self = module.exports = {
             self._storeArtistsRelatedtAssociation(startArtistId, artistCreated.id).then(function (results) {
               resolve(artistCreated);
             }).catch(function (error) {
-              console.log("%j", error);
+              // console.log("%j", error);
               resolve(null);
             });
           })
@@ -240,7 +240,7 @@ var self = module.exports = {
           self._storeArtistsRelatedtBandMemberAssociation(artistId, bandMemberCreated.id).then(function (results) {
             resolve(bandMemberCreated);
           }).catch(function (error) {
-            console.log("%j", error);
+            // console.log("%j", error);
             resolve(null);
           });
         })
@@ -263,7 +263,7 @@ var self = module.exports = {
       assoc.save().then(assoc => {
         resolve(assoc);
       }).catch((error) => {
-      console.log("%j", error);
+      // console.log("%j", error);
         reject(error);
       });
     });
@@ -279,7 +279,7 @@ var self = module.exports = {
       artist.save().then(artistCreated => {
         resolve(artistCreated);
       }).catch((error) => {
-        console.log("%j", error);
+        // console.log("%j", error);
         // reject(error);
       });
     });
