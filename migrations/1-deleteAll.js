@@ -8,14 +8,12 @@ var Sequelize = require('sequelize');
  * createTable "Artists", deps: []
  * createTable "Bands", deps: []
  * createTable "Channels", deps: []
- * createTable "Logs", deps: []
+ * createTable "Genres", deps: []
  * createTable "Users", deps: []
  * createTable "ArtistsAndBands", deps: [Artists, Artists]
  * createTable "ArtistsRelated", deps: [Artists, Artists]
- * createTable "Videos", deps: [Channels]
- * createTable "Playlists", deps: [Users]
+ * createTable "Videos", deps: [Channels, Genres]
  * createTable "FavoriteVideos", deps: [Videos, Users]
- * createTable "PlaylistsAndVideos", deps: [Playlists, Videos]
  * createTable "Productions", deps: [Artists, Videos]
  * createTable "ViewsHistory", deps: [Videos, Users]
  *
@@ -23,8 +21,8 @@ var Sequelize = require('sequelize');
 
 var info = {
     "revision": 1,
-    "name": "firstRelease",
-    "created": "2018-11-22T08:56:33.878Z",
+    "name": "deleteAll",
+    "created": "2018-11-28T11:35:54.672Z",
     "comment": ""
 };
 
@@ -166,10 +164,10 @@ var migrationCommands = [{
     {
         fn: "createTable",
         params: [
-            "Logs",
+            "Genres",
             {
                 "id": {
-                    "type": INTEGER(11),
+                    "type": INTEGER(11) UNSIGNED,
                     "autoIncrement": true,
                     "primaryKey": true,
                     "allowNull": false
@@ -181,6 +179,17 @@ var migrationCommands = [{
                 "updatedAt": {
                     "type": DATETIME,
                     "allowNull": true
+                },
+                "name": {
+                    "type": VARCHAR(255),
+                    "defaultValue": "",
+                    "allowNull": false
+                },
+                "url": {
+                    "type": VARCHAR(255),
+                    "unique": true,
+                    "defaultValue": "",
+                    "allowNull": false
                 }
             },
             {}
@@ -356,36 +365,21 @@ var migrationCommands = [{
                 "image_url": {
                     "type": TEXT,
                     "allowNull": false
-                }
-            },
-            {}
-        ]
-    },
-    {
-        fn: "createTable",
-        params: [
-            "Playlists",
-            {
-                "id": {
-                    "type": INTEGER(11),
-                    "autoIncrement": true,
-                    "primaryKey": true,
-                    "allowNull": false
                 },
-                "createdAt": {
-                    "type": INTEGER(11),
+                "song_name": {
+                    "type": VARCHAR(255),
                     "allowNull": true
                 },
-                "updatedAt": {
-                    "type": INTEGER(11),
-                    "allowNull": true
-                },
-                "FKUserId": {
-                    "type": INTEGER(11),
+                "FKGenreId": {
+                    "type": INTEGER(11) UNSIGNED,
                     "references": {
-                        "model": "Users",
+                        "model": "Genres",
                         "key": "id"
                     },
+                    "allowNull": true
+                },
+                "dbpedia_abstract": {
+                    "type": TEXT,
                     "allowNull": true
                 }
             },
@@ -418,45 +412,6 @@ var migrationCommands = [{
                         "key": "id"
                     },
                     "allowNull": false
-                },
-                "createdAt": {
-                    "type": DATETIME,
-                    "allowNull": true
-                },
-                "updatedAt": {
-                    "type": DATETIME,
-                    "allowNull": true
-                }
-            },
-            {}
-        ]
-    },
-    {
-        fn: "createTable",
-        params: [
-            "PlaylistsAndVideos",
-            {
-                "id": {
-                    "type": INTEGER(11),
-                    "autoIncrement": true,
-                    "primaryKey": true,
-                    "allowNull": false
-                },
-                "FKPlaylistId": {
-                    "type": INTEGER(11),
-                    "references": {
-                        "model": "Playlists",
-                        "key": "id"
-                    },
-                    "allowNull": true
-                },
-                "FKVideoId": {
-                    "type": INTEGER(11),
-                    "references": {
-                        "model": "Videos",
-                        "key": "id"
-                    },
-                    "allowNull": true
                 },
                 "createdAt": {
                     "type": DATETIME,

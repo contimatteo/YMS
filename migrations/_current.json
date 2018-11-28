@@ -246,14 +246,14 @@
             },
             "indexes": []
         },
-        "Logs": {
-            "tableName": "Logs",
+        "Genres": {
+            "tableName": "Genres",
             "schema": {
                 "id": {
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "seqType": "INTEGER(11)"
+                    "seqType": "INTEGER(11) UNSIGNED"
                 },
                 "createdAt": {
                     "allowNull": true,
@@ -262,70 +262,21 @@
                 "updatedAt": {
                     "allowNull": true,
                     "seqType": "DATETIME"
-                }
-            },
-            "indexes": []
-        },
-        "Playlists": {
-            "tableName": "Playlists",
-            "schema": {
-                "id": {
+                },
+                "name": {
                     "allowNull": false,
-                    "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11)"
-                },
-                "createdAt": {
-                    "allowNull": true,
-                    "seqType": "INTEGER(11)"
-                },
-                "updatedAt": {
-                    "allowNull": true,
-                    "seqType": "INTEGER(11)"
-                },
-                "FKUserId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "Users",
-                        "key": "id"
+                    "defaultValue": {
+                        "value": ""
                     },
-                    "seqType": "INTEGER(11)"
-                }
-            },
-            "indexes": []
-        },
-        "PlaylistsAndVideos": {
-            "tableName": "PlaylistsAndVideos",
-            "schema": {
-                "id": {
+                    "seqType": "VARCHAR(255)"
+                },
+                "url": {
                     "allowNull": false,
-                    "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11)"
-                },
-                "FKPlaylistId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "Playlists",
-                        "key": "id"
+                    "defaultValue": {
+                        "value": ""
                     },
-                    "seqType": "INTEGER(11)"
-                },
-                "FKVideoId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "Videos",
-                        "key": "id"
-                    },
-                    "seqType": "INTEGER(11)"
-                },
-                "createdAt": {
-                    "allowNull": true,
-                    "seqType": "DATETIME"
-                },
-                "updatedAt": {
-                    "allowNull": true,
-                    "seqType": "DATETIME"
+                    "unique": true,
+                    "seqType": "VARCHAR(255)"
                 }
             },
             "indexes": []
@@ -462,6 +413,22 @@
                 },
                 "image_url": {
                     "allowNull": false,
+                    "seqType": "TEXT"
+                },
+                "song_name": {
+                    "allowNull": true,
+                    "seqType": "VARCHAR(255)"
+                },
+                "FKGenreId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Genres",
+                        "key": "id"
+                    },
+                    "seqType": "INTEGER(11) UNSIGNED"
+                },
+                "dbpedia_abstract": {
+                    "allowNull": true,
                     "seqType": "TEXT"
                 }
             },
