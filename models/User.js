@@ -8,16 +8,8 @@ var User = require("./baseStructure/Users.js")(global.ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // import additional models (for define relations)
 var Video = require("./baseStructure/Videos.js")(global.ORM.sequelize, DataTypes);
-var FavoriteVideos = require("./baseStructure/FavoriteVideos.js")(global.ORM.sequelize, DataTypes);
 var ViewsHistory = require("./baseStructure/ViewsHistory.js")(global.ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
-// define relation
-User.belongsToMany(Video, {
-  through: FavoriteVideos,
-  foreignKey: 'FKUserId',
-  otherKey: 'FKVideoId',
-  as: "Video"
-});
 
 // define relation
 // User.belongsToMany(Video, {

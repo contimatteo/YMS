@@ -1,7 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // models
 const Artist = require('../models/Artist.js');
-const Band = require('../models/Band.js');
 const Channel = require('../models/Channel.js');
 const Video = require('../models/Video.js');
 const User = require('../models/User.js');
