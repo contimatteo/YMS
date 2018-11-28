@@ -1,293 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <title>Home</title>
-    <% include ../../components/header.ejs %>
-  </head>
+<head>
+  <title>Home</title>
+  <% include ../../components/header.ejs %>
+</head>
 
-  <body id="body" class="body-wrapper boxed-menu">
-    <div class="main-wrapper">
-      <% include ../../components/preloader.ejs %>
-        <% include ../../components/navbar-home.ejs %>
-          <!-- BANNER SECTION -->
-          <section class="clearfix homeBanner" style="background-image: url(/assets/img/home-header.jpeg);">
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-12">
-                  <div class="banerInfo">
-                    <h1 style="text-shadow: 5px 3px black; font-size:40px;">Explore and Discover Music</h1>
-                    <br>
-                    <!--<h4 style="text-shadow: 2.5px 2.5px black; color:white; text-transform: none;">YMS helps to find out great music video around you.</h4>-->
-                    <br>
-                    <form class="form-inline" action="/videos/search" method="post">
-                      <div class="form-group" style="width:50%">
-                        <div class="input-group">
-                          <div class="input-group-addon">Song</div>
-                          <input type="text" class="form-control" id="findItem" name="search_string" placeholder="Which song are you looking for?">
-                          <div class="input-group-addon addon-right"></div>
-                        </div>
-                      </div>
-                      <div class="form-group" style="width:20%">
-                        <div class="searchSelectbox">
-                          <select name="search_type" id="guiest_id4" class="select-drop" sb="9254521" style="display: none;">
-                            <option value="ArtistiCanzoni">Artisti & Canzoni</option>
-                            <option value="ID">ID Video</option>
-                          </select>
-                        </div>
-                      </div>
-                      <button type="submit" class="btn btn-primary">Search <!-- <i class="fa fa-search" aria-hidden="true"></i>--></button>
-                    </form>
+<body id="body" class="body-wrapper boxed-menu">
+  <div class="main-wrapper">
+    <% include ../../components/preloader.ejs %>
+    <% include ../../components/navbar-home.ejs %>
+    <!-- BANNER SECTION -->
+    <section class="clearfix homeBanner" style="background-image: url(/assets/img/home-header.jpeg);">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="banerInfo">
+              <h1 style="text-shadow: 5px 3px black; font-size:40px;">Explore and Discover Music</h1>
+              <br>
+              <!--<h4 style="text-shadow: 2.5px 2.5px black; color:white; text-transform: none;">YMS helps to find out great music video around you.</h4>-->
+              <br>
+              <form class="form-inline" action="/videos/search" method="post">
+                <div class="form-group" style="width:50%">
+                  <div class="input-group">
+                    <div class="input-group-addon">Song</div>
+                    <input type="text" class="form-control" id="findItem" name="search_string" placeholder="Which song are you looking for?">
+                    <div class="input-group-addon addon-right"></div>
                   </div>
                 </div>
-              </div>
+                <div class="form-group" style="width:20%">
+                  <div class="searchSelectbox">
+                    <select name="search_type" id="guiest_id4" class="select-drop" sb="9254521" style="display: none;">
+                      <option value="ArtistiCanzoni">Artisti & Canzoni</option>
+                      <option value="ID">ID Video</option>
+                    </select>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Search
+                  <!-- <i class="fa fa-search" aria-hidden="true"></i>--></button>
+              </form>
             </div>
-          </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-          <!-- INTEREST SECTION -->
-          <section class="clearfix interestArea">
-            <div class="container">
-              <div class="page-header text-center">
-                <h2>What is your favourite genre?</h2>
-                <h2><small style="text-transform: none;">explore all our categories and enjoy the music</small></h2>
-              </div>
-              <div class="row">
-                <div class="col-sm-3 col-xs-12">
-                  <a href="category-grid-full.html" class="interestContent">
-      					<span>
-      						<i class="icon-listy icon-light-bolt"></i>
-      						Rock
-      					</span>
-      				</a>
-                </div>
-                <div class="col-sm-3 col-xs-12">
-                  <a href="category-list-full.html" class="interestContent">
-      					<span>
-      						<i class="icon-listy icon-saturn"></i>
-      						Electronic
-      					</span>
-      				</a>
-                </div>
-                <div class="col-sm-3 col-xs-12">
-                  <a href="category-grid.html" class="interestContent">
-      					<span>
-      						<i class="icon-listy icon-rocket-ship"></i>
-      						Reggae
-      					</span>
-      				</a>
-                </div>
-                <div class="col-sm-3 col-xs-12">
-                  <a href="category-list-left.html" class="interestContent">
-      					<span>
-      						<i class="icon-listy icon-martini"></i>
-      						Indie
-      					</span>
-      				</a>
-                </div>
-                <div class="col-sm-3 col-xs-12">
-                  <a href="category-grid-right.html" class="interestContent">
-      					<span>
-      						<i class="icon-listy icon-microphone-2"></i>
-      						Rap
-      					</span>
-      				</a>
-                </div>
-                <div class="col-sm-3 col-xs-12">
-                  <a href="category-list-right.html" class="interestContent">
-      					<span>
-      						<i class="icon-listy icon-speaker"></i>
-      						Hip Hop
-      					</span>
-      				</a>
-                </div>
-                <div class="col-sm-3 col-xs-12">
-                  <a href="category-grid-full.html" class="interestContent">
-      					<span>
-      						<i class="icon-listy icon-armchair"></i>
-      						Classic
-      					</span>
-      				</a>
-                </div>
-                <div class="col-sm-3 col-xs-12">
-                  <a href="all-business.html" class="interestContent">
-      					<span>
-      						<i class="icon-listy icon-lollipop-1"></i>
-      						  R & B
-      					</span>
-      				</a>
-                </div>
-              </div>
-            </div>
-          </section>
+    <!-- INTEREST SECTION -->
+    <section class="clearfix interestArea">
+      <div class="container">
+        <div class="page-header text-center">
+          <h2>What is your favourite genre?</h2>
+          <h2><small style="text-transform: none;">explore all our categories and enjoy the music</small></h2>
+        </div>
+        <div class="row">
+          <div class="col-sm-3 col-xs-12">
+            <a href="category-grid-full.html" class="interestContent">
+              <span>
+                <i class="icon-listy icon-light-bolt"></i>
+                Rock
+              </span>
+            </a>
+          </div>
+          <div class="col-sm-3 col-xs-12">
+            <a href="category-list-full.html" class="interestContent">
+              <span>
+                <i class="icon-listy icon-saturn"></i>
+                Electronic
+              </span>
+            </a>
+          </div>
+          <div class="col-sm-3 col-xs-12">
+            <a href="category-grid.html" class="interestContent">
+              <span>
+                <i class="icon-listy icon-rocket-ship"></i>
+                Reggae
+              </span>
+            </a>
+          </div>
+          <div class="col-sm-3 col-xs-12">
+            <a href="category-list-left.html" class="interestContent">
+              <span>
+                <i class="icon-listy icon-martini"></i>
+                Indie
+              </span>
+            </a>
+          </div>
+          <div class="col-sm-3 col-xs-12">
+            <a href="category-grid-right.html" class="interestContent">
+              <span>
+                <i class="icon-listy icon-microphone-2"></i>
+                Rap
+              </span>
+            </a>
+          </div>
+          <div class="col-sm-3 col-xs-12">
+            <a href="category-list-right.html" class="interestContent">
+              <span>
+                <i class="icon-listy icon-speaker"></i>
+                Hip Hop
+              </span>
+            </a>
+          </div>
+          <div class="col-sm-3 col-xs-12">
+            <a href="category-grid-full.html" class="interestContent">
+              <span>
+                <i class="icon-listy icon-armchair"></i>
+                Classic
+              </span>
+            </a>
+          </div>
+          <div class="col-sm-3 col-xs-12">
+            <a href="all-business.html" class="interestContent">
+              <span>
+                <i class="icon-listy icon-lollipop-1"></i>
+                R & B
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-          <!-- THINGS SECTION -->
-          <section class="clearfix thingsArea" style="margin-bottom: 100px">
-            <div class="container">
-              <div class="page-header text-center">
-                <h2>Hot Songs</h2>
-                <h2><small style="text-transform: none;">this are some of most popular songs</small></h2>
-              </div>
-              <div class="row">
-                <div class="col-xs-12">
-                  <div id="thubmnailSlider" class="carousel slide thumbnailCarousel">
+    <!-- THINGS SECTION -->
+    <section class="clearfix thingsArea" style="margin-bottom: 100px">
+      <div class="container">
+        <div class="page-header text-center">
+          <h2>Hot Songs</h2>
+          <h2><small style="text-transform: none;">this are some of most popular songs</small></h2>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div id="thubmnailSlider" class="carousel slide thumbnailCarousel">
 
-                    <ol class="carousel-indicators">
-                      <li data-target="#thubmnailSlider" data-slide-to="0" class="active"></li>
-                      <!--<li data-target="#thubmnailSlider" data-slide-to="1"></li>-->
-                      <li data-target="#thubmnailSlider" data-slide-to="2"></li>
-                      <li data-target="#thubmnailSlider" data-slide-to="3"></li>
-                      <li data-target="#thubmnailSlider" data-slide-to="4"></li>
-                      <li data-target="#thubmnailSlider" data-slide-to="5"></li>
-                      <li data-target="#thubmnailSlider" data-slide-to="6"></li>
-                      <li data-target="#thubmnailSlider" data-slide-to="7"></li>
-                    </ol>
+              <ol class="carousel-indicators">
+                <li data-target="#thubmnailSlider" data-slide-to="0" class="active"></li>
+                <!--<li data-target="#thubmnailSlider" data-slide-to="1"></li>-->
+                <li data-target="#thubmnailSlider" data-slide-to="2"></li>
+                <li data-target="#thubmnailSlider" data-slide-to="3"></li>
+                <li data-target="#thubmnailSlider" data-slide-to="4"></li>
+                <li data-target="#thubmnailSlider" data-slide-to="5"></li>
+                <li data-target="#thubmnailSlider" data-slide-to="6"></li>
+                <li data-target="#thubmnailSlider" data-slide-to="7"></li>
+              </ol>
 
-                    <!-- Carousel items -->
-                    <div class="carousel-inner">
-                      <div class="item row active">
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                          <div class="thingsBox">
-                            <div class="thingsImage">
-                              <img src="/assets/img/things/things-11.jpg" alt="Image things"> 
-                              <div class="thingsMask">
-                                <ul class="list-inline rating">
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                </ul>
-                                <a href="listing-details-left.html"><h2>Hotel Govendor <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
-                                <p>778 Country Street, New York</p>
-                              </div>
-                              </div>
-                            <div class="thingsCaption ">
-                              <ul class="list-inline captionItem">
-                                <li><i class="fa fa-heart-o" aria-hidden="true"></i> 8 k</li>
-                                <li><a href="category-list-full.html">Music</a></li>
-                              </ul>
-                            </div>
-                          </div>
+              <!-- Carousel items -->
+              <div class="carousel-inner">
+                <div class="item row active">
+                  <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="thingsBox">
+                      <div class="thingsImage">
+                        <img class="image" src="https://i.ytimg.com/vi/Tc0UNqn0caY/mqdefault.jpg" alt="Image things">
+                        <div class="thingsMask pointer" onclick="window.location.href='/videos/Tc0UNqn0caY'">
+                          <a href="/videos/Tc0UNqn0caY">
+                            <h2>Starway To Heaven </i></h2>
+                          </a>
+                          <p>Led Zeppelin</p>
                         </div>
                       </div>
-
-                      <div class="item row">
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                          <div class="thingsBox">
-                            <div class="thingsImage">
-                            <img src="/assets/img/things/things-11.jpg" alt="Image things">
-                            <div class="thingsMask">
-                              <ul class="list-inline rating">
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                              </ul>
-                              <a href="listing-details-left.html"><h2>Hotel Govendor <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
-                              <p>778 Country Street, New York</p>
-                            </div>
-                            </div>
-                            <div class="thingsCaption ">
-                              <ul class="list-inline captionItem">
-                                <li><i class="fa fa-heart-o" aria-hidden="true"></i> 9.2 k</li>
-                                <li><a href="category-grid-full.html">Music</a></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="item row">
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                          <div class="thingsBox">
-                            <div class="thingsImage">
-                              <img src="/assets/img/things/things-11.jpg" alt="Image things">
-                              <div class="thingsMask">
-                                <ul class="list-inline rating">
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                </ul>
-                                <a href="listing-details-left.html"><h2>Hotel Govendor <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
-                                <p>778 Country Street, New York</p>
-                              </div>
-                            </div>
-                            <div class="thingsCaption ">
-                              <ul class="list-inline captionItem">
-                                <li><i class="fa fa-heart-o" aria-hidden="true"></i> 5k</li>
-                                <li><a href="category-grid-full.html">Music</a></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="item row">
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                          <div class="thingsBox">
-                            <div class="thingsImage">
-                              <img src="/assets/img/things/things-11.jpg" alt="Image things">
-                              <div class="thingsMask">
-                                <ul class="list-inline rating">
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                </ul>
-                                <a href="listing-details-left.html"><h2>Hotel Govendor <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
-                                <p>778 Country Street, New York</p>
-                              </div>
-                            </div>
-                            <div class="thingsCaption ">
-                              <ul class="list-inline captionItem">
-                                <li><i class="fa fa-heart-o" aria-hidden="true"></i> 10 k</li>
-                                <li><a href="category-grid.html">Music</a></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="item row">
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                          <div class="thingsBox ">
-                            <div class="thingsImage">
-                              <img src="/assets/img/things/things-11.jpg" alt="Image things">
-                              <div class="thingsMask">
-                                <ul class="list-inline rating">
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                  <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                </ul>
-                                <a href="listing-details-left.html"><h2>Hotel Govendor <i class="fa fa-check-circle" aria-hidden="true"></i></h2></a>
-                                <p>778 Country Street, New York</p>
-                              </div>
-                            </div>
-                            <div class="thingsCaption ">
-                              <ul class="list-inline captionItem">
-                                <li><i class="fa fa-heart-o" aria-hidden="true"></i> 15 k</li>
-                                <li><a href="category-list-full.html">Music</a></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
+                      <div class="thingsCaption ">
+                        <ul class="list-inline captionItem">
+                          <li><i class="fa fa-heart-o" aria-hidden="true"></i> 8 k</li>
+                          <li>Rock</li>
+                        </ul>
                       </div>
                     </div>
-                    <a class="left carousel-control" href="#thubmnailSlider" data-slide="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-                    <a class="right carousel-control" href="#thubmnailSlider" data-slide="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                  </div>
+                </div>
+
+                <div class="item row">
+                  <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="thingsBox">
+                      <div class="thingsImage">
+                        <img class="image" src="https://i.ytimg.com/vi/l482T0yNkeo/mqdefault.jpg" alt="Image things">
+                        <div class="thingsMask pointer" onclick="window.location.href='/videos/l482T0yNkeo'">
+                          <a href="/videos/l482T0yNkeo">
+                            <h2>High Way To Hell </i></h2>
+                          </a>
+                          <p>ACDC</p>
+                        </div>
+                      </div>
+                      <div class="thingsCaption ">
+                        <ul class="list-inline captionItem">
+                          <li><i class="fa fa-heart-o" aria-hidden="true"></i> 9.2 k</li>
+                          <li>Hard Rock</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="item row">
+                  <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="thingsBox">
+                      <div class="thingsImage">
+                        <img class="image" src="https://i.ytimg.com/vi/RoDPPgWbfXY/mqdefault.jpg" alt="Image things">
+                        <div class="thingsMask pointer" onclick="window.location.href='/videos/RoDPPgWbfXY'">
+                          <a href="/videos/RoDPPgWbfXY">
+                            <h2>You Never Can Tell </i></h2>
+                          </a>
+                          <p>Chuck Berry</p>
+                        </div>
+                      </div>
+                      <div class="thingsCaption ">
+                        <ul class="list-inline captionItem">
+                          <li><i class="fa fa-heart-o" aria-hidden="true"></i> 5k</li>
+                          <li>Rock</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="item row">
+                  <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="thingsBox">
+                      <div class="thingsImage">
+                        <img class="image" src="https://i.ytimg.com/vi/YlDgidbX-CA/mqdefault.jpg" alt="Image things">
+                        <div class="thingsMask pointer" onclick="window.location.href='/videos/YlDgidbX-CA'">
+                          <a href="/videos/YlDgidbX-CA">
+                            <h2>Release Your Problem </h2>
+                          </a>
+                          <p>Chet Faker</p>
+                        </div>
+                      </div>
+                      <div class="thingsCaption ">
+                        <ul class="list-inline captionItem">
+                          <li><i class="fa fa-heart-o" aria-hidden="true"></i> 10 k</li>
+                          <li>Electro</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="item row">
+                  <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="thingsBox">
+                      <div class="thingsImage">
+                        <img class="image" src="https://i.ytimg.com/vi/Gs069dndIYk/mqdefault.jpg" alt="Image things">
+                        <div class="thingsMask pointer" onclick="window.location.href='/videos/Gs069dndIYk'">
+                          <a href="/videos/Gs069dndIYk">
+                            <h2>September</i></h2>
+                          </a>
+                          <p>Earth, Wind & Fire</p>
+                        </div>
+                      </div>
+                      <div class="thingsCaption ">
+                        <ul class="list-inline captionItem">
+                          <li><i class="fa fa-heart-o" aria-hidden="true"></i> 10 k</li>
+                          <li>Dance</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="item row">
+                  <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="thingsBox ">
+                      <div class="thingsImage">
+                        <img class="image" src="https://i.ytimg.com/vi/rISYCquFeI8/mqdefault.jpg" alt="Image things">
+                        <div class="thingsMask pointer" onclick="window.location.href='/videos/rISYCquFeI8'">
+                          <a href="/videos/rISYCquFeI8">
+                            <h2>I Just Wanna Live </i></h2>
+                          </a>
+                          <p>Good Charlotte</p>
+                        </div>
+                      </div>
+                      <div class="thingsCaption ">
+                        <ul class="list-inline captionItem">
+                          <li><i class="fa fa-heart-o" aria-hidden="true"></i> 15 k</li>
+                          <li>Alternative Rock</li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
+              <a class="left carousel-control" href="#thubmnailSlider" data-slide="prev"><i class="fa fa-angle-left"
+                  aria-hidden="true"></i></a>
+              <a class="right carousel-control" href="#thubmnailSlider" data-slide="next"><i class="fa fa-angle-right"
+                  aria-hidden="true"></i></a>
             </div>
-          </section>
-          <% include ../../components/footer.ejs %>
-    </div>
-    <% include ../../components/footer-import.ejs %>
-  </body>
+          </div>
+        </div>
+      </div>
+    </section>
+    <% include ../../components/footer.ejs %>
+  </div>
+  <% include ../../components/footer-import.ejs %>
+</body>
 
 </html>
