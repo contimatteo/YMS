@@ -55,17 +55,17 @@ module.exports = function (app, passport) {
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // route for testing video creation
-  // app.get('/videos/:id/create', function (req, res) {
-  //   var youtubeId = req.params.id;
-  //   VideosController.create(res, youtubeId).then(function (results) {
-  //     res.send(results);
-  //   }).catch(function (error) {
-  //     console.log(error);
-  //     res.send(error);
-  //   });
-  // });
+  app.get('/videos/:id/create', AuthController.userLoggedIn, function (req, res) {
+    var youtubeId = req.params.id;
+    VideosController.create(res, youtubeId).then(function (results) {
+      res.send(results);
+    }).catch(function (error) {
+      console.log(error);
+      res.send(error);
+    });
+  });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/videos/:id/viewed/:user', function (req, res) {
+  app.get('/videos/:id/viewed/:user', AuthController.userLoggedIn, function (req, res) {
     var id = req.params.id;
     var userId = req.params.user;
     VideosController.addView(res, userId, id);
@@ -106,17 +106,17 @@ module.exports = function (app, passport) {
   //     });
   // });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/artists/:name/create/relations/artists', function (req, res) {
+  app.get('/artists/:name/create/relations/artists', AuthController.userLoggedIn, function (req, res) {
     var name = req.params.name;
     ArtistsController.createRelated(res, name);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/suggestioned', function (req, res) {
+  app.get('/suggestioned', AuthController.userLoggedIn, function (req, res) {
     VideosController.showSuggestionedVideos(res);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/aboutUs', function (req, res) {
-    res.render('pages/aboutUs/aboutUs')
+  app.get('/about-us', AuthController.userLoggedIn, function (req, res) {
+    res.render('pages/about/about-us')
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };

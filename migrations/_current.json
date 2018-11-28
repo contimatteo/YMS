@@ -130,57 +130,6 @@
             },
             "indexes": []
         },
-        "Bands": {
-            "tableName": "Bands",
-            "schema": {
-                "id": {
-                    "allowNull": false,
-                    "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11)"
-                },
-                "name": {
-                    "allowNull": false,
-                    "defaultValue": {
-                        "value": ""
-                    },
-                    "seqType": "VARCHAR(255)"
-                },
-                "createdAt": {
-                    "allowNull": true,
-                    "seqType": "DATETIME"
-                },
-                "updatedAt": {
-                    "allowNull": true,
-                    "seqType": "DATETIME"
-                },
-                "members_number": {
-                    "allowNull": false,
-                    "seqType": "INTEGER(11)"
-                },
-                "url": {
-                    "allowNull": false,
-                    "defaultValue": {
-                        "value": ""
-                    },
-                    "unique": true,
-                    "seqType": "VARCHAR(255)"
-                },
-                "description": {
-                    "allowNull": true,
-                    "seqType": "TEXT"
-                },
-                "type": {
-                    "allowNull": true,
-                    "seqType": "VARCHAR(255)"
-                },
-                "formatted_name": {
-                    "allowNull": true,
-                    "seqType": "VARCHAR(255)"
-                }
-            },
-            "indexes": []
-        },
         "Channels": {
             "tableName": "Channels",
             "schema": {
@@ -210,30 +159,14 @@
             },
             "indexes": []
         },
-        "FavoriteVideos": {
-            "tableName": "FavoriteVideos",
+        "Genres": {
+            "tableName": "Genres",
             "schema": {
                 "id": {
                     "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "seqType": "INTEGER(11)"
-                },
-                "FKVideoId": {
-                    "allowNull": false,
-                    "references": {
-                        "model": "Videos",
-                        "key": "id"
-                    },
-                    "seqType": "INTEGER(11)"
-                },
-                "FKUserId": {
-                    "allowNull": false,
-                    "references": {
-                        "model": "Users",
-                        "key": "id"
-                    },
-                    "seqType": "INTEGER(11)"
+                    "seqType": "INTEGER(11) UNSIGNED"
                 },
                 "createdAt": {
                     "allowNull": true,
@@ -242,90 +175,21 @@
                 "updatedAt": {
                     "allowNull": true,
                     "seqType": "DATETIME"
-                }
-            },
-            "indexes": []
-        },
-        "Logs": {
-            "tableName": "Logs",
-            "schema": {
-                "id": {
+                },
+                "name": {
                     "allowNull": false,
-                    "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11)"
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "seqType": "VARCHAR(255)"
                 },
-                "createdAt": {
-                    "allowNull": true,
-                    "seqType": "DATETIME"
-                },
-                "updatedAt": {
-                    "allowNull": true,
-                    "seqType": "DATETIME"
-                }
-            },
-            "indexes": []
-        },
-        "Playlists": {
-            "tableName": "Playlists",
-            "schema": {
-                "id": {
+                "url": {
                     "allowNull": false,
-                    "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11)"
-                },
-                "createdAt": {
-                    "allowNull": true,
-                    "seqType": "INTEGER(11)"
-                },
-                "updatedAt": {
-                    "allowNull": true,
-                    "seqType": "INTEGER(11)"
-                },
-                "FKUserId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "Users",
-                        "key": "id"
+                    "defaultValue": {
+                        "value": ""
                     },
-                    "seqType": "INTEGER(11)"
-                }
-            },
-            "indexes": []
-        },
-        "PlaylistsAndVideos": {
-            "tableName": "PlaylistsAndVideos",
-            "schema": {
-                "id": {
-                    "allowNull": false,
-                    "primaryKey": true,
-                    "autoIncrement": true,
-                    "seqType": "INTEGER(11)"
-                },
-                "FKPlaylistId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "Playlists",
-                        "key": "id"
-                    },
-                    "seqType": "INTEGER(11)"
-                },
-                "FKVideoId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "Videos",
-                        "key": "id"
-                    },
-                    "seqType": "INTEGER(11)"
-                },
-                "createdAt": {
-                    "allowNull": true,
-                    "seqType": "DATETIME"
-                },
-                "updatedAt": {
-                    "allowNull": true,
-                    "seqType": "DATETIME"
+                    "unique": true,
+                    "seqType": "VARCHAR(255)"
                 }
             },
             "indexes": []
@@ -462,6 +326,22 @@
                 },
                 "image_url": {
                     "allowNull": false,
+                    "seqType": "TEXT"
+                },
+                "song_name": {
+                    "allowNull": true,
+                    "seqType": "VARCHAR(255)"
+                },
+                "FKGenreId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Genres",
+                        "key": "id"
+                    },
+                    "seqType": "INTEGER(11) UNSIGNED"
+                },
+                "dbpedia_abstract": {
+                    "allowNull": true,
                     "seqType": "TEXT"
                 }
             },

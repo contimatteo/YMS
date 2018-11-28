@@ -258,3 +258,19 @@ a.link:hover,
   width: 100%;
   background-color: transparent;
 }
+
+.pointer{
+  cursor: pointer;
+}
+
+.image{
+  max-height: 236.5px;
+}
+
+.aboutUs-profile-image{
+  max-height: 300px;
+}
+
+.aboutUs-icon-size{
+  font-size: 30px !important;
+}

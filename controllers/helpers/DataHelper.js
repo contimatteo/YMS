@@ -47,13 +47,13 @@ module.exports = {
       }
     }
     // link 1
-    var link1 = prefix + newSong;
+    var link1 = newSong;
     object.link1 = link1;
     // link 2
-    var link2 = prefix + newSong + "(song)";
+    var link2 = newSong + "(song)";
     object.link2 = link2;
     // link 3
-    var link3 = prefix + newSong + "(" + newArtist + "_song)";
+    var link3 = newSong + "(" + newArtist + "_song)";
     object.link3 = link3;
     // return object with link
     return (object);

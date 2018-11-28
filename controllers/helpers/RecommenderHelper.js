@@ -1,9 +1,10 @@
 // ////////////////////////////////////////////////////////////////////////////////
-const recommenderNumber = 20;
+var constants = require('./ConstantsHelper.js');
+const recommenderNumber = constants.recommenderVideosNumber;
 
 var self = module.exports = {
 
-  _orderVideoHistoryFoundedByViews(array) {
+  _orderVideoFoundedByViews(array) {
     return array.sort(function (first, second) {
       var a = second.views;
       var b = first.views;
@@ -13,6 +14,20 @@ var self = module.exports = {
         return -1;
       } else {
         return 0;
+      }
+    });
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  _orderVideoFoundedByHit(array) {
+    return array.sort(function (first, second) {
+      var a = second.hit;
+      var b = first.hit;
+      if (a < b) {
+        return 1;
+      } else if (a > b) {
+        return -1;
+      } else {
+        return 1;
       }
     });
   },
@@ -46,7 +61,7 @@ var self = module.exports = {
       }
     }
     // order results by view
-    videoList = self._orderVideoHistoryFoundedByViews(videoList);
+    videoList = self._orderVideoFoundedByViews(videoList);
     return videoList;
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -74,7 +89,7 @@ var self = module.exports = {
     return false;
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  globalRelativePopularity(myVideosFounded, groupsVideos) {
+  globalAbsolutePopularity(myVideosFounded, groupsVideos) {
     var videoList = [];
     // foreach group's json
     groupsVideos.forEach((singleJsonResponse, index) => {
@@ -87,32 +102,69 @@ var self = module.exports = {
             var lastWatched = "";
             var views = 0;
             if (video.videoId != null) {
-              // console.log(video.videoId + " ["+video.views+"]");
               id = video.videoId;
             }
             if (video.videoID != null) {
-              // console.log(video.videoID + " ["+video.views+"]");
               id = video.videoID;
             }
             views = video.timesWatched;
             lastWatched = video.lastSelected;
             self.createGlobalVideoRelation(videoList, id, views, lastWatched);
-          } else {
-           // invalid video json
           }
         });
-      } else {
-        // this json isn't valid
       }
     });
-    // foreach recommended by local relative algorithm
+    // foreach recommended by my local relative algorithm
     myVideosFounded.forEach((myVideo, index) => {
       self.createGlobalVideoRelation(videoList, myVideo.youtube_id, myVideo.views, myVideo.updatedAt);
     });
     // return array with videos as {id, views, lastWatched}
-    videoList = self._orderVideoHistoryFoundedByViews(videoList);
+    videoList = self._orderVideoFoundedByViews(videoList);
     // take only the first <n> videos
     videoList = videoList.slice(0, recommenderNumber);
+    // return
+    return videoList;
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  globalRelativePopularity(myVideosFounded, groupsVideos) {
+    var videoList = [];
+    var hit = 0;
+    // foreach group's json
+    groupsVideos.forEach((singleJsonResponse, index) => {
+      hit = 0;
+      if (self._validateGroupJson(singleJsonResponse)) {
+        // this json is valid
+        singleJsonResponse.recommended.forEach((video, index) => {
+          // check if this video is valid
+          if (video != null && video.lastSelected != null && video.timesWatched != null) {
+            hit++;
+            var id = "";
+            var lastWatched = "";
+            var views = 0;
+            if (video.videoId != null) {
+              id = video.videoId;
+            }
+            if (video.videoID != null) {
+              id = video.videoID;
+            }
+            views = video.timesWatched;
+            lastWatched = video.lastSelected;
+            self.createGlobalVideoRelationHitmap(videoList, id, views, lastWatched, hit);
+          }
+        });
+      }
+    });
+    hit = 0;
+    // foreach recommended by my local relative algorithm
+    myVideosFounded.forEach((myVideo, index) => {
+      hit++;
+      self.createGlobalVideoRelationHitmap(videoList, myVideo.youtube_id, myVideo.views, myVideo.updatedAt, hit);
+    });
+    // return array with videos as {id, views, lastWatched}
+    videoList = self._orderVideoFoundedByHit(videoList);
+    // take only the first <n> videos
+    videoList = videoList.slice(0, recommenderNumber);
+    // return
     return videoList;
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -121,7 +173,6 @@ var self = module.exports = {
     var trovato = false;
     videoArray.forEach(function (viewObject) {
       if (viewObject.id == id) {
-        //console.log("video["+video.id+"] gia presente --> " + viewObject.views + " + " + views);
         try {
           // check if the new date is more recent
           if (Date.parse(viewObject.lastWatched) < Date.parse(lastWatched)) {
@@ -143,6 +194,113 @@ var self = module.exports = {
         lastWatched: lastWatched
       });
     } else trovato = false;
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  createGlobalVideoRelationHitmap(videoArray, id, views, lastWatched, hit) {
+    //console.log("video: " + id+", "+views+", "+lastWatched);
+    var trovato = false;
+    videoArray.forEach(function (viewObject) {
+      if (viewObject.id == id) {
+        try {
+          // check if the new date is more recent
+          if (Date.parse(viewObject.lastWatched) < Date.parse(lastWatched)) {
+            // set new date as last selected 
+            viewObject.lastWatched = lastWatched;
+          }
+          if (viewObject.hit > hit) {
+            // set new hit as current
+            viewObject.hit = hit;
+          }
+        } catch (error) {
+          // nothing to do 
+        }
+        // increment views
+        viewObject.views += views;
+        trovato = true;
+      }
+    });
+    if (!trovato) {
+      videoArray.push({
+        id: id,
+        views: views,
+        lastWatched: lastWatched,
+        hit: hit
+      });
+    } else trovato = false;
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  artistSimilarity(artistsFounded) {
+    var numberOfArtists = 0;
+    var artistsRelatedNames = [];
+    // count artist related numbers
+    artistsFounded.forEach(function (artistObject, index) {
+      numberOfArtists += artistObject.Related.length;
+      // foreach related artist
+      artistObject.Related.forEach(function (artist, index) {
+        //   console.log(artist.name)
+        artistsRelatedNames.push(artist.name);
+      });
+    });
+    // limit max number of videos
+    var numVideosForEachArtist = 0;
+    var remainder = 0;
+    if (numberOfArtists > constants.recommenderVideosNumber) {
+      numberOfArtists = constants.recommenderVideosNumber;
+      numVideosForEachArtist = 1;
+      remainder = 0;
+    } else {
+      numVideosForEachArtist = Math.floor(constants.recommenderVideosNumber / numberOfArtists);
+      remainder = constants.recommenderVideosNumber - (numberOfArtists * numVideosForEachArtist);
+    }
+    var artistVideoNums = [];
+    for (var i = 0; i < numberOfArtists; i++) {
+      var currentNumberOfVideos = 0;
+      if (remainder > 0) {
+        currentNumberOfVideos = numVideosForEachArtist + 1;
+        remainder -= 1;
+      } else
+        currentNumberOfVideos = numVideosForEachArtist;
+      // set current related artist videos number
+      artistVideoNums.push(currentNumberOfVideos);
+    };
+    return {artistsNames: artistsRelatedNames, artistsVideosNumbers: artistVideoNums};
+  },
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  bandMembersSimilarity(artistsFounded) {
+    var numberOfArtists = 0;
+    var artistsRelatedNames = [];
+    // count artist related numbers
+    artistsFounded.forEach(function (artistObject, index) {
+      numberOfArtists += artistObject.BandMembers.length;
+      // foreach related artist
+      artistObject.BandMembers.forEach(function (artist, index) {
+        //   console.log(artist.name)
+        artistsRelatedNames.push(artist.name);
+      });
+    });
+    // limit max number of videos
+    var numVideosForEachArtist = 0;
+    var remainder = 0;
+    if (numberOfArtists > constants.recommenderVideosNumber) {
+      numberOfArtists = constants.recommenderVideosNumber;
+      numVideosForEachArtist = 1;
+      remainder = 0;
+    } else {
+      numVideosForEachArtist = Math.floor(constants.recommenderVideosNumber / numberOfArtists);
+      remainder = constants.recommenderVideosNumber - (numberOfArtists * numVideosForEachArtist);
+    }
+    var artistVideoNums = [];
+    for (var i = 0; i < numberOfArtists; i++) {
+      var currentNumberOfVideos = 0;
+      if (remainder > 0) {
+        currentNumberOfVideos = numVideosForEachArtist + 1;
+        remainder -= 1;
+      } else
+        currentNumberOfVideos = numVideosForEachArtist;
+      // set current related artist videos number
+      artistVideoNums.push(currentNumberOfVideos);
+    };
+    return {artistsNames: artistsRelatedNames, artistsVideosNumbers: artistVideoNums};
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };

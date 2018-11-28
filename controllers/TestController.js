@@ -8,6 +8,9 @@ const User = require('../models/User.js');
 var DataHelper = require('./helpers/DataHelper.js');
 var AjaxRequestClass = require('../libraries/AjaxRequest.js');
 var AjaxRequest = new AjaxRequestClass();
+var SparqlController = require('./SparqlController.js');
+var VideosController = require('./VideosController.js');
+var GenresController = require('./GenresController.js');
 ////////////////////////////////////////////////////////////////////////////////
 
 // module.exports = class TestController {
@@ -81,5 +84,6 @@ var self = module.exports = {
     // importare i dati
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+  
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };
