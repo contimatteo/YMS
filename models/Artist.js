@@ -8,7 +8,6 @@ var Artist = require("./baseStructure/Artists.js")(global.ORM.sequelize, DataTyp
 ////////////////////////////////////////////////////////////////////////////////
 // import additional models (for define relations)
 var Productions = require("./baseStructure/Productions.js")(global.ORM.sequelize, DataTypes);
-var Band = require("./baseStructure/Bands.js")(global.ORM.sequelize, DataTypes);
 var Video = require("./baseStructure/Videos.js")(global.ORM.sequelize, DataTypes);
 var ArtistsAndBands = require("./baseStructure/ArtistsAndBands.js")(global.ORM.sequelize, DataTypes);
 var ArtistsRelated = require("./baseStructure/ArtistsRelated.js")(global.ORM.sequelize, DataTypes);

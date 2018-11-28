@@ -7,7 +7,6 @@ const DataTypes = Sequelize.DataTypes;
 var ArtistsRelated = require("./baseStructure/ArtistsRelated.js")(global.ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // import additional models (for define relations)
-// var Band = require("./baseStructure/Bands.js")(global.ORM.sequelize, DataTypes);
 // var Artist = require("./baseStructure/Artists.js")(global.ORM.sequelize, DataTypes);
 ////////////////////////////////////////////////////////////////////////////////
 // define relation
