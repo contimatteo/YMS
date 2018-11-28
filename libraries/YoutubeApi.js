@@ -26,10 +26,20 @@ module.exports = class YoutubeApi_Library {
     };
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  search(queryString, numberOfResult, pageToken) {
+  search(queryString, numberOfResult, pageToken, searchType=null) {
+    var limit = 0;
     this.filters.pageToken = pageToken;
+    // check search type
+    if(searchType=="id") {
+      // id search type selected
+      limit=1;
+    }
+    else {
+      // default search type selected
+      limit = numberOfResult;
+    }
     return new Promise((resolve, reject) => {
-      youtube.search(queryString, numberOfResult, this.filters, function (error, result) {
+      youtube.search(queryString, limit, this.filters, function (error, result) {
         if (error) {
           // console.log("%j", error);
           reject(new Error(error.message));

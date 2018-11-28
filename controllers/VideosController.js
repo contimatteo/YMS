@@ -146,15 +146,15 @@ var self = module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // show list of videos
   index(response, searchString, searchType, pageToken, numberResult) {
-    youtubeApi.search(searchString, numberResult, pageToken).then(function (results) {
+    youtubeApi.search(searchString, numberResult, pageToken, searchType).then(function (results) {
       // response.send(results);
       response.render('pages/search/search', {
         data: results.items,
         request: {
-          "searchString": searchString,
-          "searchType": searchType,
-          "nextPage": results.nextPageToken,
-          "previousPage": results.prevPageToken
+          searchString: searchString,
+          searchType: searchType,
+          nextPage: results.nextPageToken,
+          previousPage: results.prevPageToken
         }
       });
     }).catch(function (error) {

@@ -34,8 +34,16 @@
 								<div class="form-group" style="width:20%; border: 2px solid #2196f3; border-radius: 4px;">
 									<div class="searchSelectbox">
 										<select name="search_type" id="guiest_id4" class="select-drop" sb="9254521" style="display: none;">
-											<option value="ArtistiCanzoni">Artisti & Canzoni</option>
-											<option value="ID">ID Video</option>
+											<%if (request.searchType && request.searchType=="search") { %>
+											<option value="search" selected>Artisti & Canzoni</option>
+											<%} else { %>
+												<option value="search">Artisti & Canzoni</option>
+											<% }; %>
+											<%if (request.searchType && request.searchType=="id") { %>
+											<option value="id" selected>ID Video</option>
+											<%} else { %>
+												<option value="id">ID Video</option>
+											<% }; %>
 										</select>
 									</div>
 								</div>
