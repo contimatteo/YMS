@@ -10,9 +10,11 @@ var constants = require('./helpers/ConstantsHelper.js');
 var ViewsHistory = require("../models/ViewsHistory.js");
 var User = require("../models/User.js");
 var Video = require("../models/Video.js");
+var Artist = require("../models/Artist.js");
 var Channel = require("../models/Channel.js");
 var Genre = require("../models/Genre.js");
 const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 const otherGroupsLinks = require('../json/otherGroupsLinks.json');
 const youtubeApi = Promise.promisifyAll(new YoutubeApi());
@@ -349,16 +351,58 @@ var self = module.exports = {
               model: Channel
             },
             {
+              model: Artist
+            },
+            {
               model: Genre,
               where: {
                 id: videoFounded.Genre.id
               }
             }
           ],
+          where: {
+            id: {
+              [Op.not]: videoId // exclude current video
+            }
+          },
           order: Sequelize.literal('rand()'),
           limit: constants.recommenderVideosNumber
         }).then(function (videosWithThisGenre) {
-          resolve(videosWithThisGenre);
+          if (videosWithThisGenre.length < 20) {
+            var idArtistsList = [];
+            videoFounded.Artists.forEach((artist) => {
+              idArtistsList.push(artist.id)
+            })
+            Video.findAll({
+              include: [{
+                  model: Channel
+                },
+                {
+                  model: Artist,
+                  where: {
+                    id: idArtistsList
+                  }
+                }
+              ],
+              where: {
+                id: {
+                  [Op.not]: videoId // exclude current video
+                }
+              },
+              order: Sequelize.literal('rand()'),
+              limit: (constants.recommenderVideosNumber - videosWithThisGenre.length)
+            }).then(function (additionalVideos) {
+              additionalVideos.forEach((additionalVideo) => {
+                console.log("video aggiuntivo " + additionalVideo.id)
+                videosWithThisGenre.push(additionalVideo);
+              })
+              resolve(videosWithThisGenre);
+            }).catch(function (error) {
+              reject(error);
+            });
+          } else {
+            resolve(videosWithThisGenre);
+          }
         }).catch(function (error) {
           // console.log("%j", error);
           reject(error);

@@ -5,7 +5,7 @@ var AuthController = require('../controllers/AuthController.js');
 var ChannelsController = require('../controllers/ChannelsController.js');
 var RecommenderController = require('../controllers/RecommenderController.js');
 var VideosController = require('../controllers/VideosController.js');
-var JsonAPI = require('../libraries/schemas/JsonAPI.js')
+var ApiController = require('../controllers/ApiController.js');
 ////////////////////////////////////////////////////////////////////////////////
 // const TestController = Promise.promisifyAll(new TestControllerClass());
 ////////////////////////////////////////////////////////////////////////////////
@@ -43,43 +43,48 @@ module.exports = function (app, passport) {
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/globpop', function (req, res) {
-      var id = req.query.id //mi prende l id del video, che mi passa chi vuole il json
-      var url = "/recommender/random/";
-      if (id != null) {
-        RecommenderController.random(null).then(function (result) {
-          VideosController.getVideoByYoutubeId(id).then(function (videoFinded) {
-            var lastWatched = "";
-            var site = "site1834.tw.cs.unibo.it";
-            var reccomended = [];
-            res.send(videoFinded);
-          })
-        }).catch(function (error) {
-          // TODO: return empty json
-          res.send(error);
-        });
-        //  AjaxRequest.jsonRequest(url, 'GET', {}).then(function (vitaliResponse) {
-        //   var promises = [];
-        //   vitaliResponse.recommended.forEach(video => {
-        //     promises.push(VideosController._getVideoInfo(null, video.videoID));
-        //   });
-        //   Promise.all(promises)
-        //     .then(videosData => {
-        //       resolve(videosData);
-        //     })
-        //     .catch(error => {
-        //       console.log("%j", error);
-        //       resolve(null);
-        //     });
-        // }).catch((error) => {
-        //   console.log("%j", error);
-        //   resolve(null);
-        // });
-      } else {
-        // no video founded
-        res.send({
-          message: "no video"
-        });
-      }
+      var youtubeId = req.query.id; //mi prende l id del video, che mi passa chi vuole il json
+      // var url = "/recommender/random/";
+      // if (id != null) {
+      //   RecommenderController.random(null).then(function (result) {
+      //     VideosController.getVideoByYoutubeId(id).then(function (videoFinded) {
+      //       var lastWatched = "";
+      //       var site = "site1834.tw.cs.unibo.it";
+      //       var reccomended = [];
+      //       res.send(videoFinded);
+      //     })
+      //   }).catch(function (error) {
+      //     // TODO: return empty json
+      //     res.send(error);
+      //   });
+      //   //  AjaxRequest.jsonRequest(url, 'GET', {}).then(function (vitaliResponse) {
+      //   //   var promises = [];
+      //   //   vitaliResponse.recommended.forEach(video => {
+      //   //     promises.push(VideosController._getVideoInfo(null, video.videoID));
+      //   //   });
+      //   //   Promise.all(promises)
+      //   //     .then(videosData => {
+      //   //       resolve(videosData);
+      //   //     })
+      //   //     .catch(error => {
+      //   //       console.log("%j", error);
+      //   //       resolve(null);
+      //   //     });
+      //   // }).catch((error) => {
+      //   //   console.log("%j", error);
+      //   //   resolve(null);
+      //   // });
+      // } else {
+      //   // no video founded
+      //   res.send({
+      //     message: "no video"
+      //   });
+      // }
+      ApiController.globpop(youtubeId).then(function(videosFounded) {
+        res.send(videosFounded);
+      }).catch(function(error) {
+        res.send(error)
+      })
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
