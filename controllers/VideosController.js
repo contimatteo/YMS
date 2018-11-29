@@ -71,7 +71,6 @@ var self = module.exports = {
                   resolve(objectString);
                 }
               }).catch(function (error) {
-                // console.log("%j", error);
                 reject(error);
               });
             } else {
@@ -81,7 +80,6 @@ var self = module.exports = {
               resolve(objectString);
             }
           }).catch(function (error) {
-            // console.log("%j", error);
             reject(error);
           });
         }
@@ -122,12 +120,10 @@ var self = module.exports = {
           comments: commentList
         });
       }).catch(function (error) {
-        // console.log("%j", error);
-        // response.send(error);
+        response.send(error);
       });
     }).catch(function (error) {
-      // console.log("%j", error);
-      // response.send(error);
+      response.send(error);
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -136,9 +132,7 @@ var self = module.exports = {
     return new Promise((resolve, reject) => {
       youtubeApi.getVideoById(id).then(function (results) {
         resolve(results.items);
-        // response.send(results.items[0]);
       }).catch(function (error) {
-        // console.log("%j", error);
         resolve(null);
       });
     });
@@ -158,7 +152,6 @@ var self = module.exports = {
         }
       });
     }).catch(function (error) {
-      // console.log("%j", error);
       response.send(error.reasonPhrase);
     });
   },
@@ -212,41 +205,36 @@ var self = module.exports = {
                                 // update video with abstract finded and genre reference
                                 self.updateVideoWithGenreAndDbpediaInfo(videoCreated.id, genreObject.id, songInfo);
                               }).catch(function (error) {
-                                // console.log("%j", error)
+                                reject(error);
                               });
-                            }).catch(error => {});
+                            }).catch(error => {
+                              reject(error);
+                            });
                             // return video created
                             resolve(videoCreated);
                           })
                           .catch(error => {
-                            // console.log("%j", error);
                             reject(error);
                           });
                       })
                       .catch(error => {
-                        // console.log("%j", error);
                         reject(error);
                       });
                   }).catch(function (error) {
-                    // console.log("%j", error);
                     reject(error);
                   });
                 }).catch(function (error) {
-                  // console.log("%j", error);
                   reject(error);
                 });
               }
             }).catch(function (error) {
-              // console.log("%j", error);
               reject(error);
             });
           }).catch(function (error) {
-            // console.log("%j", error);
             reject(error);
           });
         })
         .catch(function (error) {
-          // console.log("%j", error);
           reject(error);
         });
     });
@@ -264,7 +252,6 @@ var self = module.exports = {
         }).then(function (results) {
           response.send(results);
         }).catch(function (error) {
-          // console.log("%j", error);
           reject(error);
         });
       }
@@ -290,7 +277,6 @@ var self = module.exports = {
       }).then(results => {
         resolve(results);
       }).catch((error) => {
-        // console.log("%j", error);
         reject(error);
       });
     });
@@ -315,7 +301,6 @@ var self = module.exports = {
       }).then(results => {
         resolve(results);
       }).catch((error) => {
-        // console.log("%j", error);
         reject(error);
       });
     });
@@ -335,7 +320,6 @@ var self = module.exports = {
       video.save().then(videoCreated => {
         resolve(videoCreated);
       }).catch((error) => {
-        // console.log("%j", error);
         reject(error);
       });
     });
@@ -349,18 +333,12 @@ var self = module.exports = {
       });
       Promise.all(promises)
         .then(videosData => {
-          // response.render('pages/vitali/vitali', {
-          //   data : vitaliListaObject
-          // });
-          //resolve(videosData);
-          //response.send(videosData);
           response.render('pages/video/suggestioned', {
             data: videosData
           });
         })
         .catch(error => {
-          // console.log("%j", error);
-          resolve(null);
+          reject(error);
         });
     });
   },
@@ -376,10 +354,7 @@ var self = module.exports = {
       FKUserId: association.FKUserId,
       FKVideoId: association.FKVideoId
     });
-    viewsHistoryObject.save().then(viewHistoryCreated => {})
-      .catch((error) => {
-        // console.log("%j", error);
-      });
+    viewsHistoryObject.save().then(viewHistoryCreated => {}).catch((error) => {});
     // })
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -406,11 +381,9 @@ var self = module.exports = {
             resolve(songInfo);
           })
           .catch(error => {
-            // console.log("405 %j", error);
             resolve(null);
           });
       }).catch(function (error) {
-        // console.log("\n 409: " + error + " \n")
         reject(error);
       });
     });
@@ -437,9 +410,7 @@ var self = module.exports = {
           FKVideoId: association.FKVideoId
         });
         viewsHistoryObject.save().then(viewHistoryCreated => {})
-          .catch((error) => {
-            // console.log("%j", error);
-          });
+          .catch((error) => {});
       } else {
         // the last video's id created match with this id
         if (entries[0].complete == 0) {
@@ -451,17 +422,13 @@ var self = module.exports = {
                 id: entries[0].id
               }
             })
-            .then(function () {})
-            .error(function (error) {
-              // console.log(error);
-            });
+            .then(function () {}).error(function (error) {});
         }
       }
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   updateVideoWithGenreAndDbpediaInfo(videoId, genreId, songInfo) {
-    console.log("---- video: " + videoId + " ------ genere id " + genreId);
     Video.update({
       dbpedia_abstract: songInfo.abstract.value,
       FKGenreId: genreId
@@ -470,7 +437,7 @@ var self = module.exports = {
         id: videoId
       }
     }).success(function (results) {
-     // all goes ok
+      // all goes ok
     }).error(function (err) {
       // something went wrong
     });
