@@ -11,7 +11,7 @@ var YoutubeApi = require('../libraries/YoutubeApi.js');
 var VideosController = require('./VideosController.js');
 var RecommenderHelper = require('./helpers/RecommenderHelper.js');
 var constants = require('./helpers/ConstantsHelper.js');
-// var database = new mySqlDB();
+var JsonAPI = require('../libraries/schemas/JsonAPI.js')
 const youtubeApi = Promise.promisifyAll(new YoutubeApi());
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +34,6 @@ var self = module.exports = {
             idVideoList.push(video.videoId);
             promises.push(VideosController.getVideoById(video.videoId));
           });
-          console.log(idVideoList);
           Video.findAll({
             include: [Artist, Channel, Genre, User],
             where: {
@@ -42,7 +41,11 @@ var self = module.exports = {
             },
             limit: constants.recommenderVideosNumber
           }).then(videoRecommended => {
-            resolve(videoRecommended);
+            var jsonResponse = new JsonAPI(videoObject.youtube_id, videoObject.views, videoObject.updatedAt);
+            videoRecommended.forEach((videoFounded, index) => {
+              jsonResponse.addVideoRecommended(videoFounded.youtube_id, videoFounded.views, null);
+            })
+            resolve(jsonResponse);
           })
           .catch((error) => {
             console.log("45 %j", error);
@@ -51,7 +54,8 @@ var self = module.exports = {
         })
         .catch((error) => {
           console.log("49 %j", error);
-          reject(error);
+          var jsonResponse = new JsonAPI(youtubeId, 0, "");
+          reject(jsonResponse);
         });
       })
       .catch(function (error) {

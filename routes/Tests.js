@@ -6,7 +6,6 @@ var ChannelsController = require('../controllers/ChannelsController.js');
 var RecommenderController = require('../controllers/RecommenderController.js');
 var VideosController = require('../controllers/VideosController.js');
 var ApiController = require('../controllers/ApiController.js');
-var JsonAPI = require('../libraries/schemas/JsonAPI.js')
 ////////////////////////////////////////////////////////////////////////////////
 // const TestController = Promise.promisifyAll(new TestControllerClass());
 ////////////////////////////////////////////////////////////////////////////////
