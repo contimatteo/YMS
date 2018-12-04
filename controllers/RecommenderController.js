@@ -393,7 +393,6 @@ var self = module.exports = {
               limit: (constants.recommenderVideosNumber - videosWithThisGenre.length)
             }).then(function (additionalVideos) {
               additionalVideos.forEach((additionalVideo) => {
-                console.log("video aggiuntivo " + additionalVideo.id)
                 videosWithThisGenre.push(additionalVideo);
               })
               resolve(videosWithThisGenre);
