@@ -2,6 +2,7 @@
 var VideosController = require('../controllers/VideosController.js');
 var ArtistsController = require('../controllers/ArtistsController.js');
 var AuthController = require('../controllers/AuthController.js');
+var RecommenderController = require('../controllers/RecommenderController.js');
 ////////////////////////////////////////////////////////////////////////////////
 const defaultVideoNumbers = 10;
 ////////////////////////////////////////////////////////////////////////////////
@@ -120,5 +121,10 @@ module.exports = function (app, passport) {
     res.render('pages/about/about-us')
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/suggestioned-by-us/:genre', AuthController.userLoggedIn, function (req, res) {
+    var genere = req.params.genre;
+    VideosController.showSuggestionedByUsVideos(res,genere);
+  });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 };
 ////////////////////////////////////////////////////////////////////////////////
