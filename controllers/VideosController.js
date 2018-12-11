@@ -13,7 +13,7 @@ var User = require("../models/User.js");
 var Channel = require("../models/Channel.js");
 var Genre = require("../models/Genre.js");
 var vitaliListaObject = require("../json/video-vitali.json")
-var oursListaObject = require("../json/recommendedByUs.json")
+var ourSuggestionedList = require("../json/recommendedByUs.json")
 var Promise = require('bluebird');
 // var database = new mySqlDB();
 const youtubeApi = Promise.promisifyAll(new YoutubeApi());
@@ -447,39 +447,9 @@ var self = module.exports = {
   showSuggestionedByUsVideos(response, genere) {
     return new Promise((resolve, reject) => {
       var promises = [];
-      if (genere == "rock") {
-        oursListaObject.rock.forEach(video => {
-          promises.push(self._getVideoInfo(null, video.videoID));
-        });
-      } else if (genere == "electronic") {
-        oursListaObject.electronic.forEach(video => {
-          promises.push(self._getVideoInfo(null, video.videoID));
-        });
-      } else if (genere == "reggae") {
-        oursListaObject.reggae.forEach(video => {
-          promises.push(self._getVideoInfo(null, video.videoID));
-        });
-      } else if (genere == "indie") {
-        oursListaObject.indie.forEach(video => {
-          promises.push(self._getVideoInfo(null, video.videoID));
-        });
-      } else if (genere == "rap") {
-        oursListaObject.rap.forEach(video => {
-          promises.push(self._getVideoInfo(null, video.videoID));
-        });
-      } else if (genere == "pop") {
-        oursListaObject.pop.forEach(video => {
-          promises.push(self._getVideoInfo(null, video.videoID));
-        });
-      } else if (genere == "classic") {
-        oursListaObject.classic.forEach(video => {
-          promises.push(self._getVideoInfo(null, video.videoID));
-        });
-      } else if (genere == "rb") {
-        oursListaObject.rb.forEach(video => {
-          promises.push(self._getVideoInfo(null, video.videoID));
-        });
-      }
+      ourSuggestionedList[genere].forEach(video => {
+      promises.push(self._getVideoInfo(null, video.videoID));
+      });
       Promise.all(promises)
         .then(videosData => {
           response.render('pages/video/suggestioned-by-us', {
