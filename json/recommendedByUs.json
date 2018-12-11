@@ -1,0 +1,330 @@
+{
+    "rock": [{
+            "category": "Rock",
+            "videoID": "tAGnKpE4NCI"
+        },
+        {
+            "category": "Rock",
+            "videoID": "zUwEIt9ez7M"
+        },
+        {
+            "category": "Rock",
+            "videoID": "YR5ApYxkU-U"
+        },
+        {
+            "category": "Rock",
+            "videoID": "deB_u-to-IE"
+        },
+        {
+            "category": "Rock",
+            "videoID": "Gu2pVPWGYMQ"
+        },
+        {
+            "category": "Rock",
+            "videoID": "8SbUC-UaAxE"
+        },
+        {
+            "category": "Rock",
+            "videoID": "Qq4j1LtCdww"
+        },
+        {
+            "category": "Rock",
+            "videoID": "jQvUBf5l7Vw"
+        },
+        {
+            "category": "Rock",
+            "videoID": "FQ2yXWi0ppw"
+        },
+        {
+            "category": "Rock",
+            "videoID": "OMOGaugKpzs"
+        }
+    ],
+    "electronic": [{
+            "category": "Rock",
+            "videoID": "ixkoVwKQaJg"
+        },
+        {
+            "category": "Rock",
+            "videoID": "RE87rQkXdNw"
+        },
+        {
+            "category": "Rock",
+            "videoID": "ft4jcPSLJfY"
+        },
+        {
+            "category": "Rock",
+            "videoID": "cHHLHGNpCSA"
+        },
+        {
+            "category": "Rock",
+            "videoID": "kOkQ4T5WO9E"
+        },
+        {
+            "category": "Rock",
+            "videoID": "gCYcHz2k5x0"
+        },
+        {
+            "category": "Rock",
+            "videoID": "KrVC5dm5fFc"
+        },
+        {
+            "category": "Rock",
+            "videoID": "XINlEYXA3k0"
+        },
+        {
+            "category": "Rock",
+            "videoID": "YJVmu6yttiw"
+        },
+        {
+            "category": "Rock",
+            "videoID": "pUjE9H8QlA4"
+        }
+    ],
+    "reggae": [{
+            "category": "Reggae",
+            "videoID": "oFRbZJXjWIA"
+        },
+        {
+            "category": "Reggae",
+            "videoID": "AkXVBRV1vWo"
+        },
+        {
+            "category": "Reggae",
+            "videoID": "AjGLMcrWrS8"
+        },
+        {
+            "category": "Reggae",
+            "videoID": "18EAqHx2lMk"
+        },
+        {
+            "category": "Reggae",
+            "videoID": "w0c_dv0TUmU"
+        },
+        {
+            "category": "Reggae",
+            "videoID": "owApENJbkaU"
+        },
+        {
+            "category": "Reggae",
+            "videoID": "wATBX_tNyUw"
+        },
+        {
+            "category": "Reggae",
+            "videoID": "kOFu6b3w6c0"
+        },
+        {
+            "category": "Reggae",
+            "videoID": "on9TXY8kYyk"
+        },
+        {
+            "category": "Reggae",
+            "videoID": "WpIAc9by5iU"
+        }
+    ],
+    "indie": [{
+            "category": "Indie",
+            "videoID": "g4Vp_P9d6O4"
+        },
+        {
+            "category": "Indie",
+            "videoID": "aqrJVihJTDo"
+        },
+        {
+            "category": "Indie",
+            "videoID": "hzfz82wyPFs"
+        },
+        {
+            "category": "Indie",
+            "videoID": "FORItXxd0GA"
+        },
+        {
+            "category": "Indie",
+            "videoID": "YBBGPziGR-4"
+        },
+        {
+            "category": "Indie",
+            "videoID": "o-lQtwwxvQU"
+        },
+        {
+            "category": "Indie",
+            "videoID": "I5cL3rpp4SU"
+        },
+        {
+            "category": "Indie",
+            "videoID": "85SEjN8fijQ"
+        },
+        {
+            "category": "Indie",
+            "videoID": "JpJvfzzm9Bc"
+        },
+        {
+            "category": "Indie",
+            "videoID": "nrgMQ88jHj0"
+        }
+    ],
+    "rap": [{
+            "category": "Rap",
+            "videoID": "ikKUceLXdt8"
+        },
+        {
+            "category": "Rap",
+            "videoID": "Ay9BWM8lwOA"
+        },
+        {
+            "category": "Rap",
+            "videoID": "6uikJTnmtgw"
+        },
+        {
+            "category": "Rap",
+            "videoID": "gAg3uMlNyHA"
+        },
+        {
+            "category": "Rap",
+            "videoID": "8UFIYGkROII"
+        },
+        {
+            "category": "Rap",
+            "videoID": "liZm1im2erU"
+        },
+        {
+            "category": "Rap",
+            "videoID": "fPO76Jlnz6c"
+        },
+        {
+            "category": "Rap",
+            "videoID": "Jha4OkG-ixw"
+        },
+        {
+            "category": "Rap",
+            "videoID": "VDvr08sCPOc"
+        },
+        {
+            "category": "Rap",
+            "videoID": "_CL6n0FJZpk"
+        }
+    ],
+    "pop": [{
+            "category": "Pop",
+            "videoID": "s3Q80mk7bxE"
+        },
+        {
+            "category": "Pop",
+            "videoID": "fLexgOxsZu0"
+        },
+        {
+            "category": "Pop",
+            "videoID": "C-u5WLJ9Yk4"
+        },
+        {
+            "category": "Pop",
+            "videoID": "DksSPZTZES0"
+        },
+        {
+            "category": "Pop",
+            "videoID": "GuJQSAiODqI"
+        },
+        {
+            "category": "Pop",
+            "videoID": "Ob7vObnFUJc"
+        },
+        {
+            "category": "Pop",
+            "videoID": "-ScjucUV8v0"
+        },
+        {
+            "category": "Pop",
+            "videoID": "6tpl9LtkRRw"
+        },
+        {
+            "category": "Pop",
+            "videoID": "MrTz5xjmso4"
+        },
+        {
+            "category": "Pop",
+            "videoID": "WXxV9g7lsFE"
+        }
+    ],
+    "classic": [{
+            "category": "Classic",
+            "videoID": "hOA-2hl1Vbc"
+        },
+        {
+            "category": "Classic",
+            "videoID": "RnwuF-MCRuo"
+        },
+        {
+            "category": "Classic",
+            "videoID": "H2-1u8xvk54"
+        },
+        {
+            "category": "Classic",
+            "videoID": "YAOTCtW9v0M"
+        },
+        {
+            "category": "Classic",
+            "videoID": "lT7iLG-UCdE"
+        },
+        {
+            "category": "Classic",
+            "videoID": "4Diu2N8TGKA"
+        },
+        {
+            "category": "Classic",
+            "videoID": "ho9rZjlsyYY"
+        },
+        {
+            "category": "Classic",
+            "videoID": "9E6b3swbnWg"
+        },
+        {
+            "category": "Classic",
+            "videoID": "G_5Dr8Bz5Bc"
+        },
+        {
+            "category": "Classic",
+            "videoID": "vSPYFTeSmDU"
+        }
+    ],
+    "rb": [{
+            "category": "R&B",
+            "videoID": "4jXfnbJvmIQ"
+        },
+        {
+            "category": "R&B",
+            "videoID": "oGpFcHTxjZs"
+        },
+        {
+            "category": "R&B",
+            "videoID": "Urdlvw0SSEc"
+        },
+        {
+            "category": "R&B",
+            "videoID": "0habxsuXW4g"
+        },
+        {
+            "category": "R&B",
+            "videoID": "U8yWbL0KE4c"
+        },
+        {
+            "category": "R&B",
+            "videoID": "ViwtNLUqkMY"
+        },
+        {
+            "category": "R&B",
+            "videoID": "PzpLkcfBe-A"
+        },
+        {
+            "category": "R&B",
+            "videoID": "nj71KbE6ekg"
+        },
+        {
+            "category": "R&B",
+            "videoID": "udEN8EdJT9k"
+        },
+        {
+            "category": "R&B",
+            "videoID": "Wmc8bQoL-J0"
+        }
+    ]
+}
