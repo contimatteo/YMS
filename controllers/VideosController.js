@@ -114,8 +114,8 @@ var self = module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // show single video by id
   show(response, id) {
-    self.getVideoByYoutubeId(id).then(function (video) {
-      youtubeApi.getCommentByVideoId(video.youtube_id).then(function (commentList) {
+    return self.getVideoByYoutubeId(id).then(function (video) {
+      return youtubeApi.getCommentByVideoId(video.youtube_id).then(function (commentList) {
         response.render('pages/video/video', {
           video: video,
           comments: commentList
@@ -171,7 +171,7 @@ var self = module.exports = {
                 // video exist
                 resolve(videoDB);
               } else {
-                ChannelsController.findOrCreateChannel(videoObject[0].snippet.channelId, videoObject[0].snippet.channelTitle).then(function (channelCreated) {
+                return ChannelsController.findOrCreateChannel(videoObject[0].snippet.channelId, videoObject[0].snippet.channelTitle).then(function (channelCreated) {
                   // video not exist
                   var video = {
                     title: videoObject[0].snippet.title,
@@ -199,20 +199,22 @@ var self = module.exports = {
                         })
                         return Promise.all(promiseArray2).then(data => {
                             // get dpedia info about this song
-                            self.getSongDbpediaInfo(videoCreated.id).then(songInfo => {
+                            return self.getSongDbpediaInfo(videoCreated.id).then(songInfo => {
                               // info founded
                               // create video genre
-                              GenresController.findOrCreateGenre(songInfo.genre.value, songInfo.genreUrl.value).then(function (genreObject) {
+                              return GenresController.findOrCreateGenre(songInfo.genre.value, songInfo.genreUrl.value).then(function (genreObject) {
                                 // update video with abstract finded and genre reference
                                 self.updateVideoWithGenreAndDbpediaInfo(videoCreated.id, genreObject.id, songInfo);
+                                // return video created
+                                resolve(videoCreated);
                               }).catch(function (error) {
                                 reject(error);
                               });
                             }).catch(error => {
                               reject(error);
                             });
-                            // return video created
-                            resolve(videoCreated);
+                            // // return video created
+                            // resolve(videoCreated);
                           })
                           .catch(error => {
                             reject(error);
@@ -444,22 +446,20 @@ var self = module.exports = {
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  showSuggestionedByUsVideos(response, genere) {
-    return new Promise((resolve, reject) => {
-      var promises = [];
-      ourSuggestionedList[genere].forEach(video => {
-      promises.push(self._getVideoInfo(null, video.videoID));
-      });
-      Promise.all(promises)
-        .then(videosData => {
-          response.render('pages/video/suggestioned-by-us', {
-            data: videosData
-          });
-        })
-        .catch(error => {
-          reject(error);
-        });
+  showSuggestionedByUs(response, genere) {
+    var promises = [];
+    ourSuggestionedList[genere].forEach(videoId => {
+      promises.push(self._getVideoInfo(null, videoId));
     });
+    Promise.all(promises)
+      .then(videosData => {
+        response.render('pages/video/suggestioned-by-us', {
+          data: videosData
+        });
+      })
+      .catch(error => {
+        response.send(error)
+      });
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

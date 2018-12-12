@@ -153,7 +153,7 @@ var self = module.exports = {
   globalAbsolutePopularity(videoId) {
     return new Promise((resolve, reject) => {
       self.localAbsolutePopularity(null).then(function (videosFounded) {
-        VideosController.getVideoById(videoId).then(function (videoObject) {
+        return VideosController.getVideoById(videoId).then(function (videoObject) {
             var promises = [];
             otherGroupsLinks.urls.forEach((url, index) => {
               promises.push(AjaxRequest.jsonRequest(url + videoObject.youtube_id, 'GET', {}));
@@ -194,7 +194,7 @@ var self = module.exports = {
   globalRelativePopularity(videoId) {
     return new Promise((resolve, reject) => {
       self.localRelativePopularity(null, videoId).then(function (videosFounded) {
-        VideosController.getVideoById(videoId).then(function (videoObject) {
+        return VideosController.getVideoById(videoId).then(function (videoObject) {
             var promises = [];
             otherGroupsLinks.urls.forEach((url, index) => {
               promises.push(AjaxRequest.jsonRequest(url + videoObject.youtube_id, 'GET', {}));
@@ -373,7 +373,7 @@ var self = module.exports = {
             videoFounded.Artists.forEach((artist) => {
               idArtistsList.push(artist.id)
             })
-            Video.findAll({
+            return Video.findAll({
               include: [{
                   model: Channel
                 },
