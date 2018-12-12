@@ -43,12 +43,13 @@ module.exports = function (app, passport) {
   app.get('/videos/:id', AuthController.userLoggedIn, function (req, res) {
     var youtubeId = req.params.id;
     // create and render video page
-    VideosController.create(res, youtubeId).then(function (videoObject) {
-      VideosController.show(res, youtubeId);
+    return VideosController.create(res, youtubeId).then(function (videoObject) {
       // save video history
       var currentUser = AuthController.currentUser(req, res);
-      if(currentUser) 
+      if (currentUser)
         VideosController.storeUserAndVideoHistoryPartialAssociation(currentUser.id, videoObject.id);
+      // show the video
+      return VideosController.show(res, youtubeId);
     }).catch(function (error) {
       console.log("%j", error);
       res.send(error);
@@ -122,7 +123,7 @@ module.exports = function (app, passport) {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/suggestioned/:genre', AuthController.userLoggedIn, function (req, res) {
     var genere = req.params.genre;
-    VideosController.showSuggestionedByUsVideos(res,genere);
+    VideosController.showSuggestionedByUs(res, genere);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 };
