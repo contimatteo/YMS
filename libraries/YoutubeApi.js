@@ -57,8 +57,7 @@ module.exports = class YoutubeApi_Library {
           // console.log("%j", error);
           reject(error);
         } else {
-          if (!result || !result.items || result.items.length < 1)
-            reject(new CustomError(400, "video not found", ""));
+          if (!result || !result.items || result.items.length < 1) reject(new CustomError(400, "video not found", ""));
           // all goes ok
           resolve(result);
         }
@@ -86,8 +85,7 @@ module.exports = class YoutubeApi_Library {
           resolve(commentList);
         })
         .catch(error => {
-          // console.log("%j", error);
-          reject(error);
+          resolve(null);
         });
     });
   }
