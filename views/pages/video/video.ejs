@@ -158,6 +158,7 @@
                 </div>
                 <div class="panel-body">
                   <ul class="list-unstyle categoryList">
+                    <%if (comments && comments.comments) { %>
                     <% comments.comments.forEach(function(comment) { %>
                     <li style="word-wrap: break-word;">
                       <b>
@@ -166,6 +167,7 @@
                     </li>
                     <hr>
                     <% }); %>
+                    <% } %>
                   </ul>
                 </div>
               </div>
@@ -225,45 +227,45 @@
     }
   }
 
-//   function counter() { // Ogni 100 ms aggiorna il count
-//     if(count > 150){
-//       postVisual();
-//       console.log("15 secondi trascorsi, POST inoltrato...");
-//       count=0;
-//     }
-//     else {
-//         count = count + 1;
-//         timer = setTimeout(counter, 100);
-//     }
-// }
+  //   function counter() { // Ogni 100 ms aggiorna il count
+  //     if(count > 150){
+  //       postVisual();
+  //       console.log("15 secondi trascorsi, POST inoltrato...");
+  //       count=0;
+  //     }
+  //     else {
+  //         count = count + 1;
+  //         timer = setTimeout(counter, 100);
+  //     }
+  // }
 
-// function onPlayerStateChange(event) { // Funzione dell'api di youtube che se avviene un cambiamento di stato(è un listener) permette nel nostro caso di fare la post
-//     //console.log("STATO CAMBIATO", event.data);
-//     if (event.data == 1 && !postDone) { // 1: PLAYING
-//         console.log("Stato del video: PLAY");
-//         counter();
-//     }
-//     else if (event.data == 2 && !postDone) { // 2: PAUSED
-//         console.log("Stato del Video: PAUSA, elapsed time in seconds: ", count/10);
-//         if (timer) clearTimeout(timer);
-//     }
-//     else if (event.data == 3 && !postDone) { // 3: BUFFERING
-//         console.log("Stato del Video: BUFFERING, elapsed time in seconds: ", count/10);
-//         if (timer) clearTimeout(timer);
-//     }
-//     else if (event.data == 5 && !postDone) { // 5: QUEUED
-//         console.log("Stato del Video: QUEUED, elapsed time in seconds: ", count/10);
-//         if (timer) clearTimeout(timer);
-//     }
-//     else if (event.data == 0 && !postDone) { // 0: ENDED
-//         if (timer) {
-//             clearTimeout(timer);
-//             if (player.getDuration() < 15) postVisual();
-//             console.log("Video inferiore a 15 secondi terminato, POST inoltrato...");
-//             count=0;
-//         }
-//     }
-// }
+  // function onPlayerStateChange(event) { // Funzione dell'api di youtube che se avviene un cambiamento di stato(è un listener) permette nel nostro caso di fare la post
+  //     //console.log("STATO CAMBIATO", event.data);
+  //     if (event.data == 1 && !postDone) { // 1: PLAYING
+  //         console.log("Stato del video: PLAY");
+  //         counter();
+  //     }
+  //     else if (event.data == 2 && !postDone) { // 2: PAUSED
+  //         console.log("Stato del Video: PAUSA, elapsed time in seconds: ", count/10);
+  //         if (timer) clearTimeout(timer);
+  //     }
+  //     else if (event.data == 3 && !postDone) { // 3: BUFFERING
+  //         console.log("Stato del Video: BUFFERING, elapsed time in seconds: ", count/10);
+  //         if (timer) clearTimeout(timer);
+  //     }
+  //     else if (event.data == 5 && !postDone) { // 5: QUEUED
+  //         console.log("Stato del Video: QUEUED, elapsed time in seconds: ", count/10);
+  //         if (timer) clearTimeout(timer);
+  //     }
+  //     else if (event.data == 0 && !postDone) { // 0: ENDED
+  //         if (timer) {
+  //             clearTimeout(timer);
+  //             if (player.getDuration() < 15) postVisual();
+  //             console.log("Video inferiore a 15 secondi terminato, POST inoltrato...");
+  //             count=0;
+  //         }
+  //     }
+  // }
 </script>
 
 
@@ -488,7 +490,6 @@
     });
 
   });
-  
 </script>
 
 </html>

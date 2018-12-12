@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+const utf8 = require('utf8');
 var SparqlController = require('./SparqlController.js');
 var jsonVitali = require("../json/video-vitali.json");
 var DataHelper = require('./helpers/DataHelper.js');
@@ -272,8 +273,8 @@ var self = module.exports = {
   storeArtist(artistData) {
     return new Promise((resolve, reject) => {
       var artist = Artist.build(artistData, {
-        firstname: artistData.firstname,
-        lastname: artistData.lastname,
+        firstname: utf8.encode(artistData.firstname),
+        lastname: utf8.encode(artistData.lastname),
         url: artistData.url,
       });
       artist.save().then(artistCreated => {

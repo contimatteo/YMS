@@ -30,8 +30,8 @@ module.exports = {
     }
     else {
       // no logged user
-      // res.redirect('/signin');
-      return next();
+      response.redirect('/signin');
+      // return next();
     }
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
