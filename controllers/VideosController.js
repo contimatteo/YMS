@@ -161,7 +161,7 @@ var self = module.exports = {
   create(response, youtubeId) {
     return new Promise((resolve, reject) => {
       return self._getVideoInfo(null, youtubeId).then(function (videoObject) {
-          self._findArtistAndSongByString(videoObject[0].snippet.title).then(function (objectString) {
+          return self._findArtistAndSongByString(videoObject[0].snippet.title).then(function (objectString) {
             var song = objectString.song;
             // delete some bad remnant from song title parsing 
             song = song.split('(')[0];
@@ -190,7 +190,7 @@ var self = module.exports = {
                         promiseArray.push(ArtistsController.create(null, artist));
                       });
                     }
-                    return Promise.all(promiseArray)
+                    Promise.all(promiseArray)
                       .then(data => {
                         var promiseArray2 = [];
                         data.forEach(artistCreated => {
@@ -198,7 +198,7 @@ var self = module.exports = {
                             promiseArray2.push(ORMHelper.storeVideoAndArtistAssociation(artistCreated.id, videoCreated.id));
                           }
                         })
-                        return Promise.all(promiseArray2).then(data => {
+                        Promise.all(promiseArray2).then(data => {
                             // return video created
                             resolve(videoCreated);
                             // get dpedia info about this song

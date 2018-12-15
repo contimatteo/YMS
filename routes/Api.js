@@ -2,12 +2,13 @@
 var SparqlController = require('../controllers/SparqlController.js');
 var RecommenderController = require('../controllers/RecommenderController.js');
 var AuthController = require('../controllers/AuthController.js');
+var ApiController = require('../controllers/ApiController.js');
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
 module.exports = function (app, passport) {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app.get('/recommender/vitali/:id', function (req, res) {
+  app.get('/recommender/vitali/:id', AuthController.userLoggedIn, function (req, res) {
     var id = req.params.id;
     RecommenderController.vitali(id).then(function (result) {
         res.send(result);
@@ -115,6 +116,15 @@ module.exports = function (app, passport) {
       res.status(400);
       res.send(error);
     });
+  });
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/globpop', function (req, res) {
+    var youtubeId = req.query.id; //mi prende l id del video, che mi passa chi vuole il json
+    ApiController.globpop(youtubeId).then(function(videosFounded) {
+      res.send(videosFounded);
+    }).catch(function(error) {
+      res.send(error)
+    })
   });
 
 };

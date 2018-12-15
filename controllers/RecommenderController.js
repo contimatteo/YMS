@@ -234,7 +234,7 @@ var self = module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   artistSimilarity(res, videoId) {
     return new Promise((resolve, reject) => {
-      VideosController.getVideoById(videoId).then(function (videoFounded) {
+      return VideosController.getVideoById(videoId).then(function (videoFounded) {
         if (videoFounded != null) {
           var promises = [];
           videoFounded.Artists.forEach(function (artist, index) {

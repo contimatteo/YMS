@@ -70,6 +70,11 @@ app.listen(app.get('port'), function() {
   console.log("••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••");
   console.log("••••••••••••••••• YOUTUBE MUSIC SPIDER ["+app.get('port')+"] •••••••••••••••••");
   console.log("••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••");
+
+  process.on('unhandledRejection', (reason, p) => {
+    console.error('** Unhandled Rejection at: Promise', p, ' reason:', reason, ' **');
+    // application specific logging, throwing an error, or other logic here
+  });
 });
 ////////////////////////////////////////////////////////////////////////////////
 

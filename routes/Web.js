@@ -30,7 +30,6 @@ module.exports = function (app, passport) {
     var searchString = req.body.search_string;
     var searchType = req.body.search_type;
     var pageToken = req.query.page;
-    console.log("tipo: " + searchType)
     VideosController.index(res, searchString, searchType, pageToken, defaultVideoNumbers);
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
