@@ -6,14 +6,10 @@
   ],
   "verbose": true,
   "execMap": {
-    "js": "node --harmony -r dotenv/config"
+    "js": "node --harmony"
   },
-  "events": {
-    "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
-  },
-  "watch": ["*.*"],
+  "watch": ["*.js", "*.ejs"],
   "env": {
     "NODE_ENV": "development"
-  },
-  "ext": "js,ejs"
+  }
 }

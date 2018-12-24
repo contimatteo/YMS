@@ -274,3 +274,28 @@ a.link:hover,
 .aboutUs-icon-size{
   font-size: 30px !important;
 }
+
+
+@media (max-width: 768px) {
+  .transparent-navbar.navbar-default .navbar-btn:hover {
+    color: #2196f3;
+  }
+
+  .search-button {
+    margin-top: 15px;
+  }
+
+  .search-video-title {
+    margin-top: 15px !important;
+  }
+
+  .module-home-video > iframe {
+    width: 100%;
+    height: 30vh;
+  }
+
+  .menu-profile-button > a {
+    margin-left: 85px !important;
+    width: 60% !important;
+  }
+}
