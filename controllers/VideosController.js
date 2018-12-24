@@ -161,7 +161,7 @@ var self = module.exports = {
   create(response, youtubeId) {
     return new Promise((resolve, reject) => {
       return self._getVideoInfo(null, youtubeId).then(function (videoObject) {
-          return self._findArtistAndSongByString(videoObject[0].snippet.title).then(function (objectString) {
+          self._findArtistAndSongByString(videoObject[0].snippet.title).then(function (objectString) {
             var song = objectString.song;
             // delete some bad remnant from song title parsing 
             song = song.split('(')[0];
