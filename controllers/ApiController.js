@@ -48,18 +48,15 @@ var self = module.exports = {
             resolve(jsonResponse);
           })
           .catch((error) => {
-            console.log("45 %j", error);
             reject(error);
           });
         })
         .catch((error) => {
-          console.log("49 %j", error);
           var jsonResponse = new JsonAPI(youtubeId, 0, "");
           reject(jsonResponse);
         });
       })
       .catch(function (error) {
-        console.log("53 %j", error);
         resolve(null);
       })
     });
