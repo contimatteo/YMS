@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-var Promise = require("bluebird");
+// var Promise = require("bluebird");
 var TestController = require('../controllers/TestController.js');
 var AuthController = require('../controllers/AuthController.js');
 var ChannelsController = require('../controllers/ChannelsController.js');

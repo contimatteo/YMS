@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-var Promise = require('bluebird');
+// var Promise = require('bluebird');
 var RecommenderHelper = require('./helpers/RecommenderHelper.js');
 var AjaxRequestClass = require('../libraries/AjaxRequest.js');
 var youtubeRelatedd = require('../libraries/YoutubeApi.js');
@@ -17,7 +17,8 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 const otherGroupsLinks = require('../json/otherGroupsLinks.json');
-const youtubeApi = Promise.promisifyAll(new YoutubeApi());
+// const youtubeApi = Promise.promisifyAll(new YoutubeApi());
+const youtubeApi = new YoutubeApi()
 ////////////////////////////////////////////////////////////////////////////////
 
 var self = module.exports = {
@@ -131,7 +132,7 @@ var self = module.exports = {
         ],
         limit: constants.recommenderVideosNumber
       }).then(function (videoFound) {
-        resolve(videoFound)
+        return resolve(videoFound)
       }).catch(function (error) {
         // console.log("%j", error);
         reject(error);
@@ -152,7 +153,7 @@ var self = module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   globalAbsolutePopularity(videoId) {
     return new Promise((resolve, reject) => {
-      self.localAbsolutePopularity(null).then(function (videosFounded) {
+      return self.localAbsolutePopularity(null).then(function (videosFounded) {
         return VideosController.getVideoById(videoId).then(function (videoObject) {
             var promises = [];
             otherGroupsLinks.urls.forEach((url, index) => {

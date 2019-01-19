@@ -1,4 +1,4 @@
-var Promise = require("bluebird");
+// var Promise = require("bluebird");
 ////////////////////////////////////////////////////////////////////////////////
 var Artist = require("../../models/Artist.js");
 var Video = require("../../models/Video.js");

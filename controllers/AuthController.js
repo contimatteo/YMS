@@ -22,13 +22,14 @@ module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   userLoggedIn(request, response, next) {
     // save request url
-    request.session.previous_url = request.originalUrl; 
+    // request.session.previous_url = request.originalUrl; 
     // check if user is logged
     if (request.isAuthenticated()) {
       // user is logged
       return next();
     }
     else {
+      request.session.returnTo = request.originalUrl; 
       // no logged user
       response.redirect('/signin');
       // return next();
