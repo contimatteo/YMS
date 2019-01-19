@@ -20,13 +20,28 @@
               <!-- <h4>Nov 22, 2016 by <a href="#">Admin</a></h4> -->
               <div class="container">
                 <div>
-                  <h2>
+                  <!-- <h2>
                     <%= video.title %> &nbsp; &nbsp; &nbsp; &nbsp;
-                    <span class="likeCount" style="float: none;">
+                    <span class="likeCount" style="float: none; color: #2196f3; font-size:26px;">
                       <%= video.views %> &nbsp;
-                      <i class="icon-eye" aria-hidden="true"></i> 
+                      <i class="icon-listy icon-eye" aria-hidden="true"></i> 
                     </span>
-                  </h2>
+                  </h2> -->
+                  <div class="row">
+                    <div class="col-sm-7 col-xs-10">
+                      <h2>
+                        <%= video.title %> &nbsp;
+                        <i class="fa fa-check-circle" id="videoViewsCounterCheck" aria-hidden="true" style="color: #2196f3;"></i>
+                      </h2>
+                    </div>
+                    <div class="col-sm-2 col-xs-2">
+                      <span class="likeCount" style="float: none; color: #2196f3; font-size:22px; font-weight: bolder;">
+                        <span id="videoViewsCounter">
+                          <%= video.views %> </span>
+                        <i class="icon-listy icon-eye" aria-hidden="true"></i>
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 <div class="module module-home-video">
                   <div id="video"></div>
@@ -37,35 +52,41 @@
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item active">
                     <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab"
-                      aria-controls="description" aria-selected="true">Descrizione</a>
+                      aria-controls="description" aria-selected="true">Description</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="artists-tab" data-toggle="tab" href="#artists" role="tab" aria-controls="artists"
-                      aria-selected="false">Artisti</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="channel-tab" data-toggle="tab" href="#channel" role="tab" aria-controls="channel"
-                      aria-selected="false">Canale</a>
+                      aria-selected="false">Informations</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info"
-                      aria-selected="false">Wiki</a>
+                      aria-selected="false">More Info</a>
                   </li>
                 </ul>
                 <br>
-                <div class="tab-content" id="myTabContent" style="overflow-y:scroll; height:100px;">
+                <div class="tab-content" id="myTabContent" style="overflow-y:scroll; height:120px;">
                   <div class="tab-pane fade active in" id="description" role="tabpanel" aria-labelledby="description-tab">
                     <%= video.description %>
                   </div>
                   <div class="tab-pane fade" id="artists" role="tabpanel" aria-labelledby="artists-tab">
-                    <% video.Artists.forEach(function(artist) { %>
-                    <div> Artista: <b>
-                        <%= artist.name %></b></div>
-                    <% }); %>
-                  </div>
-                  <div class="tab-pane fade" id="channel" role="tabpanel" aria-labelledby="channel-tab">
-                    <div> Canale: <b>
-                        <%= video.Channel.name %></b></div>
+                    <div> 
+                      Channel: <b><%= video.Channel.name %></b>
+                    </div>
+                    <br>
+                    <div>
+                      Artists: 
+                      <b>
+                      <% video.Artists.forEach(function(artist) { %>
+                        <%= artist.name %> -
+                      <% }); %>
+                      </b>
+                    </div>
+                    <br>
+                    <%if(video.Genre) { %>
+                    <div> 
+                      Genre: <b><%= video.Genre.name %></b>
+                    </div>
+                    <% }; %>
                   </div>
                   <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
                     <%= video.dbpedia_abstract %>
@@ -187,88 +208,102 @@
 </body>
 
 <script>
-  <%if(AuthenticatedUser) { %>
+  $("#videoViewsCounterCheck").hide()
 
   function addViewToThisVideo() {
+    <%if(AuthenticatedUser) { %>
     $.ajax({
       type: "GET",
       url: "/videos/<%= video.youtube_id %>/viewed/<%=AuthenticatedUser.id%>",
       cache: false,
-      success: function (html) {
-        console.log("views aggiunta");
+      success: function (object) {
+        postDone = true
+        $("#videoViewsCounter").text(<%= video.views+1 %>)
+        $("#videoViewsCounterCheck").show()
       },
       error: function (error) {
         console.log(error);
       }
     });
+    <% }; %>
   }
-  setTimeout(addViewToThisVideo, 15000);
-  <% }; %>
+  // setTimeout(addViewToThisVideo, 15000);
 </script>
 
 <script>
   var player, playing = false;
+  var postDone = false
+  var count = 0
+  var timer
+
 
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('video', {
       height: '420',
       width: '65%',
       videoId: '<%= video.youtube_id %>',
+      playerVars: {
+        enablejsapi: 1,
+        autoplay: 0,
+        loop: 0,
+        rel: 0,
+        mute: 1,
+        controls: 1,
+        autohide: 1,
+        modestbranding: 1,
+        hd: 0,
+        showinfo: 0,
+        showsearch: 0,
+        disablekb: 1,
+        origin: "site1834.cs.unibo.it",
+        // vq: 'hd1080'
+      },
       events: {
+        'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
       }
     });
   }
 
-  function onPlayerStateChange(event) {
-    // alert('hi');
-    console.log("qualcosa è successo");
-    if (!playing) {
-      // alert('hi');
-      console.log("video partito");
-      playing = true;
+  function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+
+  function counter() { // Ogni 100 ms aggiorna il count
+    if (count > 150) {
+      addViewToThisVideo();
+      console.log("[PLAYER] 15 secondi trascorsi, POST inoltrato...");
+      count = 0;
+    } else {
+      count = count + 1;
+      timer = setTimeout(counter, 100);
     }
   }
 
-  //   function counter() { // Ogni 100 ms aggiorna il count
-  //     if(count > 150){
-  //       postVisual();
-  //       console.log("15 secondi trascorsi, POST inoltrato...");
-  //       count=0;
-  //     }
-  //     else {
-  //         count = count + 1;
-  //         timer = setTimeout(counter, 100);
-  //     }
-  // }
-
-  // function onPlayerStateChange(event) { // Funzione dell'api di youtube che se avviene un cambiamento di stato(è un listener) permette nel nostro caso di fare la post
-  //     //console.log("STATO CAMBIATO", event.data);
-  //     if (event.data == 1 && !postDone) { // 1: PLAYING
-  //         console.log("Stato del video: PLAY");
-  //         counter();
-  //     }
-  //     else if (event.data == 2 && !postDone) { // 2: PAUSED
-  //         console.log("Stato del Video: PAUSA, elapsed time in seconds: ", count/10);
-  //         if (timer) clearTimeout(timer);
-  //     }
-  //     else if (event.data == 3 && !postDone) { // 3: BUFFERING
-  //         console.log("Stato del Video: BUFFERING, elapsed time in seconds: ", count/10);
-  //         if (timer) clearTimeout(timer);
-  //     }
-  //     else if (event.data == 5 && !postDone) { // 5: QUEUED
-  //         console.log("Stato del Video: QUEUED, elapsed time in seconds: ", count/10);
-  //         if (timer) clearTimeout(timer);
-  //     }
-  //     else if (event.data == 0 && !postDone) { // 0: ENDED
-  //         if (timer) {
-  //             clearTimeout(timer);
-  //             if (player.getDuration() < 15) postVisual();
-  //             console.log("Video inferiore a 15 secondi terminato, POST inoltrato...");
-  //             count=0;
-  //         }
-  //     }
-  // }
+  function onPlayerStateChange(event) { // Funzione dell'api di youtube che se avviene un cambiamento di stato(è un listener) permette nel nostro caso di fare la post
+    //console.log("[PLAYER] STATO CAMBIATO", event.data);
+    if (event.data == 1 && !postDone) { // 1: PLAYING
+      console.log("[PLAYER] Stato del video: PLAY");
+      counter();
+    } else if (event.data == 2 && !postDone) { // 2: PAUSED
+      console.log("[PLAYER] Stato del Video: PAUSA, elapsed time in seconds: ", count / 10);
+      if (timer) clearTimeout(timer);
+    } else if (event.data == 3 && !postDone) { // 3: BUFFERING
+      console.log("[PLAYER] Stato del Video: BUFFERING, elapsed time in seconds: ", count / 10);
+      if (timer) clearTimeout(timer);
+    } else if (event.data == 5 && !postDone) { // 5: QUEUED
+      console.log("[PLAYER] Stato del Video: QUEUED, elapsed time in seconds: ", count / 10);
+      if (timer) clearTimeout(timer);
+    } else if (event.data == 0 && !postDone) { // 0: ENDED
+      if (timer) {
+        clearTimeout(timer);
+        if (player.getDuration() < 15)
+          addViewToThisVideo();
+        console.log("[PLAYER] Video inferiore a 15 secondi terminato, POST inoltrato...");
+        count = 0;
+      }
+    }
+  }
 </script>
 
 
@@ -488,7 +523,6 @@
       cache: false,
       success: function (videoList) {
         console.log("Algoritmo Genre Similarity caricato correttamente");
-        console.log(videoList);
         $("#recommender-genres-similarity").text("");
         $(videoList).each((index, videoObject) => {
           if (videoObject != null)

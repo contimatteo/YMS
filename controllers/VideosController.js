@@ -270,6 +270,9 @@ var self = module.exports = {
           },
           {
             model: User
+          },
+          {
+            model: Genre
           }
         ],
         where: {

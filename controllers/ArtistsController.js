@@ -116,7 +116,9 @@ var self = module.exports = {
                     self.createRelatedArtists(null, artistCreated.id, artistCreated.name);
                   })
                   .catch(function (error) {
-                    reject(error.errors[0].message);
+                    if(error.errors && error.errors[0].message)
+                      reject(error.errors[0].message)
+                      reject(error);
                   });
               }
             }).catch(function (error) {

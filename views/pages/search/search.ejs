@@ -23,10 +23,10 @@
 										<!-- search string -->
 										<%if (request.searchString) { %>
 										<input name="search_string" type="text" class="form-control" id="findItem" placeholder="Which song are you looking for?"
-										 value="<%= request.searchString %>">
+										 value="<%= request.searchString %>" style="text-align: center;">
 										<% } %>
 										<%if (!request.searchString) { %>
-										<input name="search_string" type="text" class="form-control" id="findItem" placeholder="Which song are you looking for?">
+										<input name="search_string" type="text" class="form-control" id="findItem" placeholder="Which song are you looking for?" style="text-align: center;">
 										<% } %>
 										<div class="input-group-addon addon-right"></div>
 									</div>
