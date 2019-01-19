@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var Genre = require("../models/Genre.js");
-var Promise = require('bluebird');
+// var Promise = require('bluebird');
 var YoutubeApi = require('../libraries/YoutubeApi.js');
 const utf8 = require('utf8');
 // var database = new mySqlDB();
-const youtubeApi = Promise.promisifyAll(new YoutubeApi());
+// const youtubeApi = Promise.promisifyAll(new YoutubeApi());
 
 ////////////////////////////////////////////////////////////////////////////////
 

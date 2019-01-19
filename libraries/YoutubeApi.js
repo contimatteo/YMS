@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
-var Promise = require("bluebird");
+// var Promise = require("bluebird");
 var YouTubeClass = require('youtube-node');
 var CustomError = require('./schemas/CustomError.js');
 var config = require('../config/config.json');

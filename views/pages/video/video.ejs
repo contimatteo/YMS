@@ -21,7 +21,11 @@
               <div class="container">
                 <div>
                   <h2>
-                    <%= video.title %>
+                    <%= video.title %> &nbsp; &nbsp; &nbsp; &nbsp;
+                    <span class="likeCount" style="float: none;">
+                      <%= video.views %> &nbsp;
+                      <i class="icon-eye" aria-hidden="true"></i> 
+                    </span>
                   </h2>
                 </div>
                 <div class="module module-home-video">
@@ -287,6 +291,7 @@
         })
       },
       error: function (error) {
+        $("#recommender-vitali").text("error on external server");
         console.log(error)
       }
     });
@@ -307,6 +312,7 @@
         })
       },
       error: function (error) {
+        $("#recommender-global-absolute-popularity").text("no matches");
         console.log(error)
       }
     });
@@ -327,6 +333,7 @@
         })
       },
       error: function (error) {
+        $("#recommender-global-relative-popularity").text("no matches");
         console.log(error)
       }
     });
@@ -346,6 +353,7 @@
         })
       },
       error: function (error) {
+        $("#recommender-local-relative-popularity").text("no matches");
         console.log(error)
       }
     });
@@ -369,7 +377,7 @@
       }
     });
     <% } else{ %>
-    $("#recommender-recent").text("Sezione disponibile solo effettuando il login")
+    $("#recommender-recent").text("Section available only for logged users")
     <% } %>
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // random recommender
@@ -386,6 +394,7 @@
         })
       },
       error: function (error) {
+        $("#recommender-random").text("no matches");
         console.log(error)
       }
     });
@@ -405,6 +414,7 @@
         })
       },
       error: function (error) {
+        $("#recommender-local-absolute-popularity").text("no matches");
         console.log(error)
       }
     });
@@ -424,6 +434,7 @@
         })
       },
       error: function (error) {
+        $("#recommender-related").text("no matches");
         console.log(error)
       }
     });
@@ -435,7 +446,7 @@
       cache: false,
       success: function (videoList) {
         console.log("Algoritmo Artist Similarity caricato correttamente");
-        $("#recommender-artists-similarity").text("");
+        $("#recommender-artists-similarity").text("unknow similar artists");
         $(videoList).each((index, relatedObject) => {
           if (relatedObject != null)
             createVideoElement("#recommender-artists-similarity", relatedObject.id.videoId, relatedObject
@@ -444,6 +455,7 @@
         })
       },
       error: function (error) {
+        $("#recommender-artists-similarity").text("");
         console.log(error)
       }
     });
@@ -464,6 +476,7 @@
         })
       },
       error: function (error) {
+        $("#recommender-band-members-similarity").text("unknow band memebers");
         console.log(error)
       }
     });
@@ -484,6 +497,7 @@
         })
       },
       error: function (error) {
+        $("#recommender-genres-similarity").text("unknow genre");
         console.log(error)
       }
     });

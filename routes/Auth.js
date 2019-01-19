@@ -16,8 +16,10 @@ module.exports = function (app, passport) {
   app.get('/logout', AuthController.userLoggedIn, AuthController.logout);
 
   app.post('/signin', passport.authenticate('local-signin'), function (req, res) {
-    nextUrl = /* req.session.previous_url || */ "/";
-    res.redirect(nextUrl);
+    // nextUrl = /* req.session.previous_url || */ "/";
+    // res.redirect(nextUrl);
+    res.redirect(req.session.returnTo || '/');
+    delete req.session.returnTo;
   });
 
 }

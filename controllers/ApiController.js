@@ -6,13 +6,13 @@ var Artist = require("../models/Artist.js");
 var Channel = require("../models/Channel.js");
 var Genre = require("../models/Genre.js");
 var User = require("../models/User.js");
-var Promise = require('bluebird');
+// var Promise = require('bluebird');
 var YoutubeApi = require('../libraries/YoutubeApi.js');
 var VideosController = require('./VideosController.js');
 var RecommenderHelper = require('./helpers/RecommenderHelper.js');
 var constants = require('./helpers/ConstantsHelper.js');
 var JsonAPI = require('../libraries/schemas/JsonAPI.js')
-const youtubeApi = Promise.promisifyAll(new YoutubeApi());
+// const youtubeApi = Promise.promisifyAll(new YoutubeApi());
 
 ////////////////////////////////////////////////////////////////////////////////
 
