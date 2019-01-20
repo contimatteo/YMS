@@ -69,22 +69,24 @@
                     <%= video.description %>
                   </div>
                   <div class="tab-pane fade" id="artists" role="tabpanel" aria-labelledby="artists-tab">
-                    <div> 
-                      Channel: <b><%= video.Channel.name %></b>
+                    <div>
+                      Channel: <b>
+                        <%= video.Channel.name %></b>
                     </div>
                     <br>
                     <div>
-                      Artists: 
+                      Artists:
                       <b>
-                      <% video.Artists.forEach(function(artist) { %>
+                        <% video.Artists.forEach(function(artist) { %>
                         <%= artist.name %> -
-                      <% }); %>
+                        <% }); %>
                       </b>
                     </div>
                     <br>
                     <%if(video.Genre) { %>
-                    <div> 
-                      Genre: <b><%= video.Genre.name %></b>
+                    <div>
+                      Genre: <b>
+                        <%= video.Genre.name %></b>
                     </div>
                     <% }; %>
                   </div>
@@ -227,7 +229,6 @@
     });
     <% }; %>
   }
-  // setTimeout(addViewToThisVideo, 15000);
 </script>
 
 <script>
@@ -269,7 +270,7 @@
     event.target.playVideo();
   }
 
-  function counter() { // Ogni 100 ms aggiorna il count
+  function counter() {
     if (count > 150) {
       addViewToThisVideo();
       console.log("[PLAYER] 15 secondi trascorsi, POST inoltrato...");
@@ -280,21 +281,20 @@
     }
   }
 
-  function onPlayerStateChange(event) { // Funzione dell'api di youtube che se avviene un cambiamento di stato(è un listener) permette nel nostro caso di fare la post
-    //console.log("[PLAYER] STATO CAMBIATO", event.data);
+  function onPlayerStateChange(event) {
     if (event.data == 1 && !postDone) { // 1: PLAYING
-      console.log("[PLAYER] Stato del video: PLAY");
       counter();
-    } else if (event.data == 2 && !postDone) { // 2: PAUSED
-      console.log("[PLAYER] Stato del Video: PAUSA, elapsed time in seconds: ", count / 10);
+    } 
+    else if (event.data == 2 && !postDone) { // 2: PAUSED
       if (timer) clearTimeout(timer);
-    } else if (event.data == 3 && !postDone) { // 3: BUFFERING
-      console.log("[PLAYER] Stato del Video: BUFFERING, elapsed time in seconds: ", count / 10);
+    } 
+    else if (event.data == 3 && !postDone) { // 3: BUFFERING
       if (timer) clearTimeout(timer);
-    } else if (event.data == 5 && !postDone) { // 5: QUEUED
-      console.log("[PLAYER] Stato del Video: QUEUED, elapsed time in seconds: ", count / 10);
+    } 
+    else if (event.data == 5 && !postDone) { // 5: QUEUED
       if (timer) clearTimeout(timer);
-    } else if (event.data == 0 && !postDone) { // 0: ENDED
+    } 
+    else if (event.data == 0 && !postDone) { // 0: ENDED
       if (timer) {
         clearTimeout(timer);
         if (player.getDuration() < 15)
