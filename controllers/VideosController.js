@@ -219,7 +219,8 @@ var self = module.exports = {
                             reject(error);
                           });
                       }).catch(error => {
-                        reject(error);
+                        // return video created
+                        resolve(videoCreated);
                       });
                   }).catch(function (error) {
                     reject(error);
