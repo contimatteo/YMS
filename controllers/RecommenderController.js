@@ -50,13 +50,9 @@ var self = module.exports = {
     return new Promise((resolve, reject) => {
       ViewsHistory.findAll({
         // INFO: no filters on user id
-        // where: {
-        //   FKUserId: userId   
-        // },
         order: [
           ['id', 'ASC']
         ],
-        limit: constants.recommenderVideosNumber
       }).then(results => {
         var promises = [];
         var videoFounded = RecommenderHelper.localRelativePopularityCounter(results, videoId);
@@ -68,11 +64,9 @@ var self = module.exports = {
             resolve(videosData);
           })
           .catch(error => {
-            // console.log("%j", error);
             reject(error);
           });
       }).catch((error) => {
-        // console.log("%j", error);
         reject(error);
       });
     });
