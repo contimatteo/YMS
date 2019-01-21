@@ -487,7 +487,8 @@
       cache: false,
       success: function (videoList) {
         console.log("Algoritmo Artist Similarity caricato correttamente");
-        $("#recommender-artists-similarity").text("unknow similar artists");
+        $("#recommender-artists-similarity").text("");
+        console.log(videoList)
         $(videoList).each((index, relatedObject) => {
           if (relatedObject != null)
             createVideoElement("#recommender-artists-similarity", relatedObject.id.videoId, relatedObject
@@ -496,7 +497,7 @@
         })
       },
       error: function (error) {
-        $("#recommender-artists-similarity").text("");
+        $("#recommender-artists-similarity").text("unknow similar artists");
         console.log(error)
       }
     });
