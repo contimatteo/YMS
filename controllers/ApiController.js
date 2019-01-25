@@ -24,8 +24,7 @@ var self = module.exports = {
         ViewsHistory.findAll({
           order: [
             ['id', 'ASC']
-          ],
-          limit: constants.recommenderVideosNumber
+          ]
         }).then(results => {
           var promises = [];
           var videoFounded = RecommenderHelper.localRelativePopularityCounter(results, videoObject.id);
