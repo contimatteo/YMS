@@ -14,15 +14,13 @@ var Channel = require("../models/Channel.js");
 var Genre = require("../models/Genre.js");
 var vitaliListaObject = require("../json/video-vitali.json")
 var ourSuggestionedList = require("../json/recommendedByUs.json")
-// var Promise = require('bluebird');
 const utf8 = require('utf8');
-// var database = new mySqlDB();
-// const youtubeApi = Promise.promisifyAll(new YoutubeApi());
 const youtubeApi = new YoutubeApi()
 
 ////////////////////////////////////////////////////////////////////////////////
 
 var self = module.exports = {
+  
   _findArtistAndSongByString(string) {
     return new Promise(function (resolve, reject) {
       var objectString = {
@@ -39,7 +37,7 @@ var self = module.exports = {
         splittedString.forEach(function (element, index) {
           splittedString[index] = element.trim();
           splittedString[index] = splittedString[index].replace(/ *\([^)]*\) */g, "");
-          splittedString[index] = splittedString[index].replace(/ *\[[^\]]*\] */g, '');
+          splittedString[index] = splittedString[index].replace(/ *\[[^\]]*\] */g, "");
           splittedString[index] = splittedString[index].replace(/ *\{[^)]*\} */g, "");
           splittedString[index] = splittedString[index].replace(/ *\{[^)]*\} */g, "");
           splittedString[index] = splittedString[index].replace(/Feat./g, 'feat.');
@@ -144,7 +142,6 @@ var self = module.exports = {
   // show list of videos
   index(response, searchString, searchType, pageToken, numberResult) {
     youtubeApi.search(searchString, numberResult, pageToken, searchType).then(function (results) {
-      // response.send(results);
       response.render('pages/search/search', {
         data: results.items,
         request: {
@@ -155,7 +152,7 @@ var self = module.exports = {
         }
       });
     }).catch(function (error) {
-      response.send(error.reasonPhrase);
+      response.send(error);
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -1,7 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // IMPORT MODULE
 var express     =   require('express');
-var middleware  =   express.Router();
 var cors        =   require('cors');
 var bodyParser  =   require('body-parser');
 var passport    =   require('passport');
@@ -40,11 +39,11 @@ app.use(function (request, response, next) {
   next();
 });
 ////////////////////////////////////////////////////////////////////////////////
-// MIDDLEWARE 2
-app.use(function(req, res, next) {
-  // console.log("MIDDLEWARE 2 : controllo di sicurezza passatto correttamente");
-  next();
-});
+// // MIDDLEWARE 2
+// app.use(function(req, res, next) {
+//   // console.log("MIDDLEWARE 2 : controllo di sicurezza passatto correttamente");
+//   next();
+// });
 ////////////////////////////////////////////////////////////////////////////////
 // set enviroment configuration
 app.set('port', (8000 || process.env.PORT || 9000));
@@ -56,11 +55,9 @@ app.set('view engine', 'ejs');
 var ApiRoutes   =   require('./routes/Api');
 var WebRoutes   =   require('./routes/Web');
 var AuthRoutes  =   require('./routes/Auth');
-var TestsRoutes  =   require('./routes/Tests');
 ApiRoutes(app, passport);
 WebRoutes(app, passport);
 AuthRoutes(app, passport);
-TestsRoutes(app, passport);
 ////////////////////////////////////////////////////////////////////////////////
 // PASSPORT
 require('./libraries/Passport.js')(passport);

@@ -21,10 +21,10 @@ module.exports = function (app, passport) {
   });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // search page route
-  app.get('/videos/search', AuthController.userLoggedIn, function (req, res) {
-    var pageToken = req.query.page;
-    VideosController.index(res, "Eminem", "", pageToken, defaultVideoNumbers);
-  });
+  // app.get('/videos/search', AuthController.userLoggedIn, function (req, res) {
+  //   var pageToken = req.query.page;
+  //   VideosController.index(res, "Eminem", "", pageToken, defaultVideoNumbers);
+  // });
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.post('/videos/search', AuthController.userLoggedIn, function (req, res) {
     var searchString = req.body.search_string;
@@ -50,7 +50,6 @@ module.exports = function (app, passport) {
       // show the video
       return VideosController.show(res, youtubeId);
     }).catch(function (error) {
-      console.log("%j", error);
       res.send(error);
     });
   });
@@ -61,7 +60,6 @@ module.exports = function (app, passport) {
     VideosController.create(res, youtubeId).then(function (results) {
       res.send(results);
     }).catch(function (error) {
-      console.log(error);
       res.send(error);
     });
   });
@@ -90,7 +88,6 @@ module.exports = function (app, passport) {
   //       res.send(artistCreated);
   //     })
   //     .catch(function (error) {
-  //       console.log(error);
   //       res.send(error);
   //     });
   // });
@@ -102,7 +99,6 @@ module.exports = function (app, passport) {
   //       res.send(artistData);
   //     })
   //     .catch(function (error) {
-  //       console.log(error);
   //       res.send(error);
   //     });
   // });

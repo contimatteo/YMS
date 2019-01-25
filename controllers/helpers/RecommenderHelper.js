@@ -38,11 +38,6 @@ var self = module.exports = {
     for (var index = 0; index < (videosHistory.length - 1); index++) {
       video1 = videosHistory[index];
       if (video1.FKVideoId == currentVideoId) {
-        // video2 = videosHistory[index+1];
-        // // video3 = videosHistory[index + 2];
-        // if (/*video1.FKVideoId == video3.FKVideoId && */ video1.FKVideoId != video2.FKVideoId) {
-        //   self.createLocalVideoRelation(videoList, video2.FKVideoId);
-        // }
         video2 = videosHistory[index + 1];
         // from A goes to B with complete view
         if (video1.complete == 1 && video1.FKVideoId != video2.FKVideoId && video2.complete == 1) {
@@ -169,7 +164,6 @@ var self = module.exports = {
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   createGlobalVideoRelation(videoArray, id, views, lastWatched) {
-    //console.log("video: " + id+", "+views+", "+lastWatched);
     var trovato = false;
     videoArray.forEach(function (viewObject) {
       if (viewObject.id == id) {
@@ -197,7 +191,6 @@ var self = module.exports = {
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   createGlobalVideoRelationHitmap(videoArray, id, views, lastWatched, hit) {
-    //console.log("video: " + id+", "+views+", "+lastWatched);
     var trovato = false;
     videoArray.forEach(function (viewObject) {
       if (viewObject.id == id) {
@@ -237,7 +230,6 @@ var self = module.exports = {
       numberOfArtists += artistObject.Related.length;
       // foreach related artist
       artistObject.Related.forEach(function (artist, index) {
-        //   console.log(artist.name)
         artistsRelatedNames.push(artist.name);
       });
     });
@@ -274,7 +266,6 @@ var self = module.exports = {
       numberOfArtists += artistObject.BandMembers.length;
       // foreach related artist
       artistObject.BandMembers.forEach(function (artist, index) {
-        //   console.log(artist.name)
         artistsRelatedNames.push(artist.name);
       });
     });

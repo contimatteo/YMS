@@ -1,11 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var Channel = require("../models/Channel.js");
-// var Promise = require('bluebird');
 var YoutubeApi = require('../libraries/YoutubeApi.js');
 const utf8 = require('utf8');
-// var database = new mySqlDB();
-// const youtubeApi = Promise.promisifyAll(new YoutubeApi());
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -25,7 +22,7 @@ var self = module.exports = {
           youtube_id: channelObject.youtube_id,
           name: utf8.encode(channelObject.name)
         }
-      }).spread( function(channelCreated, created){
+      }).spread(function (channelCreated, created) {
         resolve(channelCreated);
       });
     });

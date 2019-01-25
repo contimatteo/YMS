@@ -100,7 +100,6 @@ module.exports = function (passport) {
         var userinfo = user.get();
         return done(null, userinfo);
       }).catch(function (err) {
-        console.log("Error:", err);
         return done(null, false, {
           message: 'Something went wrong with your Signin'
         });

@@ -73,7 +73,6 @@ module.exports = class Sparql_Library {
         if (!error) {
           resolve(results);
         } else {
-          // console.log("%j", error);
           resolve(null);
           // reject(error);
         }

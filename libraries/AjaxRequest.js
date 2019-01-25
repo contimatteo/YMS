@@ -61,7 +61,6 @@ module.exports = class AjaxRequest {
             // something went wrong
             if (error) {
               // error
-              // console.log("%j", error);
               reject(error);
             } else {
               // no error and status code not 200

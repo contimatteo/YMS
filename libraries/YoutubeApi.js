@@ -30,7 +30,7 @@ module.exports = class YoutubeApi_Library {
     var limit = 0;
     this.filters.pageToken = pageToken;
     // check search type
-    if(searchType=="id") {
+    if (searchType=="id") {
       // id search type selected
       limit=1;
     }
@@ -41,7 +41,6 @@ module.exports = class YoutubeApi_Library {
     return new Promise((resolve, reject) => {
       return youtube.search(queryString, limit, this.filters, function (error, result) {
         if (error) {
-          // console.log("%j", error);
           reject(new Error(error.message));
         }
         // all goes ok
@@ -54,7 +53,6 @@ module.exports = class YoutubeApi_Library {
     return new Promise((resolve, reject) => {
       youtube.getById(id, function (error, result) {
         if (error) {
-          // console.log("%j", error);
           reject(error);
         } else {
           if (!result || !result.items || result.items.length < 1) reject(new CustomError(400, "video not found", ""));
@@ -71,7 +69,6 @@ module.exports = class YoutubeApi_Library {
         if (!error) {
           resolve(result);
         } else {
-          // console.log("%j", error);
           reject(error);
         }
       });

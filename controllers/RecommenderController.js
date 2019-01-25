@@ -1,9 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
-// var Promise = require('bluebird');
 var RecommenderHelper = require('./helpers/RecommenderHelper.js');
 var AjaxRequestClass = require('../libraries/AjaxRequest.js');
-var youtubeRelatedd = require('../libraries/YoutubeApi.js');
-var youtubeRelated = new youtubeRelatedd();
+var YoutubeRelatedClass = require('../libraries/YoutubeApi.js');
+var youtubeRelated = new YoutubeRelatedClass();
 var AjaxRequest = new AjaxRequestClass();
 var YoutubeApi = require('../libraries/YoutubeApi.js');
 var constants = require('./helpers/ConstantsHelper.js');
@@ -36,11 +35,9 @@ var self = module.exports = {
             resolve(videosData);
           })
           .catch(error => {
-            // console.log("%j", error);
             resolve(null);
           });
       }).catch((error) => {
-        // console.log("%j", error);
         resolve(null);
       });
     });
@@ -83,7 +80,6 @@ var self = module.exports = {
       }).then(function (videoRandom) {
         resolve(videoRandom);
       }).catch(function (error) {
-        // console.log("%j", error);
         reject(error);
       });
     });
@@ -128,7 +124,6 @@ var self = module.exports = {
       }).then(function (videoFound) {
         return resolve(videoFound)
       }).catch(function (error) {
-        // console.log("%j", error);
         reject(error);
       })
     });
@@ -139,7 +134,6 @@ var self = module.exports = {
       youtubeRelated.getVideoRelatedById(id, constants.recommenderVideosNumber).then(function (results) {
         resolve(results);
       }).catch(function (error) {
-        // console.log("%j", error);
         reject(error);
       });
     });
@@ -166,21 +160,17 @@ var self = module.exports = {
                     resolve(videosData);
                   })
                   .catch(error => {
-                    // console.log("%j", error);
                     reject(error);
                   });
               })
               .catch(function (error) {
-                // console.log("%j", error);
                 resolve(null);
               });
           })
           .catch(function (error) {
-            // console.log("%j", error);
             reject(error);
           });
       }).catch(function (error) {
-        // console.log("%j", error);
         reject(error);
       });
     });
@@ -207,21 +197,17 @@ var self = module.exports = {
                     resolve(videosData);
                   })
                   .catch(error => {
-                    // console.log("%j", error);
                     reject(error);
                   });
               })
               .catch(function (error) {
-                // console.log("%j", error);
                 resolve(null);
               });
           })
           .catch(function (error) {
-            // console.log("%j", error);
             reject(error);
           });
       }).catch(function (error) {
-        // console.log("%j", error);
         reject(error);
       });
     });
@@ -250,19 +236,16 @@ var self = module.exports = {
                   var finalVideosResults = [];
                   videosData.forEach(function (videosObject, index) {
                     videosObject.items.forEach(function (singleVideoObject, index) {
-                      // console.log("%j", singleVideoObject.id.videoId)
                       finalVideosResults.push(singleVideoObject);
                     });
                   });
                   resolve(finalVideosResults);
                 })
                 .catch(error => {
-                  // console.log("%j", error);
                   reject(error);
                 });
             })
             .catch(error => {
-              // console.log("%j", error);
               reject(error);
             });
         } else {
@@ -273,7 +256,6 @@ var self = module.exports = {
           });
         }
       }).catch(function (error) {
-        // console.log("%j", error);
         reject(error);
       });
     });
@@ -309,19 +291,16 @@ var self = module.exports = {
                   var finalVideosResults = [];
                   videosData.forEach(function (videosObject, index) {
                     videosObject.items.forEach(function (singleVideoObject, index) {
-                      // console.log("%j", singleVideoObject.id.videoId)
                       finalVideosResults.push(singleVideoObject);
                     });
                   });
                   resolve(finalVideosResults);
                 })
                 .catch(error => {
-                  // console.log("%j", error);
                   reject(error);
                 });
             })
             .catch(error => {
-              // console.log("%j", error);
               reject(error);
             });
         } else {
@@ -332,7 +311,6 @@ var self = module.exports = {
           });
         }
       }).catch(function (error) {
-        // console.log("%j", error);
         reject(error);
       });
     });
@@ -398,7 +376,6 @@ var self = module.exports = {
             resolve(videosWithThisGenre);
           }
         }).catch(function (error) {
-          // console.log("%j", error);
           reject(error);
         });
       }).catch(function (error) {
