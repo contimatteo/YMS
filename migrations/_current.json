@@ -1,0 +1,395 @@
+{
+    "tables": {
+        "Artists": {
+            "tableName": "Artists",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "INTEGER(11)"
+                },
+                "name": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "seqType": "VARCHAR(255)"
+                },
+                "createdAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "updatedAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "url": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "unique": true,
+                    "seqType": "VARCHAR(255)"
+                },
+                "description": {
+                    "allowNull": true,
+                    "seqType": "TEXT"
+                },
+                "dbpedia_type": {
+                    "allowNull": true,
+                    "seqType": "VARCHAR(255)"
+                },
+                "type": {
+                    "allowNull": true,
+                    "defaultValue": {
+                        "value": "artist"
+                    },
+                    "seqType": "ENUM('', 'artist', 'band')"
+                },
+                "formatted_name": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "unique": true,
+                    "seqType": "VARCHAR(255)"
+                }
+            },
+            "indexes": []
+        },
+        "ArtistsAndBands": {
+            "tableName": "ArtistsAndBands",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "INTEGER(11)"
+                },
+                "FKArtistId": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "Artists",
+                        "key": "id"
+                    },
+                    "seqType": "INTEGER(11)"
+                },
+                "FKBandId": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "Artists",
+                        "key": "id"
+                    },
+                    "seqType": "INTEGER(11)"
+                },
+                "createdAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "updatedAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                }
+            },
+            "indexes": []
+        },
+        "ArtistsRelated": {
+            "tableName": "ArtistsRelated",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "INTEGER(11) UNSIGNED"
+                },
+                "FKArtist1Id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "Artists",
+                        "key": "id"
+                    },
+                    "seqType": "INTEGER(11)"
+                },
+                "FKArtist2Id": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "Artists",
+                        "key": "id"
+                    },
+                    "seqType": "INTEGER(11)"
+                },
+                "createdAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "updatedAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                }
+            },
+            "indexes": []
+        },
+        "Channels": {
+            "tableName": "Channels",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "INTEGER(11)"
+                },
+                "name": {
+                    "allowNull": true,
+                    "seqType": "VARCHAR(255)"
+                },
+                "createdAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "updatedAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "youtube_id": {
+                    "allowNull": false,
+                    "unique": true,
+                    "seqType": "VARCHAR(255)"
+                }
+            },
+            "indexes": []
+        },
+        "Genres": {
+            "tableName": "Genres",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "INTEGER(11) UNSIGNED"
+                },
+                "createdAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "updatedAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "name": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "seqType": "VARCHAR(255)"
+                },
+                "url": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "unique": true,
+                    "seqType": "VARCHAR(255)"
+                }
+            },
+            "indexes": []
+        },
+        "Productions": {
+            "tableName": "Productions",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "INTEGER(11)"
+                },
+                "FKMusicianId": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "Artists",
+                        "key": "id"
+                    },
+                    "seqType": "INTEGER(11)"
+                },
+                "FKVideoId": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "Videos",
+                        "key": "id"
+                    },
+                    "seqType": "INTEGER(11)"
+                },
+                "createdAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "updatedAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                }
+            },
+            "indexes": []
+        },
+        "Users": {
+            "tableName": "Users",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "INTEGER(11)"
+                },
+                "createdAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "updatedAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "password": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "seqType": "VARCHAR(255)"
+                },
+                "email": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "unique": true,
+                    "seqType": "VARCHAR(150)"
+                },
+                "firstname": {
+                    "allowNull": true,
+                    "seqType": "VARCHAR(150)"
+                },
+                "lastname": {
+                    "allowNull": true,
+                    "seqType": "VARCHAR(150)"
+                }
+            },
+            "indexes": []
+        },
+        "Videos": {
+            "tableName": "Videos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "INTEGER(11)"
+                },
+                "title": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "seqType": "VARCHAR(255)"
+                },
+                "description": {
+                    "allowNull": true,
+                    "seqType": "TEXT"
+                },
+                "FKChannelId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Channels",
+                        "key": "id"
+                    },
+                    "seqType": "INTEGER(11)"
+                },
+                "createdAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "updatedAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "views": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "seqType": "INTEGER(11)"
+                },
+                "youtube_id": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "unique": true,
+                    "seqType": "VARCHAR(20)"
+                },
+                "image_url": {
+                    "allowNull": false,
+                    "seqType": "TEXT"
+                },
+                "song_name": {
+                    "allowNull": true,
+                    "seqType": "VARCHAR(255)"
+                },
+                "FKGenreId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "Genres",
+                        "key": "id"
+                    },
+                    "seqType": "INTEGER(11) UNSIGNED"
+                },
+                "dbpedia_abstract": {
+                    "allowNull": true,
+                    "seqType": "TEXT"
+                }
+            },
+            "indexes": []
+        },
+        "ViewsHistory": {
+            "tableName": "ViewsHistory",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "seqType": "INTEGER(11) UNSIGNED"
+                },
+                "FKVideoId": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "Videos",
+                        "key": "id"
+                    },
+                    "seqType": "INTEGER(11)"
+                },
+                "FKUserId": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "seqType": "INTEGER(11)"
+                },
+                "createdAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "updatedAt": {
+                    "allowNull": true,
+                    "seqType": "DATETIME"
+                },
+                "complete": {
+                    "allowNull": false,
+                    "defaultValue": {
+                        "value": "0"
+                    },
+                    "seqType": "INTEGER(1)"
+                }
+            },
+            "indexes": []
+        }
+    },
+    "revision": 1
+}

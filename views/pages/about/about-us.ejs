@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>About Us</title>
+  <% include ../../components/header.ejs %>
+</head>
+
+<body id="body" class="body-wrapper boxed-menu">
+  <div class="main-wrapper">
+    <% include ../../components/preloader.ejs %>
+    <% include ../../components/navbar.ejs %>
+
+    <!-- TODO: fix role and description + image size -->
+
+    <section class="user-profile-section bg-light" style="padding: 40px 0px;">
+      <div class="container">
+          <div class="user-profile" style="margin-bottom:30px;">
+              <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                  <div class="user-img" style="padding:9%; text-align: center;">
+                    <img class="aboutUs-profile-image" src="/assets/img/images/Alma-mater-Unibo.jpg" alt="User Image" style="width:60%;">
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-8">
+                  <div class="user-profile-content aboutUs-profile-image">
+                    <h3 class="user-name">
+                      <a href="https://github.com/LessMathMoreMeth" target="_blank">Dario Campomori</a>
+                    </h3>
+                    <span class="designation">Code Manager & Backend Developer</span>
+                    <p style="line-height: 20px; font-size:14px;">
+                      Logical creation and development of the recommendation algorithms, development + distribution + testing of the global 
+                      API at the disposal of the other groups, tester of the portal, responsible for the specifications, management and 
+                      organization of the timing and gift of the last word on all the decisions.
+                    </p>
+                    <!-- <ul class="user-contact-details">
+                      <li>
+                        <i class="fa fa-github aboutUs-icon-size" aria-hidden="true"></i>
+                        <a href="https://github.com/LessMathMoreMeth" target="_blank">Git Profile</a>
+                      </li>
+                    </ul> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+        <div class="user-profile" style="margin-bottom:30px;">
+          <div class="row">
+            <div class="col-xs-12 col-sm-4">
+              <div class="user-img" style="padding:9%; text-align: center;">
+                <img class="aboutUs-profile-image" src="/assets/img/images/Alma-mater-Unibo.jpg" alt="User Image" style="width:60%;">
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-8">
+              <div class="user-profile-content aboutUs-profile-image">
+                <h3 class="user-name">
+                  <a href="https://github.com/contimatteo" target="_blank">Matteo Conti</a>
+                </h3>
+                <span class="designation">Database Analyst & Backend Developer</span>
+                <!-- <p>Director and developer of MED team. Main flow of the entire application. Back-end and Database. </p> -->
+                <p style="line-height: 20px; font-size:14px;">
+                  Project set-up, creation of the library stack to support the entire project, creation and testing of
+                  SPARQL queries, database setup,
+                  configuration of the Sequelize module (ORM), activation of authentication with the Passport module,
+                  development of video creation
+                  logic and part of the recommendation algorithms.
+                </p>
+                <!-- <ul class="user-contact-details">
+                  <li>
+                    <i class="fa fa-github aboutUs-icon-size" aria-hidden="true"></i>
+                    <a href="https://github.com/contimatteo" target="_blank">Git Profile</a>
+                  </li>
+                </ul> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="user-profile" style="margin-bottom:30px;">
+          <div class="row">
+            <div class="col-xs-12 col-sm-4">
+              <div class="user-img" style="padding:9%; text-align: center;">
+                <img class="aboutUs-profile-image" src="/assets/img/images/Alma-mater-Unibo.jpg" alt="User Image" style="width:60%;">
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-8">
+              <div class="user-profile-content aboutUs-profile-image">
+                <h3 class="user-name">
+                  <a href="https://github.com/EnricoMariaFabbri" target="_blank">Enrico Maria Fabbri</a>
+                </h3>
+                <span class="designation">Designer & Full-Stack Developer</span>
+                <!-- <p>View, rutes and controllers.</p> -->
+                <p style="line-height: 20px; font-size:14px;">
+                  Creation and configuration of the routes logic, development of the main functions managed by the
+                  controllers and related support classes
+                  (models and helpers), UI & UX analysis and development of all the graphical views.
+                </p>
+                <!-- <ul class="user-contact-details">
+                  <li>
+                    <i class="fa fa-github aboutUs-icon-size" aria-hidden="true"></i>
+                    <a href="https://github.com/EnricoMariaFabbri" target="_blank">Git Profile</a>
+                  </li>
+                </ul> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <% include ../../components/footer.ejs %>
+  </div>
+  <% include ../../components/footer-import.ejs %>
+</body>
