@@ -27,9 +27,8 @@ module.exports = {
     if (request.isAuthenticated()) {
       // user is logged
       return next();
-    }
-    else {
-      request.session.returnTo = request.originalUrl; 
+    } else {
+      request.session.returnTo = request.originalUrl;
       // no logged user
       response.redirect('/signin');
       // return next();
@@ -38,11 +37,11 @@ module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   currentUser(req, res) {
     if (req && req.user) {
-        return req.user;
+      return req.user;
     } else {
-        return null;
+      return null;
     }
-}
+  }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 };
 

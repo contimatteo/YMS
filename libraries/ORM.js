@@ -24,11 +24,11 @@ module.exports = class myORM {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   isConnected(nextFunction) {
     this.sequelize.authenticate().then(() => {
-        //console.log('Connection has been established successfully.');
+        // Connection has been established successfully
         nextFunction(true);
       })
       .catch(err => {
-        //console.error('Unable to connect to the database:', err);
+        // Unable to connect to the database
         nextFunction(false);
       });
   }

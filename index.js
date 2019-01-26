@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // IMPORT MODULE
-var express     =   require('express');
-var cors        =   require('cors');
-var bodyParser  =   require('body-parser');
-var passport    =   require('passport');
-var session     =   require('express-session');
+var express = require('express');
+var cors = require('cors');
+var bodyParser = require('body-parser');
+var passport = require('passport');
+var session = require('express-session');
 ////////////////////////////////////////////////////////////////////////////////
 // 
 var ORMClass = require('./libraries/ORM.js');
@@ -23,7 +23,11 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 }));
 ////////////////////////////////////////////////////////////////////////////////
 // PASSPORT
-app.use(session({ secret: 'yms-youtube-music-spider', resave: true, saveUninitialized:true})); // session secret
+app.use(session({
+  secret: 'yms-youtube-music-spider',
+  resave: true,
+  saveUninitialized: true
+})); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 require('./libraries/Passport.js')(passport);
@@ -31,9 +35,8 @@ require('./libraries/Passport.js')(passport);
 // MIDDLEWARE 1
 app.use(function (request, response, next) {
   if (request.isAuthenticated()) {
-   response.locals.AuthenticatedUser = request.user;
-  }
-  else {
+    response.locals.AuthenticatedUser = request.user;
+  } else {
     response.locals.AuthenticatedUser = null;
   }
   next();
@@ -52,9 +55,9 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 ////////////////////////////////////////////////////////////////////////////////
 // ROUTES
-var ApiRoutes   =   require('./routes/Api');
-var WebRoutes   =   require('./routes/Web');
-var AuthRoutes  =   require('./routes/Auth');
+var ApiRoutes = require('./routes/Api');
+var WebRoutes = require('./routes/Web');
+var AuthRoutes = require('./routes/Auth');
 ApiRoutes(app, passport);
 WebRoutes(app, passport);
 AuthRoutes(app, passport);
@@ -63,9 +66,9 @@ AuthRoutes(app, passport);
 require('./libraries/Passport.js')(passport);
 ////////////////////////////////////////////////////////////////////////////////
 // LISTENER
-app.listen(app.get('port'), function() {
+app.listen(app.get('port'), function () {
   console.log("••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••");
-  console.log("••••••••••••••••• YOUTUBE MUSIC SPIDER ["+app.get('port')+"] •••••••••••••••••");
+  console.log("••••••••••••••••• YOUTUBE MUSIC SPIDER [" + app.get('port') + "] •••••••••••••••••");
   console.log("••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••");
 
   process.on('unhandledRejection', (reason, p) => {
@@ -74,4 +77,3 @@ app.listen(app.get('port'), function() {
   });
 });
 ////////////////////////////////////////////////////////////////////////////////
-

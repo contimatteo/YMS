@@ -16,13 +16,9 @@
  */
 
 ////////////////////////////////////////////////////////////////////////////////
-
 var request = require('request');
 
-////////////////////////////////////////////////////////////////////////////////
-
 const ApiResponse = require('./schemas/ApiResponse.js');
-
 ////////////////////////////////////////////////////////////////////////////////
 
 module.exports = class AjaxRequest {
@@ -67,8 +63,7 @@ module.exports = class AjaxRequest {
               resolve(result);
             }
           }
-        }
-        else {
+        } else {
           resolve(null)
         }
       });

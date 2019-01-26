@@ -16,43 +16,43 @@ var self = module.exports = {
   globpop(youtubeId) {
     return new Promise((resolve, reject) => {
       VideosController.getVideoByYoutubeId(youtubeId).then(function (videoObject) {
-        ViewsHistory.findAll({
-          order: [
-            ['id', 'ASC']
-          ]
-        }).then(results => {
-          var promises = [];
-          var videoFounded = RecommenderHelper.localRelativePopularityCounter(results, videoObject.id);
-          var idVideoList = [];
-          videoFounded.forEach(video => {
-            idVideoList.push(video.videoId);
-            promises.push(VideosController.getVideoById(video.videoId));
-          });
-          Video.findAll({
-            include: [Artist, Channel, Genre, User],
-            where: {
-              id: idVideoList
-            },
-            limit: constants.recommenderVideosNumber
-          }).then(videoRecommended => {
-            var jsonResponse = new JsonAPI(videoObject.youtube_id, videoObject.views, videoObject.updatedAt);
-            videoRecommended.forEach((videoFounded, index) => {
-              jsonResponse.addVideoRecommended(videoFounded.youtube_id, videoFounded.views, null);
+          ViewsHistory.findAll({
+              order: [
+                ['id', 'ASC']
+              ]
+            }).then(results => {
+              var promises = [];
+              var videoFounded = RecommenderHelper.localRelativePopularityCounter(results, videoObject.id);
+              var idVideoList = [];
+              videoFounded.forEach(video => {
+                idVideoList.push(video.videoId);
+                promises.push(VideosController.getVideoById(video.videoId));
+              });
+              Video.findAll({
+                  include: [Artist, Channel, Genre, User],
+                  where: {
+                    id: idVideoList
+                  },
+                  limit: constants.recommenderVideosNumber
+                }).then(videoRecommended => {
+                  var jsonResponse = new JsonAPI(videoObject.youtube_id, videoObject.views, videoObject.updatedAt);
+                  videoRecommended.forEach((videoFounded, index) => {
+                    jsonResponse.addVideoRecommended(videoFounded.youtube_id, videoFounded.views, null);
+                  })
+                  resolve(jsonResponse);
+                })
+                .catch((error) => {
+                  reject(error);
+                });
             })
-            resolve(jsonResponse);
-          })
-          .catch((error) => {
-            reject(error);
-          });
+            .catch((error) => {
+              var jsonResponse = new JsonAPI(youtubeId, 0, "");
+              reject(jsonResponse);
+            });
         })
-        .catch((error) => {
-          var jsonResponse = new JsonAPI(youtubeId, 0, "");
-          reject(jsonResponse);
-        });
-      })
-      .catch(function (error) {
-        resolve(null);
-      })
+        .catch(function (error) {
+          resolve(null);
+        })
     });
   },
 

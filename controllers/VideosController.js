@@ -1,4 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
+const utf8 = require('utf8');
+
 var ChannelsController = require('./ChannelsController.js');
 var GenresController = require('./GenresController.js');
 var ArtistsController = require('./ArtistsController.js');
@@ -12,15 +14,13 @@ var Video = require("../models/Video.js");
 var User = require("../models/User.js");
 var Channel = require("../models/Channel.js");
 var Genre = require("../models/Genre.js");
-var vitaliListaObject = require("../json/video-vitali.json")
+var vitaliListaObject = require("../json/suggestioned.json")
 var ourSuggestionedList = require("../json/recommendedByUs.json")
-const utf8 = require('utf8');
 const youtubeApi = new YoutubeApi()
-
 ////////////////////////////////////////////////////////////////////////////////
 
 var self = module.exports = {
-  
+
   _findArtistAndSongByString(string) {
     return new Promise(function (resolve, reject) {
       var objectString = {
@@ -159,83 +159,83 @@ var self = module.exports = {
   create(response, youtubeId) {
     return new Promise((resolve, reject) => {
       return self._getVideoInfo(null, youtubeId).then(function (videoObject) {
-          return self._findArtistAndSongByString(videoObject[0].snippet.title).then(function (objectString) {
-            var song = objectString.song;
-            // delete some bad remnant from song title parsing 
-            song = song.split('(')[0];
-            song = song.split('feat.')[0];
-            var artists = objectString.artists;
-            return self.getVideoByYoutubeId(videoObject[0].id).then(function (videoDB) {
-              if (videoDB != null) {
-                // video exist
-                resolve(videoDB);
-              } else {
-                return ChannelsController.findOrCreateChannel(videoObject[0].snippet.channelId, videoObject[0].snippet.channelTitle).then(function (channelCreated) {
-                  // video not exist
-                  var video = {
-                    title: videoObject[0].snippet.title,
-                    description: videoObject[0].snippet.description,
-                    FKChannelId: channelCreated.id,
-                    views: 0,
-                    youtube_id: videoObject[0].id,
-                    image_url: videoObject[0].snippet.thumbnails.medium.url,
-                    song_name: song
+        return self._findArtistAndSongByString(videoObject[0].snippet.title).then(function (objectString) {
+          var song = objectString.song;
+          // delete some bad remnant from song title parsing 
+          song = song.split('(')[0];
+          song = song.split('feat.')[0];
+          var artists = objectString.artists;
+          return self.getVideoByYoutubeId(videoObject[0].id).then(function (videoDB) {
+            if (videoDB != null) {
+              // video exist
+              resolve(videoDB);
+            } else {
+              return ChannelsController.findOrCreateChannel(videoObject[0].snippet.channelId, videoObject[0].snippet.channelTitle).then(function (channelCreated) {
+                // video not exist
+                var video = {
+                  title: videoObject[0].snippet.title,
+                  description: videoObject[0].snippet.description,
+                  FKChannelId: channelCreated.id,
+                  views: 0,
+                  youtube_id: videoObject[0].id,
+                  image_url: videoObject[0].snippet.thumbnails.medium.url,
+                  song_name: song
+                }
+                return self.storeVideo(video).then(function (videoCreated) {
+                  var promiseArray = [];
+                  if (artists) {
+                    artists.forEach(artist => {
+                      promiseArray.push(ArtistsController.create(null, artist));
+                    });
                   }
-                  return self.storeVideo(video).then(function (videoCreated) {
-                    var promiseArray = [];
-                    if (artists) {
-                      artists.forEach(artist => {
-                        promiseArray.push(ArtistsController.create(null, artist));
-                      });
-                    }
-                    Promise.all(promiseArray)
-                      .then(data => {
-                        var promiseArray2 = [];
-                        data.forEach(artistCreated => {
-                          if (artistCreated != null) {
-                            promiseArray2.push(ORMHelper.storeVideoAndArtistAssociation(artistCreated.id, videoCreated.id));
-                          }
-                        })
-                        Promise.all(promiseArray2).then(data => {
-                            // return video created
-                            resolve(videoCreated);
-                            // get dpedia info about this song
-                            return self.getSongDbpediaInfo(videoCreated.id).then(songInfo => {
-                              // info founded
-                              // create video genre
-                              return GenresController.findOrCreateGenre(songInfo.genre.value, songInfo.genreUrl.value).then(function (genreObject) {
-                                // update video with abstract finded and genre reference
-                                self.updateVideoWithGenreAndDbpediaInfo(videoCreated.id, genreObject.id, songInfo);
-                              }).catch(function (error) {
-                                reject(error);
-                              });
-                            }).catch(error => {
-                              reject(error);
-                            });
-                          }).catch(error => {
-                            reject(error);
-                          });
-                      }).catch(error => {
+                  Promise.all(promiseArray)
+                    .then(data => {
+                      var promiseArray2 = [];
+                      data.forEach(artistCreated => {
+                        if (artistCreated != null) {
+                          promiseArray2.push(ORMHelper.storeVideoAndArtistAssociation(artistCreated.id, videoCreated.id));
+                        }
+                      })
+                      Promise.all(promiseArray2).then(data => {
                         // return video created
                         resolve(videoCreated);
+                        // get dpedia info about this song
+                        return self.getSongDbpediaInfo(videoCreated.id).then(songInfo => {
+                          // info founded
+                          // create video genre
+                          return GenresController.findOrCreateGenre(songInfo.genre.value, songInfo.genreUrl.value).then(function (genreObject) {
+                            // update video with abstract finded and genre reference
+                            self.updateVideoWithGenreAndDbpediaInfo(videoCreated.id, genreObject.id, songInfo);
+                          }).catch(function (error) {
+                            reject(error);
+                          });
+                        }).catch(error => {
+                          reject(error);
+                        });
+                      }).catch(error => {
+                        reject(error);
                       });
-                  }).catch(function (error) {
-                    reject(error);
-                  });
+                    }).catch(error => {
+                      // return video created
+                      resolve(videoCreated);
+                    });
                 }).catch(function (error) {
                   reject(error);
                 });
-              }
-            }).catch(function (error) {
-              reject(error);
-            });
+              }).catch(function (error) {
+                reject(error);
+              });
+            }
           }).catch(function (error) {
             reject(error);
           });
         }).catch(function (error) {
-          response.status(400).send("video not available")
-          // reject(error);
+          reject(error);
         });
+      }).catch(function (error) {
+        response.status(400).send("video not available")
+        // reject(error);
+      });
     });
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

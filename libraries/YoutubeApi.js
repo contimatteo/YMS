@@ -1,9 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
-
-// var Promise = require("bluebird");
 var YouTubeClass = require('youtube-node');
 var CustomError = require('./schemas/CustomError.js');
 var config = require('../config/config.json');
+
 var youtube = new YouTubeClass();
 var CustomError = require('./schemas/CustomError.js');
 const fetchCommentPage = require('youtube-comment-api')
@@ -12,7 +11,6 @@ youtube.setKey(config.development.youtube_api_key);
 
 // need to take a look
 // optional parameters : https://developers.google.com/youtube/v3/docs/search/list#optional-parameters
-
 ////////////////////////////////////////////////////////////////////////////////
 
 module.exports = class YoutubeApi_Library {
@@ -26,15 +24,14 @@ module.exports = class YoutubeApi_Library {
     };
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  search(queryString, numberOfResult, pageToken, searchType=null) {
+  search(queryString, numberOfResult, pageToken, searchType = null) {
     var limit = 0;
     this.filters.pageToken = pageToken;
     // check search type
-    if (searchType=="id") {
+    if (searchType == "id") {
       // id search type selected
-      limit=1;
-    }
-    else {
+      limit = 1;
+    } else {
       // default search type selected
       limit = numberOfResult;
     }

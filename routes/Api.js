@@ -50,17 +50,17 @@ module.exports = function (app, passport) {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/recommender/recent/:user', /*AuthController.userLoggedIn,*/ function (req, res) {
     var userId = req.params.user;
-    RecommenderController.recent(res,userId).then(function (result) {
+    RecommenderController.recent(res, userId).then(function (result) {
       res.send(result);
     }).catch(function (error) {
       res.status(400);
       res.send(error);
     });
   });
-   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   app.get('/recommender/related/:id', /*AuthController.userLoggedIn,*/ function (req, res) {
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app.get('/recommender/related/:id', /*AuthController.userLoggedIn,*/ function (req, res) {
     var id = req.params.id;
-    RecommenderController.related(res,id).then(function (result) {
+    RecommenderController.related(res, id).then(function (result) {
       res.send(result);
     }).catch(function (error) {
       res.status(400);
@@ -120,9 +120,9 @@ module.exports = function (app, passport) {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app.get('/globpop', function (req, res) {
     var youtubeId = req.query.id; //mi prende l id del video, che mi passa chi vuole il json
-    ApiController.globpop(youtubeId).then(function(videosFounded) {
+    ApiController.globpop(youtubeId).then(function (videosFounded) {
       res.send(videosFounded);
-    }).catch(function(error) {
+    }).catch(function (error) {
       res.send(error)
     })
   });

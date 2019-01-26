@@ -1,4 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
+const Sequelize = require('sequelize');
+
 var RecommenderHelper = require('./helpers/RecommenderHelper.js');
 var AjaxRequestClass = require('../libraries/AjaxRequest.js');
 var YoutubeRelatedClass = require('../libraries/YoutubeApi.js');
@@ -12,11 +14,10 @@ var Video = require("../models/Video.js");
 var Artist = require("../models/Artist.js");
 var Channel = require("../models/Channel.js");
 var Genre = require("../models/Genre.js");
-const Sequelize = require('sequelize');
+
 const Op = Sequelize.Op;
 
 const otherGroupsLinks = require('../json/otherGroupsLinks.json');
-// const youtubeApi = Promise.promisifyAll(new YoutubeApi());
 const youtubeApi = new YoutubeApi()
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -1,12 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 const utf8 = require('utf8');
+
 var SparqlController = require('./SparqlController.js');
-// var jsonVitali = require("../json/video-vitali.json");
 var DataHelper = require('./helpers/DataHelper.js');
 // var ORMHelper = require('./helpers/ORMHelper.js');
 var constants = require('./helpers/ConstantsHelper.js');
 var CustomError = require('../libraries/schemas/CustomError.js');
-////////////////////////////////////////////////////////////////////////////////
 var Artist = require("../models/Artist.js");
 var ArtistsRelated = require("../models/ArtistsRelated.js");
 var ArtistsAndBands = require("../models/ArtistsAndBands.js");

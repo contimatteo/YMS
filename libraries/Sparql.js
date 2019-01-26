@@ -16,13 +16,11 @@
  */
 
 ////////////////////////////////////////////////////////////////////////////////
-
 const SparqlClient = require('sparql-client-2');
+
 const SPARQL = SparqlClient.SPARQL;
 const endpoint = 'http://dbpedia.org/sparql';
 const defaultLimit = 1000;
-var CustomError = require('./schemas/CustomError.js');
-
 ////////////////////////////////////////////////////////////////////////////////
 
 module.exports = class Sparql_Library {
@@ -48,20 +46,6 @@ module.exports = class Sparql_Library {
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   runQuery(query, bindingNames, bindingValues) {
-    // // set the query
-    // this.client.query(query);
-    // // prepare the query
-    // for (var i = 0; i < bindingNames.length; i++) {
-    //   this.client.query(query).bind(bindingNames[i], bindingValues[i]);
-    // }
-    // // execute the query
-    // this.client.query(query).execute(function(error, results) {
-    //   if (!error) {
-    //     nextFunction(results);
-    //   } else {
-    //     nextFunction(null);
-    //   }
-    // });
     return new Promise((resolve, reject) => {
       this.client.query(query);
       // prepare the query
