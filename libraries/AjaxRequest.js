@@ -55,13 +55,18 @@ module.exports = class AjaxRequest {
           result.reason_phrase = response.statusCode;
           if (response.statusCode == 200) {
             // all goes ok
-            result.data = response.body;
-            resolve(JSON.parse(response.body));
+            // result.data = response.body;
+            try {
+              result.data = JSON.parse(response.body)
+            } catch (ex) {
+              result.data = {}
+            }
+            // resolve(JSON.parse(response.body));
+            resolve(result.data)
           } else {
             // something went wrong
             if (error) {
               // error
-              // console.log("%j", error);
               reject(error);
             } else {
               // no error and status code not 200
