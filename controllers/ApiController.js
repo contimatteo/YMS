@@ -16,6 +16,9 @@ var JsonAPI = require('../libraries/schemas/JsonAPI.js')
 var self = module.exports = {
 
   globpop(youtubeId) {
+    // BUG: function logic wrong!
+    // if req.query.id is setted then --> return local relative popularity
+    // else return global relative popularity
     return new Promise((resolve, reject) => {
       VideosController.getVideoByYoutubeId(youtubeId).then(function (videoObject) {
           ViewsHistory.findAll({

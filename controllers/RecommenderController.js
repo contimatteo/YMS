@@ -142,11 +142,12 @@ var self = module.exports = {
 
   globalAbsolutePopularity(videoId) {
     return new Promise((resolve, reject) => {
+      // FIXME: check this function call
       return self.localAbsolutePopularity(null).then(function (videosFounded) {
-        return VideosController.getVideoById(videoId).then(function (videoObject) {
+        // return VideosController.getVideoById(videoId).then(function (videoObject) {
             var promises = [];
             otherGroupsLinks.urls.forEach((url, index) => {
-              promises.push(AjaxRequest.jsonRequest(url + videoObject.youtube_id, 'GET', {}))
+              promises.push(AjaxRequest.jsonRequest(url, 'GET', {}))
             })
             Promise.all(promises)
               .then(function (groupsVideos) {
@@ -167,10 +168,10 @@ var self = module.exports = {
               .catch(function (error) {
                 resolve(null)
               })
-          })
-          .catch(function (error) {
-            reject(error)
-          })
+          // })
+          // .catch(function (error) {
+          //   reject(error)
+          // })
       }).catch(function (error) {
         reject(error)
       })
