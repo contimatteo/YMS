@@ -1,8 +1,7 @@
-////////////////////////////////////////////////////////////////////////////////
-const utf8 = require('utf8');
+const utf8 = require('utf8')
 
-var Genre = require("../models/Genre.js");
-////////////////////////////////////////////////////////////////////////////////
+var Genre = require("../models/Genre.js")
+
 
 var self = module.exports = {
 
@@ -21,10 +20,10 @@ var self = module.exports = {
           name: utf8.encode(channelObject.name),
           url: channelObject.url
         }
-      }).spread( function(genreCreated, created){
-        resolve(genreCreated);
-      });
-    });
+      }).spread(function (genreCreated, created) {
+        resolve(genreCreated)
+      })
+    })
   }
 
-};
+}

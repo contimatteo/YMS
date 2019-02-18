@@ -1,13 +1,12 @@
-
 var config = require('../config/config.json');
 const Sequelize = require('sequelize');
 
 
 module.exports = class myORM {
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   constructor() {
     this.sequelize = new Sequelize(config.development.database, config.development.username, config.development.password, {
-         host: config.development.host,
+      host: config.development.host,
       dialect: 'mysql',
       operatorsAliases: false,
       pool: {
@@ -21,7 +20,7 @@ module.exports = class myORM {
     });
     // this.sync();
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   isConnected(nextFunction) {
     this.sequelize.authenticate().then(() => {
         // Connection has been established successfully
@@ -32,7 +31,7 @@ module.exports = class myORM {
         nextFunction(false);
       });
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   sync() {
     this.sequelize.sync()
       .then(err => {
@@ -42,5 +41,5 @@ module.exports = class myORM {
         // console.error('Unable to connect to the database:', err);
       });
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 }

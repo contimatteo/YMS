@@ -1,23 +1,28 @@
-////////////////////////////////////////////////////////////////////////////////
-const utf8 = require('utf8');
+const utf8 = require('utf8')
 
-var ChannelsController = require('./ChannelsController.js');
-var GenresController = require('./GenresController.js');
-var ArtistsController = require('./ArtistsController.js');
-var SparqlController = require('./SparqlController.js');
-var YoutubeApi = require('../libraries/YoutubeApi.js');
-var ORMHelper = require('./helpers/ORMHelper.js');
-var DataHelper = require('./helpers/DataHelper.js');
-var Artist = require("../models/Artist.js");
-var ViewsHistory = require("../models/ViewsHistory.js");
-var Video = require("../models/Video.js");
-var User = require("../models/User.js");
-var Channel = require("../models/Channel.js");
-var Genre = require("../models/Genre.js");
+var ChannelsController = require('./ChannelsController.js')
+var GenresController = require('./GenresController.js')
+var ArtistsController = require('./ArtistsController.js')
+var SparqlController = require('./SparqlController.js')
+
+var YoutubeApi = require('../libraries/YoutubeApi.js')
+
+var ORMHelper = require('./helpers/ORMHelper.js')
+var DataHelper = require('./helpers/DataHelper.js')
+
+var Artist = require("../models/Artist.js")
+var ViewsHistory = require("../models/ViewsHistory.js")
+var Video = require("../models/Video.js")
+var User = require("../models/User.js")
+var Channel = require("../models/Channel.js")
+var Genre = require("../models/Genre.js")
+
 var vitaliListaObject = require("../json/suggestioned.json")
 var ourSuggestionedList = require("../json/recommendedByUs.json")
+
 const youtubeApi = new YoutubeApi()
-////////////////////////////////////////////////////////////////////////////////
+
+
 
 var self = module.exports = {
 
@@ -28,32 +33,32 @@ var self = module.exports = {
         song: string
       };
       if ((string.indexOf("-") > -1)) {
-        string = string.trim();
-        var splittedString = string.split("-");
+        string = string.trim()
+        var splittedString = string.split("-")
         if (splittedString.length < 1) {
-          splittedString = string.split(":");
+          splittedString = string.split(":")
         }
         // split song and artist
         splittedString.forEach(function (element, index) {
-          splittedString[index] = element.trim();
-          splittedString[index] = splittedString[index].replace(/ *\([^)]*\) */g, "");
-          splittedString[index] = splittedString[index].replace(/ *\[[^\]]*\] */g, "");
-          splittedString[index] = splittedString[index].replace(/ *\{[^)]*\} */g, "");
-          splittedString[index] = splittedString[index].replace(/ *\{[^)]*\} */g, "");
-          splittedString[index] = splittedString[index].replace(/Feat./g, 'feat.');
-          splittedString[index] = splittedString[index].replace(/Feat/g, 'feat.');
-          splittedString[index] = splittedString[index].replace(/Featuring./g, 'feat.');
-          splittedString[index] = splittedString[index].replace(/Featuring/g, 'feat.');
-          splittedString[index] = splittedString[index].replace(/Ft./g, 'feat.');
-          splittedString[index] = splittedString[index].replace(/Ft/g, 'feat.');
-          splittedString[index] = splittedString[index].replace(/ft./g, 'feat.');
-          splittedString[index] = splittedString[index].replace(/ft/g, 'feat.');
-          splittedString[index] = splittedString[index].replace(/&/g, 'feat.');
-          splittedString[index] = splittedString[index].replace(/featuring./g, 'feat.');
-          splittedString[index] = splittedString[index].replace(/featuring/g, 'feat.');
-          // splittedString[index] = splittedString[index].replace(/feat./g, '^');
-          splittedString[index] = splittedString[index].trim();
-        });
+          splittedString[index] = element.trim()
+          splittedString[index] = splittedString[index].replace(/ *\([^)]*\) */g, "")
+          splittedString[index] = splittedString[index].replace(/ *\[[^\]]*\] */g, "")
+          splittedString[index] = splittedString[index].replace(/ *\{[^)]*\} */g, "")
+          splittedString[index] = splittedString[index].replace(/ *\{[^)]*\} */g, "")
+          splittedString[index] = splittedString[index].replace(/Feat./g, 'feat.')
+          splittedString[index] = splittedString[index].replace(/Feat/g, 'feat.')
+          splittedString[index] = splittedString[index].replace(/Featuring./g, 'feat.')
+          splittedString[index] = splittedString[index].replace(/Featuring/g, 'feat.')
+          splittedString[index] = splittedString[index].replace(/Ft./g, 'feat.')
+          splittedString[index] = splittedString[index].replace(/Ft/g, 'feat.')
+          splittedString[index] = splittedString[index].replace(/ft./g, 'feat.')
+          splittedString[index] = splittedString[index].replace(/ft/g, 'feat.')
+          splittedString[index] = splittedString[index].replace(/&/g, 'feat.')
+          splittedString[index] = splittedString[index].replace(/featuring./g, 'feat.')
+          splittedString[index] = splittedString[index].replace(/featuring/g, 'feat.')
+          // splittedString[index] = splittedString[index].replace(/feat./g, '^')
+          splittedString[index] = splittedString[index].trim()
+        })
         // find case
         if ((splittedString[0].indexOf("feat.") < 0) && (splittedString[1].indexOf("feat.") < 0)) {
           return ArtistsController.getArtistInfo(null, splittedString[0]).then(function (artistObject) {
@@ -62,56 +67,56 @@ var self = module.exports = {
                 if (artistObject2 != null) {
                   // 1° case: "Song - Artist"
                   objectString.song = splittedString[0];
-                  objectString.artists.push(splittedString[1]);
-                  resolve(objectString);
+                  objectString.artists.push(splittedString[1])
+                  resolve(objectString)
                 } else {
                   // no artist finded
                   // default case: "Artist - Song"
                   objectString.song = splittedString[1];
-                  objectString.artists.push(splittedString[0]);
-                  resolve(objectString);
+                  objectString.artists.push(splittedString[0])
+                  resolve(objectString)
                 }
               }).catch(function (error) {
-                resolve(objectString);
-              });
+                resolve(objectString)
+              })
             } else {
               // 1° case: "Artist - Song"
               objectString.song = splittedString[1];
-              objectString.artists.push(splittedString[0]);
-              resolve(objectString);
+              objectString.artists.push(splittedString[0])
+              resolve(objectString)
             }
           }).catch(function (error) {
-            resolve(objectString);
-          });
+            resolve(objectString)
+          })
         }
         if ((splittedString[0].indexOf("feat.") > -1)) {
           // 2° case: "Artist feat. Artist - Song"
           objectString.song = splittedString[1];
           splittedString[0].split("feat.").forEach(artistName => {
-            objectString.artists.push(artistName);
-          });
-          resolve(objectString);
+            objectString.artists.push(artistName)
+          })
+          resolve(objectString)
         }
         if ((splittedString[1].indexOf("feat.") > -1)) {
           // 3° case: "Artist - Song feat. Artist" oppure "Song - Artist feat. Artist"
-          objectString.artists.push(splittedString[0]);
+          objectString.artists.push(splittedString[0])
           splittedString[1].split("feat.").forEach((artistName, index) => {
             if (index == 0) {
               // song
               objectString.song = artistName;
             } else {
               // artists
-              objectString.artists.push(artistName);
+              objectString.artists.push(artistName)
             }
-          });
-          resolve(objectString);
+          })
+          resolve(objectString)
         }
       } else {
-        resolve(objectString);
+        resolve(objectString)
       }
-    });
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   // show single video by id
   show(response, id) {
     return self.getVideoByYoutubeId(id).then(function (video) {
@@ -119,26 +124,26 @@ var self = module.exports = {
         response.render('pages/video/video', {
           video: video,
           comments: commentList
-        });
+        })
       }).catch(function (error) {
-        response.send(error);
-      });
+        response.send(error)
+      })
     }).catch(function (error) {
-      response.send(error);
-    });
+      response.send(error)
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   // show single video by id
   _getVideoInfo(response, id) {
     return new Promise((resolve, reject) => {
       youtubeApi.getVideoById(id).then(function (results) {
-        resolve(results.items);
+        resolve(results.items)
       }).catch(function (error) {
-        resolve(null);
-      });
-    });
+        resolve(null)
+      })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   // show list of videos
   index(response, searchString, searchType, pageToken, numberResult) {
     youtubeApi.search(searchString, numberResult, pageToken, searchType).then(function (results) {
@@ -150,12 +155,12 @@ var self = module.exports = {
           nextPage: results.nextPageToken,
           previousPage: results.prevPageToken
         }
-      });
+      })
     }).catch(function (error) {
-      response.send(error);
-    });
+      response.send(error)
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   create(response, youtubeId) {
     return new Promise((resolve, reject) => {
       return self._getVideoInfo(null, youtubeId).then(function (videoObject) {
@@ -168,7 +173,7 @@ var self = module.exports = {
           return self.getVideoByYoutubeId(videoObject[0].id).then(function (videoDB) {
             if (videoDB != null) {
               // video exist
-              resolve(videoDB);
+              resolve(videoDB)
             } else {
               return ChannelsController.findOrCreateChannel(videoObject[0].snippet.channelId, videoObject[0].snippet.channelTitle).then(function (channelCreated) {
                 // video not exist
@@ -185,79 +190,79 @@ var self = module.exports = {
                   var promiseArray = [];
                   if (artists) {
                     artists.forEach(artist => {
-                      promiseArray.push(ArtistsController.create(null, artist));
-                    });
+                      promiseArray.push(ArtistsController.create(null, artist))
+                    })
                   }
                   Promise.all(promiseArray)
                     .then(data => {
                       var promiseArray2 = [];
                       data.forEach(artistCreated => {
                         if (artistCreated != null) {
-                          promiseArray2.push(ORMHelper.storeVideoAndArtistAssociation(artistCreated.id, videoCreated.id));
+                          promiseArray2.push(ORMHelper.storeVideoAndArtistAssociation(artistCreated.id, videoCreated.id))
                         }
                       })
                       Promise.all(promiseArray2).then(data => {
                         // return video created
-                        resolve(videoCreated);
+                        resolve(videoCreated)
                         // get dpedia info about this song
                         return self.getSongDbpediaInfo(videoCreated.id).then(songInfo => {
                           // info founded
                           // create video genre
                           return GenresController.findOrCreateGenre(songInfo.genre.value, songInfo.genreUrl.value).then(function (genreObject) {
                             // update video with abstract finded and genre reference
-                            self.updateVideoWithGenreAndDbpediaInfo(videoCreated.id, genreObject.id, songInfo);
+                            self.updateVideoWithGenreAndDbpediaInfo(videoCreated.id, genreObject.id, songInfo)
                           }).catch(function (error) {
-                            reject(error);
-                          });
+                            reject(error)
+                          })
                         }).catch(error => {
-                          reject(error);
-                        });
+                          reject(error)
+                        })
                       }).catch(error => {
                         // return video created
-                        resolve(videoCreated);
-                      });
+                        resolve(videoCreated)
+                      })
                     }).catch(error => {
                       // return video created
-                      resolve(videoCreated);
-                    });
+                      resolve(videoCreated)
+                    })
                 }).catch(function (error) {
-                  reject(error);
-                });
+                  reject(error)
+                })
               }).catch(function (error) {
-                reject(error);
-              });
+                reject(error)
+              })
             }
           }).catch(function (error) {
-            reject(error);
-          });
+            reject(error)
+          })
         }).catch(function (error) {
-          reject(error);
-        });
+          reject(error)
+        })
       }).catch(function (error) {
         response.status(400).send("video not available")
-        // reject(error);
-      });
-    });
+        // reject(error)
+      })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   addView(response, userId, videoId) {
     self.getVideoByYoutubeId(videoId).then(function (videoObject) {
       // save video history
-      self.storeUserAndVideoHistoryCompleteAssociation(userId, videoObject.id);
+      self.storeUserAndVideoHistoryCompleteAssociation(userId, videoObject.id)
       if (!videoObject) {
-        response.send('il video non ce');
+        response.send('il video non ce')
       } else {
         return videoObject.increment('views', {
           by: 1
         }).then(function (results) {
-          response.send(results);
+          response.send(results)
         }).catch(function (error) {
-          reject(error);
-        });
+          reject(error)
+        })
       }
-    });
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getVideoByYoutubeId(videoId) {
     return new Promise((resolve, reject) => {
       Video.findOne({
@@ -278,13 +283,13 @@ var self = module.exports = {
           youtube_id: videoId
         }
       }).then(results => {
-        resolve(results);
+        resolve(results)
       }).catch((error) => {
-        reject(error);
-      });
-    });
+        reject(error)
+      })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getVideoById(videoId) {
     return new Promise((resolve, reject) => {
       Video.findOne({
@@ -302,13 +307,13 @@ var self = module.exports = {
           id: videoId
         }
       }).then(results => {
-        resolve(results);
+        resolve(results)
       }).catch((error) => {
-        reject(error);
-      });
-    });
+        reject(error)
+      })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   storeVideo(videoObject) {
     return new Promise((resolve, reject) => {
       var video = Video.build(videoObject, {
@@ -319,15 +324,15 @@ var self = module.exports = {
         youtube_id: videoObject.youtube_id,
         image_url: videoObject.image_url,
         song_name: utf8.encode(videoObject.song_name)
-      });
+      })
       video.save().then(videoCreated => {
-        resolve(videoCreated);
+        resolve(videoCreated)
       }).catch((error) => {
-        reject(error);
-      });
-    });
+        reject(error)
+      })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   storeUserAndVideoHistoryPartialAssociation(userId, videoId) {
     // self.getVideoByYoutubeId(youtubeId).then(function(video) {
     var association = {
@@ -338,22 +343,22 @@ var self = module.exports = {
     var viewsHistoryObject = ViewsHistory.build(association, {
       FKUserId: association.FKUserId,
       FKVideoId: association.FKVideoId
-    });
-    viewsHistoryObject.save().then(viewHistoryCreated => {}).catch((error) => {});
+    })
+    viewsHistoryObject.save().then(viewHistoryCreated => {}).catch((error) => {})
     // })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getSongDbpediaInfo(id) {
     return new Promise((resolve, reject) => {
       var promises = [];
       self.getVideoById(id).then(function (videoObject) {
         var objectLink;
         videoObject.Artists.forEach((artistObject, index) => {
-          objectLink = DataHelper.nameFormatter(artistObject.name, videoObject.song_name);
-          promises.push(SparqlController.getSongInfo(objectLink.link1));
-          promises.push(SparqlController.getSongInfo(objectLink.link2));
-          promises.push(SparqlController.getSongInfo(objectLink.link3));
-        });
+          objectLink = DataHelper.nameFormatter(artistObject.name, videoObject.song_name)
+          promises.push(SparqlController.getSongInfo(objectLink.link1))
+          promises.push(SparqlController.getSongInfo(objectLink.link2))
+          promises.push(SparqlController.getSongInfo(objectLink.link3))
+        })
         Promise.all(promises).then(data => {
             var songInfo = null;
             var trovato = false;
@@ -362,18 +367,18 @@ var self = module.exports = {
                 songInfo = songInfoResults.results.bindings[0];
                 trovato = true;
               }
-            });
-            resolve(songInfo);
+            })
+            resolve(songInfo)
           })
           .catch(error => {
-            resolve(null);
-          });
+            resolve(null)
+          })
       }).catch(function (error) {
-        reject(error);
-      });
-    });
+        reject(error)
+      })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   storeUserAndVideoHistoryCompleteAssociation(userId, videoId) {
     var association = {
       FKUserId: userId,
@@ -393,9 +398,9 @@ var self = module.exports = {
         var viewsHistoryObject = ViewsHistory.build(association, {
           FKUserId: association.FKUserId,
           FKVideoId: association.FKVideoId
-        });
+        })
         viewsHistoryObject.save().then(viewHistoryCreated => {})
-          .catch((error) => {});
+          .catch((error) => {})
       } else {
         // the last video's id created match with this id
         if (entries[0].complete == 0) {
@@ -407,12 +412,12 @@ var self = module.exports = {
                 id: entries[0].id
               }
             })
-            .then(function () {}).error(function (error) {});
+            .then(function () {}).error(function (error) {})
         }
       }
-    });
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   updateVideoWithGenreAndDbpediaInfo(videoId, genreId, songInfo) {
     Video.update({
       dbpedia_abstract: songInfo.abstract.value,
@@ -425,42 +430,41 @@ var self = module.exports = {
       // all goes ok
     }).error(function (err) {
       // something went wrong
-    });
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   showSuggestionedVideos(response) {
     return new Promise((resolve, reject) => {
       var promises = [];
       vitaliListaObject.forEach(video => {
-        promises.push(self._getVideoInfo(null, video.videoID));
-      });
+        promises.push(self._getVideoInfo(null, video.videoID))
+      })
       Promise.all(promises)
         .then(videosData => {
           response.render('pages/video/suggestioned', {
             data: videosData
-          });
+          })
         })
         .catch(error => {
-          reject(error);
-        });
-    });
+          reject(error)
+        })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   showSuggestionedByUs(response, genere) {
     var promises = [];
     ourSuggestionedList[genere].forEach(videoId => {
-      promises.push(self._getVideoInfo(null, videoId));
-    });
+      promises.push(self._getVideoInfo(null, videoId))
+    })
     Promise.all(promises)
       .then(videosData => {
         response.render('pages/video/suggestioned-by-us', {
           data: videosData
-        });
+        })
       })
       .catch(error => {
         response.send(error)
-      });
+      })
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-};
+}

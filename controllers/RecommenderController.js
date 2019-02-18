@@ -1,25 +1,25 @@
-////////////////////////////////////////////////////////////////////////////////
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize')
 
-var RecommenderHelper = require('./helpers/RecommenderHelper.js');
-var AjaxRequestClass = require('../libraries/AjaxRequest.js');
-var YoutubeRelatedClass = require('../libraries/YoutubeApi.js');
-var youtubeRelated = new YoutubeRelatedClass();
-var AjaxRequest = new AjaxRequestClass();
-var YoutubeApi = require('../libraries/YoutubeApi.js');
-var constants = require('./helpers/ConstantsHelper.js');
-var ViewsHistory = require("../models/ViewsHistory.js");
-var User = require("../models/User.js");
-var Video = require("../models/Video.js");
-var Artist = require("../models/Artist.js");
-var Channel = require("../models/Channel.js");
-var Genre = require("../models/Genre.js");
+var AjaxRequestClass = require('../libraries/AjaxRequest.js')
+var YoutubeRelatedClass = require('../libraries/YoutubeApi.js')
+
+var YoutubeApi = require('../libraries/YoutubeApi.js')
+var constants = require('./helpers/ConstantsHelper.js')
+var RecommenderHelper = require('./helpers/RecommenderHelper.js')
+
+var ViewsHistory = require("../models/ViewsHistory.js")
+var User = require("../models/User.js")
+var Video = require("../models/Video.js")
+var Artist = require("../models/Artist.js")
+var Channel = require("../models/Channel.js")
+var Genre = require("../models/Genre.js")
 
 const Op = Sequelize.Op;
-
-const otherGroupsLinks = require('../json/otherGroupsLinks.json');
 const youtubeApi = new YoutubeApi()
-////////////////////////////////////////////////////////////////////////////////
+var youtubeRelated = new YoutubeRelatedClass()
+var AjaxRequest = new AjaxRequestClass()
+
+
 
 var self = module.exports = {
   // fvitali get request
@@ -29,21 +29,21 @@ var self = module.exports = {
       AjaxRequest.jsonRequest(url, 'GET', {}).then(function (vitaliResponse) {
         var promises = [];
         vitaliResponse.recommended.forEach(video => {
-          promises.push(VideosController._getVideoInfo(null, video.videoID));
-        });
+          promises.push(VideosController._getVideoInfo(null, video.videoID))
+        })
         Promise.all(promises)
           .then(videosData => {
-            resolve(videosData);
+            resolve(videosData)
           })
           .catch(error => {
-            resolve(null);
-          });
+            resolve(null)
+          })
       }).catch((error) => {
-        resolve(null);
-      });
-    });
+        resolve(null)
+      })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   localRelativePopularity(response, videoId) {
     return new Promise((resolve, reject) => {
       ViewsHistory.findAll({
@@ -53,23 +53,23 @@ var self = module.exports = {
         ],
       }).then(results => {
         var promises = [];
-        var videoFounded = RecommenderHelper.localRelativePopularityCounter(results, videoId);
+        var videoFounded = RecommenderHelper.localRelativePopularityCounter(results, videoId)
         videoFounded.forEach(video => {
-          promises.push(VideosController.getVideoById(video.videoId));
-        });
+          promises.push(VideosController.getVideoById(video.videoId))
+        })
         Promise.all(promises)
           .then(videosData => {
-            resolve(videosData);
+            resolve(videosData)
           })
           .catch(error => {
-            reject(error);
-          });
+            reject(error)
+          })
       }).catch((error) => {
-        reject(error);
-      });
-    });
+        reject(error)
+      })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   random(response) {
     return new Promise((resolve, reject) => {
       Video.findAll({
@@ -79,13 +79,13 @@ var self = module.exports = {
         order: Sequelize.literal('rand()'),
         limit: constants.recommenderVideosNumber
       }).then(function (videoRandom) {
-        resolve(videoRandom);
+        resolve(videoRandom)
       }).catch(function (error) {
-        reject(error);
-      });
-    });
+        reject(error)
+      })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   recent(response, userId) {
     return new Promise((resolve, reject) => {
       Video.findAll({
@@ -105,13 +105,13 @@ var self = module.exports = {
         ],
         group: ['youtube_id']
       }).then(function (videoRecent) {
-        resolve(videoRecent);
+        resolve(videoRecent)
       }).catch(function (error) {
-        reject(error);
-      });
+        reject(error)
+      })
     })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   localAbsolutePopularity(response) {
     return new Promise((resolve, reject) => {
       Video.findAll({
@@ -125,143 +125,143 @@ var self = module.exports = {
       }).then(function (videoFound) {
         return resolve(videoFound)
       }).catch(function (error) {
-        reject(error);
+        reject(error)
       })
-    });
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   related(response, id) {
     return new Promise((resolve, reject) => {
       youtubeRelated.getVideoRelatedById(id, constants.recommenderVideosNumber).then(function (results) {
-        resolve(results);
+        resolve(results)
       }).catch(function (error) {
-        reject(error);
-      });
-    });
+        reject(error)
+      })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   globalAbsolutePopularity(videoId) {
     return new Promise((resolve, reject) => {
       return self.localAbsolutePopularity(null).then(function (videosFounded) {
         return VideosController.getVideoById(videoId).then(function (videoObject) {
             var promises = [];
             otherGroupsLinks.urls.forEach((url, index) => {
-              promises.push(AjaxRequest.jsonRequest(url + videoObject.youtube_id, 'GET', {}));
-            });
+              promises.push(AjaxRequest.jsonRequest(url + videoObject.youtube_id, 'GET', {}))
+            })
             Promise.all(promises)
               .then(function (groupsVideos) {
                 var promises2 = [];
-                var videoResults = RecommenderHelper.globalAbsolutePopularity(videosFounded, groupsVideos);
+                var videoResults = RecommenderHelper.globalAbsolutePopularity(videosFounded, groupsVideos)
                 // foreach video calculated
                 videoResults.forEach(video => {
-                  promises2.push(VideosController._getVideoInfo(null, video.id));
-                });
+                  promises2.push(VideosController._getVideoInfo(null, video.id))
+                })
                 Promise.all(promises2)
                   .then(videosData => {
-                    resolve(videosData);
+                    resolve(videosData)
                   })
                   .catch(error => {
-                    reject(error);
-                  });
+                    reject(error)
+                  })
               })
               .catch(function (error) {
-                resolve(null);
-              });
+                resolve(null)
+              })
           })
           .catch(function (error) {
-            reject(error);
-          });
+            reject(error)
+          })
       }).catch(function (error) {
-        reject(error);
-      });
-    });
+        reject(error)
+      })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   globalRelativePopularity(videoId) {
     return new Promise((resolve, reject) => {
       self.localRelativePopularity(null, videoId).then(function (videosFounded) {
         return VideosController.getVideoById(videoId).then(function (videoObject) {
             var promises = [];
             otherGroupsLinks.urls.forEach((url, index) => {
-              promises.push(AjaxRequest.jsonRequest(url + videoObject.youtube_id, 'GET', {}));
-            });
+              promises.push(AjaxRequest.jsonRequest(url + "?id="+videoObject.youtube_id, 'GET', {}))
+            })
             Promise.all(promises)
               .then(function (groupsVideos) {
                 var promises2 = [];
-                var videoResults = RecommenderHelper.globalRelativePopularity(videosFounded, groupsVideos);
+                var videoResults = RecommenderHelper.globalRelativePopularity(videosFounded, groupsVideos)
                 // foreach video calculated
                 videoResults.forEach(video => {
-                  promises2.push(VideosController._getVideoInfo(null, video.id));
-                });
+                  promises2.push(VideosController._getVideoInfo(null, video.id))
+                })
                 Promise.all(promises2)
                   .then(videosData => {
-                    resolve(videosData);
+                    resolve(videosData)
                   })
                   .catch(error => {
-                    reject(error);
-                  });
+                    reject(error)
+                  })
               })
               .catch(function (error) {
-                resolve(null);
-              });
+                resolve(null)
+              })
           })
           .catch(function (error) {
-            reject(error);
-          });
+            reject(error)
+          })
       }).catch(function (error) {
-        reject(error);
-      });
-    });
+        reject(error)
+      })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   artistSimilarity(res, videoId) {
     return new Promise((resolve, reject) => {
       return VideosController.getVideoById(videoId).then(function (videoFounded) {
         if (videoFounded != null) {
           var promises = [];
           videoFounded.Artists.forEach(function (artist, index) {
-            promises.push(ArtistsController.getRelatedArtistsById(artist.id));
-          });
+            promises.push(ArtistsController.getRelatedArtistsById(artist.id))
+          })
           Promise.all(promises)
             .then(artistsFounded => {
-              var calculateArtistsAndVideosNumbers = RecommenderHelper.artistSimilarity(artistsFounded);
+              var calculateArtistsAndVideosNumbers = RecommenderHelper.artistSimilarity(artistsFounded)
               var artistsRelatedNames = calculateArtistsAndVideosNumbers.artistsNames;
               var artistsVideosNumbers = calculateArtistsAndVideosNumbers.artistsVideosNumbers;
               var promises2 = [];
               for (var i = 0; i < artistsRelatedNames.length; i++) {
                 // search video for this artist
-                promises2.push(youtubeApi.search(artistsRelatedNames[i], artistsVideosNumbers[i], null));
+                promises2.push(youtubeApi.search(artistsRelatedNames[i], artistsVideosNumbers[i], null))
               }
               Promise.all(promises2)
                 .then(videosData => {
                   var finalVideosResults = [];
                   videosData.forEach(function (videosObject, index) {
                     videosObject.items.forEach(function (singleVideoObject, index) {
-                      finalVideosResults.push(singleVideoObject);
-                    });
-                  });
-                  resolve(finalVideosResults);
+                      finalVideosResults.push(singleVideoObject)
+                    })
+                  })
+                  resolve(finalVideosResults)
                 })
                 .catch(error => {
-                  reject(error);
-                });
+                  reject(error)
+                })
             })
             .catch(error => {
-              reject(error);
-            });
+              reject(error)
+            })
         } else {
           // no artist founded for this video
           reject({
             "status": "error",
             "message": "no artists founded for this video"
-          });
+          })
         }
       }).catch(function (error) {
-        reject(error);
-      });
-    });
+        reject(error)
+      })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   bandMembersSimilarity(res, videoId) {
     return new Promise((resolve, reject) => {
       VideosController.getVideoById(videoId).then(function (videoFounded) {
@@ -269,54 +269,54 @@ var self = module.exports = {
           var promises = [];
           videoFounded.Artists.forEach(function (artist, index) {
             if (artist.type == "band") {
-              promises.push(ArtistsController.getBandsMembersById(artist.id));
+              promises.push(ArtistsController.getBandsMembersById(artist.id))
             } else {
               reject({
                 "status": "error",
                 "message": "this artist isn't a band"
-              });
+              })
             }
-          });
+          })
           Promise.all(promises)
             .then(artistsFounded => {
-              var calculateArtistsAndVideosNumbers = RecommenderHelper.bandMembersSimilarity(artistsFounded);
+              var calculateArtistsAndVideosNumbers = RecommenderHelper.bandMembersSimilarity(artistsFounded)
               var artistsRelatedNames = calculateArtistsAndVideosNumbers.artistsNames;
               var artistsVideosNumbers = calculateArtistsAndVideosNumbers.artistsVideosNumbers;
               var promises2 = [];
               for (var i = 0; i < artistsRelatedNames.length; i++) {
                 // search video for this artist
-                promises2.push(youtubeApi.search(artistsRelatedNames[i], artistsVideosNumbers[i], null));
+                promises2.push(youtubeApi.search(artistsRelatedNames[i], artistsVideosNumbers[i], null))
               }
               Promise.all(promises2)
                 .then(videosData => {
                   var finalVideosResults = [];
                   videosData.forEach(function (videosObject, index) {
                     videosObject.items.forEach(function (singleVideoObject, index) {
-                      finalVideosResults.push(singleVideoObject);
-                    });
-                  });
-                  resolve(finalVideosResults);
+                      finalVideosResults.push(singleVideoObject)
+                    })
+                  })
+                  resolve(finalVideosResults)
                 })
                 .catch(error => {
-                  reject(error);
-                });
+                  reject(error)
+                })
             })
             .catch(error => {
-              reject(error);
-            });
+              reject(error)
+            })
         } else {
           // no artist founded for this video
           reject({
             "status": "error",
             "message": "no artists founded for this video"
-          });
+          })
         }
       }).catch(function (error) {
-        reject(error);
-      });
-    });
+        reject(error)
+      })
+    })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   genreSimilarity(response, videoId) {
     return new Promise((resolve, reject) => {
       VideosController.getVideoById(videoId).then(function (videoFounded) {
@@ -367,25 +367,25 @@ var self = module.exports = {
               limit: (constants.recommenderVideosNumber - videosWithThisGenre.length)
             }).then(function (additionalVideos) {
               additionalVideos.forEach((additionalVideo) => {
-                videosWithThisGenre.push(additionalVideo);
+                videosWithThisGenre.push(additionalVideo)
               })
-              resolve(videosWithThisGenre);
+              resolve(videosWithThisGenre)
             }).catch(function (error) {
-              reject(error);
-            });
+              reject(error)
+            })
           } else {
-            resolve(videosWithThisGenre);
+            resolve(videosWithThisGenre)
           }
         }).catch(function (error) {
-          reject(error);
-        });
+          reject(error)
+        })
       }).catch(function (error) {
-        reject(error);
-      });
-    });
-  },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-};
+        reject(error)
+      })
+    })
+  }
 
-var VideosController = require('./VideosController.js');
-var ArtistsController = require('./ArtistsController.js');
+}
+
+var VideosController = require('./VideosController.js')
+var ArtistsController = require('./ArtistsController.js')

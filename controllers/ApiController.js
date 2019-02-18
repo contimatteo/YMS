@@ -1,15 +1,17 @@
-////////////////////////////////////////////////////////////////////////////////
-var ViewsHistory = require("../models/ViewsHistory.js");
-var Video = require("../models/Video.js");
-var Artist = require("../models/Artist.js");
-var Channel = require("../models/Channel.js");
-var Genre = require("../models/Genre.js");
-var User = require("../models/User.js");
-var VideosController = require('./VideosController.js');
-var RecommenderHelper = require('./helpers/RecommenderHelper.js');
-var constants = require('./helpers/ConstantsHelper.js');
+var ViewsHistory = require("../models/ViewsHistory.js")
+var Video = require("../models/Video.js")
+var Artist = require("../models/Artist.js")
+var Channel = require("../models/Channel.js")
+var Genre = require("../models/Genre.js")
+var User = require("../models/User.js")
+
+var VideosController = require('./VideosController.js')
+
+var RecommenderHelper = require('./helpers/RecommenderHelper.js')
+var constants = require('./helpers/ConstantsHelper.js')
+
 var JsonAPI = require('../libraries/schemas/JsonAPI.js')
-////////////////////////////////////////////////////////////////////////////////
+
 
 var self = module.exports = {
 
@@ -54,6 +56,6 @@ var self = module.exports = {
           resolve(null);
         })
     });
-  },
+  }
 
-};
+}

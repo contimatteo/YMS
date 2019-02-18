@@ -15,16 +15,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 
-////////////////////////////////////////////////////////////////////////////////
 const SparqlClient = require('sparql-client-2');
 
 const SPARQL = SparqlClient.SPARQL;
 const endpoint = 'http://dbpedia.org/sparql';
 const defaultLimit = 1000;
-////////////////////////////////////////////////////////////////////////////////
+
 
 module.exports = class Sparql_Library {
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   constructor() {
     this.client = new SparqlClient(endpoint)
       .registerCommon('rdfs', 'xsd', 'fn')
@@ -44,7 +43,7 @@ module.exports = class Sparql_Library {
         rdfs: 'http://www.w3.org/2000/01/rdf-schema#'
       });
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   runQuery(query, bindingNames, bindingValues) {
     return new Promise((resolve, reject) => {
       this.client.query(query);
@@ -63,5 +62,5 @@ module.exports = class Sparql_Library {
       });
     });
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-};
+
+}

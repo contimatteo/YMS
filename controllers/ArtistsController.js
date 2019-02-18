@@ -19,7 +19,7 @@ var self = module.exports = {
     else
       return false;
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   _artistNameFormatter(artist) {
     artist = artist.trim();
     artist = artist.toLowerCase();
@@ -39,7 +39,7 @@ var self = module.exports = {
     }
     return newArtist;
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   // get artist info
   getArtistInfo(response, artistName) {
     return new Promise(function (resolve, reject) {
@@ -60,7 +60,7 @@ var self = module.exports = {
       });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getArtistByFormattedName(artistFormattedName) {
     return new Promise((resolve, reject) => {
       Artist.findAll({
@@ -74,7 +74,7 @@ var self = module.exports = {
       });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   // create artist on db
   create(response, artistName) {
     return new Promise(function (resolve, reject) {
@@ -130,7 +130,7 @@ var self = module.exports = {
         });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   _storeArtistsRelatedtAssociation(artist1Id, artist2Id) {
     var association = {
       FKArtist1Id: artist1Id,
@@ -148,7 +148,7 @@ var self = module.exports = {
       });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   // private function for creating artist on db
   _storeRelatedArtist(response, startArtistId, artistObject) {
     var artistNameFormatted = self._artistNameFormatter(artistObject.name.value);
@@ -173,7 +173,7 @@ var self = module.exports = {
         });
     })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   createRelatedArtists(response, startArtistId, artistName) {
     return new Promise(function (resolve, reject) {
       var artistNameFormatted = self._artistNameFormatter(artistName);
@@ -197,7 +197,7 @@ var self = module.exports = {
         });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   createBandMember(response, artistId, artistName) {
     return new Promise(function (resolve, reject) {
       var artistNameFormatted = self._artistNameFormatter(artistName);
@@ -221,7 +221,7 @@ var self = module.exports = {
         });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   _createRelatedBandMember(response, artistId, bandMemeberObject) {
     return new Promise(function (resolve, reject) {
       var artistNameFormatted = self._artistNameFormatter(bandMemeberObject.name.value);
@@ -245,7 +245,7 @@ var self = module.exports = {
         });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   _storeArtistsRelatedtBandMemberAssociation(artistId, bandMemeberId) {
     var association = {
       FKArtistId: bandMemeberId,
@@ -263,7 +263,7 @@ var self = module.exports = {
       });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   storeArtist(artistData) {
     return new Promise((resolve, reject) => {
       var artist = Artist.build(artistData, {
@@ -278,7 +278,7 @@ var self = module.exports = {
       });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getRelatedArtistsById(artistId) {
     return new Promise((resolve, reject) => {
       Artist.findOne({
@@ -296,7 +296,7 @@ var self = module.exports = {
       });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getBandsMembersById(artistId) {
     return new Promise((resolve, reject) => {
       Artist.findOne({
@@ -314,5 +314,5 @@ var self = module.exports = {
       });
     });
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 };

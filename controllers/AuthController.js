@@ -1,25 +1,23 @@
-////////////////////////////////////////////////////////////////////////////////
-
 module.exports = {
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
   signup(request, response) {
     return response.render('pages/auth/signup');
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
   signin(request, response) {
     return response.render('pages/auth/signin');
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
   dashboard(request, response) {
     return response.render('pages/dashboard');
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
   logout(request, response) {
     request.session.destroy(function (err) {
       return response.redirect('/');
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
   userLoggedIn(request, response, next) {
     // save request url
     // request.session.previous_url = request.originalUrl; 
@@ -34,7 +32,7 @@ module.exports = {
       // return next();
     }
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
   currentUser(req, res) {
     if (req && req.user) {
       return req.user;
@@ -42,7 +40,5 @@ module.exports = {
       return null;
     }
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-};
 
-////////////////////////////////////////////////////////////////////////////////
+}

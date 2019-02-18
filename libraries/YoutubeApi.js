@@ -1,4 +1,3 @@
-////////////////////////////////////////////////////////////////////////////////
 var YouTubeClass = require('youtube-node');
 var CustomError = require('./schemas/CustomError.js');
 var config = require('../config/config.json');
@@ -6,15 +5,12 @@ var config = require('../config/config.json');
 var youtube = new YouTubeClass();
 var CustomError = require('./schemas/CustomError.js');
 const fetchCommentPage = require('youtube-comment-api')
-////////////////////////////////////////////////////////////////////////////////
 youtube.setKey(config.development.youtube_api_key);
 
 // need to take a look
 // optional parameters : https://developers.google.com/youtube/v3/docs/search/list#optional-parameters
-////////////////////////////////////////////////////////////////////////////////
 
 module.exports = class YoutubeApi_Library {
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   constructor() {
     this.numberOfResult = 10;
     this.filters = {
@@ -23,7 +19,7 @@ module.exports = class YoutubeApi_Library {
       pageToken: ''
     };
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   search(queryString, numberOfResult, pageToken, searchType = null) {
     var limit = 0;
     this.filters.pageToken = pageToken;
@@ -45,7 +41,7 @@ module.exports = class YoutubeApi_Library {
       });
     });
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getVideoById(id) {
     return new Promise((resolve, reject) => {
       youtube.getById(id, function (error, result) {
@@ -59,7 +55,7 @@ module.exports = class YoutubeApi_Library {
       });
     });
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getVideoRelatedById(id, numberOfResult) {
     return new Promise((resolve, reject) => {
       youtube.related(id, numberOfResult, function (error, result) {
@@ -71,7 +67,7 @@ module.exports = class YoutubeApi_Library {
       });
     });
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getCommentByVideoId(videoId) {
     return new Promise((resolve, reject) => {
       fetchCommentPage(videoId)
@@ -83,5 +79,5 @@ module.exports = class YoutubeApi_Library {
         });
     });
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-};
+
+}

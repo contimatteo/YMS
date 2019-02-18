@@ -1,12 +1,9 @@
-////////////////////////////////////////////////////////////////////////////////
-var SparqlLibrary = require('../libraries/Sparql.js');
-const sparqlClient = new SparqlLibrary();
-////////////////////////////////////////////////////////////////////////////////
+var SparqlLibrary = require('../libraries/Sparql.js')
+const sparqlClient = new SparqlLibrary()
 
 
 var self = module.exports = {
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // 
+  
   sparql(response) {
     // get 100 artist on rock genre
     var query = " \
@@ -27,7 +24,7 @@ var self = module.exports = {
       response.send(error.reasonPhrase);
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  
   getArtistInfo(artistName) {
     // call dbpedia for get artist info
     var query = " " +
@@ -45,7 +42,8 @@ var self = module.exports = {
     // " GROUP BY ?prop ";
     return sparqlClient.runQuery(query, [], []);
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  
   getRelatedArtists(artistName) {
     // call dbpedia for get artist info
     var query = " " +
@@ -64,7 +62,8 @@ var self = module.exports = {
     //" GROUP BY ?prop "
     return sparqlClient.runQuery(query, [], []);
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  
   getBandMember(artistName) {
     // call dbpedia for get artist info
     var query = " " +
@@ -83,7 +82,8 @@ var self = module.exports = {
     //" GROUP BY ?prop "
     return sparqlClient.runQuery(query, [], []);
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  
   getSongInfo(songFormattedName) {
     var query = " " +
       " select distinct * { " +
@@ -99,7 +99,7 @@ var self = module.exports = {
       " filter ( ?type IN (dbo:Single) )  " +
       " }  ";
     return sparqlClient.runQuery(query, [], []);
-  },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  }
+  
 
 }

@@ -15,14 +15,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 
-////////////////////////////////////////////////////////////////////////////////
 var request = require('request');
-
 const ApiResponse = require('./schemas/ApiResponse.js');
-////////////////////////////////////////////////////////////////////////////////
+
 
 module.exports = class AjaxRequest {
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  
   constructor() {
     // Set the headers
     this.headers = {
@@ -31,8 +29,7 @@ module.exports = class AjaxRequest {
     };
     this.options = {};
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // ...
+  
   jsonRequest(url, typeRequest, data) {
     return new Promise((resolve, reject) => {
       // Configure the request
@@ -75,6 +72,5 @@ module.exports = class AjaxRequest {
       });
     });
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+  
 }
