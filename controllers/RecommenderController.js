@@ -19,6 +19,8 @@ const youtubeApi = new YoutubeApi()
 var youtubeRelated = new YoutubeRelatedClass()
 var AjaxRequest = new AjaxRequestClass()
 
+var otherGroupsLinks = require("../json/otherGroupsLinks.json")
+
 
 
 var self = module.exports = {
@@ -116,7 +118,8 @@ var self = module.exports = {
     return new Promise((resolve, reject) => {
       Video.findAll({
         include: [{
-          model: Artist, Channel
+          model: Artist,
+          Channel
         }],
         order: [
           ['views', 'DESC']
@@ -140,51 +143,47 @@ var self = module.exports = {
     })
   },
 
+  // FIXME: check this function reponse time
   globalAbsolutePopularity(videoId) {
     return new Promise((resolve, reject) => {
-      // FIXME: check this function call
       return self.localAbsolutePopularity(null).then(function (videosFounded) {
-        // return VideosController.getVideoById(videoId).then(function (videoObject) {
-            var promises = [];
-            otherGroupsLinks.urls.forEach((url, index) => {
-              promises.push(AjaxRequest.jsonRequest(url, 'GET', {}))
+        var promises = [];
+        otherGroupsLinks.urls.forEach((url, index) => {
+          promises.push(AjaxRequest.jsonRequest(url, 'GET', {}))
+        })
+        Promise.all(promises)
+          .then(function (groupsVideos) {
+            var promises2 = [];
+            var videoResults = RecommenderHelper.globalAbsolutePopularity(videosFounded, groupsVideos)
+            // foreach video calculated
+            videoResults.forEach(video => {
+              promises2.push(VideosController.getVideoInfoFromYoutubeApi(null, video.id))
             })
-            Promise.all(promises)
-              .then(function (groupsVideos) {
-                var promises2 = [];
-                var videoResults = RecommenderHelper.globalAbsolutePopularity(videosFounded, groupsVideos)
-                // foreach video calculated
-                videoResults.forEach(video => {
-                  promises2.push(VideosController.getVideoInfoFromYoutubeApi(null, video.id))
-                })
-                Promise.all(promises2)
-                  .then(videosData => {
-                    resolve(videosData)
-                  })
-                  .catch(error => {
-                    reject(error)
-                  })
+            Promise.all(promises2)
+              .then(videosData => {
+                resolve(videosData)
               })
-              .catch(function (error) {
-                resolve(null)
+              .catch(error => {
+                reject(error)
               })
-          // })
-          // .catch(function (error) {
-          //   reject(error)
-          // })
+          })
+          .catch(function (error) {
+            resolve(null)
+          })
       }).catch(function (error) {
         reject(error)
       })
     })
   },
 
+  // FIXME: check how i order the video founded (understand if my hitmap logic is correct)
   globalRelativePopularity(videoId) {
     return new Promise((resolve, reject) => {
       self.localRelativePopularity(null, videoId).then(function (videosFounded) {
         return VideosController.getVideoById(videoId).then(function (videoObject) {
             var promises = [];
             otherGroupsLinks.urls.forEach((url, index) => {
-              promises.push(AjaxRequest.jsonRequest(url + "?id="+videoObject.youtube_id, 'GET', {}))
+              promises.push(AjaxRequest.jsonRequest(url + "?id=" + videoObject.youtube_id, 'GET', {}))
             })
             Promise.all(promises)
               .then(function (groupsVideos) {

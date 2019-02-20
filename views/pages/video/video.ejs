@@ -279,7 +279,9 @@
   function counter() {
     if (count > 150) {
       addViewToThisVideo();
-      console.log("[PLAYER] 15 secondi trascorsi, POST inoltrato...");
+      console.log("")
+      console.log("[PLAYER] 15 secondi trascorsi, POST inoltrato...")
+      console.log("")
       count = 0;
     } else {
       count = count + 1;
@@ -304,8 +306,11 @@
       if (timer) {
         clearTimeout(timer);
         if (player.getDuration() < 15)
-          addViewToThisVideo();
-        console.log("[PLAYER] Video inferiore a 15 secondi terminato, POST inoltrato...");
+          addViewToThisVideo()
+        
+        console.log("")
+        console.log("[PLAYER] Video inferiore a 15 secondi terminato, POST inoltrato...")
+        console.log("")
         count = 0;
       }
     }
@@ -336,14 +341,14 @@
       },
       error: function (error) {
         $("#recommender-vitali").text("error on external server");
-        console.log(error)
+        // console.log(error)
       }
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // global absolute popularity recommender
     $.ajax({
       type: "GET",
-      url: "/recommender/popularity/global/absolute/<%= video.id %>",
+      url: "/recommender/popularity/global/absolute/",
       cache: false,
       success: function (videoList) {
         $("#recommender-global-absolute-popularity").text("");
@@ -354,13 +359,12 @@
         $(videoList).each((index, videoObject) => {
           createVideoElement("#recommender-global-absolute-popularity", videoObject[0].id,
             videoObject[0].snippet.thumbnails.medium.url, videoObject[0].snippet.title, videoObject[0].snippet
-            .channelTitle,
-            "Global Absolute Popularity");
+            .channelTitle, "Global Absolute Popularity");
         })
       },
       error: function (error) {
         $("#recommender-global-absolute-popularity").text("no matches");
-        console.log(error)
+        // console.log(error)
       }
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -384,7 +388,7 @@
       },
       error: function (error) {
         $("#recommender-global-relative-popularity").text("no matches");
-        console.log(error)
+        // console.log(error)
       }
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -407,7 +411,7 @@
       },
       error: function (error) {
         $("#recommender-local-relative-popularity").text("no matches");
-        console.log(error)
+        // console.log(error)
       }
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -429,7 +433,7 @@
         })
       },
       error: function (error) {
-        console.log(error)
+        // console.log(error)
       }
     });
     <% } else{ %>
@@ -454,7 +458,7 @@
       },
       error: function (error) {
         $("#recommender-random").text("no matches");
-        console.log(error)
+        // console.log(error)
       }
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

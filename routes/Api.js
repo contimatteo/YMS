@@ -16,26 +16,6 @@ module.exports = function (app, passport) {
       })
   })
 
-  app.get('/recommender/popularity/local/absolute', function (req, res) {
-    RecommenderController.localAbsolutePopularity(res).then(function (result) {
-      res.send(result)
-    }).catch(function (error) {
-      res.status(400)
-      res.send(error)
-    })
-  })
-
-  app.get('/recommender/popularity/local/relative/:video', function (req, res) {
-    var videoId = req.params.video;
-    // var userId = req.params.user;
-    RecommenderController.localRelativePopularity(res, videoId).then(function (result) {
-      res.send(result)
-    }).catch(function (error) {
-      res.status(400)
-      res.send(error)
-    })
-  })
-
   app.get('/recommender/random', function (req, res) {
     RecommenderController.random(null).then(function (result) {
       res.send(result)
@@ -65,6 +45,26 @@ module.exports = function (app, passport) {
     })
   })
 
+  app.get('/recommender/popularity/local/absolute', function (req, res) {
+    RecommenderController.localAbsolutePopularity(res).then(function (result) {
+      res.send(result)
+    }).catch(function (error) {
+      res.status(400)
+      res.send(error)
+    })
+  })
+
+  app.get('/recommender/popularity/local/relative/:video', function (req, res) {
+    var videoId = req.params.video;
+    // var userId = req.params.user;
+    RecommenderController.localRelativePopularity(res, videoId).then(function (result) {
+      res.send(result)
+    }).catch(function (error) {
+      res.status(400)
+      res.send(error)
+    })
+  })
+
   app.get('/recommender/popularity/global/relative/:video', function (req, res) {
     var videoId = req.params.video;
     RecommenderController.globalRelativePopularity(videoId).then(function (result) {
@@ -75,7 +75,7 @@ module.exports = function (app, passport) {
     })
   })
 
-  app.get('/recommender/popularity/global/absolute/:video', function (req, res) {
+  app.get('/recommender/popularity/global/absolute', function (req, res) {
     var videoId = req.params.video;
     RecommenderController.globalAbsolutePopularity(videoId).then(function (result) {
       res.send(result)
