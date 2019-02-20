@@ -29,7 +29,7 @@ var self = module.exports = {
       AjaxRequest.jsonRequest(url, 'GET', {}).then(function (vitaliResponse) {
         var promises = [];
         vitaliResponse.recommended.forEach(video => {
-          promises.push(VideosController._getVideoInfo(null, video.videoID))
+          promises.push(VideosController.getVideoInfoFromYoutubeApi(null, video.videoID))
         })
         Promise.all(promises)
           .then(videosData => {
@@ -116,14 +116,14 @@ var self = module.exports = {
     return new Promise((resolve, reject) => {
       Video.findAll({
         include: [{
-          model: Channel
+          model: Artist, Channel
         }],
         order: [
           ['views', 'DESC']
         ],
         limit: constants.recommenderVideosNumber
       }).then(function (videoFound) {
-        return resolve(videoFound)
+        resolve(videoFound)
       }).catch(function (error) {
         reject(error)
       })
@@ -155,7 +155,7 @@ var self = module.exports = {
                 var videoResults = RecommenderHelper.globalAbsolutePopularity(videosFounded, groupsVideos)
                 // foreach video calculated
                 videoResults.forEach(video => {
-                  promises2.push(VideosController._getVideoInfo(null, video.id))
+                  promises2.push(VideosController.getVideoInfoFromYoutubeApi(null, video.id))
                 })
                 Promise.all(promises2)
                   .then(videosData => {
@@ -192,7 +192,7 @@ var self = module.exports = {
                 var videoResults = RecommenderHelper.globalRelativePopularity(videosFounded, groupsVideos)
                 // foreach video calculated
                 videoResults.forEach(video => {
-                  promises2.push(VideosController._getVideoInfo(null, video.id))
+                  promises2.push(VideosController.getVideoInfoFromYoutubeApi(null, video.id))
                 })
                 Promise.all(promises2)
                   .then(videosData => {

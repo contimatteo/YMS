@@ -19,17 +19,15 @@ module.exports = {
   },
 
   userLoggedIn(request, response, next) {
-    // save request url
-    // request.session.previous_url = request.originalUrl; 
     // check if user is logged
     if (request.isAuthenticated()) {
       // user is logged
-      return next();
+      return next()
     } else {
       request.session.returnTo = request.originalUrl;
       // no logged user
-      response.redirect('/signin');
-      // return next();
+      // response.redirect('/signin');
+      return next() //  TODO:  [@contimatteo] re-enable this
     }
   },
 

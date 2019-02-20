@@ -116,12 +116,24 @@ module.exports = function (app, passport) {
   })
 
   app.get('/globpop', function (req, res) {
-    var youtubeId = req.query.id; //mi prende l id del video, che mi passa chi vuole il json
-    ApiController.globpop(youtubeId).then(function (videosFounded) {
-      res.send(videosFounded)
-    }).catch(function (error) {
-      res.send(error)
-    })
+    if (req.query.id && req.query.id !== "") {
+      // relative popularity globpop
+      var youtubeId = req.query.id
+      ApiController.globpop(youtubeId).then(function (json) {
+        res.status(200).json(json)
+      }).catch(function (error) {
+        console.log(error)
+        res.status(400).json({})
+      })
+    } else {
+      // assolute popularity globpop
+      ApiController.globpopAssolute().then(function (json) {
+        res.status(200).json(json)
+      }).catch(function (error) {
+        console.log(error)
+        res.status(400).json({})
+      })
+    }
   })
 
 }

@@ -1,17 +1,16 @@
 {
   "restartable": "rs",
   "ignore": [
-    "**/.git",
-    "**/node_modules/",
-    "**/static",
-    "**/migrations",
-    "**/config"
+    "**/.git/**",
+    "**/config/**",
+    "**/json/**",
+    "**/migrations/**",
+    "**/static/**"
   ],
   "verbose": true,
   "execMap": {
     "js": "node --harmony"
   },
-  "watch": ["**/*.js", "**/*.ejs"],
   "env": {
     "NODE_ENV": "development"
   }

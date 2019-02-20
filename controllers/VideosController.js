@@ -117,7 +117,6 @@ var self = module.exports = {
     })
   },
 
-  // show single video by id
   show(response, id) {
     return self.getVideoByYoutubeId(id).then(function (video) {
       return youtubeApi.getCommentByVideoId(video.youtube_id).then(function (commentList) {
@@ -133,8 +132,7 @@ var self = module.exports = {
     })
   },
 
-  // show single video by id
-  _getVideoInfo(response, id) {
+  getVideoInfoFromYoutubeApi(response, id) {
     return new Promise((resolve, reject) => {
       youtubeApi.getVideoById(id).then(function (results) {
         resolve(results.items)
@@ -144,7 +142,6 @@ var self = module.exports = {
     })
   },
 
-  // show list of videos
   index(response, searchString, searchType, pageToken, numberResult) {
     youtubeApi.search(searchString, numberResult, pageToken, searchType).then(function (results) {
       response.render('pages/search/search', {
@@ -163,7 +160,7 @@ var self = module.exports = {
 
   create(response, youtubeId) {
     return new Promise((resolve, reject) => {
-      return self._getVideoInfo(null, youtubeId).then(function (videoObject) {
+      return self.getVideoInfoFromYoutubeApi(null, youtubeId).then(function (videoObject) {
         return self._findArtistAndSongByString(videoObject[0].snippet.title).then(function (objectString) {
           var song = objectString.song;
           // delete some bad remnant from song title parsing 
@@ -437,7 +434,7 @@ var self = module.exports = {
     return new Promise((resolve, reject) => {
       var promises = [];
       vitaliListaObject.forEach(video => {
-        promises.push(self._getVideoInfo(null, video.videoID))
+        promises.push(self.getVideoInfoFromYoutubeApi(null, video.videoID))
       })
       Promise.all(promises)
         .then(videosData => {
@@ -454,7 +451,7 @@ var self = module.exports = {
   showSuggestionedByUs(response, genere) {
     var promises = [];
     ourSuggestionedList[genere].forEach(videoId => {
-      promises.push(self._getVideoInfo(null, videoId))
+      promises.push(self.getVideoInfoFromYoutubeApi(null, videoId))
     })
     Promise.all(promises)
       .then(videosData => {
