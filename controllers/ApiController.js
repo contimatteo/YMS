@@ -28,37 +28,47 @@ var self = module.exports = {
               ]
             }).then(results => {
               var promises = [];
-              var videoFounded = RecommenderHelper.localRelativePopularityCounter(results, videoObject.id)
-              var idVideoList = [];
-              videoFounded.forEach(video => {
-                idVideoList.push(video.videoId)
-                promises.push(VideosController.getVideoById(video.videoId))
-              })
-              Video.findAll({
-                  include: [Artist, Channel, Genre, User],
-                  where: {
-                    id: idVideoList
-                  },
-                  limit: constants.recommenderVideosNumber
-                }).then(videoRecommended => {
-                  var jsonResponse = new GlobpopJson(videoObject.youtube_id, videoObject.views, videoObject.updatedAt)
-                  videoRecommended.forEach((videoFounded, index) => {
-                    jsonResponse.addVideoRecommended(videoFounded.youtube_id, videoFounded.views, videoFounded.updatedAt)
+
+              if (videoObject) {
+                var videoFounded = RecommenderHelper.localRelativePopularityCounter(results, videoObject.id)
+                var idVideoList = [];
+
+                videoFounded.forEach(video => {
+                  idVideoList.push(video.videoId)
+                  promises.push(VideosController.getVideoById(video.videoId))
+                })
+
+                Video.findAll({
+                    include: [Artist, Channel, Genre, User],
+                    where: {
+                      id: idVideoList
+                    },
+                    limit: constants.recommenderVideosNumber
+                  }).then(videoRecommended => {
+                    var jsonResponse = new GlobpopJson(videoObject.youtube_id, videoObject.views, videoObject.updatedAt)
+                    videoRecommended.forEach((videoFounded, index) => {
+                      jsonResponse.addVideoRecommended(videoFounded.youtube_id, videoFounded.views, videoFounded.updatedAt)
+                    })
+                    resolve(jsonResponse)
                   })
-                  resolve(jsonResponse)
-                })
-                .catch((error) => {
-                  reject(error)
-                })
+                  .catch((error) => {
+                    var jsonResponse = new GlobpopJson(youtubeId, 0, "")
+                    resolve(jsonResponse)
+                  })
+                return
+              }
+
+              var jsonResponse = new GlobpopJson(youtubeId, 0, "")
+              resolve(jsonResponse)
             })
             .catch((error) => {
               var jsonResponse = new GlobpopJson(youtubeId, 0, "")
-              reject(jsonResponse)
+              resolve(jsonResponse)
             })
         })
         .catch(function (error) {
           var jsonResponse = new GlobpopJson(youtubeId, 0, "")
-          reject(jsonResponse)
+          resolve(jsonResponse)
         })
     })
   },
@@ -73,7 +83,7 @@ var self = module.exports = {
         resolve(jsonResponse)
       }).catch((e) => {
         var jsonResponse = new GlobpopJson(null, null, null)
-        reject(jsonResponse)
+        resolve(jsonResponse)
       })
     })
   }

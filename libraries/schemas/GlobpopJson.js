@@ -4,7 +4,7 @@ module.exports = class GlobpopJson {
     this.site = "site1834.tw.cs.unibo.it"
     this.recommended = []
 
-    if (videoId && lastwatched && lastwatched) {
+    if (videoId && timesWatched && lastwatched) {
       this.recommender = videoId
       this.timesWatched = timesWatched
       this.lastWatched = lastwatched

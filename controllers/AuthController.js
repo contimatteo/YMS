@@ -26,8 +26,8 @@ module.exports = {
     } else {
       request.session.returnTo = request.originalUrl;
       // no logged user
-      // response.redirect('/signin');
-      return next() //  TODO:  [@contimatteo] re-enable this
+      response.redirect('/signin') //  TODO:  [@contimatteo] re-enable this
+      // return next() 
     }
   },
 
