@@ -67,11 +67,10 @@ module.exports = function (app, passport) {
 
   app.get('/recommender/popularity/global/relative/:video', function (req, res) {
     var videoId = req.params.video;
-    RecommenderController.globalRelativePopularity(videoId).then(function (result) {
-      res.send(result)
+    RecommenderController.globalRelativePopularity(videoId).then(function ({videosData, end}) {
+      res.status(!!end ? 200 : 206).json(videosData)
     }).catch(function (error) {
-      res.status(400)
-      res.send(error)
+      res.status(400).json(error)
     })
   })
 

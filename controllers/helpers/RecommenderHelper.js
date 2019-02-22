@@ -120,15 +120,15 @@ var self = module.exports = {
     return videoList;
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  globalRelativePopularity(myVideosFounded, groupsVideos) {
+  globalRelativePopularity(groupsVideos, myVideosFounded = null) {
     var videoList = [];
     var hit = 0;
     // foreach group's json
-    groupsVideos.forEach((singleJsonResponse, index) => {
+    // groupsVideos.forEach((singleJsonResponse, index) => {
       hit = 0;
-      if (self.validateGroupJson(singleJsonResponse)) {
+      // if (self.validateGroupJson(singleJsonResponse)) {
         // this json is valid
-        singleJsonResponse.recommended.forEach((video, index) => {
+        groupsVideos.forEach((video, index) => {
           // check if this video is valid
           if (video != null && video.lastSelected != null && video.timesWatched != null) {
             hit++;
@@ -146,14 +146,16 @@ var self = module.exports = {
             self.createGlobalVideoRelationHitmap(videoList, id, views, lastWatched, hit);
           }
         });
-      }
-    });
+      // }
+    // });
     hit = 0;
-    // foreach recommended by my local relative algorithm
-    myVideosFounded.forEach((myVideo, index) => {
-      hit++;
-      self.createGlobalVideoRelationHitmap(videoList, myVideo.youtube_id, myVideo.views, myVideo.updatedAt, hit);
-    });
+    if (myVideosFounded) {
+      // foreach recommended by my local relative algorithm
+      myVideosFounded.forEach((myVideo, index) => {
+        hit++;
+        self.createGlobalVideoRelationHitmap(videoList, myVideo.youtube_id, myVideo.views, myVideo.updatedAt, hit);
+      });
+    }
     // return array with videos as {id, views, lastWatched}
     videoList = self._orderVideoFoundedByHit(videoList);
     // take only the first <n> videos

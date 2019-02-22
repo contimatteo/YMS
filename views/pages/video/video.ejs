@@ -178,7 +178,7 @@
             </div>
           </div>
           <div class="col-sm-4 col-xs-12">
-            <div class="sidebarInner" style="margin:75px auto; overflow:auto; max-height:4180px;" >
+            <div class="sidebarInner" style="margin:75px auto; overflow:auto; max-height:4180px;">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h3>LATEST COMMENTS</h3>
@@ -292,22 +292,18 @@
   function onPlayerStateChange(event) {
     if (event.data == 1 && !postDone) { // 1: PLAYING
       counter();
-    } 
-    else if (event.data == 2 && !postDone) { // 2: PAUSED
+    } else if (event.data == 2 && !postDone) { // 2: PAUSED
       if (timer) clearTimeout(timer);
-    } 
-    else if (event.data == 3 && !postDone) { // 3: BUFFERING
+    } else if (event.data == 3 && !postDone) { // 3: BUFFERING
       if (timer) clearTimeout(timer);
-    } 
-    else if (event.data == 5 && !postDone) { // 5: QUEUED
+    } else if (event.data == 5 && !postDone) { // 5: QUEUED
       if (timer) clearTimeout(timer);
-    } 
-    else if (event.data == 0 && !postDone) { // 0: ENDED
+    } else if (event.data == 0 && !postDone) { // 0: ENDED
       if (timer) {
         clearTimeout(timer);
         if (player.getDuration() < 15)
           addViewToThisVideo()
-        
+
         console.log("")
         console.log("[PLAYER] Video inferiore a 15 secondi terminato, POST inoltrato...")
         console.log("")
@@ -346,39 +342,43 @@
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // global absolute popularity recommender
-    let callIntervalTime = 1000
-    let globalAssolutePopularity = setInterval(() => callGlobalAssolutePopularity(), callIntervalTime)
-    function callGlobalAssolutePopularity() {
+    let globalAbsolutePopularityIntervalTime = 1000
+    let globalAbsolutePopularity = setInterval(() => callGlobalAbsolutePopularity(),
+      globalAbsolutePopularityIntervalTime)
+
+    function callGlobalAbsolutePopularity() {
       $.ajax({
         type: "GET",
         url: "/recommender/popularity/global/absolute/",
         cache: false,
         success: function (videoList, textStatus, xhr) {
-          $("#recommender-global-absolute-popularity").text("");
-          $(videoList).each((index, videoObject) => {
-            createVideoElement("#recommender-global-absolute-popularity", videoObject[0].id,
-              videoObject[0].snippet.thumbnails.medium.url, videoObject[0].snippet.title, videoObject[0].snippet
-              .channelTitle, "Global Absolute Popularity");
-          })
+          if (videoList.length > 0) {
+            $("#recommender-global-absolute-popularity").text("");
+            $(videoList).each((index, videoObject) => {
+              createVideoElement("#recommender-global-absolute-popularity", videoObject[0].id,
+                videoObject[0].snippet.thumbnails.medium.url, videoObject[0].snippet.title, videoObject[
+                  0]
+                .snippet
+                .channelTitle, "Global Absolute Popularity");
+            })
+          }
 
           if (xhr.status == 200) {
-            clearInterval(globalAssolutePopularity)
-            globalAssolutePopularity = null
+            clearInterval(globalAbsolutePopularity)
+            globalAbsolutePopularity = null
             console.log("")
             console.log("Algoritmo di Popolarità Globale Assoluta caricato correttamente")
             console.log(videoList)
             console.log("")
-          }
-          else if(xhr.status == 206) {
+          } else if (xhr.status == 206) {
             if (videoList.length > 0)
-              callIntervalTime = 3000
-              
+              globalAbsolutePopularityIntervalTime = 3000
+
             console.log("")
             console.log("Algoritmo di Popolarità Globale Assoluta caricato parzialmente")
-            console.log(videoList)
             console.log("")
           }
-          
+
         },
         error: function (error) {
           $("#recommender-global-absolute-popularity").text("no matches");
@@ -388,28 +388,47 @@
     }
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // global relative popularity recommender
-    $.ajax({
-      type: "GET",
-      url: "/recommender/popularity/global/relative/<%= video.id %>",
-      cache: false,
-      success: function (videoList) {
-        console.log("")
-        console.log("Algoritmo di Popolarità Globale Relativa caricato correttamente")
-        console.log(videoList)
-        console.log("")
-        $("#recommender-global-relative-popularity").text("");
-        $(videoList).each((index, videoObject) => {
-          createVideoElement("#recommender-global-relative-popularity", videoObject[0].id,
-            videoObject[0].snippet.thumbnails.medium.url, videoObject[0].snippet.title, videoObject[0].snippet
-            .channelTitle,
-            "Global Relative Popularity");
-        })
-      },
-      error: function (error) {
-        $("#recommender-global-relative-popularity").text("no matches");
-        // console.log(error)
-      }
-    });
+    let globalRelativePopularityIntervalTime = 3000
+    let globalRelativePopularity = setInterval(() => callGlobalRelativePopularity(),
+      globalRelativePopularityIntervalTime)
+
+    function callGlobalRelativePopularity() {
+      $.ajax({
+        type: "GET",
+        url: "/recommender/popularity/global/relative/<%= video.youtube_id %>",
+        cache: false,
+        success: function (videoList, textStatus, xhr) {
+          if (videoList.length > 0) {
+            $("#recommender-global-relative-popularity").text("");
+            $(videoList).each((index, videoObject) => {
+              createVideoElement("#recommender-global-relative-popularity", videoObject[0].id,
+                videoObject[0].snippet.thumbnails.medium.url, videoObject[0].snippet.title, videoObject[
+                  0]
+                .snippet
+                .channelTitle, "Global Relative Popularity");
+            })
+          }
+
+          if (xhr.status == 200) {
+            clearInterval(globalRelativePopularity)
+            globalRelativePopularity = null
+            console.log("")
+            console.log("Algoritmo di Popolarità Globale Relativa caricato correttamente")
+            console.log(videoList)
+            console.log("")
+          } else if (xhr.status == 206) {
+            console.log("")
+            console.log("Algoritmo di Popolarità Globale Relativa caricato parzialmente")
+            console.log("")
+          }
+
+        },
+        error: function (error) {
+          $("#recommender-global-relative-popularity").text("no matches");
+          // console.log(error)
+        }
+      });
+    }
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // local relative popularity recommender
     $.ajax({
@@ -472,7 +491,7 @@
         $("#recommender-random").text("");
         $(videoList.items).each((index, videoObject) => {
           createVideoElement("#recommender-random", videoObject.id.videoId, videoObject.snippet.thumbnails
-              .medium.url, videoObject.snippet.title, videoObject.snippet.channelTitle, "Random");
+            .medium.url, videoObject.snippet.title, videoObject.snippet.channelTitle, "Random");
         })
       },
       error: function (error) {
