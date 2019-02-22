@@ -77,42 +77,41 @@ var self = module.exports = {
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // check if json for this grup is valid
-  _validateGroupJson(json) {
-    if (json !== null && typeof json === 'object' && json.recommended != null && Array.isArray(json.recommended)) {
+  validateGroupJson(json) {
+    if (json && typeof json === 'object' && json.recommended && Array.isArray(json.recommended)) {
       return true;
     }
     return false;
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  globalAbsolutePopularity(myVideosFounded, groupsVideos) {
+  globalAbsolutePopularity(groupsVideos, myVideosFounded = null) {
+    var videosListInput = groupsVideos
     var videoList = [];
     // foreach group's json
-    groupsVideos.forEach((singleJsonResponse, index) => {
-      if (self._validateGroupJson(singleJsonResponse)) {
-        // this json is valid
-        singleJsonResponse.recommended.forEach((video, index) => {
-          // check if this video is valid
-          if (video != null && video.lastSelected != null && video.timesWatched != null) {
-            var id = "";
-            var lastWatched = "";
-            var views = 0;
-            if (video.videoId != null) {
-              id = video.videoId;
-            }
-            if (video.videoID != null) {
-              id = video.videoID;
-            }
-            views = video.timesWatched;
-            lastWatched = video.lastSelected;
-            self.createGlobalVideoRelation(videoList, id, views, lastWatched);
-          }
-        });
+    videosListInput.forEach((video, index) => {
+      // check if this video is valid
+      if (video != null && video.lastSelected != null && video.timesWatched != null) {
+        var id = "";
+        var lastWatched = "";
+        var views = 0;
+        if (video.videoId != null) {
+          id = video.videoId;
+        }
+        if (video.videoID != null) {
+          id = video.videoID;
+        }
+        views = video.timesWatched;
+        lastWatched = video.lastSelected;
+        self.createGlobalVideoRelation(videoList, id, views, lastWatched);
       }
     });
-    // foreach recommended by my local relative algorithm
-    myVideosFounded.forEach((myVideo, index) => {
-      self.createGlobalVideoRelation(videoList, myVideo.youtube_id, myVideo.views, myVideo.updatedAt);
-    });
+
+    if (myVideosFounded) {
+      // foreach recommended by my local relative algorithm
+      myVideosFounded.forEach((myVideo, index) => {
+        self.createGlobalVideoRelation(videoList, myVideo.youtube_id, myVideo.views, myVideo.updatedAt);
+      });
+    }
     // return array with videos as {id, views, lastWatched}
     videoList = self._orderVideoFoundedByViews(videoList);
     // take only the first <n> videos
@@ -127,7 +126,7 @@ var self = module.exports = {
     // foreach group's json
     groupsVideos.forEach((singleJsonResponse, index) => {
       hit = 0;
-      if (self._validateGroupJson(singleJsonResponse)) {
+      if (self.validateGroupJson(singleJsonResponse)) {
         // this json is valid
         singleJsonResponse.recommended.forEach((video, index) => {
           // check if this video is valid
@@ -255,7 +254,10 @@ var self = module.exports = {
       // set current related artist videos number
       artistVideoNums.push(currentNumberOfVideos);
     };
-    return {artistsNames: artistsRelatedNames, artistsVideosNumbers: artistVideoNums};
+    return {
+      artistsNames: artistsRelatedNames,
+      artistsVideosNumbers: artistVideoNums
+    };
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   bandMembersSimilarity(artistsFounded) {
@@ -291,7 +293,10 @@ var self = module.exports = {
       // set current related artist videos number
       artistVideoNums.push(currentNumberOfVideos);
     };
-    return {artistsNames: artistsRelatedNames, artistsVideosNumbers: artistVideoNums};
+    return {
+      artistsNames: artistsRelatedNames,
+      artistsVideosNumbers: artistVideoNums
+    };
   },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 };

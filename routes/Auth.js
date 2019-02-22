@@ -17,8 +17,9 @@ module.exports = function (app, passport) {
   app.get('/logout', AuthController.userLoggedIn, AuthController.logout)
 
   app.post('/signin', passport.authenticate('local-signin'), function (req, res) {
-    res.redirect(req.session.returnTo || '/')
-    delete req.session.returnTo;
+    // res.redirect(req.session.returnTo || '/') //  BUG:  redirect makes only GET calls (on search endpoint we have a POST)
+    res.redirect('/')
+    delete req.session.returnTo
   })
 
 }

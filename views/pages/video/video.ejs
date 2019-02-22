@@ -346,27 +346,36 @@
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // global absolute popularity recommender
-    $.ajax({
-      type: "GET",
-      url: "/recommender/popularity/global/absolute/",
-      cache: false,
-      success: function (videoList) {
-        $("#recommender-global-absolute-popularity").text("");
-        console.log("")
-        console.log("Algoritmo di Popolarità Globale Assoluta caricato correttamente")
-        console.log(videoList)
-        console.log("")
-        $(videoList).each((index, videoObject) => {
-          createVideoElement("#recommender-global-absolute-popularity", videoObject[0].id,
-            videoObject[0].snippet.thumbnails.medium.url, videoObject[0].snippet.title, videoObject[0].snippet
-            .channelTitle, "Global Absolute Popularity");
-        })
-      },
-      error: function (error) {
-        $("#recommender-global-absolute-popularity").text("no matches");
-        // console.log(error)
-      }
-    });
+    let globalAssolutePopularity = setInterval(() => callGlobalAssolutePopularity(), 3000)
+    function callGlobalAssolutePopularity() {
+      $.ajax({
+        type: "GET",
+        url: "/recommender/popularity/global/absolute/",
+        cache: false,
+        success: function (videoList, textStatus, xhr) {
+          $("#recommender-global-absolute-popularity").text("");
+          $(videoList).each((index, videoObject) => {
+            createVideoElement("#recommender-global-absolute-popularity", videoObject[0].id,
+              videoObject[0].snippet.thumbnails.medium.url, videoObject[0].snippet.title, videoObject[0].snippet
+              .channelTitle, "Global Absolute Popularity");
+          })
+
+          if (xhr.status == 200) {
+            clearInterval(globalAssolutePopularity)
+            globalAssolutePopularity = null
+            console.log("")
+            console.log("Algoritmo di Popolarità Globale Assoluta caricato correttamente")
+            console.log(videoList)
+            console.log("")
+          }
+          
+        },
+        error: function (error) {
+          $("#recommender-global-absolute-popularity").text("no matches");
+          // console.log(error)
+        }
+      });
+    }
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // global relative popularity recommender
     $.ajax({

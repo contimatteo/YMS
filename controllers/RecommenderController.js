@@ -21,6 +21,25 @@ var AjaxRequest = new AjaxRequestClass()
 
 var otherGroupsLinks = require("../json/otherGroupsLinks.json")
 
+let API_RELATIVE_QUEUE_PARSING_INTERVAL = 3000
+let API_RELATIVE_QUEUE = {
+  urlsVisited: [],
+  previousVideosLength: 0,
+  videos: [],
+  videosDownloaded: [],
+  interval: null,
+  end: false
+}
+
+let API_ASSOLUTE_QUEUE_PARSING_INTERVAL = 3000
+let API_ASSOLUTE_QUEUE = {
+  urlsVisited: [],
+  previousVideosLength: 0,
+  videos: [],
+  videosDownloaded: [],
+  interval: null,
+  end: false
+}
 
 
 var self = module.exports = {
@@ -137,77 +156,6 @@ var self = module.exports = {
     return new Promise((resolve, reject) => {
       youtubeRelated.getVideoRelatedById(id, constants.recommenderVideosNumber).then(function (results) {
         resolve(results)
-      }).catch(function (error) {
-        reject(error)
-      })
-    })
-  },
-
-  // FIXME: check this function reponse time
-  globalAbsolutePopularity(videoId) {
-    return new Promise((resolve, reject) => {
-      return self.localAbsolutePopularity(null).then(function (videosFounded) {
-        var promises = [];
-        otherGroupsLinks.urls.forEach((url, index) => {
-          promises.push(AjaxRequest.jsonRequest(url, 'GET', {}))
-        })
-        Promise.all(promises)
-          .then(function (groupsVideos) {
-            var promises2 = [];
-            var videoResults = RecommenderHelper.globalAbsolutePopularity(videosFounded, groupsVideos)
-            // foreach video calculated
-            videoResults.forEach(video => {
-              promises2.push(VideosController.getVideoInfoFromYoutubeApi(null, video.id))
-            })
-            Promise.all(promises2)
-              .then(videosData => {
-                resolve(videosData)
-              })
-              .catch(error => {
-                reject(error)
-              })
-          })
-          .catch(function (error) {
-            resolve(null)
-          })
-      }).catch(function (error) {
-        reject(error)
-      })
-    })
-  },
-
-  // FIXME: check how i order the video founded (understand if my hitmap logic is correct)
-  globalRelativePopularity(videoId) {
-    return new Promise((resolve, reject) => {
-      self.localRelativePopularity(null, videoId).then(function (videosFounded) {
-        return VideosController.getVideoById(videoId).then(function (videoObject) {
-            var promises = [];
-            otherGroupsLinks.urls.forEach((url, index) => {
-              promises.push(AjaxRequest.jsonRequest(url + "?id=" + videoObject.youtube_id, 'GET', {}))
-            })
-            Promise.all(promises)
-              .then(function (groupsVideos) {
-                var promises2 = [];
-                var videoResults = RecommenderHelper.globalRelativePopularity(videosFounded, groupsVideos)
-                // foreach video calculated
-                videoResults.forEach(video => {
-                  promises2.push(VideosController.getVideoInfoFromYoutubeApi(null, video.id))
-                })
-                Promise.all(promises2)
-                  .then(videosData => {
-                    resolve(videosData)
-                  })
-                  .catch(error => {
-                    reject(error)
-                  })
-              })
-              .catch(function (error) {
-                resolve(null)
-              })
-          })
-          .catch(function (error) {
-            reject(error)
-          })
       }).catch(function (error) {
         reject(error)
       })
@@ -383,9 +331,148 @@ var self = module.exports = {
         reject(error)
       })
     })
-  }
+  },
 
+
+  _assoluteQueueRequestCycle() {
+    // console.log("numero di url visitati", API_ASSOLUTE_QUEUE.urlsVisited.length, " ---- numero url totali", otherGroupsLinks.urls.length)
+    if (API_ASSOLUTE_QUEUE.urlsVisited.length >= otherGroupsLinks.urls.length) {
+      API_ASSOLUTE_QUEUE.end = true
+    }
+
+    if (!!API_ASSOLUTE_QUEUE.end) {
+      API_ASSOLUTE_QUEUE.videos = []
+      API_ASSOLUTE_QUEUE.previousVideosLength = 0
+      API_ASSOLUTE_QUEUE.urlsVisited = []
+
+      clearInterval(API_ASSOLUTE_QUEUE.interval)
+
+      // console.log("queue parsing end")
+      // console.log(API_ASSOLUTE_QUEUE.end)
+      // console.log("")
+      // console.log("")
+      // console.log("")
+    }
+
+    return
+  },
+
+
+  _addVideoTAssoluteQueue(url) {
+    AjaxRequest.jsonRequest(url, 'GET', {})
+      .then(videosData => {
+        API_ASSOLUTE_QUEUE.urlsVisited.push(url)
+        API_ASSOLUTE_QUEUE.previousVideosLength = API_ASSOLUTE_QUEUE.videos.length
+
+        if (videosData.recommended) {
+          videosData.recommended.forEach((video) => {
+            API_ASSOLUTE_QUEUE.videos.push(video)
+            API_ASSOLUTE_QUEUE.videosDownloaded = API_ASSOLUTE_QUEUE.videos
+          })
+        }
+
+        // console.log("stato attuale ", API_ASSOLUTE_QUEUE.urlsVisited.length, otherGroupsLinks.urls.length)
+      })
+      .catch(error => {
+        API_ASSOLUTE_QUEUE.urlsVisited.push(url)
+        console.log(url, "errore", error)
+      })
+  },
+
+
+  globalAbsolutePopularity() {
+
+    API_ASSOLUTE_QUEUE.interval = API_ASSOLUTE_QUEUE.interval || setInterval(_ => self._assoluteQueueRequestCycle(), API_ASSOLUTE_QUEUE_PARSING_INTERVAL)
+
+    return new Promise((resolve, reject) => {
+      var promises = []
+      var videoPromises = []
+      let currentLinkIndex = 0
+      let videoFromOtherGroups = []
+
+      if (API_ASSOLUTE_QUEUE.videos.length === 0) {
+
+        for (const url of otherGroupsLinks.urls) {
+          videoPromises.push(self._addVideoTAssoluteQueue(url))
+          currentLinkIndex++
+        }
+
+        Promise.all(videoPromises).catch(error => {})
+      }
+
+      let promise = []
+
+      // resolve(API_ASSOLUTE_QUEUE.videosDownloaded)
+      const videoResults = RecommenderHelper.globalAbsolutePopularity(API_ASSOLUTE_QUEUE.videosDownloaded)
+      // console.log(videoResults)
+      // foreach video calculated
+      videoResults.forEach(video => {
+        promises.push(VideosController.getVideoInfoFromYoutubeApi(null, video.id))
+      })
+      Promise.all(promises)
+        .then(videosData => {
+          const end = API_ASSOLUTE_QUEUE.end
+          if (!!API_ASSOLUTE_QUEUE.end)
+            API_ASSOLUTE_QUEUE.end = false
+
+          API_ASSOLUTE_QUEUE.videosDownloaded = []
+          resolve({
+            videosData,
+            end
+          })
+        })
+        .catch(error => {
+          const end = API_ASSOLUTE_QUEUE.end
+          if (!!API_ASSOLUTE_QUEUE.end)
+            API_ASSOLUTE_QUEUE.end = false
+
+          API_ASSOLUTE_QUEUE.videosDownloaded = []
+          resolve({
+            videosData: [],
+            end
+          })
+        })
+    })
+  },
+
+  // FIXME: check how i order the video founded (understand if my hitmap logic is correct)
+  globalRelativePopularity(videoId) {
+  //   return new Promise((resolve, reject) => {
+  //     self.localRelativePopularity(null, videoId).then(function (videosFounded) {
+  //       return VideosController.getVideoById(videoId).then(function (videoObject) {
+  //           var promises = [];
+  //           otherGroupsLinks.urls.forEach((url, index) => {
+  //             promises.push(AjaxRequest.jsonRequest(url + "?id=" + videoObject.youtube_id, 'GET', {}))
+  //           })
+  //           Promise.all(promises)
+  //             .then(function (groupsVideos) {
+  //               var promises2 = [];
+  //               var videoResults = RecommenderHelper.globalRelativePopularity(videosFounded, groupsVideos)
+  //               // foreach video calculated
+  //               videoResults.forEach(video => {
+  //                 promises2.push(VideosController.getVideoInfoFromYoutubeApi(null, video.id))
+  //               })
+  //               Promise.all(promises2)
+  //                 .then(videosData => {
+  //                   resolve(videosData)
+  //                 })
+  //                 .catch(error => {
+  //                   reject(error)
+  //                 })
+  //             })
+  //             .catch(function (error) {
+  //               resolve(null)
+  //             })
+  //         })
+  //         .catch(function (error) {
+  //           reject(error)
+  //         })
+  //     }).catch(function (error) {
+  //       reject(error)
+  //     })
+  //   })
+  }
 }
 
-var VideosController = require('./VideosController.js')
-var ArtistsController = require('./ArtistsController.js')
+const VideosController = require('./VideosController.js')
+const ArtistsController = require('./ArtistsController.js')

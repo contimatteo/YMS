@@ -15,9 +15,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 
- const chalk = require('chalk');
+const chalk = require('chalk');
 var request = require('request');
 const ApiResponse = require('./schemas/ApiResponse.js');
+const RecommenderHelper = require("../controllers/helpers/RecommenderHelper")
 
 const warning = chalk.blue
 const success = chalk.green
@@ -37,7 +38,7 @@ module.exports = class AjaxRequest {
     }
   }
 
-  jsonRequest(url, typeRequest, data) {
+  jsonRequest(url, typeRequest, data, montitor = false) {
     return new Promise((resolve, reject) => {
       // Configure the request
       this.options = {
@@ -52,29 +53,33 @@ module.exports = class AjaxRequest {
       request(this.options, function (error, response, body) {
         let data = {}
 
-        if (!error && response.statusCode == 200) {
+        if (response && !error && response.statusCode == 200) {
           data = response.body
 
           //  INFO:  debugging external resourcexs reponse time
           if (response.elapsedTime > ELAPSED_TIME_LIMIT_FOR_DEBUG)
-            console.log(warning("[RESPONSE]"), `response --- in ${response.elapsedTime} milliseconds --- from ${url}`)
+            montitor && console.log(warning("[RESPONSE]"), `response --- in ${response.elapsedTime} milliseconds --- from ${url}`)
           else
-            console.log(`[RESPONSE] response --- in ${response.elapsedTime} milliseconds --- from ${url}`)
+            montitor && console.log(`[RESPONSE] response --- in ${response.elapsedTime} milliseconds --- from ${url}`)
 
           try {
             const dataJSON = JSON.parse(data)
-            resolve(dataJSON)
+
+            if (RecommenderHelper.validateGroupJson(dataJSON)) {
+              resolve(dataJSON)
+            }
+
+            resolve({})
           } catch (ex) {
-            resolve(data)
+            resolve({})
           }
 
         } else {
 
-          if (response.statusCode !== 200)
-            console.log(chalk.red("[RESPONSE]"), `response --- in ${response.elapsedTime} milliseconds --- from ${url} --- with code ${response.statusCode}`)
+          if (response && response.statusCode && response.statusCode !== 200)
+            montitor && console.log(chalk.red("[RESPONSE]"), `response --- in ${response.elapsedTime} milliseconds --- from ${url} --- with code ${response.statusCode}`)
 
-          if (error)
-            console.log(chalk.red("[RESPONSE]"), `response --- in ${response.elapsedTime} milliseconds --- from ${url} --- with error ${error}`)
+            montitor && console.log(chalk.red("[RESPONSE]"), `response --- in ${response.elapsedTime} milliseconds --- from ${url} --- with error ${error}`)
 
           resolve({})
         }

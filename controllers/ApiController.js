@@ -13,7 +13,6 @@ var constants = require('./helpers/ConstantsHelper.js')
 
 var GlobpopJson = require('../libraries/schemas/GlobpopJson.js')
 
-
 var self = module.exports = {
 
   globpop(youtubeId) {
