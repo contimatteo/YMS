@@ -94,21 +94,21 @@ var self = module.exports = {
       })
     })
   },
-  
-  random(response){
-    return new Promise (function(resolve,reject){
-      ORMHelper.getVideoRandom().then(function(videoObject){
-      var formattedVideoId = DataHelper.getFirstCharacterFromId(videoObject)
-      // console.log(formattedVideoId)
-       youtubeApi.search(formattedVideoId, constants.recommenderVideosNumber, null, null).then(function(videosRandom){
-        resolve(videosRandom)
-       }).catch(function(error){
-         //console.log(error)
+
+  random(response) {
+    return new Promise(function (resolve, reject) {
+      ORMHelper.getVideoRandom().then(function (videoObject) {
+        var formattedVideoId = DataHelper.getFirstCharacterFromId(videoObject)
+        // console.log(formattedVideoId)
+        youtubeApi.search(formattedVideoId, constants.recommenderVideosNumber, null, null).then(function (videosRandom) {
+          resolve(videosRandom)
+        }).catch(function (error) {
+          //console.log(error)
           reject(error)
-       })
-      }).catch(function(error){
-          // console.log(error)
-          reject([]) 
+        })
+      }).catch(function (error) {
+        // console.log(error)
+        reject([])
       })
     })
   },
@@ -343,9 +343,7 @@ var self = module.exports = {
     console.log("numero di url visitati", API_ASSOLUTE_QUEUE.urlsVisited.length, " ---- numero url totali", otherGroupsLinks.urls.length)
     if (API_ASSOLUTE_QUEUE.urlsVisited.length >= otherGroupsLinks.urls.length) {
       API_ASSOLUTE_QUEUE.endProcessing = true
-    }
 
-    if (!!API_ASSOLUTE_QUEUE.endProcessing) {
       API_ASSOLUTE_QUEUE.videos = []
       API_ASSOLUTE_QUEUE.previousVideosLength = 0
       API_ASSOLUTE_QUEUE.urlsVisited = []
@@ -385,75 +383,19 @@ var self = module.exports = {
       })
   },
 
-
-  // globalAbsolutePopularity() {
-
-  //   API_ASSOLUTE_QUEUE.interval = API_ASSOLUTE_QUEUE.interval || setInterval(_ => self._assoluteQueueRequestCycle(), API_ASSOLUTE_QUEUE_PARSING_INTERVAL)
-
-  //   return new Promise((resolve, reject) => {
-  //     var promises = []
-  //     var videoPromises = []
-  //     let currentLinkIndex = 0
-  //     let videoFromOtherGroups = []
-
-  //     if (API_ASSOLUTE_QUEUE.videos.length === 0) {
-
-  //       for (const url of otherGroupsLinks.urls) {
-  //         videoPromises.push(self._addVideoTAssoluteQueue(url))
-  //         currentLinkIndex++
-  //       }
-
-  //       Promise.all(videoPromises).catch(error => {})
-  //     }
-
-  //     let promise = []
-
-  //     // resolve(API_ASSOLUTE_QUEUE.videosDownloaded)
-  //     const videoResults = RecommenderHelper.globalAbsolutePopularity(API_ASSOLUTE_QUEUE.videosDownloaded)
-  //     // console.log(videoResults)
-  //     // foreach video calculated
-  //     videoResults.forEach(video => {
-  //       promises.push(VideosController.getVideoInfoFromYoutubeApi(null, video.id))
-  //     })
-  //     Promise.all(promises)
-  //       .then(videosData => {
-  //         const end = API_ASSOLUTE_QUEUE.endProcessing
-  //         if (!!API_ASSOLUTE_QUEUE.endProcessing)
-  //           API_ASSOLUTE_QUEUE.endProcessing = false
-
-  //         API_ASSOLUTE_QUEUE.videosDownloaded = []
-  //         resolve({
-  //           videosData,
-  //           end
-  //         })
-  //       })
-  //       .catch(error => {
-  //         const end = API_ASSOLUTE_QUEUE.endProcessing
-  //         if (!!API_ASSOLUTE_QUEUE.endProcessing)
-  //           API_ASSOLUTE_QUEUE.endProcessing = false
-
-  //         API_ASSOLUTE_QUEUE.videosDownloaded = []
-  //         resolve({
-  //           videosData: [],
-  //           end
-  //         })
-  //       })
-  //   })
-  // },
-
   globalAbsolutePopularity() {
     var promises = []
     var videoPromises = []
     let currentLinkIndex = 0
     let videoFromOtherGroups = []
 
-    console.log("should i start the interval -->", API_ASSOLUTE_QUEUE.interval===null && API_ASSOLUTE_QUEUE.videos.length === 0 && API_ASSOLUTE_QUEUE.videosDownloaded.length === 0 && API_ASSOLUTE_QUEUE.endProcessing)
-    if (API_ASSOLUTE_QUEUE.interval  === null && API_ASSOLUTE_QUEUE.videos.length === 0 && API_ASSOLUTE_QUEUE.videosDownloaded.length === 0 && API_ASSOLUTE_QUEUE.endProcessing) {
+    // console.log("should i start the interval -->", API_ASSOLUTE_QUEUE.interval===null && API_ASSOLUTE_QUEUE.videos.length === 0 && API_ASSOLUTE_QUEUE.videosDownloaded.length === 0 && API_ASSOLUTE_QUEUE.endProcessing)
+    if (API_ASSOLUTE_QUEUE.interval === null && API_ASSOLUTE_QUEUE.videos.length === 0 && API_ASSOLUTE_QUEUE.videosDownloaded.length === 0 && API_ASSOLUTE_QUEUE.endProcessing) {
 
       if (API_ASSOLUTE_QUEUE.firstTime)
         API_ASSOLUTE_QUEUE.firstTime = false
 
-     console.log("INTERVAL START")
+      // console.log("INTERVAL START")
       API_ASSOLUTE_QUEUE.interval = API_ASSOLUTE_QUEUE.interval || setInterval(_ => self._assoluteQueueRequestCycle(), API_ASSOLUTE_QUEUE_PARSING_INTERVAL)
 
       for (const url of otherGroupsLinks.urls) {
@@ -479,11 +421,24 @@ var self = module.exports = {
           if (API_ASSOLUTE_QUEUE.endProcessing)
             API_ASSOLUTE_QUEUE.videosDownloaded = []
 
-          console.log("************** ho finito ?", API_ASSOLUTE_QUEUE.endProcessing && videosDownloadedLength > 0 && API_ASSOLUTE_QUEUE.videos.length === 0, "**************")
+          const end = API_ASSOLUTE_QUEUE.endProcessing && videosDownloadedLength > 0 && API_ASSOLUTE_QUEUE.videos.length === 0
+
+          // console.log("numero di risultati ritornati ", videosData.length, " ------ lunghezza video scaricati parziali ", videosDownloadedLength)
+          // console.log("************** ho finito ?", end, "**************")
+          // if (end) {
+          //   console.log("")
+          //   console.log("")
+          //   console.log("")
+          //   console.log("")
+          //   console.log("")
+          //   console.log("")
+          //   console.log("")
+          //   console.log("")
+          // }
 
           resolve({
             videosData,
-            end: API_ASSOLUTE_QUEUE.endProcessing && videosDownloadedLength > 0 && API_ASSOLUTE_QUEUE.videos.length === 0 // FIXME: @contimatteo
+            end
           })
         })
         .catch(error => {
@@ -498,39 +453,39 @@ var self = module.exports = {
   // FIXME: check how i order the video founded (understand if my hitmap logic is correct)
   globalRelativePopularity(videoId) {
     return new Promise((resolve, reject) => {
-    //     self.localRelativePopularity(null, videoId).then(function (videosFounded) {
-    //       return VideosController.getVideoById(videoId).then(function (videoObject) {
-    //           var promises = [];
-    //           otherGroupsLinks.urls.forEach((url, index) => {
-    //             promises.push(AjaxRequest.jsonRequest(url + "?id=" + videoObject.youtube_id, 'GET', {}))
-    //           })
-    //           Promise.all(promises)
-    //             .then(function (groupsVideos) {
-    //               var promises2 = [];
-    //               var videoResults = RecommenderHelper.globalRelativePopularity(videosFounded, groupsVideos)
-    //               // foreach video calculated
-    //               videoResults.forEach(video => {
-    //                 promises2.push(VideosController.getVideoInfoFromYoutubeApi(null, video.id))
-    //               })
-    //               Promise.all(promises2)
-    //                 .then(videosData => {
-    //                   resolve(videosData)
-    //                 })
-    //                 .catch(error => {
-    //                   reject(error)
-    //                 })
-    //             })
-    //             .catch(function (error) {
-    //               resolve(null)
-    //             })
-    //         })
-    //         .catch(function (error) {
-    //           reject(error)
-    //         })
-    //     }).catch(function (error) {
-    //       reject(error)
-    //     })
-    resolve([])
+      //     self.localRelativePopularity(null, videoId).then(function (videosFounded) {
+      //       return VideosController.getVideoById(videoId).then(function (videoObject) {
+      //           var promises = [];
+      //           otherGroupsLinks.urls.forEach((url, index) => {
+      //             promises.push(AjaxRequest.jsonRequest(url + "?id=" + videoObject.youtube_id, 'GET', {}))
+      //           })
+      //           Promise.all(promises)
+      //             .then(function (groupsVideos) {
+      //               var promises2 = [];
+      //               var videoResults = RecommenderHelper.globalRelativePopularity(videosFounded, groupsVideos)
+      //               // foreach video calculated
+      //               videoResults.forEach(video => {
+      //                 promises2.push(VideosController.getVideoInfoFromYoutubeApi(null, video.id))
+      //               })
+      //               Promise.all(promises2)
+      //                 .then(videosData => {
+      //                   resolve(videosData)
+      //                 })
+      //                 .catch(error => {
+      //                   reject(error)
+      //                 })
+      //             })
+      //             .catch(function (error) {
+      //               resolve(null)
+      //             })
+      //         })
+      //         .catch(function (error) {
+      //           reject(error)
+      //         })
+      //     }).catch(function (error) {
+      //       reject(error)
+      //     })
+      resolve([])
     })
   }
 }
