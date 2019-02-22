@@ -97,16 +97,18 @@ var self = module.exports = {
   
   random(response){
     return new Promise (function(resolve,reject){
-      ORMHelper.getVideoRandom().then(function(videoId){
-       var formattedVideoId = DataHelper.getFirstCharacterFromId(videoId)
-       console.log(formattedVideoId)
-       youtubeApi.search(formattedVideoId, constants.recommenderVideosNumber, null, null).then(function(VideoRandom){
-        resolve(videoRandom)
+      ORMHelper.getVideoRandom().then(function(videoObject){
+      var formattedVideoId = DataHelper.getFirstCharacterFromId(videoObject)
+      // console.log(formattedVideoId)
+       youtubeApi.search(formattedVideoId, constants.recommenderVideosNumber, null, null).then(function(videosRandom){
+        resolve(videosRandom)
        }).catch(function(error){
+         //console.log(error)
           reject(error)
        })
       }).catch(function(error){
-        reject(error)
+          // console.log(error)
+          reject([]) 
       })
     })
   },

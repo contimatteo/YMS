@@ -460,9 +460,9 @@
         console.log(videoList)
         console.log("")
         $("#recommender-random").text("");
-        $(videoList).each((index, videoObject) => {
-          createVideoElement("#recommender-random", videoObject.youtube_id, videoObject.image_url,
-            videoObject.title, videoObject.Channel.name, "Random");
+        $(videoList.items).each((index, videoObject) => {
+          createVideoElement("#recommender-random", videoObject.id.videoId, videoObject.snippet.thumbnails
+              .medium.url, videoObject.snippet.title, videoObject.snippet.channelTitle, "Random");
         })
       },
       error: function (error) {

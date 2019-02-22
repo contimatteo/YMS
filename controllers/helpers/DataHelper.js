@@ -61,9 +61,12 @@ module.exports = {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   getFirstCharacterFromId(videoId){
-    var videoIdShortered = videoId.youtube_id.slice(0,4);
-    console.log(videoIdShortered)
+    if (videoId){
+    var videoIdShortered = videoId.youtube_id.substring(0,4);
     return(videoIdShortered);
+    }else {
+      return("videoId doesnt exist")
+    }
   }
 };
 

@@ -2,9 +2,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 var Artist = require("../../models/Artist.js");
 var Video = require("../../models/Video.js");
+var Channel = require("../../models/Channel.js");
 var Productions = require("../../models/Productions.js");
+
+const Sequelize = require('sequelize')
 ////////////////////////////////////////////////////////////////////////////////
-var constant = 1;
 module.exports = {
   
   storeVideoAndArtistAssociation(artistId, videoId) {
@@ -27,15 +29,15 @@ module.exports = {
 
   getVideoRandom() {
     return new Promise((resolve, reject) => {
-      Video.findAll({
+      Video.findOne({
         include: [{
           model: Channel
         }],
         order: Sequelize.literal('rand()'),
-        limit: constant
       }).then(function (videoRandom) {
         resolve(videoRandom)
       }).catch(function (error) {
+        // console.log(error)
         reject(error)
       })
     })
