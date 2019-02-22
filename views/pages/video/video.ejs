@@ -346,7 +346,8 @@
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // global absolute popularity recommender
-    let globalAssolutePopularity = setInterval(() => callGlobalAssolutePopularity(), 3000)
+    let callIntervalTime = 1000
+    let globalAssolutePopularity = setInterval(() => callGlobalAssolutePopularity(), callIntervalTime)
     function callGlobalAssolutePopularity() {
       $.ajax({
         type: "GET",
@@ -365,6 +366,15 @@
             globalAssolutePopularity = null
             console.log("")
             console.log("Algoritmo di Popolarità Globale Assoluta caricato correttamente")
+            console.log(videoList)
+            console.log("")
+          }
+          else if(xhr.status == 206) {
+            if (videoList.length > 0)
+              callIntervalTime = 3000
+              
+            console.log("")
+            console.log("Algoritmo di Popolarità Globale Assoluta caricato parzialmente")
             console.log(videoList)
             console.log("")
           }
@@ -528,7 +538,6 @@
         console.log(videoList)
         console.log("")
         $("#recommender-artists-similarity").text("");
-        console.log(videoList)
         $(videoList).each((index, relatedObject) => {
           if (relatedObject != null)
             createVideoElement("#recommender-artists-similarity", relatedObject.id.videoId, relatedObject
