@@ -23,7 +23,7 @@ var AjaxRequest = new AjaxRequestClass()
 
 var otherGroupsLinks = require("../json/otherGroupsLinks.json")
 
-let API_RELATIVE_QUEUE_PARSING_INTERVAL = 3000
+let API_RELATIVE_QUEUE_PARSING_INTERVAL = 1000
 let API_RELATIVE_QUEUE = {
   urlsVisited: [],
   previousVideosLength: 0,
@@ -33,7 +33,7 @@ let API_RELATIVE_QUEUE = {
   end: false
 }
 
-let API_ASSOLUTE_QUEUE_PARSING_INTERVAL = 3000
+let API_ASSOLUTE_QUEUE_PARSING_INTERVAL = 1000
 let API_ASSOLUTE_QUEUE = {
   urlsVisited: [],
   previousVideosLength: 0,
@@ -340,7 +340,7 @@ var self = module.exports = {
 
 
   _assoluteQueueRequestCycle() {
-    // console.log("numero di url visitati", API_ASSOLUTE_QUEUE.urlsVisited.length, " ---- numero url totali", otherGroupsLinks.urls.length)
+    console.log("numero di url visitati", API_ASSOLUTE_QUEUE.urlsVisited.length, " ---- numero url totali", otherGroupsLinks.urls.length)
     if (API_ASSOLUTE_QUEUE.urlsVisited.length >= otherGroupsLinks.urls.length) {
       API_ASSOLUTE_QUEUE.endProcessing = true
     }
@@ -447,13 +447,13 @@ var self = module.exports = {
     let currentLinkIndex = 0
     let videoFromOtherGroups = []
 
-    // console.log(API_ASSOLUTE_QUEUE.interval===null, API_ASSOLUTE_QUEUE.videos.length === 0, API_ASSOLUTE_QUEUE.videosDownloaded.length === 0, API_ASSOLUTE_QUEUE.endProcessing)
+    console.log("should i start the interval -->", API_ASSOLUTE_QUEUE.interval===null && API_ASSOLUTE_QUEUE.videos.length === 0 && API_ASSOLUTE_QUEUE.videosDownloaded.length === 0 && API_ASSOLUTE_QUEUE.endProcessing)
     if (API_ASSOLUTE_QUEUE.interval  === null && API_ASSOLUTE_QUEUE.videos.length === 0 && API_ASSOLUTE_QUEUE.videosDownloaded.length === 0 && API_ASSOLUTE_QUEUE.endProcessing) {
 
       if (API_ASSOLUTE_QUEUE.firstTime)
         API_ASSOLUTE_QUEUE.firstTime = false
 
-     // console.log("INTERVAL START")
+     console.log("INTERVAL START")
       API_ASSOLUTE_QUEUE.interval = API_ASSOLUTE_QUEUE.interval || setInterval(_ => self._assoluteQueueRequestCycle(), API_ASSOLUTE_QUEUE_PARSING_INTERVAL)
 
       for (const url of otherGroupsLinks.urls) {
@@ -479,7 +479,7 @@ var self = module.exports = {
           if (API_ASSOLUTE_QUEUE.endProcessing)
             API_ASSOLUTE_QUEUE.videosDownloaded = []
 
-          // console.log("************** ho finito ?", API_ASSOLUTE_QUEUE.endProcessing && videosDownloadedLength > 0 && API_ASSOLUTE_QUEUE.videos.length === 0, "**************")
+          console.log("************** ho finito ?", API_ASSOLUTE_QUEUE.endProcessing && videosDownloadedLength > 0 && API_ASSOLUTE_QUEUE.videos.length === 0, "**************")
 
           resolve({
             videosData,
@@ -497,7 +497,7 @@ var self = module.exports = {
 
   // FIXME: check how i order the video founded (understand if my hitmap logic is correct)
   globalRelativePopularity(videoId) {
-    //   return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
     //     self.localRelativePopularity(null, videoId).then(function (videosFounded) {
     //       return VideosController.getVideoById(videoId).then(function (videoObject) {
     //           var promises = [];
@@ -530,7 +530,8 @@ var self = module.exports = {
     //     }).catch(function (error) {
     //       reject(error)
     //     })
-    //   })
+    resolve([])
+    })
   }
 }
 

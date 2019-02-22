@@ -14,7 +14,6 @@ module.exports = function (app, passport) {
 
   ///////////////////////////////// VIDEOS ROUTE /////////////////////////////////
   app.post('/videos/search', AuthController.userLoggedIn, function (req, res) {
-    console.log("qui")
     var searchString = req.body.search_string;
     var searchType = req.body.search_type;
     var pageToken = req.query.page;
@@ -23,7 +22,6 @@ module.exports = function (app, passport) {
 
   // show single video
   app.get('/videos/:id', AuthController.userLoggedIn, function (req, res) {
-    console.log("non qui")
     var youtubeId = req.params.id;
     // create and render video page
     return VideosController.create(res, youtubeId).then(function (videoObject) {
