@@ -136,10 +136,9 @@ var self = module.exports = {
   localAbsolutePopularity(response) {
     return new Promise((resolve, reject) => {
       Video.findAll({
-        include: [{
-          model: Artist,
-          Channel
-        }],
+        include: [
+          Artist, Channel 
+        ],
         order: [
           ['views', 'DESC']
         ],
