@@ -6,6 +6,8 @@ var YoutubeRelatedClass = require('../libraries/YoutubeApi.js')
 var YoutubeApi = require('../libraries/YoutubeApi.js')
 var constants = require('./helpers/ConstantsHelper.js')
 var RecommenderHelper = require('./helpers/RecommenderHelper.js')
+var ORMHelper = require('./helpers/ORMHelper.js')
+var DataHelper = require('./helpers/DataHelper.js')
 
 var ViewsHistory = require("../models/ViewsHistory.js")
 var User = require("../models/User.js")
@@ -90,18 +92,18 @@ var self = module.exports = {
       })
     })
   },
-
-  random(response) {
-    return new Promise((resolve, reject) => {
-      Video.findAll({
-        include: [{
-          model: Channel
-        }],
-        order: Sequelize.literal('rand()'),
-        limit: constants.recommenderVideosNumber
-      }).then(function (videoRandom) {
+  
+  random(response){
+    return new Promise (function(resolve,reject){
+      ORMHelper.getVideoRandom().then(function(videoId){
+       var formattedVideoId = DataHelper.getFirstCharacterFromId(videoId)
+       console.log(formattedVideoId)
+       youtubeApi.search(formattedVideoId, constants.recommenderVideosNumber, null, null).then(function(VideoRandom){
         resolve(videoRandom)
-      }).catch(function (error) {
+       }).catch(function(error){
+          reject(error)
+       })
+      }).catch(function(error){
         reject(error)
       })
     })

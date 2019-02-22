@@ -57,8 +57,14 @@ module.exports = {
     object.link3 = link3;
     // return object with link
     return (object);
-  }
+  },
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  getFirstCharacterFromId(videoId){
+    var videoIdShortered = videoId.youtube_id.slice(0,4);
+    console.log(videoIdShortered)
+    return(videoIdShortered);
+  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
