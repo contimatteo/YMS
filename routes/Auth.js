@@ -1,5 +1,7 @@
 var AuthController = require('../controllers/AuthController.js')
 
+const ENABLE_PASSPORT_REDIRECT_AFTER_LOGIN = true
+
 
 module.exports = function (app, passport) {
 
@@ -17,9 +19,12 @@ module.exports = function (app, passport) {
   app.get('/logout', AuthController.userLoggedIn, AuthController.logout)
 
   app.post('/signin', passport.authenticate('local-signin'), function (req, res) {
-    // res.redirect(req.session.returnTo || '/') //  BUG:  redirect makes only GET calls (on search endpoint we have a POST)
-    res.redirect('/')
-    delete req.session.returnTo
+    if (ENABLE_PASSPORT_REDIRECT_AFTER_LOGIN) {
+      res.redirect(req.session.returnTo || '/')
+      delete req.session.returnTo
+    } else {
+       // res.redirect('/')
+    }
   })
 
 }

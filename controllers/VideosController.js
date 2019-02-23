@@ -88,7 +88,6 @@ var self = module.exports = {
               resolve(objectString)
             }
           }).catch(function (error) {
-            console.log("89: Video Controller ", error)
             resolve(objectString)
           })
         }
@@ -177,9 +176,9 @@ var self = module.exports = {
           objectString.song = String(objectString.song.replace(/\s+$/g, ''))
           objectString.song = DataHelper.capitalizeEachLetterAfterSpace(objectString.song)
           objectString.song = String(objectString.song.trim())
-          console.log("")
-          console.log(objectString)
-          console.log("")
+          const d = new Date()
+          console.log(""); 
+          console.log("["+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds()+"]:  ", objectString);
           var song = objectString.song;
           // delete some bad remnant from song title parsing 
           song = song.split('(')[0];
@@ -219,47 +218,32 @@ var self = module.exports = {
                       Promise.all(promiseArray2).then(data => {
                         // return video created
                         resolve(videoCreated)
-                        // get dpedia info about this song
-                        return self.getSongDbpediaInfo(videoCreated.id).then(songInfo => {
-                          // info founded
-                          // create video genre
-                          return GenresController.findOrCreateGenre(songInfo.genre.value, songInfo.genreUrl.value).then(function (genreObject) {
-                            // update video with abstract finded and genre reference
-                            self.updateVideoWithGenreAndDbpediaInfo(videoCreated.id, genreObject.id, songInfo)
-                          }).catch(function (error) {
-                            reject(error)
-                          })
-                        }).catch(error => {
-                          reject(error)
-                        })
+
+                        // genere and song sbtract
+                        self.tryToCreateSongAndGenreAbstract(videoCreated).catch(error => {})
                       }).catch(error => {
                         // return video created
                         resolve(videoCreated)
                       })
                     }).catch(error => {
-                      console.log("227: Video Controller ", error)
                       // no artist created but anyway return the video created
                       resolve(videoCreated)
                     })
                 }).catch(function (error) {
-                  console.log("232: Video Controller ", error)
                   reject(error)
                 })
               }).catch(function (error) {
-                console.log("236: Video Controller ", error)
                 reject(error)
               })
             }
           }).catch(function (error) {
-            console.log("248: Video Controller ", error)
             reject(error)
           })
         }).catch(function (error) {
-          console.log("252: Video Controller ", error)
+          console.log(error)
           reject(error)
         })
       }).catch(function (error) {
-        console.log("256: Video Controller ", error)
         response.status(400).send("video not available")
         // reject(error)
       })
@@ -369,22 +353,40 @@ var self = module.exports = {
     // })
   },
 
-  getSongDbpediaInfo(id) {
+  tryToCreateSongAndGenreAbstract(videoCreated) {
+    return new Promise((resolve, reject) => {
+      // get dpedia info about this song
+      self._getSongDbpediaInfo(videoCreated.id).then(songInfo => {
+        if (songInfo) {
+          // info founded
+          // create video genre
+          GenresController.findOrCreateGenre(songInfo.genre.value, songInfo.genreUrl.value).then(function (genreObject) {
+            // update video with abstract finded and genre reference
+            self._updateVideoWithGenreAndDbpediaInfo(videoCreated.id, genreObject.id, songInfo).catch(function (error) {})
+            resolve({})
+          }).catch(function (error) {
+            reject(error)
+          })
+        }
+        resolve({})
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  _getSongDbpediaInfo(id) {
     return new Promise((resolve, reject) => {
       var promises = [];
       self.getVideoById(id).then(function (videoObject) {
-        var objectLink;
         videoObject.Artists.forEach((artistObject, index) => {
-          objectLink = DataHelper.nameFormatter(artistObject.name, videoObject.song_name)
-          promises.push(SparqlController.getSongInfo(objectLink.link1))
-          promises.push(SparqlController.getSongInfo(objectLink.link2))
-          promises.push(SparqlController.getSongInfo(objectLink.link3))
+          promises.push(SparqlController.getSongInfo(artistObject.name, videoObject.song_name))
         })
         Promise.all(promises).then(data => {
             var songInfo = null;
             var trovato = false;
             data.forEach((songInfoResults, index) => {
-              if (!trovato && songInfoResults != null && songInfoResults.results != null && songInfoResults.results.bindings.length > 0) {
+              if (!trovato && songInfoResults && songInfoResults.results != null && songInfoResults.results.bindings.length > 0) {
                 songInfo = songInfoResults.results.bindings[0];
                 trovato = true;
               }
@@ -439,18 +441,15 @@ var self = module.exports = {
     })
   },
 
-  updateVideoWithGenreAndDbpediaInfo(videoId, genreId, songInfo) {
-    Video.update({
-      dbpedia_abstract: songInfo.abstract.value,
+  _updateVideoWithGenreAndDbpediaInfo(videoId, genreId, songInfo) {
+    return Video.update({
+      dbpedia_abstract: songInfo.abstract ? songInfo.abstract.value : "",
+      album: songInfo.album ? songInfo.album.value : "",
       FKGenreId: genreId
     }, {
       where: {
         id: videoId
       }
-    }).success(function (results) {
-      // all goes ok
-    }).error(function (err) {
-      // something went wrong
     })
   },
 

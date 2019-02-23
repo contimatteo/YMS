@@ -74,14 +74,19 @@
                   </div>
                   <div class="tab-pane fade" id="video-info" role="tabpanel" aria-labelledby="video-info-tab">
                     <div>
-                      Channel: <b><%= video.Channel.name %></b>
+                      <h5>Genre</h5>
+                      <span id="video-genre-info-content">
+                          <%= video.Genre ? video.Genre.name : "loading ..." %>
+                      </span>
+                      <br><br>
+                      <h5>Album</h5>
+                      <span id="video-album-info-content">
+                        <%= video.album ? video.album : "loading ..." %>
+                      </span>
+                      <br><br>
+                      <h5>Channel</h5>
+                      <%= video.Channel.name %>
                     </div>
-                    <%if(video.Genre) { %>
-                      <div>
-                        Genre: <b>
-                          <%= video.Genre.name %></b>
-                      </div>
-                      <% }; %>
                   </div>
                   <div class="tab-pane fade" id="artists" role="tabpanel" aria-labelledby="artists-tab">
                     <div>
@@ -96,7 +101,12 @@
                     <br>
                   </div>
                   <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
-                    <%= video.dbpedia_abstract %>
+                    <div>
+                      <h5>DBpedia Abstract</h5>
+                      <span id="video-dbpedia-abstract-info-content">
+                        <%= (video.dbpedia_abstract && video.dbpedia_abstract !== "") ? video.dbpedia_abstract : "loading ..." %>
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <br>
@@ -213,6 +223,7 @@
   <% include ../../components/footer-import.ejs %>
   <script src="/js-libraries/videoGraphic.js"></script>
 </body>
+
 
 <script>
   $("#videoViewsCounterCheck").hide()
@@ -623,6 +634,39 @@
     });
 
   });
+</script>
+
+
+<script>
+  <%if(AuthenticatedUser && (!video.dbpedia_abstract || video.dbpedia_abstract === "")) { %>
+    console.log("***************** PARTIAMO *****************")
+  setTimeout(getAbstractAndGenre, 10000)
+  function getAbstractAndGenre() {
+    $.ajax({
+      type: "GET",
+      url: "/api/video/<%= video.youtube_id %>",
+      cache: false,
+      success: function (video) {
+        console.log("***************** ABSTRACT CARICATO *****************")
+        console.log(video)
+        if (video) {
+          $("#video-dbpedia-abstract-info-content").text(video.dbpedia_abstract)
+          $("#video-album-info-content").text(video.album)
+          $("#video-genre-info-content").text(video.Genre ? video.Genre.name : "no genre found")
+        } else {
+          $("#video-dbpedia-abstract-info-content").text("no dbpedia abstract found")
+          $("#video-album-info-content").text("no album found")
+          $("#video-genre-info-content").text("no genre found")
+        }
+      },
+      error: function (error) {
+        $("#video-album-info-content").text("no album found")
+        $("#video-dbpedia-abstract-info-content").text("no dbpedia abstract found")
+        $("#video-genre-info-content").text("no genre found")
+      }
+    });
+  }
+  <% }; %>
 </script>
 
 </html>

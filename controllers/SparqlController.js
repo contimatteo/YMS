@@ -68,7 +68,7 @@ var self = module.exports = {
     var query = " " +
       " select distinct * { " +
       " ?artist foaf:name ?a. " +
-      " ?artist dbo:bandMember ?artistAssociated.  " +
+      " ?artist dbo:formerBandMember ?artistAssociated.  " +
       " ?artistAssociated  rdfs:label ?name.  " +
       " ?artistAssociated rdf:type ?type. " +
       "   optional { " +
@@ -84,20 +84,25 @@ var self = module.exports = {
   },
 
 
-  getSongInfo(songFormattedName) {
+  getSongInfo(artist, song) {
     var query = " " +
-      " select distinct * { " +
-      " dbr:" + songFormattedName + " rdf:type ?type. " +
-      " dbr:" + songFormattedName + " dbo:abstract ?abstract.  " +
-      " dbr:" + songFormattedName + " dbo:genre ?genreUrl.  " +
-      " ?genreUrl rdfs:label ?genre.  " +
-      "   optional {  " +
-      "     dbr:" + songFormattedName + " rdfs:label ?songTitle. " +
-      "     filter langMatches(lang(?label), 'en')  " +
-      "   }  " +
-      " filter langMatches(lang(?abstract), 'en')  " +
-      " filter ( ?type IN (dbo:Single) )  " +
-      " }  ";
+      " SELECT distinct * WHERE {  " +
+      " ?song foaf:name ?name. " +
+      " ?song rdf:type ?type.  " +
+      " ?song dbo:album ?albumLink.  " +
+      " ?albumLink foaf:name ?album.  " +
+      " ?song dbo:artist ?producerLink.  " +
+      " ?producerLink foaf:name ?producer.  " +
+      " ?song dbo:genre ?genreUrl. " +
+      " ?genreUrl rdfs:label ?genre. " +
+      " ?song rdfs:comment ?abstract.  " +
+      " FILTER langMatches(lang(?abstract), 'en')  " +
+      " FILTER langMatches(lang(?genre), 'en')  " +
+      " FILTER langMatches(lang(?album), 'en')  " +
+      " FILTER( ?name = \"" + song + "\"@en ) " +
+      " FILTER( ?producer = \"" + artist + "\"@en ) " +
+      " FILTER( ?type IN(dbo:Single, dbo:Song) ) " +
+      " } ";
     return sparqlClient.runQuery(query, [], []);
   }
 

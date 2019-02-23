@@ -13,6 +13,13 @@ module.exports = function (app, passport) {
   })
 
   ///////////////////////////////// VIDEOS ROUTE /////////////////////////////////
+  app.get('/videos/search', AuthController.userLoggedIn, function (req, res) {
+    var searchString = req.body.search_string;
+    var searchType = req.body.search_type;
+    var pageToken = req.query.page;
+    VideosController.index(res, searchString, searchType, pageToken, defaultVideoNumbers)
+  })
+  
   app.post('/videos/search', AuthController.userLoggedIn, function (req, res) {
     var searchString = req.body.search_string;
     var searchType = req.body.search_type;

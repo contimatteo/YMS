@@ -1,4 +1,4 @@
-const VERIFY_LOGIN = false
+const VERIFY_LOGIN = true
 
 module.exports = {
 

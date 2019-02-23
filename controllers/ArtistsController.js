@@ -43,7 +43,6 @@ var self = module.exports = {
   // get artist info
   getArtistInfo(response, artistName) {
     return new Promise(function (resolve, reject) {
-      // var artistNameFormatted = self._artistNameFormatter(artistName);
       SparqlController.getArtistInfo(artistName).then(function (artistInfo) {
         if (artistInfo == null || artistInfo.results.bindings.length < 1) {
           resolve(null);
@@ -78,7 +77,7 @@ var self = module.exports = {
   // create artist on db
   create(response, artistName) {
     return new Promise(function (resolve, reject) {
-      var artistNameFormatted = artistName
+      var artistNameFormatted = self._artistNameFormatter(artistName);
       var artistUrl = constants.sparql.dbr + artistNameFormatted;
       self.getArtistInfo(null, artistName).then(function (artistInfo) {
           if (!artistInfo) {
@@ -177,36 +176,38 @@ var self = module.exports = {
 
   createRelatedArtists(response, startArtistId, artistName) {
     return new Promise(function (resolve, reject) {
-      var artistNameFormatted = artistName
-      var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
-      SparqlController.getRelatedArtists(artistNameFormatted).then(function (artistsInfo) {
-          var results = artistsInfo.results.bindings;
-          var promises = [];
-          results.forEach(artist => {
-            promises.push(self._storeRelatedArtist(response, startArtistId, artist));
-          });
-          Promise.all(promises)
-            .then(function (data) {
-              resolve(data);
-            })
-            .catch(function (error) {
-              reject(error);
-            });
-        })
-        .catch(function (error) {
-          resolve(null);
-        });
+      // var artistNameFormatted = artistName
+      // var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
+      // SparqlController.getRelatedArtists(artistName).then(function (artistsInfo) {
+      //     var results = artistsInfo.results.bindings;
+      //     var promises = [];
+      //     results.forEach(artist => {
+      //       promises.push(self._storeRelatedArtist(response, startArtistId, artist));
+      //     });
+      //     Promise.all(promises)
+      //       .then(function (data) {
+      //         resolve(data);
+      //       })
+      //       .catch(function (error) {
+      //         resolve(null);
+      //       });
+      //   })
+      //   .catch(function (error) {
+      //     resolve(null);
+      //   });
+      reject(null)
     });
   },
 
   createBandMember(response, artistId, artistName) {
     return new Promise(function (resolve, reject) {
-      var artistNameFormatted = artistName
-      // var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
-      return SparqlController.getBandMember(artistNameFormatted).then(function (membersList) {
+      var artistNameFormatted = self._artistNameFormatter(artistName);
+      var artistUrl = constants.sparql.dbr + artistNameFormatted;
+      SparqlController.getBandMember(artistName).then(function (membersList) {
+        // console.log("members list %j", membersList.results.bindings)
           var results = membersList.results.bindings;
           var promises = [];
-          results.forEach(bandMember => {
+          results.forEach((bandMember, index) => {
             promises.push(self._createRelatedBandMember(response, artistId, bandMember));
           });
           Promise.all(promises)
