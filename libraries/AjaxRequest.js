@@ -38,13 +38,13 @@ module.exports = class AjaxRequest {
     }
   }
 
-  jsonRequest(url, typeRequest, data, montitor = false) {
+  jsonRequest(url, method, data, montitor = false, skipGroupValidation = false) {
     return new Promise((resolve, reject) => {
       // Configure the request
       this.options = {
         url: url,
         time: true,
-        method: typeRequest,
+        method: method,
         headers: this.headers,
         form: data
       };
@@ -65,7 +65,7 @@ module.exports = class AjaxRequest {
           try {
             const dataJSON = JSON.parse(data)
 
-            if (RecommenderHelper.validateGroupJson(dataJSON)) {
+            if (skipGroupValidation || RecommenderHelper.validateGroupJson(dataJSON)) {
               resolve(dataJSON)
             }
 

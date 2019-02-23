@@ -177,8 +177,8 @@ var self = module.exports = {
           objectString.song = DataHelper.capitalizeEachLetterAfterSpace(objectString.song)
           objectString.song = String(objectString.song.trim())
           const d = new Date()
-          console.log(""); 
-          console.log("["+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds()+"]:  ", objectString);
+          console.log("");
+          console.log("[" + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + "]:  ", objectString);
           var song = objectString.song;
           // delete some bad remnant from song title parsing 
           song = song.split('(')[0];
@@ -252,18 +252,22 @@ var self = module.exports = {
 
   addView(response, userId, videoId) {
     self.getVideoByYoutubeId(videoId).then(function (videoObject) {
-      // save video history
-      self.storeUserAndVideoHistoryCompleteAssociation(userId, videoObject.id)
       if (!videoObject) {
-        response.send('il video non ce')
+        response.send('no video found')
       } else {
-        return videoObject.increment('views', {
-          by: 1
-        }).then(function (results) {
-          response.send(results)
-        }).catch(function (error) {
-          reject(error)
-        })
+        // save video history
+        self.storeUserAndVideoHistoryCompleteAssociation(userId, videoObject.id)
+        if (!videoObject) {
+          response.send('no video found')
+        } else {
+          return videoObject.increment('views', {
+            by: 1
+          }).then(function (results) {
+            response.send(results)
+          }).catch(function (error) {
+            reject(error)
+          })
+        }
       }
     })
   },

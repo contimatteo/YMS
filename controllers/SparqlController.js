@@ -42,8 +42,7 @@ var self = module.exports = {
     return sparqlClient.runQuery(query, [], []);
   },
 
-
-  // TODO: fix
+  // TODO: remove this
   getRelatedArtists(artistName) {
     // call dbpedia for get artist info
     var query = " " +
@@ -64,6 +63,26 @@ var self = module.exports = {
 
 
   getBandMember(artistName) {
+    // call dbpedia for get artist info
+    var query = " " +
+      " select distinct * { " +
+      " ?artist foaf:name ?a. " +
+      " ?artist dbo:bandMember ?artistAssociated.  " +
+      " ?artistAssociated  rdfs:label ?name.  " +
+      " ?artistAssociated rdf:type ?type. " +
+      "   optional { " +
+      "     ?artistAssociated rdfs:comment ?description. " +
+      "     filter langMatches(lang(?description), 'en') " +
+      "   } " +
+      "   FILTER(?a = \"" + artistName + "\"@en) " +
+      "  filter langMatches(lang(?name), 'en')  " +
+      "  filter ( ?type IN (dbo:MusicalArtist, dbo:MusicalBand) )  " +
+      " }  ";
+    //" GROUP BY ?prop "
+    return sparqlClient.runQuery(query, [], []);
+  },
+
+  getFormerBandMember(artistName) {
     // call dbpedia for get artist info
     var query = " " +
       " select distinct * { " +
