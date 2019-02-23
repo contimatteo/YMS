@@ -3,7 +3,7 @@ const sparqlClient = new SparqlLibrary()
 
 
 var self = module.exports = {
-  
+
   sparql(response) {
     // get 100 artist on rock genre
     var query = " \
@@ -24,26 +24,26 @@ var self = module.exports = {
       response.send(error.reasonPhrase);
     });
   },
-  
+
   getArtistInfo(artistName) {
     // call dbpedia for get artist info
     var query = " " +
-      " select distinct * { " +
-      " dbr:" + artistName + "  rdfs:label ?name.  " +
-      " dbr:" + artistName + " rdf:type ?type. " +
-      "   optional {  " +
-      "     dbr:" + artistName + " dct:description ?description.  " +
-      "     ?description rdfs:label ?description .  " +
-      "     filter langMatches(lang(?description), 'en')  " +
-      "  }  " +
-      "  filter langMatches(lang(?name), 'en')  " +
-      "  filter ( ?type IN (dbo:MusicalArtist, dbo:Band) )  " +
+      " SELECT distinct * WHERE { " +
+      "   ?artist foaf:name ?name. " +
+      "   ?artist rdf:type ?type. " +
+      "   optional { " +
+      "     ?artist rdfs:comment ?description. " +
+      "     filter langMatches(lang(?description), 'en') " +
+      "   } " +
+      "   FILTER(?name = \"" + artistName + "\"@en) " +
+      "   FILTER( ?type IN(dbo:MusicalArtist, dbo:Band)) " +
       " }  ";
-    // " GROUP BY ?prop ";
+
     return sparqlClient.runQuery(query, [], []);
   },
 
-  
+
+  // TODO: fix
   getRelatedArtists(artistName) {
     // call dbpedia for get artist info
     var query = " " +
@@ -51,11 +51,10 @@ var self = module.exports = {
       " ?artistAssociated dbo:associatedMusicalArtist dbr:" + artistName + ". " +
       " ?artistAssociated  rdfs:label ?name.  " +
       " ?artistAssociated rdf:type ?type. " +
-      // "   optional {  " +
-      // "     ?artistAssociated dct:description ?description.  " +
-      // "     ?description rdfs:label ?description .  " +
-      // "     filter langMatches(lang(?description), 'en')  " +
-      // "  }  " +
+      "   optional { " +
+      "     ?artistAssociated rdfs:comment ?description. " +
+      "     filter langMatches(lang(?description), 'en') " +
+      "   } " +
       "  filter langMatches(lang(?name), 'en')  " +
       "  filter ( ?type IN (dbo:MusicalArtist, dbo:MusicalBand) )  " +
       " }  ";
@@ -63,19 +62,20 @@ var self = module.exports = {
     return sparqlClient.runQuery(query, [], []);
   },
 
-  
+
   getBandMember(artistName) {
     // call dbpedia for get artist info
     var query = " " +
       " select distinct * { " +
-      "     dbr:" + artistName + " dbo:bandMember ?artistAssociated.  " +
+      " ?artist foaf:name ?a. " +
+      " ?artist dbo:bandMember ?artistAssociated.  " +
       " ?artistAssociated  rdfs:label ?name.  " +
       " ?artistAssociated rdf:type ?type. " +
-      // "   optional {  " +
-      // "     ?artistAssociated dct:description ?description.  " +
-      // "     ?description rdfs:label ?description .  " +
-      // "     filter langMatches(lang(?description), 'en')  " +
-      // "  }  " +
+      "   optional { " +
+      "     ?artistAssociated rdfs:comment ?description. " +
+      "     filter langMatches(lang(?description), 'en') " +
+      "   } " +
+      "   FILTER(?a = \"" + artistName + "\"@en) " +
       "  filter langMatches(lang(?name), 'en')  " +
       "  filter ( ?type IN (dbo:MusicalArtist, dbo:MusicalBand) )  " +
       " }  ";
@@ -83,7 +83,7 @@ var self = module.exports = {
     return sparqlClient.runQuery(query, [], []);
   },
 
-  
+
   getSongInfo(songFormattedName) {
     var query = " " +
       " select distinct * { " +
@@ -100,6 +100,6 @@ var self = module.exports = {
       " }  ";
     return sparqlClient.runQuery(query, [], []);
   }
-  
+
 
 }

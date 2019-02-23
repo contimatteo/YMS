@@ -57,7 +57,6 @@ module.exports = class Sparql_Library {
           resolve(results)
         } else {
           resolve(null)
-          // reject(error)
         }
       })
     })

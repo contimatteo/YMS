@@ -120,7 +120,7 @@ module.exports = function (app, passport) {
       ApiController.globpop(youtubeId).then(function (json) {
         res.status(200).json(json)
       }).catch(function (error) {
-        console.log(error)
+        console.log("123: Api Route ", error)
         res.status(400).json({})
       })
     } else {
@@ -128,7 +128,7 @@ module.exports = function (app, passport) {
       ApiController.globpopAssolute().then(function (json) {
         res.status(200).json(json)
       }).catch(function (error) {
-        console.log(error)
+        console.log("131: Api Route ", error)
         res.status(400).json({})
       })
     }

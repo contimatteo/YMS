@@ -343,7 +343,7 @@ var self = module.exports = {
 
 
   _absoluteQueueRequestCycle() {
-    console.log("numero di url visitati", API_ABSOLUTE_QUEUE.urlsVisited.length, " ---- numero url totali", otherGroupsLinks.urls.length)
+    // console.log("numero di url visitati", API_ABSOLUTE_QUEUE.urlsVisited.length, " ---- numero url totali", otherGroupsLinks.urls.length)
     if (API_ABSOLUTE_QUEUE.urlsVisited.length >= otherGroupsLinks.urls.length) {
       API_ABSOLUTE_QUEUE.endProcessing = true
 

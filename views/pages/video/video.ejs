@@ -55,6 +55,10 @@
                       aria-controls="description" aria-selected="true">Description</a>
                   </li>
                   <li class="nav-item">
+                    <a class="nav-link" id="video-info-tab" data-toggle="tab" href="#video-info" role="tab"
+                      aria-controls="video-info" aria-selected="false">Video Info</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="nav-link" id="artists-tab" data-toggle="tab" href="#artists" role="tab" aria-controls="artists"
                       aria-selected="false">Informations</a>
                   </li>
@@ -64,23 +68,24 @@
                   </li>
                 </ul>
                 <br>
-                <div class="tab-content" id="myTabContent" style="overflow-y:scroll; height:120px;">
+                <div class="tab-content" id="myTabContent" style="overflow-y:scroll; height:200px;">
                   <div class="tab-pane fade active in" id="description" role="tabpanel" aria-labelledby="description-tab">
                     <%= video.description %>
                   </div>
+                  <div class="tab-pane fade" id="video-info" role="tabpanel" aria-labelledby="video-info-tab">
+                    <div>
+                      Channel: <b><%= video.Channel.name %></b>
+                    </div>
+                  </div>
                   <div class="tab-pane fade" id="artists" role="tabpanel" aria-labelledby="artists-tab">
                     <div>
-                      Channel: <b>
-                        <%= video.Channel.name %></b>
-                    </div>
-                    <br>
-                    <div>
-                      Artists:
-                      <b>
-                        <% video.Artists.forEach(function(artist) { %>
-                        <%= artist.name %> -
-                        <% }); %>
-                      </b>
+                      <% video.Artists.forEach(function(artist) { %>
+                      <h5>
+                        <%= artist.name %>
+                      </h5>
+                      <%= artist.description || "" %>
+                      <br><br>
+                      <% }); %>
                     </div>
                     <br>
                     <%if(video.Genre) { %>

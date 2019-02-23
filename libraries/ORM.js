@@ -18,7 +18,7 @@ module.exports = class myORM {
       // disable logging; default: console.log
       logging: false
     });
-    // this.sync();
+
   }
 
   isConnected(nextFunction) {

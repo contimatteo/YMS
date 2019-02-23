@@ -86,6 +86,7 @@ var self = module.exports = {
               resolve(objectString)
             }
           }).catch(function (error) {
+            console.log("89: Video Controller ", error)
             resolve(objectString)
           })
         }
@@ -162,6 +163,9 @@ var self = module.exports = {
     return new Promise((resolve, reject) => {
       return self.getVideoInfoFromYoutubeApi(null, youtubeId).then(function (videoObject) {
         return self._findArtistAndSongByString(videoObject[0].snippet.title).then(function (objectString) {
+          console.log("")
+          console.log(objectString)
+          console.log("")
           var song = objectString.song;
           // delete some bad remnant from song title parsing 
           song = song.split('(')[0];
@@ -187,6 +191,7 @@ var self = module.exports = {
                   var promiseArray = [];
                   if (artists) {
                     artists.forEach(artist => {
+                      artist = artist.trim()
                       promiseArray.push(ArtistsController.create(null, artist))
                     })
                   }
@@ -219,13 +224,16 @@ var self = module.exports = {
                         resolve(videoCreated)
                       })
                     }).catch(error => {
-                      // return video created
+                      console.log("227: Video Controller ", error)
+                      // no artist created but anyway return the video created
                       resolve(videoCreated)
                     })
                 }).catch(function (error) {
+                  console.log("232: Video Controller ", error)
                   reject(error)
                 })
               }).catch(function (error) {
+                console.log("236: Video Controller ", error)
                 reject(error)
               })
             }

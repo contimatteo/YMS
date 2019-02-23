@@ -37,14 +37,14 @@ var self = module.exports = {
         newArtist = newArtist + '_' + arraySplittedArtist[i];
       }
     }
-    return newArtist;
+    return newArtist
   },
 
   // get artist info
   getArtistInfo(response, artistName) {
     return new Promise(function (resolve, reject) {
-      var artistNameFormatted = self._artistNameFormatter(artistName);
-      SparqlController.getArtistInfo(artistNameFormatted).then(function (artistInfo) {
+      // var artistNameFormatted = self._artistNameFormatter(artistName);
+      SparqlController.getArtistInfo(artistName).then(function (artistInfo) {
         if (artistInfo == null || artistInfo.results.bindings.length < 1) {
           resolve(null);
         } else {
@@ -78,8 +78,8 @@ var self = module.exports = {
   // create artist on db
   create(response, artistName) {
     return new Promise(function (resolve, reject) {
-      var artistNameFormatted = self._artistNameFormatter(artistName);
-      var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
+      var artistNameFormatted = artistName
+      var artistUrl = constants.sparql.dbr + artistNameFormatted;
       self.getArtistInfo(null, artistName).then(function (artistInfo) {
           if (!artistInfo) {
             resolve(null);
@@ -88,7 +88,8 @@ var self = module.exports = {
             var result = artistInfo.results.bindings[0];
             var artistData = {};
             artistData.name = result.name.value;
-            if (result.hasOwnProperty("description")) artistData.description = result.description.value;
+            if (result.hasOwnProperty("description")) 
+              artistData.description = result.description.value || "(nessuna descrizione disponibile)"
             artistData.dbpedia_type = result.type.value;
             artistData.url = artistUrl;
             artistData.formatted_name = artistNameFormatted;
@@ -176,7 +177,7 @@ var self = module.exports = {
 
   createRelatedArtists(response, startArtistId, artistName) {
     return new Promise(function (resolve, reject) {
-      var artistNameFormatted = self._artistNameFormatter(artistName);
+      var artistNameFormatted = artistName
       var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
       SparqlController.getRelatedArtists(artistNameFormatted).then(function (artistsInfo) {
           var results = artistsInfo.results.bindings;
@@ -200,8 +201,8 @@ var self = module.exports = {
 
   createBandMember(response, artistId, artistName) {
     return new Promise(function (resolve, reject) {
-      var artistNameFormatted = self._artistNameFormatter(artistName);
-      var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
+      var artistNameFormatted = artistName
+      // var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
       return SparqlController.getBandMember(artistNameFormatted).then(function (membersList) {
           var results = membersList.results.bindings;
           var promises = [];
@@ -267,9 +268,9 @@ var self = module.exports = {
   storeArtist(artistData) {
     return new Promise((resolve, reject) => {
       var artist = Artist.build(artistData, {
-        firstname: utf8.encode(artistData.firstname),
-        lastname: utf8.encode(artistData.lastname),
+        name: utf8.encode(artistData.name),
         url: artistData.url,
+        description: utf8.encode(artistData.description || ""),
       });
       artist.save().then(artistCreated => {
         resolve(artistCreated);

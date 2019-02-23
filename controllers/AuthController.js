@@ -1,3 +1,5 @@
+const VERIFY_LOGIN = false
+
 module.exports = {
 
   signup(request, response) {
@@ -26,8 +28,10 @@ module.exports = {
     } else {
       request.session.returnTo = request.originalUrl;
       // no logged user
-      response.redirect('/signin')
-      // return next() 
+      if (VERIFY_LOGIN)
+        response.redirect('/signin')
+      else 
+        return next() 
     }
   },
 
