@@ -2,11 +2,19 @@
 var prefix = "http://dbpedia.org/resource/";
 
 module.exports = {
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  
   capitalizeFirstLetter(myString) {
     return myString.charAt(0).toUpperCase() + myString.slice(1);
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  capitalizeEachLetterAfterSpace(string) {
+    string = string.toLowerCase()
+    .split(' ')
+    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+    .join(' ')
+    return string
+  },
+  
   nameFormatter(artist, song) {
     var object = {
       link1: "",
@@ -58,8 +66,7 @@ module.exports = {
     // return object with link
     return (object);
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+  
   getFirstCharacterFromId(videoId){
     if (videoId){
     var videoIdShortered = videoId.youtube_id.substring(0,4);
@@ -68,6 +75,4 @@ module.exports = {
       return("videoId doesnt exist")
     }
   }
-};
-
-////////////////////////////////////////////////////////////////////////////////
+}

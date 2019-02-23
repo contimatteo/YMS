@@ -60,7 +60,7 @@
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="artists-tab" data-toggle="tab" href="#artists" role="tab" aria-controls="artists"
-                      aria-selected="false">Informations</a>
+                      aria-selected="false">Artists</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info"
@@ -76,6 +76,12 @@
                     <div>
                       Channel: <b><%= video.Channel.name %></b>
                     </div>
+                    <%if(video.Genre) { %>
+                      <div>
+                        Genre: <b>
+                          <%= video.Genre.name %></b>
+                      </div>
+                      <% }; %>
                   </div>
                   <div class="tab-pane fade" id="artists" role="tabpanel" aria-labelledby="artists-tab">
                     <div>
@@ -88,12 +94,6 @@
                       <% }); %>
                     </div>
                     <br>
-                    <%if(video.Genre) { %>
-                    <div>
-                      Genre: <b>
-                        <%= video.Genre.name %></b>
-                    </div>
-                    <% }; %>
                   </div>
                   <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
                     <%= video.dbpedia_abstract %>

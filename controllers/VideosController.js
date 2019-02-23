@@ -49,6 +49,7 @@ var self = module.exports = {
           splittedString[index] = splittedString[index].replace(/Feat/g, 'feat.')
           splittedString[index] = splittedString[index].replace(/Featuring./g, 'feat.')
           splittedString[index] = splittedString[index].replace(/Featuring/g, 'feat.')
+          splittedString[index] = splittedString[index].replace(/FEAT/g, 'feat.')
           splittedString[index] = splittedString[index].replace(/Ft./g, 'feat.')
           splittedString[index] = splittedString[index].replace(/Ft/g, 'feat.')
           splittedString[index] = splittedString[index].replace(/ft./g, 'feat.')
@@ -56,6 +57,7 @@ var self = module.exports = {
           splittedString[index] = splittedString[index].replace(/&/g, 'feat.')
           splittedString[index] = splittedString[index].replace(/featuring./g, 'feat.')
           splittedString[index] = splittedString[index].replace(/featuring/g, 'feat.')
+          splittedString[index] = splittedString[index].replace(/,/g, 'feat.')
           // splittedString[index] = splittedString[index].replace(/feat./g, '^')
           splittedString[index] = splittedString[index].trim()
         })
@@ -163,6 +165,18 @@ var self = module.exports = {
     return new Promise((resolve, reject) => {
       return self.getVideoInfoFromYoutubeApi(null, youtubeId).then(function (videoObject) {
         return self._findArtistAndSongByString(videoObject[0].snippet.title).then(function (objectString) {
+          objectString.artists.forEach((artist, index) => {
+            objectString.artists[index] = String(objectString.artists[index].trim())
+            objectString.artists[index] = String(objectString.artists[index].replace(/^\s+|\s+$/g, ""))
+            objectString.artists[index] = String(objectString.artists[index].replace(/\s+$/g, ''))
+            objectString.artists[index] = DataHelper.capitalizeEachLetterAfterSpace(objectString.artists[index])
+            objectString.artists[index] = String(objectString.artists[index].trim())
+          })
+          objectString.song = String(objectString.song.trim())
+          objectString.song = String(objectString.song.replace(/^\s+|\s+$/g, ""))
+          objectString.song = String(objectString.song.replace(/\s+$/g, ''))
+          objectString.song = DataHelper.capitalizeEachLetterAfterSpace(objectString.song)
+          objectString.song = String(objectString.song.trim())
           console.log("")
           console.log(objectString)
           console.log("")
@@ -191,7 +205,6 @@ var self = module.exports = {
                   var promiseArray = [];
                   if (artists) {
                     artists.forEach(artist => {
-                      artist = artist.trim()
                       promiseArray.push(ArtistsController.create(null, artist))
                     })
                   }
@@ -238,12 +251,15 @@ var self = module.exports = {
               })
             }
           }).catch(function (error) {
+            console.log("248: Video Controller ", error)
             reject(error)
           })
         }).catch(function (error) {
+          console.log("252: Video Controller ", error)
           reject(error)
         })
       }).catch(function (error) {
+        console.log("256: Video Controller ", error)
         response.status(400).send("video not available")
         // reject(error)
       })
