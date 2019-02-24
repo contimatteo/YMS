@@ -1,6 +1,8 @@
 var SparqlLibrary = require('../libraries/Sparql.js')
 const sparqlClient = new SparqlLibrary()
 
+var DataHelper = require("../controllers/helpers/DataHelper")
+
 const SONG_LIMIT = 20
 
 var self = module.exports = {
@@ -100,10 +102,21 @@ var self = module.exports = {
       "     FILTER langMatches(lang(?album), 'en')  " +
       "   } " +
       " FILTER langMatches(lang(?abstract), 'en')  " +
-      " FILTER langMatches(lang(?genre), 'en')  " +
-      // TODO: search song || lowercase(song) || all versions with or withour first letter of each word capitalized
-      " FILTER( ?name = \"" + song + "\"@en ) " +
-      " FILTER( ?producer = \"" + artist + "\"@en ) " +
+      " FILTER langMatches(lang(?genre), 'en')  ";
+
+    const songNameParsed = DataHelper.songNameFormatter(song)
+    if (songNameParsed.length < 1) {
+      query = query + " FILTER( ?name = \"" + song + "\"@en ) "
+    } else {
+      query = query + " FILTER( ?name = \"" + song + "\"@en "
+      songNameParsed.forEach((songName) => {
+        query = query + " || ?name = \"" + songName + "\"@en "
+      })
+      query = query + " ) "
+    }
+
+    // var query =+ " FILTER( ?name = \"" + song + "\"@en ) ";
+    query = query +" FILTER( ?producer = \"" + artist + "\"@en ) " +
       " FILTER( ?type IN(dbo:Single, dbo:Song) ) " +
       " } ";
     return sparqlClient.runQuery(query, [], []);

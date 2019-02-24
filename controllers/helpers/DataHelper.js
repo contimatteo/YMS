@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var prefix = "http://dbpedia.org/resource/";
 
-module.exports = {
+var self = module.exports = {
 
   capitalizeFirstLetter(myString) {
     return myString.charAt(0).toUpperCase() + myString.slice(1);
@@ -76,63 +76,54 @@ module.exports = {
     }
   },
 
-  // 1 0 0 0 0 0 0 0 0 0
-  // 1 1 0 0 0 0 0 0 0 0
-  // 1 1 1 0 0 0 0 0 0 0
-  // 1 1 1 1 0 0 0 0 0 0
-  // 1 1 1 1 1 0 0 0 0 0
-  // 1 1 1 1 1 1 0 0 0 0
-  // 1 1 1 1 1 1 1 1 0 0
-  // 1 1 1 1 1 1 1 1 0 0
-  // 1 1 1 1 1 1 1 1 1 1
-  // 1 0 1 0 1 0 1 0 1 0
-  // 1 0 0 1 0 0 1 0 0 1
-  // 1 0 0 0 1 0 0 0 1 0
-
   songNameFormatter(song) {
-    // if song is not null or undefined do
-    if (song) {
-      song = song.trim();
-      song = song.toLowerCase();
-      var arraySong = song.split(" ");
-      var formattedSongArray = [];
-      formattedSongArray[0] = song
-      // if song is just one word than just capitalize first letter
-      if (arraySong.length == 1) {
-        arraySong[0] = capitalizeFirstLetter(arraySong[0]);
-        formattedSongArray[1] = arraySong[0];
-        return formattedSongArray;
-        // capitalize first letter of each ward from sx to dx 
-      } else {
-        formattedSongArray[1] = capitalizeEachLetterAfterSpace(song);
-        // capitalize letters every j positions
-        for (var j = 1; j < arraySong.length; j++) {
-          song = song.trim();
-          song = song.toLowerCase();
-          var arraySong = song.split(" ");
-          for (var i = 0; i < arraySong.length; i = i + j) {
-            var newArraySong = arraySong;
-            newArraySong[i] = capitalizeFirstLetter(arraySong[i])
-            var newSong = newArraySong.join(' ');
-            if (formattedSongArray.indexOf(newSong) < 0)
-              formattedSongArray.push(newSong);
+    var formattedSongArray = [];
+    try {
+      // if song is not null or undefined do
+      if (song) {
+        song = song.trim();
+        song = song.toLowerCase();
+        var arraySong = song.split(" ");
+        formattedSongArray[0] = song
+        // if song is just one word than just capitalize first letter
+        if (arraySong.length == 1) {
+          arraySong[0] = self.capitalizeFirstLetter(arraySong[0]);
+          formattedSongArray[1] = arraySong[0];
+          return formattedSongArray;
+          // capitalize first letter of each ward from sx to dx 
+        } else {
+          formattedSongArray[1] = self.capitalizeEachLetterAfterSpace(song);
+          // capitalize letters every j positions
+          for (var j = 1; j < arraySong.length; j++) {
+            song = song.trim();
+            song = song.toLowerCase();
+            var arraySong = song.split(" ");
+            for (var i = 0; i < arraySong.length; i = i + j) {
+              var newArraySong = arraySong;
+              newArraySong[i] = self.capitalizeFirstLetter(arraySong[i])
+              var newSong = newArraySong.join(' ');
+              if (formattedSongArray.indexOf(newSong) < 0)
+                formattedSongArray.push(newSong);
+            }
           }
-        }
-        // capitalize from dx to sx
-        for (var j = 1; j < arraySong.length; j++) {
-          song = song.trim();
-          song = song.toLowerCase();
-          var arraySong = song.split(" ");
-          for (var i = j; i < arraySong.length; i++) {
-            var newArraySong = arraySong;
-            newArraySong[i] = capitalizeFirstLetter(arraySong[i])
-            var newSong = newArraySong.join(' ');
-            if (formattedSongArray.indexOf(newSong) < 0)
-              formattedSongArray.push(newSong);
+          // capitalize from dx to sx
+          for (var j = 1; j < arraySong.length; j++) {
+            song = song.trim();
+            song = song.toLowerCase();
+            var arraySong = song.split(" ");
+            for (var i = j; i < arraySong.length; i++) {
+              var newArraySong = arraySong;
+              newArraySong[i] = self.capitalizeFirstLetter(arraySong[i])
+              var newSong = newArraySong.join(' ');
+              if (formattedSongArray.indexOf(newSong) < 0)
+                formattedSongArray.push(newSong);
+            }
           }
+          return formattedSongArray
         }
-        return formattedSongArray;
       }
+    } catch(ex) {
+      return []
     }
   },
 
