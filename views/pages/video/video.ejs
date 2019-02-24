@@ -623,8 +623,8 @@
         $("#recommender-genres-similarity").text("");
         $(videoList).each((index, videoObject) => {
           if (videoObject != null)
-            createVideoElement("#recommender-genres-similarity", videoObject.youtube_id, videoObject.image_url,
-              videoObject.title, videoObject.Channel.name, "Genre Similarity");
+            createVideoElement("#recommender-genres-similarity", videoObject.id.videoId, videoObject.snippet.thumbnails
+              .medium.url, videoObject.snippet.title, videoObject.snippet.channelTitle, "Genre Similarity");
         })
       },
       error: function (error) {

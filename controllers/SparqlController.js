@@ -1,6 +1,7 @@
 var SparqlLibrary = require('../libraries/Sparql.js')
 const sparqlClient = new SparqlLibrary()
 
+const SONG_LIMIT = 20
 
 var self = module.exports = {
 
@@ -43,7 +44,7 @@ var self = module.exports = {
   },
 
   // TODO: remove this
-  getRelatedArtists(artistName) {
+  NOTUSED_getRelatedArtists(artistName) {
     // call dbpedia for get artist info
     var query = " " +
       " select distinct * { " +
@@ -123,7 +124,32 @@ var self = module.exports = {
       " FILTER( ?type IN(dbo:Single, dbo:Song) ) " +
       " } ";
     return sparqlClient.runQuery(query, [], []);
-  }
+  },
+
+  getSongsByGenre(genre) {
+    // call dbpedia for get artist info
+    var query = " " +
+      " SELECT distinct * WHERE {  " +
+      " ?song foaf:name ?name. " +
+      " ?song rdf:type ?type.  " +
+      // " ?song dbo:album ?albumLink.  " +
+      // " ?albumLink foaf:name ?album.  " +
+      " ?song dbo:artist ?producerLink.  " +
+      " ?producerLink foaf:name ?producer.  " +
+      " ?song dbo:genre ?genreUrl. " +
+      " ?genreUrl rdfs:label ?genre. " +
+      // " ?song rdfs:comment ?abstract.  " +
+      // " FILTER langMatches(lang(?abstract), 'en')  " +
+      " FILTER langMatches(lang(?genre), 'en')  " +
+      " FILTER langMatches(lang(?producer), 'en')  " +
+      // " FILTER langMatches(lang(?album), 'en')  " +
+      " FILTER( ?genre = \"" + genre + "\"@en ) " +
+      " FILTER( ?type IN(dbo:Single, dbo:Song) ) " +
+      " } " +
+      " LIMIT " + SONG_LIMIT;
+    //" GROUP BY ?prop "
+    return sparqlClient.runQuery(query, [], []);
+  },
 
 
 }

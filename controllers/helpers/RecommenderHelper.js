@@ -1,4 +1,3 @@
-// ////////////////////////////////////////////////////////////////////////////////
 var constants = require('./ConstantsHelper.js');
 const recommenderNumber = constants.recommenderVideosNumber;
 
@@ -17,7 +16,7 @@ var self = module.exports = {
       }
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   _orderVideoFoundedByHit(array) {
     return array.sort(function (first, second) {
       var a = second.hit;
@@ -31,7 +30,7 @@ var self = module.exports = {
       }
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   localRelativePopularityCounter(videosHistory, currentVideoId) {
     // array for returnig videos history recommendation
     var videoList = []
@@ -59,7 +58,7 @@ var self = module.exports = {
     videoList = self._orderVideoFoundedByViews(videoList);
     return videoList;
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   createLocalVideoRelation(videoArray, videoId) {
     var trovato = false;
     videoArray.forEach(function (viewObject) {
@@ -75,7 +74,7 @@ var self = module.exports = {
       });
     } else trovato = false;
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   // check if json for this grup is valid
   validateGroupJson(json) {
     if (json && typeof json === 'object' && json.recommended && Array.isArray(json.recommended)) {
@@ -83,7 +82,7 @@ var self = module.exports = {
     }
     return false;
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   globalAbsolutePopularity(groupsVideos, myVideosFounded = null) {
     var videosListInput = groupsVideos
     var videoList = [];
@@ -119,34 +118,34 @@ var self = module.exports = {
     // return
     return videoList;
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   globalRelativePopularity(groupsVideos, myVideosFounded = null) {
     var videoList = [];
     var hit = 0;
     // foreach group's json
     // groupsVideos.forEach((singleJsonResponse, index) => {
-      hit = 0;
-      // if (self.validateGroupJson(singleJsonResponse)) {
-        // this json is valid
-        groupsVideos.forEach((video, index) => {
-          // check if this video is valid
-          if (video != null && video.lastSelected != null && video.timesWatched != null) {
-            hit++;
-            var id = "";
-            var lastWatched = "";
-            var views = 0;
-            if (video.videoId != null) {
-              id = video.videoId;
-            }
-            if (video.videoID != null) {
-              id = video.videoID;
-            }
-            views = video.timesWatched;
-            lastWatched = video.lastSelected;
-            self.createGlobalVideoRelationHitmap(videoList, id, views, lastWatched, hit);
-          }
-        });
-      // }
+    hit = 0;
+    // if (self.validateGroupJson(singleJsonResponse)) {
+    // this json is valid
+    groupsVideos.forEach((video, index) => {
+      // check if this video is valid
+      if (video != null && video.lastSelected != null && video.timesWatched != null) {
+        hit++;
+        var id = "";
+        var lastWatched = "";
+        var views = 0;
+        if (video.videoId != null) {
+          id = video.videoId;
+        }
+        if (video.videoID != null) {
+          id = video.videoID;
+        }
+        views = video.timesWatched;
+        lastWatched = video.lastSelected;
+        self.createGlobalVideoRelationHitmap(videoList, id, views, lastWatched, hit);
+      }
+    });
+    // }
     // });
     hit = 0;
     if (myVideosFounded) {
@@ -163,7 +162,7 @@ var self = module.exports = {
     // return
     return videoList;
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   createGlobalVideoRelation(videoArray, id, views, lastWatched) {
     var trovato = false;
     videoArray.forEach(function (viewObject) {
@@ -190,7 +189,7 @@ var self = module.exports = {
       });
     } else trovato = false;
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   createGlobalVideoRelationHitmap(videoArray, id, views, lastWatched, hit) {
     var trovato = false;
     videoArray.forEach(function (viewObject) {
@@ -222,7 +221,7 @@ var self = module.exports = {
       });
     } else trovato = false;
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   artistSimilarity(artistsFounded) {
     var numberOfArtists = 0;
     var artistsRelatedNames = [];
@@ -261,7 +260,7 @@ var self = module.exports = {
       artistsVideosNumbers: artistVideoNums
     };
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   bandMembersSimilarity(artistsFounded) {
     var numberOfArtists = 0;
     var artistsRelatedNames = [];
@@ -300,7 +299,5 @@ var self = module.exports = {
       artistsVideosNumbers: artistVideoNums
     };
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-};
 
-// ////////////////////////////////////////////////////////////////////////////////
+};

@@ -107,10 +107,9 @@ module.exports = function (app, passport) {
   app.get('/recommender/similarity/genre/:video', function (req, res) {
     var videoId = req.params.video;
     RecommenderController.genreSimilarity(null, videoId).then(function (result) {
-      res.send(result)
+      res.status(200).json(result)
     }).catch(function (error) {
-      res.status(400)
-      res.send(error)
+      res.status(400).json(error)
     })
   })
 
