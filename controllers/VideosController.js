@@ -240,7 +240,6 @@ var self = module.exports = {
             reject(error)
           })
         }).catch(function (error) {
-          console.log(error)
           reject(error)
         })
       }).catch(function (error) {

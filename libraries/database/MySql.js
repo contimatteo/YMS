@@ -35,7 +35,6 @@
 //   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 //   constructor() {
 //     if (process.env.NODE && ~process.env.NODE.indexOf("heroku")) {
-//       // TODO: set env var on heroku
 //       this.connection = mysql.createConnection({
 //         host: process.env.MYSQL_DB_HOST,
 //         user: process.env.MYSQL_DB_USER,

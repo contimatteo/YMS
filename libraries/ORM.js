@@ -35,10 +35,10 @@ module.exports = class myORM {
   sync() {
     this.sequelize.sync()
       .then(err => {
-        // console.log('Connection has been established successfully.');
+        // Connection has been established successfully
       })
       .catch(err => {
-        // console.error('Unable to connect to the database:', err);
+        // Unable to connect to the database
       });
   }
 

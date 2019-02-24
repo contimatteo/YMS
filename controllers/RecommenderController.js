@@ -274,81 +274,12 @@ var self = module.exports = {
     })
   },
 
-  // TODO: remove this function
-  NOTUSED_genreSimilarity(response, videoId) {
-    // return new Promise((resolve, reject) => {
-    //   VideosController.getVideoById(videoId).then(function (videoFounded) {
-    //     Video.findAll({
-    //       include: [{
-    //           model: Channel
-    //         },
-    //         {
-    //           model: Artist
-    //         },
-    //         {
-    //           model: Genre,
-    //           where: {
-    //             id: videoFounded.Genre.id
-    //           }
-    //         }
-    //       ],
-    //       where: {
-    //         id: {
-    //           [Op.not]: videoId // exclude current video
-    //         }
-    //       },
-    //       order: Sequelize.literal('rand()'),
-    //       limit: constants.recommenderVideosNumber
-    //     }).then(function (videosWithThisGenre) {
-    //       if (videosWithThisGenre.length < 20) {
-    //         var idArtistsList = [];
-    //         videoFounded.Artists.forEach((artist) => {
-    //           idArtistsList.push(artist.id)
-    //         })
-    //         return Video.findAll({
-    //           include: [{
-    //               model: Channel
-    //             },
-    //             {
-    //               model: Artist,
-    //               where: {
-    //                 id: idArtistsList
-    //               }
-    //             }
-    //           ],
-    //           where: {
-    //             id: {
-    //               [Op.not]: videoId // exclude current video
-    //             }
-    //           },
-    //           order: Sequelize.literal('rand()'),
-    //           limit: (constants.recommenderVideosNumber - videosWithThisGenre.length)
-    //         }).then(function (additionalVideos) {
-    //           additionalVideos.forEach((additionalVideo) => {
-    //             videosWithThisGenre.push(additionalVideo)
-    //           })
-    //           resolve(videosWithThisGenre)
-    //         }).catch(function (error) {
-    //           reject(error)
-    //         })
-    //       } else {
-    //         resolve(videosWithThisGenre)
-    //       }
-    //     }).catch(function (error) {
-    //       reject(error)
-    //     })
-    //   }).catch(function (error) {
-    //     reject(error)
-    //   })
-    // })
-  },
-
   genreSimilarity(response, videoId) {
     return new Promise((resolve, reject) => {
       VideosController.getVideoById(videoId).then(function (videoRecord) {
         if (videoRecord && videoRecord.Genre && videoRecord.Genre.name) {
           const genre = videoRecord.Genre.name
-          GenresController.getAndSearchSongsByGenre(genre).then((videosData) => {
+          GenresController.getAndSearchSongsByVideo(videoRecord).then((videosData) => {
             resolve(videosData)
           }).catch((error) => {
             console.log("354 Recommender Controller ", error)

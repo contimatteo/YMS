@@ -43,26 +43,6 @@ var self = module.exports = {
     return sparqlClient.runQuery(query, [], []);
   },
 
-  // TODO: remove this
-  NOTUSED_getRelatedArtists(artistName) {
-    // call dbpedia for get artist info
-    var query = " " +
-      " select distinct * { " +
-      " ?artistAssociated dbo:associatedMusicalArtist dbr:" + artistName + ". " +
-      " ?artistAssociated  rdfs:label ?name.  " +
-      " ?artistAssociated rdf:type ?type. " +
-      "   optional { " +
-      "     ?artistAssociated rdfs:comment ?description. " +
-      "     filter langMatches(lang(?description), 'en') " +
-      "   } " +
-      "  filter langMatches(lang(?name), 'en')  " +
-      "  filter ( ?type IN (dbo:MusicalArtist, dbo:MusicalBand) )  " +
-      " }  ";
-    //" GROUP BY ?prop "
-    return sparqlClient.runQuery(query, [], []);
-  },
-
-
   getBandMember(artistName) {
     // call dbpedia for get artist info
     var query = " " +
@@ -109,16 +89,19 @@ var self = module.exports = {
       " SELECT distinct * WHERE {  " +
       " ?song foaf:name ?name. " +
       " ?song rdf:type ?type.  " +
-      " ?song dbo:album ?albumLink.  " +
-      " ?albumLink foaf:name ?album.  " +
       " ?song dbo:artist ?producerLink.  " +
       " ?producerLink foaf:name ?producer.  " +
       " ?song dbo:genre ?genreUrl. " +
       " ?genreUrl rdfs:label ?genre. " +
       " ?song rdfs:comment ?abstract.  " +
+      "   optional { " +
+      "     ?song dbo:album ?albumLink.  " +
+      "     ?albumLink foaf:name ?album.  " +
+      "     FILTER langMatches(lang(?album), 'en')  " +
+      "   } " +
       " FILTER langMatches(lang(?abstract), 'en')  " +
       " FILTER langMatches(lang(?genre), 'en')  " +
-      " FILTER langMatches(lang(?album), 'en')  " +
+      // TODO: search song || lowercase(song) || all versions with or withour first letter of each word capitalized
       " FILTER( ?name = \"" + song + "\"@en ) " +
       " FILTER( ?producer = \"" + artist + "\"@en ) " +
       " FILTER( ?type IN(dbo:Single, dbo:Song) ) " +

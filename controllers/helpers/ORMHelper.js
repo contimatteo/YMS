@@ -37,7 +37,6 @@ module.exports = {
       }).then(function (videoRandom) {
         resolve(videoRandom)
       }).catch(function (error) {
-        // console.log(error)
         reject(error)
       })
     })
