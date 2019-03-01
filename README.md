@@ -26,10 +26,11 @@ Create “*/config*” folder and place there a file called “*config.json*” 
     "database": "<db-name>",
     "host": "<db-host>",
     "dialect": "mysql",
-    "youtube_api_key": "<youtube-api-key>"
+    "youtube_api_key": "<youtube-api-key>",
+    "last_fm_api_key": "YOUR_LASTFM_API_KEY"
   }
 ```
-Insert your database instance informations and create YouTube API Key by following [this link](https://developers.google.com/youtube/v3/getting-started).
+Insert your database instance informations and generate [YouTube API Key](https://developers.google.com/youtube/v3/getting-started) and [last.fm key](https://www.last.fm/api/account/create).
 
 ### Import Migrations
 Next, create the structure of the DB running the command:
