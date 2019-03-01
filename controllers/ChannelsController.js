@@ -1,9 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-const utf8 = require('utf8');
+const utf8 = require('utf8')
 
-var Channel = require("../models/Channel.js");
-var YoutubeApi = require('../libraries/YoutubeApi.js');
-////////////////////////////////////////////////////////////////////////////////
+var Channel = require("../models/Channel.js")
+var YoutubeApi = require('../libraries/YoutubeApi.js')
+
 
 var self = module.exports = {
 
@@ -22,9 +21,9 @@ var self = module.exports = {
           name: utf8.encode(channelObject.name)
         }
       }).spread(function (channelCreated, created) {
-        resolve(channelCreated);
-      });
-    });
+        resolve(channelCreated)
+      })
+    })
   }
 
-};
+}

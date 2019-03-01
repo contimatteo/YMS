@@ -1,19 +1,24 @@
-////////////////////////////////////////////////////////////////////////////////
-var ViewsHistory = require("../models/ViewsHistory.js");
-var Video = require("../models/Video.js");
-var Artist = require("../models/Artist.js");
-var Channel = require("../models/Channel.js");
-var Genre = require("../models/Genre.js");
-var User = require("../models/User.js");
-var VideosController = require('./VideosController.js');
-var RecommenderHelper = require('./helpers/RecommenderHelper.js');
-var constants = require('./helpers/ConstantsHelper.js');
-var JsonAPI = require('../libraries/schemas/JsonAPI.js')
-////////////////////////////////////////////////////////////////////////////////
+var ViewsHistory = require("../models/ViewsHistory.js")
+var Video = require("../models/Video.js")
+var Artist = require("../models/Artist.js")
+var Channel = require("../models/Channel.js")
+var Genre = require("../models/Genre.js")
+var User = require("../models/User.js")
+
+var VideosController = require('./VideosController.js')
+var RecommenderController = require('./RecommenderController.js')
+
+var RecommenderHelper = require('./helpers/RecommenderHelper.js')
+var constants = require('./helpers/ConstantsHelper.js')
+
+var GlobpopJson = require('../libraries/schemas/GlobpopJson.js')
 
 var self = module.exports = {
 
   globpop(youtubeId) {
+    // BUG: function logic wrong!
+    // if req.query.id is setted then --> return local relative popularity
+    // else return global relative popularity
     return new Promise((resolve, reject) => {
       VideosController.getVideoByYoutubeId(youtubeId).then(function (videoObject) {
           ViewsHistory.findAll({
@@ -22,38 +27,64 @@ var self = module.exports = {
               ]
             }).then(results => {
               var promises = [];
-              var videoFounded = RecommenderHelper.localRelativePopularityCounter(results, videoObject.id);
-              var idVideoList = [];
-              videoFounded.forEach(video => {
-                idVideoList.push(video.videoId);
-                promises.push(VideosController.getVideoById(video.videoId));
-              });
-              Video.findAll({
-                  include: [Artist, Channel, Genre, User],
-                  where: {
-                    id: idVideoList
-                  },
-                  limit: constants.recommenderVideosNumber
-                }).then(videoRecommended => {
-                  var jsonResponse = new JsonAPI(videoObject.youtube_id, videoObject.views, videoObject.updatedAt);
-                  videoRecommended.forEach((videoFounded, index) => {
-                    jsonResponse.addVideoRecommended(videoFounded.youtube_id, videoFounded.views, null);
-                  })
-                  resolve(jsonResponse);
+
+              if (videoObject) {
+                var videoFounded = RecommenderHelper.localRelativePopularityCounter(results, videoObject.id)
+                var idVideoList = [];
+
+                videoFounded.forEach(video => {
+                  idVideoList.push(video.videoId)
+                  promises.push(VideosController.getVideoById(video.videoId))
                 })
-                .catch((error) => {
-                  reject(error);
-                });
+
+                Video.findAll({
+                    include: [Artist, Channel, Genre, User],
+                    where: {
+                      id: idVideoList
+                    },
+                    limit: constants.recommenderVideosNumber
+                  }).then(videoRecommended => {
+                    var jsonResponse = new GlobpopJson(videoObject.youtube_id, videoObject.views, videoObject.updatedAt)
+                    videoRecommended.forEach((videoFounded, index) => {
+                      jsonResponse.addVideoRecommended(videoFounded.youtube_id, videoFounded.views, videoFounded.updatedAt)
+                    })
+                    resolve(jsonResponse)
+                  })
+                  .catch((error) => {
+                    var jsonResponse = new GlobpopJson(youtubeId, 0, "")
+                    resolve(jsonResponse)
+                  })
+                return
+              }
+
+              var jsonResponse = new GlobpopJson(youtubeId, 0, "")
+              resolve(jsonResponse)
             })
             .catch((error) => {
-              var jsonResponse = new JsonAPI(youtubeId, 0, "");
-              reject(jsonResponse);
-            });
+              var jsonResponse = new GlobpopJson(youtubeId, 0, "")
+              resolve(jsonResponse)
+            })
         })
         .catch(function (error) {
-          resolve(null);
+          var jsonResponse = new GlobpopJson(youtubeId, 0, "")
+          resolve(jsonResponse)
         })
-    });
+    })
   },
 
-};
+  globpopAssolute() {
+    return new Promise((resolve, reject) => {
+      RecommenderController.localAbsolutePopularity(null).then((results) => {
+        var jsonResponse = new GlobpopJson(null, null, null)
+        results.forEach((videoFounded, index) => {
+          jsonResponse.addVideoRecommended(videoFounded.youtube_id, videoFounded.views, videoFounded.updatedAt)
+        })
+        resolve(jsonResponse)
+      }).catch((e) => {
+        var jsonResponse = new GlobpopJson(null, null, null)
+        resolve(jsonResponse)
+      })
+    })
+  }
+
+}

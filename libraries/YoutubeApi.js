@@ -1,20 +1,16 @@
-////////////////////////////////////////////////////////////////////////////////
-var YouTubeClass = require('youtube-node');
-var CustomError = require('./schemas/CustomError.js');
-var config = require('../config/config.json');
+var YouTubeClass = require('youtube-node')
+var CustomError = require('./schemas/CustomError.js')
+var config = require('../config/config.json')
 
-var youtube = new YouTubeClass();
-var CustomError = require('./schemas/CustomError.js');
+var youtube = new YouTubeClass()
+var CustomError = require('./schemas/CustomError.js')
 const fetchCommentPage = require('youtube-comment-api')
-////////////////////////////////////////////////////////////////////////////////
-youtube.setKey(config.development.youtube_api_key);
+youtube.setKey(config.development.youtube_api_key)
 
 // need to take a look
 // optional parameters : https://developers.google.com/youtube/v3/docs/search/list#optional-parameters
-////////////////////////////////////////////////////////////////////////////////
 
 module.exports = class YoutubeApi_Library {
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   constructor() {
     this.numberOfResult = 10;
     this.filters = {
@@ -23,7 +19,7 @@ module.exports = class YoutubeApi_Library {
       pageToken: ''
     };
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   search(queryString, numberOfResult, pageToken, searchType = null) {
     var limit = 0;
     this.filters.pageToken = pageToken;
@@ -38,50 +34,50 @@ module.exports = class YoutubeApi_Library {
     return new Promise((resolve, reject) => {
       return youtube.search(queryString, limit, this.filters, function (error, result) {
         if (error) {
-          reject(new Error(error.message));
+          reject(new Error(error.message))
         }
         // all goes ok
-        resolve(result);
-      });
-    });
+        resolve(result)
+      })
+    })
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getVideoById(id) {
     return new Promise((resolve, reject) => {
       youtube.getById(id, function (error, result) {
         if (error) {
-          reject(error);
+          reject(error)
         } else {
-          if (!result || !result.items || result.items.length < 1) reject(new CustomError(400, "video not found", ""));
+          if (!result || !result.items || result.items.length < 1) reject(new CustomError(400, "video not found", ""))
           // all goes ok
-          resolve(result);
+          resolve(result)
         }
-      });
-    });
+      })
+    })
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getVideoRelatedById(id, numberOfResult) {
     return new Promise((resolve, reject) => {
       youtube.related(id, numberOfResult, function (error, result) {
         if (!error) {
-          resolve(result);
+          resolve(result)
         } else {
-          reject(error);
+          reject(error)
         }
-      });
-    });
+      })
+    })
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getCommentByVideoId(videoId) {
     return new Promise((resolve, reject) => {
       fetchCommentPage(videoId)
         .then(commentList => {
-          resolve(commentList);
+          resolve(commentList)
         })
         .catch(error => {
-          resolve(null);
-        });
-    });
+          resolve(null)
+        })
+    })
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-};
+
+}

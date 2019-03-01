@@ -318,6 +318,11 @@ var migrationCommands = [{
                     "type": "VARCHAR(255)",
                     "allowNull": true
                 },
+                "album": {
+                    "type": "VARCHAR(255)",
+                    "defaultValue": "",
+                    "allowNull": true
+                },
                 "FKGenreId": {
                     "type": "INTEGER(11) UNSIGNED",
                     "references": {

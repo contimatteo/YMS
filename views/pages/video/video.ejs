@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Home</title>
+  <title>Video</title>
   <% include ../../components/header.ejs %>
 </head>
 
@@ -55,8 +55,12 @@
                       aria-controls="description" aria-selected="true">Description</a>
                   </li>
                   <li class="nav-item">
+                    <a class="nav-link" id="video-info-tab" data-toggle="tab" href="#video-info" role="tab"
+                      aria-controls="video-info" aria-selected="false">Video Info</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="nav-link" id="artists-tab" data-toggle="tab" href="#artists" role="tab" aria-controls="artists"
-                      aria-selected="false">Informations</a>
+                      aria-selected="false">Artists</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info"
@@ -64,34 +68,45 @@
                   </li>
                 </ul>
                 <br>
-                <div class="tab-content" id="myTabContent" style="overflow-y:scroll; height:120px;">
+                <div class="tab-content" id="myTabContent" style="overflow-y:scroll; height:200px;">
                   <div class="tab-pane fade active in" id="description" role="tabpanel" aria-labelledby="description-tab">
                     <%= video.description %>
                   </div>
+                  <div class="tab-pane fade" id="video-info" role="tabpanel" aria-labelledby="video-info-tab">
+                    <div>
+                      <h5>Genre</h5>
+                      <span id="video-genre-info-content">
+                          <%= video.Genre ? video.Genre.name : "loading ..." %>
+                      </span>
+                      <br><br>
+                      <h5>Album</h5>
+                      <span id="video-album-info-content">
+                        <%= video.album ? video.album : "loading ..." %>
+                      </span>
+                      <br><br>
+                      <h5>Channel</h5>
+                      <%= video.Channel.name %>
+                    </div>
+                  </div>
                   <div class="tab-pane fade" id="artists" role="tabpanel" aria-labelledby="artists-tab">
                     <div>
-                      Channel: <b>
-                        <%= video.Channel.name %></b>
+                      <% video.Artists.forEach(function(artist) { %>
+                      <h5>
+                        <%= artist.name %>
+                      </h5>
+                      <%= artist.description || "" %>
+                      <br><br>
+                      <% }); %>
                     </div>
                     <br>
-                    <div>
-                      Artists:
-                      <b>
-                        <% video.Artists.forEach(function(artist) { %>
-                        <%= artist.name %> -
-                        <% }); %>
-                      </b>
-                    </div>
-                    <br>
-                    <%if(video.Genre) { %>
-                    <div>
-                      Genre: <b>
-                        <%= video.Genre.name %></b>
-                    </div>
-                    <% }; %>
                   </div>
                   <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
-                    <%= video.dbpedia_abstract %>
+                    <div>
+                      <h5>DBpedia Abstract</h5>
+                      <span id="video-dbpedia-abstract-info-content">
+                        <%= (video.dbpedia_abstract && video.dbpedia_abstract !== "") ? video.dbpedia_abstract : "loading ..." %>
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <br>
@@ -178,7 +193,7 @@
             </div>
           </div>
           <div class="col-sm-4 col-xs-12">
-            <div class="sidebarInner" style="margin:75px auto;">
+            <div class="sidebarInner" style="margin:75px auto; overflow:auto; max-height:4180px;">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h3>LATEST COMMENTS</h3>
@@ -208,6 +223,7 @@
   <% include ../../components/footer-import.ejs %>
   <script src="/js-libraries/videoGraphic.js"></script>
 </body>
+
 
 <script>
   $("#videoViewsCounterCheck").hide()
@@ -279,7 +295,9 @@
   function counter() {
     if (count > 150) {
       addViewToThisVideo();
-      console.log("[PLAYER] 15 secondi trascorsi, POST inoltrato...");
+      console.log("")
+      console.log("[PLAYER] 15 secondi trascorsi, POST inoltrato...")
+      console.log("")
       count = 0;
     } else {
       count = count + 1;
@@ -290,22 +308,21 @@
   function onPlayerStateChange(event) {
     if (event.data == 1 && !postDone) { // 1: PLAYING
       counter();
-    } 
-    else if (event.data == 2 && !postDone) { // 2: PAUSED
+    } else if (event.data == 2 && !postDone) { // 2: PAUSED
       if (timer) clearTimeout(timer);
-    } 
-    else if (event.data == 3 && !postDone) { // 3: BUFFERING
+    } else if (event.data == 3 && !postDone) { // 3: BUFFERING
       if (timer) clearTimeout(timer);
-    } 
-    else if (event.data == 5 && !postDone) { // 5: QUEUED
+    } else if (event.data == 5 && !postDone) { // 5: QUEUED
       if (timer) clearTimeout(timer);
-    } 
-    else if (event.data == 0 && !postDone) { // 0: ENDED
+    } else if (event.data == 0 && !postDone) { // 0: ENDED
       if (timer) {
         clearTimeout(timer);
         if (player.getDuration() < 15)
-          addViewToThisVideo();
-        console.log("[PLAYER] Video inferiore a 15 secondi terminato, POST inoltrato...");
+          addViewToThisVideo()
+
+        console.log("")
+        console.log("[PLAYER] Video inferiore a 15 secondi terminato, POST inoltrato...")
+        console.log("")
         count = 0;
       }
     }
@@ -322,7 +339,10 @@
       url: "/recommender/vitali/<%= video.id %>",
       cache: false,
       success: function (videoList) {
+        console.log("")
         console.log("Algoritmo di Vitali caricato correttamente");
+        console.log(videoList)
+        console.log("")
         $("#recommender-vitali").text("");
         $(videoList).each((index, vitaliVideoObject) => {
           if (vitaliVideoObject != null)
@@ -333,51 +353,98 @@
       },
       error: function (error) {
         $("#recommender-vitali").text("error on external server");
-        console.log(error)
+        // console.log(error)
       }
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // global absolute popularity recommender
-    $.ajax({
-      type: "GET",
-      url: "/recommender/popularity/global/absolute/<%= video.id %>",
-      cache: false,
-      success: function (videoList) {
-        $("#recommender-global-absolute-popularity").text("");
-        console.log("Algoritmo di Popolarità Globale Assoluta caricato correttamente");
-        $(videoList).each((index, videoObject) => {
-          createVideoElement("#recommender-global-absolute-popularity", videoObject[0].id,
-            videoObject[0].snippet.thumbnails.medium.url, videoObject[0].snippet.title, videoObject[0].snippet
-            .channelTitle,
-            "Global Absolute Popularity");
-        })
-      },
-      error: function (error) {
-        $("#recommender-global-absolute-popularity").text("no matches");
-        console.log(error)
-      }
-    });
+    let globalAbsolutePopularityIntervalTime = 1000
+    let globalAbsolutePopularity = setInterval(() => callGlobalAbsolutePopularity(),
+      globalAbsolutePopularityIntervalTime)
+
+    function callGlobalAbsolutePopularity() {
+      $.ajax({
+        type: "GET",
+        url: "/recommender/popularity/global/absolute/",
+        cache: false,
+        success: function (videoList, textStatus, xhr) {
+          if (videoList.length > 0) {
+            $("#recommender-global-absolute-popularity").text("");
+            $(videoList).each((index, videoObject) => {
+              createVideoElement("#recommender-global-absolute-popularity", videoObject[0].id,
+                videoObject[0].snippet.thumbnails.medium.url, videoObject[0].snippet.title, videoObject[
+                  0]
+                .snippet
+                .channelTitle, "Global Absolute Popularity");
+            })
+          }
+
+          if (xhr.status == 200) {
+            clearInterval(globalAbsolutePopularity)
+            globalAbsolutePopularity = null
+            console.log("")
+            console.log("Algoritmo di Popolarità Globale Assoluta caricato correttamente")
+            console.log(videoList)
+            console.log("")
+          } else if (xhr.status == 206) {
+            if (videoList.length > 0)
+              globalAbsolutePopularityIntervalTime = 3000
+
+            console.log("")
+            console.log("Algoritmo di Popolarità Globale Assoluta caricato parzialmente")
+            console.log("")
+          }
+
+        },
+        error: function (error) {
+          $("#recommender-global-absolute-popularity").text("no matches");
+          // console.log(error)
+        }
+      });
+    }
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // global relative popularity recommender
-    $.ajax({
-      type: "GET",
-      url: "/recommender/popularity/global/relative/<%= video.id %>",
-      cache: false,
-      success: function (videoList) {
-        console.log("Algoritmo di Popolarità Globale Relativa caricato correttamente");
-        $("#recommender-global-relative-popularity").text("");
-        $(videoList).each((index, videoObject) => {
-          createVideoElement("#recommender-global-relative-popularity", videoObject[0].id,
-            videoObject[0].snippet.thumbnails.medium.url, videoObject[0].snippet.title, videoObject[0].snippet
-            .channelTitle,
-            "Global Relative Popularity");
-        })
-      },
-      error: function (error) {
-        $("#recommender-global-relative-popularity").text("no matches");
-        console.log(error)
-      }
-    });
+    let globalRelativePopularityIntervalTime = 3000
+    let globalRelativePopularity = setInterval(() => callGlobalRelativePopularity(),
+      globalRelativePopularityIntervalTime)
+
+    function callGlobalRelativePopularity() {
+      $.ajax({
+        type: "GET",
+        url: "/recommender/popularity/global/relative/<%= video.youtube_id %>",
+        cache: false,
+        success: function (videoList, textStatus, xhr) {
+          if (videoList.length > 0) {
+            $("#recommender-global-relative-popularity").text("");
+            $(videoList).each((index, videoObject) => {
+              createVideoElement("#recommender-global-relative-popularity", videoObject[0].id,
+                videoObject[0].snippet.thumbnails.medium.url, videoObject[0].snippet.title, videoObject[
+                  0]
+                .snippet
+                .channelTitle, "Global Relative Popularity");
+            })
+          }
+
+          if (xhr.status == 200) {
+            clearInterval(globalRelativePopularity)
+            globalRelativePopularity = null
+            console.log("")
+            console.log("Algoritmo di Popolarità Globale Relativa caricato correttamente")
+            console.log(videoList)
+            console.log("")
+          } else if (xhr.status == 206) {
+            console.log("")
+            console.log("Algoritmo di Popolarità Globale Relativa caricato parzialmente")
+            console.log("")
+          }
+
+        },
+        error: function (error) {
+          $("#recommender-global-relative-popularity").text("no matches");
+          // console.log(error)
+        }
+      });
+    }
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // local relative popularity recommender
     $.ajax({
@@ -385,7 +452,10 @@
       url: "/recommender/popularity/local/relative/<%= video.id %>",
       cache: false,
       success: function (videoList) {
-        console.log("Algoritmo di Popolarità Locale Relativa caricato correttamente");
+        console.log("")
+        console.log("Algoritmo di Popolarità Locale Relativa caricato correttamente")
+        console.log(videoList)
+        console.log("")
         $("#recommender-local-relative-popularity").text("");
         $(videoList).each((index, videoObject) => {
           createVideoElement("#recommender-local-relative-popularity", videoObject.youtube_id,
@@ -395,7 +465,7 @@
       },
       error: function (error) {
         $("#recommender-local-relative-popularity").text("no matches");
-        console.log(error)
+        // console.log(error)
       }
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -406,7 +476,10 @@
       url: "/recommender/recent/<%=AuthenticatedUser.id%>",
       cache: false,
       success: function (videoList) {
-        console.log("Algoritmo Video Recenti caricato correttamente");
+        console.log("")
+        console.log("Algoritmo Video Recenti caricato correttamente")
+        console.log(videoList)
+        console.log("")
         $("#recommender-recent").text("");
         $(videoList).each((index, videoObject) => {
           createVideoElement("#recommender-recent", videoObject.youtube_id, videoObject.image_url,
@@ -414,7 +487,7 @@
         })
       },
       error: function (error) {
-        console.log(error)
+        // console.log(error)
       }
     });
     <% } else{ %>
@@ -427,16 +500,19 @@
       url: "/recommender/random/",
       cache: false,
       success: function (videoList) {
-        console.log("Algoritmo Random caricato correttamente");
+        console.log("")
+        console.log("Algoritmo Random caricato correttamente")
+        console.log(videoList)
+        console.log("")
         $("#recommender-random").text("");
-        $(videoList).each((index, videoObject) => {
-          createVideoElement("#recommender-random", videoObject.youtube_id, videoObject.image_url,
-            videoObject.title, videoObject.Channel.name, "Random");
+        $(videoList.items).each((index, videoObject) => {
+          createVideoElement("#recommender-random", videoObject.id.videoId, videoObject.snippet.thumbnails
+            .medium.url, videoObject.snippet.title, videoObject.snippet.channelTitle, "Random");
         })
       },
       error: function (error) {
         $("#recommender-random").text("no matches");
-        console.log(error)
+        // console.log(error)
       }
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -446,7 +522,10 @@
       url: "/recommender/popularity/local/absolute",
       cache: false,
       success: function (videoList) {
-        console.log("Algoritmo di Popolarità Locale Assoluta caricato correttamente");
+        console.log("")
+        console.log("Algoritmo di Popolarità Locale Assoluta caricato correttamente")
+        console.log(videoList)
+        console.log("")
         $("#recommender-local-absolute-popularity").text("");
         $(videoList).each((index, videoObject) => {
           createVideoElement("#recommender-local-absolute-popularity", videoObject.youtube_id,
@@ -456,7 +535,7 @@
       },
       error: function (error) {
         $("#recommender-local-absolute-popularity").text("no matches");
-        console.log(error)
+        // console.log(error)
       }
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -466,7 +545,10 @@
       url: "/recommender/related/<%= video.youtube_id %>",
       cache: false,
       success: function (videoList) {
+        console.log("")
         console.log("Algoritmo Related Youtube caricato correttamente");
+        console.log(videoList)
+        console.log("")
         $("#recommender-related").text("");
         $(videoList.items).each((index, relatedObject) => {
           if (relatedObject != null)
@@ -476,7 +558,7 @@
       },
       error: function (error) {
         $("#recommender-related").text("no matches");
-        console.log(error)
+        // console.log(error)
       }
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -486,9 +568,11 @@
       url: "/recommender/similarity/artist/<%= video.id %>",
       cache: false,
       success: function (videoList) {
-        console.log("Algoritmo Artist Similarity caricato correttamente");
-        $("#recommender-artists-similarity").text("");
+        console.log("")
+        console.log("Algoritmo Artist Similarity caricato correttamente")
         console.log(videoList)
+        console.log("")
+        $("#recommender-artists-similarity").text("");
         $(videoList).each((index, relatedObject) => {
           if (relatedObject != null)
             createVideoElement("#recommender-artists-similarity", relatedObject.id.videoId, relatedObject
@@ -498,7 +582,7 @@
       },
       error: function (error) {
         $("#recommender-artists-similarity").text("unknow similar artists");
-        console.log(error)
+        // console.log(error)
       }
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -508,7 +592,10 @@
       url: "/recommender/similarity/bandMembers/<%= video.id %>",
       cache: false,
       success: function (videoList) {
-        console.log("Algoritmo Band Members Similarity caricato correttamente");
+        console.log("")
+        console.log("Algoritmo Band Members Similarity caricato correttamente")
+        console.log(videoList)
+        console.log("")
         $("#recommender-band-members-similarity").text("");
         $(videoList).each((index, relatedObject) => {
           if (relatedObject != null)
@@ -519,7 +606,7 @@
       },
       error: function (error) {
         $("#recommender-band-members-similarity").text("unknow band memebers");
-        console.log(error)
+        // console.log(error)
       }
     });
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -529,21 +616,57 @@
       url: "/recommender/similarity/genre/<%= video.id %>",
       cache: false,
       success: function (videoList) {
-        console.log("Algoritmo Genre Similarity caricato correttamente");
+        console.log("")
+        console.log("Algoritmo Genre Similarity caricato correttamente")
+        console.log(videoList)
+        console.log("")
         $("#recommender-genres-similarity").text("");
         $(videoList).each((index, videoObject) => {
           if (videoObject != null)
-            createVideoElement("#recommender-genres-similarity", videoObject.youtube_id, videoObject.image_url,
-              videoObject.title, videoObject.Channel.name, "Genre Similarity");
+            createVideoElement("#recommender-genres-similarity", videoObject.id.videoId, videoObject.snippet.thumbnails
+              .medium.url, videoObject.snippet.title, videoObject.snippet.channelTitle, "Genre Similarity");
         })
       },
       error: function (error) {
         $("#recommender-genres-similarity").text("unknow genre");
-        console.log(error)
+        // console.log(error)
       }
     });
 
   });
+</script>
+
+
+<script>
+  <%if(AuthenticatedUser && (!video.dbpedia_abstract || video.dbpedia_abstract === "")) { %>
+    console.log("***************** PARTIAMO *****************")
+  setTimeout(getAbstractAndGenre, 10000)
+  function getAbstractAndGenre() {
+    $.ajax({
+      type: "GET",
+      url: "/api/video/<%= video.youtube_id %>",
+      cache: false,
+      success: function (video) {
+        console.log("***************** ABSTRACT CARICATO *****************")
+        console.log(video)
+        if (video) {
+          $("#video-dbpedia-abstract-info-content").text(video.dbpedia_abstract)
+          $("#video-album-info-content").text(video.album)
+          $("#video-genre-info-content").text(video.Genre ? video.Genre.name : "no genre found")
+        } else {
+          $("#video-dbpedia-abstract-info-content").text("no dbpedia abstract found")
+          $("#video-album-info-content").text("no album found")
+          $("#video-genre-info-content").text("no genre found")
+        }
+      },
+      error: function (error) {
+        $("#video-album-info-content").text("no album found")
+        $("#video-dbpedia-abstract-info-content").text("no dbpedia abstract found")
+        $("#video-genre-info-content").text("no genre found")
+      }
+    });
+  }
+  <% }; %>
 </script>
 
 </html>

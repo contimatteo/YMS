@@ -52,6 +52,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
+    album: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+      defaultValue: ''
+    },
     FKGenreId: {
       type: DataTypes.INTEGER(11).UNSIGNED,
       allowNull: true,

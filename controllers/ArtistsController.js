@@ -1,15 +1,25 @@
-////////////////////////////////////////////////////////////////////////////////
 const utf8 = require('utf8');
+const Sequelize = require('sequelize')
+
+var config = require("../config/config.json")
 
 var SparqlController = require('./SparqlController.js');
 var DataHelper = require('./helpers/DataHelper.js');
-// var ORMHelper = require('./helpers/ORMHelper.js');
 var constants = require('./helpers/ConstantsHelper.js');
 var CustomError = require('../libraries/schemas/CustomError.js');
 var Artist = require("../models/Artist.js");
 var ArtistsRelated = require("../models/ArtistsRelated.js");
 var ArtistsAndBands = require("../models/ArtistsAndBands.js");
-////////////////////////////////////////////////////////////////////////////////
+
+var AjaxRequestClass = require("../libraries/AjaxRequest")
+const AjaxRequest = new AjaxRequestClass()
+
+const LASTFM_SIMILAR_ARTISTS_LIMIT = 10
+const LASFTM_SERVER_ENTRYPOINT = "http://ws.audioscrobbler.com/2.0/"
+const LASFTM_API_METHOD = "artist.getsimilar"
+const LASTFM_KEY = config.development.last_fm_api_key || "YOUR_API_KEY"
+// lasfm api for similar artist url
+const LASTFM_ENDPOINT_GET_SIMILAR = LASFTM_SERVER_ENTRYPOINT + "?method=" + LASFTM_API_METHOD + "&api_key=" + LASTFM_KEY + "&format=json&artist="
 
 var self = module.exports = {
 
@@ -19,7 +29,7 @@ var self = module.exports = {
     else
       return false;
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   _artistNameFormatter(artist) {
     artist = artist.trim();
     artist = artist.toLowerCase();
@@ -37,14 +47,13 @@ var self = module.exports = {
         newArtist = newArtist + '_' + arraySplittedArtist[i];
       }
     }
-    return newArtist;
+    return newArtist
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   // get artist info
   getArtistInfo(response, artistName) {
     return new Promise(function (resolve, reject) {
-      var artistNameFormatted = self._artistNameFormatter(artistName);
-      SparqlController.getArtistInfo(artistNameFormatted).then(function (artistInfo) {
+      SparqlController.getArtistInfo(artistName).then(function (artistInfo) {
         if (artistInfo == null || artistInfo.results.bindings.length < 1) {
           resolve(null);
         } else {
@@ -60,7 +69,7 @@ var self = module.exports = {
       });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getArtistByFormattedName(artistFormattedName) {
     return new Promise((resolve, reject) => {
       Artist.findAll({
@@ -74,12 +83,12 @@ var self = module.exports = {
       });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   // create artist on db
   create(response, artistName) {
     return new Promise(function (resolve, reject) {
       var artistNameFormatted = self._artistNameFormatter(artistName);
-      var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
+      var artistUrl = constants.sparql.dbr + artistNameFormatted;
       self.getArtistInfo(null, artistName).then(function (artistInfo) {
           if (!artistInfo) {
             resolve(null);
@@ -88,7 +97,8 @@ var self = module.exports = {
             var result = artistInfo.results.bindings[0];
             var artistData = {};
             artistData.name = result.name.value;
-            if (result.hasOwnProperty("description")) artistData.description = result.description.value;
+            if (result.hasOwnProperty("description"))
+              artistData.description = result.description.value || "(nessuna descrizione disponibile)"
             artistData.dbpedia_type = result.type.value;
             artistData.url = artistUrl;
             artistData.formatted_name = artistNameFormatted;
@@ -107,10 +117,10 @@ var self = module.exports = {
                     resolve(artistCreated);
                     // if this artist is a band start creating all band's member
                     if (artistCreated.type == "band") {
-                      self.createBandMember(null, artistCreated.id, artistCreated.name);
+                      self.createBandMember(null, artistCreated.id, artistCreated.name).catch((error) => {})
                     }
                     // create related artists
-                    self.createRelatedArtists(null, artistCreated.id, artistCreated.name);
+                    self.createRelatedArtists(null, artistCreated.id, artistCreated.name).catch((error) => {})
                   })
                   .catch(function (error) {
                     if (error.errors && error.errors[0].message)
@@ -130,7 +140,7 @@ var self = module.exports = {
         });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   _storeArtistsRelatedtAssociation(artist1Id, artist2Id) {
     var association = {
       FKArtist1Id: artist1Id,
@@ -148,19 +158,22 @@ var self = module.exports = {
       });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // private function for creating artist on db
+
   _storeRelatedArtist(response, startArtistId, artistObject) {
     var artistNameFormatted = self._artistNameFormatter(artistObject.name.value);
     return new Promise(function (resolve, reject) {
       var artistData = {};
       artistData.name = artistObject.name.value;
-      if (artistObject.hasOwnProperty("description")) artistData.description = artistObject.description.value;
+      if (artistObject.hasOwnProperty("description"))
+        artistData.description = artistObject.description.value;
       artistData.dbpedia_type = artistObject.type.value;
-      artistData.url = artistObject.artistAssociated.value;
+      artistData.url = artistObject.artist.value;
       artistData.formatted_name = artistNameFormatted;
-      if (artistObject.type.value == "http://dbpedia.org/ontology/Band") artistData.type = "band";
-      else artistData.type = "artist";
+      if (artistObject.type.value == "http://dbpedia.org/ontology/Band")
+        artistData.type = "band";
+      else
+        artistData.type = "artist";
+
       self.storeArtist(artistData).then(function (artistCreated) {
           self._storeArtistsRelatedtAssociation(startArtistId, artistCreated.id).then(function (results) {
             resolve(artistCreated);
@@ -173,55 +186,114 @@ var self = module.exports = {
         });
     })
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   createRelatedArtists(response, startArtistId, artistName) {
     return new Promise(function (resolve, reject) {
-      var artistNameFormatted = self._artistNameFormatter(artistName);
-      var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
-      SparqlController.getRelatedArtists(artistNameFormatted).then(function (artistsInfo) {
-          var results = artistsInfo.results.bindings;
-          var promises = [];
-          results.forEach(artist => {
-            promises.push(self._storeRelatedArtist(response, startArtistId, artist));
+      const url = LASTFM_ENDPOINT_GET_SIMILAR + artistName
+      AjaxRequest.jsonRequest(url, 'GET', {}, false, true).then((results) => {
+        if (results && results.similarartists && results.similarartists.artist && results.similarartists.artist.length > 0) {
+          results.similarartists.artist = results.similarartists.artist.slice(0, LASTFM_SIMILAR_ARTISTS_LIMIT)
+          const artistsRelated = results.similarartists.artist
+
+          var artistsRelatedPromises = []
+          artistsRelated.forEach(artist => {
+            if (artist && artist.name) {
+              artistsRelatedPromises.push(self.getArtistInfo(response, artist.name));
+            }
           });
-          Promise.all(promises)
-            .then(function (data) {
-              resolve(data);
+          Promise.all(artistsRelatedPromises)
+            .then(function (artists) {
+              var createRelatedArtistPromises = []
+              artists.forEach(artistObject => {
+                if (artistObject) {
+                  artistObject = artistObject.results.bindings[0]
+                  if (artistObject && artistObject.name) {
+                    if (artistObject && artistObject.name && artistObject.name.value) {
+                      createRelatedArtistPromises.push(self._storeRelatedArtist(response, startArtistId, artistObject));
+                    }
+                  }
+                }
+              });
+              Promise.all(createRelatedArtistPromises)
+                .then(function (artistsCreated) {
+                  resolve(artistsCreated)
+                })
+                .catch(function (error) {
+                  resolve({})
+                });
             })
             .catch(function (error) {
-              reject(error);
+              resolve({})
             });
-        })
-        .catch(function (error) {
-          resolve(null);
-        });
+        }
+      }).catch((error) => {
+        reject(error)
+      })
+      // var artistNameFormatted = artistName
+      // var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
+      // SparqlController.getRelatedArtists(artistName).then(function (artistsInfo) {
+      //     var results = artistsInfo.results.bindings;
+      //     var promises = [];
+      //     results.forEach(artist => {
+      //       promises.push(self._storeRelatedArtist(response, startArtistId, artist));
+      //     });
+      //     Promise.all(promises)
+      //       .then(function (data) {
+      //         resolve(data);
+      //       })
+      //       .catch(function (error) {
+      //         resolve(null);
+      //       });
+      //   })
+      //   .catch(function (error) {
+      //     resolve(null);
+      //   });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   createBandMember(response, artistId, artistName) {
     return new Promise(function (resolve, reject) {
       var artistNameFormatted = self._artistNameFormatter(artistName);
-      var artistUrl = constants.sparql.dbpedia + artistNameFormatted;
-      return SparqlController.getBandMember(artistNameFormatted).then(function (membersList) {
+      var artistUrl = constants.sparql.dbr + artistNameFormatted;
+      SparqlController.getBandMember(artistName).then(function (membersList) {
           var results = membersList.results.bindings;
-          var promises = [];
-          results.forEach(bandMember => {
-            promises.push(self._createRelatedBandMember(response, artistId, bandMember));
-          });
-          Promise.all(promises)
-            .then(function (data) {
-              resolve(data);
-            })
-            .catch(function (error) {
-              reject(error);
+          if (results.length > 0) {
+            var promises = [];
+            results.forEach((bandMember, index) => {
+              promises.push(self._createRelatedBandMember(response, artistId, bandMember));
             });
+            Promise.all(promises)
+              .then(function (data) {
+                resolve(data);
+              })
+              .catch(function (error) {
+                reject(error);
+              });
+          } else {
+            SparqlController.getFormerBandMember(artistName).then(function (membersList) {
+              var results = membersList.results.bindings;
+              if (results.length > 0) {
+                var promises = [];
+                results.forEach((bandMember, index) => {
+                  promises.push(self._createRelatedBandMember(response, artistId, bandMember));
+                });
+                Promise.all(promises)
+                  .then(function (data) {
+                    resolve(data);
+                  })
+                  .catch(function (error) {
+                    reject(error);
+                  });
+              }
+            });
+          }
         })
         .catch(function (error) {
           resolve(null);
         });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   _createRelatedBandMember(response, artistId, bandMemeberObject) {
     return new Promise(function (resolve, reject) {
       var artistNameFormatted = self._artistNameFormatter(bandMemeberObject.name.value);
@@ -245,7 +317,7 @@ var self = module.exports = {
         });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   _storeArtistsRelatedtBandMemberAssociation(artistId, bandMemeberId) {
     var association = {
       FKArtistId: bandMemeberId,
@@ -263,22 +335,43 @@ var self = module.exports = {
       });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   storeArtist(artistData) {
     return new Promise((resolve, reject) => {
-      var artist = Artist.build(artistData, {
-        firstname: utf8.encode(artistData.firstname),
-        lastname: utf8.encode(artistData.lastname),
-        url: artistData.url,
-      });
-      artist.save().then(artistCreated => {
-        resolve(artistCreated);
-      }).catch((error) => {
-        reject(error);
-      });
+      // var artist = Artist.build(artistData, {
+      //   name: utf8.encode(artistData.name),
+      //   url: artistData.url,
+      //   description: utf8.encode(artistData.description || ""),
+      // });
+      // artist.save().then(artistCreated => {
+      //   resolve(artistCreated);
+      // }).catch((error) => {
+      //   reject(error);
+      // });
+      Artist.findOrCreate({
+          where: Sequelize.or({
+            formatted_name: artistData.formatted_name
+          }, {
+            url: artistData.url
+          }),
+          defaults: {
+            name: utf8.encode(artistData.name),
+            url: artistData.url,
+            description: utf8.encode(artistData.description || ""),
+            type: artistData.type,
+            dbpedia_type: artistData.dbpedia_type,
+            formatted_name: artistData.formatted_name,
+          }
+        })
+        .spread(function (result, created) {
+          resolve(result)
+        })
+        .catch((error) => {
+          reject({});
+        });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getRelatedArtistsById(artistId) {
     return new Promise((resolve, reject) => {
       Artist.findOne({
@@ -296,7 +389,7 @@ var self = module.exports = {
       });
     });
   },
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   getBandsMembersById(artistId) {
     return new Promise((resolve, reject) => {
       Artist.findOne({
@@ -314,5 +407,5 @@ var self = module.exports = {
       });
     });
   }
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 };
