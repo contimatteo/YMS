@@ -33,13 +33,13 @@ Create “*/config*” folder and place there a file called “*config.json*” 
 Insert your database instance informations and generate [YouTube API Key](https://developers.google.com/youtube/v3/getting-started) and [last.fm key](https://www.last.fm/api/account/create).
 
 ### Import Migrations
-Next, create the structure of the DB running the command:
+Next create the structure of the DB running the command:
 ```
 $ npm run import:migrations
 ```
 
 ### Models
-Now rename file “*auto-generate-models-example.sh*” into “*/auto-generate-models.sh*” and edit it with your database instance info: 
+Now rename file “*auto-generate-models-example.sh*” into “*auto-generate-models.sh*” and edit it with your database instance info: 
 ```
 sequelize-auto -o "./Models/BaseStructure/" -d <db-name> -h <db-host> -u <db-user> -p <port> -x <db-password> -e mysql
 ```
