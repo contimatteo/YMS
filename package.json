@@ -40,14 +40,14 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "sequelize": "^4.42.0",
+    "sequelize": "^4.44.0",
     "sequelize-auto": "^0.4.29",
     "sequelize-auto-migrations": "^1.0.3",
     "sparql-client-2": "^0.6.3",
     "uglify-js": "^3.4.9",
     "utf8": "^3.0.0",
     "youtube-comment-api": "^3.0.2",
-    "youtube-node": "^1.3.2"
+    "youtube-node": "^1.3.3"
   },
   "devDependencies": {
     "nodemon": "^1.18.9",
